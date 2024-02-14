@@ -131,5 +131,3 @@ Vi har lært at det er ofte vanskelig å ha kontroll når vi ikke har en konkret
 Vi er fornøyd med oppmøte på gruppemøter og selvorganiserte møter. 
 
 Vi er fornøyd med innsatsen i oblig 1/del A - vi har fått gjort alt vi skulle og innen tidsfristen. Vi er fornøyde!
-
-
