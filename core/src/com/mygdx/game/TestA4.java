@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.screens.GameScreen;
 import com.badlogic.gdx.Game;
 
-public class minecraft2d extends Game {
+public class TestA4 extends Game {
 
 	@Override
 	public void create() {

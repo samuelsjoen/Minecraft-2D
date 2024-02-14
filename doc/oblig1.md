@@ -125,7 +125,8 @@ Bruker git til kode og dokumenter under .doc-mappen til obliger. Tar også og la
 
 ## Oppgave A4
 
-Kode
+Se kode i repoet
 
 ## Oppgave A5
-Oppsummering
+
+
