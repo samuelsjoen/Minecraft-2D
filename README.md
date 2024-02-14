@@ -1,93 +1,114 @@
-# minecraft2D
+# INF112 Prosjekt - Minecraft 2D (light versjon)
+
+- **Gruppenavn:** Team 6 (Gruppe 2)
+- **Teammedlemmer:** Magnus Yadi Halvorsen, Martine Naustdal Larsen, Nini Øyane Bjørnstad, Samuel Alois Starck Sjøen
+- **Prosjekt:** Minecraft 2D (light versjon)
+- **Lenke til GitLab/Trello/etc:** https://git.app.uib.no/martine.larsen/minecraft-2d/-/boards (usikker på hvordan man bruker dette)
+
+## Om spillet
+"Minecraft 2D light" er en todimensjonal versjon inspirert av det ikoniske Minecraft-universet. Målet er å _ _ _ ved å _ _ _. 
+
+- skal kunne hakke blokker, for så å kunne plassere dem ut
+- lyd på hakke
+- inventory
+- bevege seg til høyre, venstre, hoppe
+- (kanskje: kunne hakke seg nedover/klatre oppover)
+
+## Bruk av spillet
+- **Tastetrykk:**
+  - Pil venstre: 
+  - Pil høyre:
+  - Pil opp: 
+  - Pil ned:
+  - Spacebar: hopp?
+  - ?: Åpne inventar
+  - Esc?: Åpne pausemeny
+
+- **Museklikk?**
+  - etc.
+
+## Hvordan kjøre koden?
+For å kjøre koden, følg disse trinnene:
+
+1. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
+2. Kompilér og kjør hovedklassen Main.java.
+
+
+## Hvor evt. grafikk/lyd-ressurser er hentet fra
+
+Hentet fra xxx
 
 
 
-## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Add your files
+# FRA FØR:
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+# Maven Setup
+This project comes with a working Maven `pom.xml` file. You should be able to import it into Eclipse using *File → Import → Maven → Existing Maven Projects* (or *Check out Maven Projects from SCM* to do Git cloning as well). You can also build the project from the command line with `mvn clean compile` and test it with `mvn clean test`.
+
+Pay attention to these folders:
+* `src/main/java` – Java source files go here (as usual for Maven) – **IMPORTANT!!** only `.java` files, no data files / assets
+* `src/main/resources` – data files go here, for example in an `assets` sub-folder – **IMPORTANT!** put data files here, or they won't get included in the jar file
+* `src/test/java` – JUnit tests
+* `target/classes` – compiled Java class files
+
+**TODO:** You should probably edit the `pom.xml` and fill in details such as the project `name` and `artifactId`:
+
+
+```xml
+
+	< !-- FIXME - set group id -->
+	<groupId>inf112.skeleton.app</groupId>
+	< !-- FIXME - set artifact name -->
+	<artifactId>gdx-app</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	< !-- FIXME - set app name -->
+	<name>mvn-app</name>
+	< !-- FIXME change it to the project's website -->
+	<url>http://www.example.com</url>
+```
+
+	
+## Running
+You can run the project with Maven using `mvn exec:java`. Change the main class by modifying the `main.class` setting in `pom.xml`:
 
 ```
-cd existing_repo
-git remote add origin https://git.app.uib.no/samuel.sjoen/minecraft2d.git
-git branch -M main
-git push -uf origin main
+		<main.class>inf112.skeleton.app.Main</main.class>
 ```
 
-## Integrate with your tools
+Running the program should open a window with the text “Hello, world!” and an alligator in the lower left corner.  Clicking inside the window should play a *blip* sound. Exit by pressing *Escape* or closing the window.
 
-- [ ] [Set up project integrations](https://git.app.uib.no/samuel.sjoen/minecraft2d/-/settings/integrations)
+You may have to compile first, with `mvn compile` – or in a single step, `mvn compile exec:java`.
 
-## Collaborate with your team
+## Testing
+Run unit tests with `mvn test` – unit test files should have `Test` in the file name, e.g., `ExampleTest.java`. This will also generate a [JaCoCo](https://www.jacoco.org/jacoco) code coverage report, which you can find in [target/site/jacoco/index.html](target/site/jacoco/index.html).
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Use `mvn verify` to run integration tests, if you have any. This will do everything up to and including `mvn package`, and then run all the tests with `IT` in the name, e.g., `ExampleIT.java`.
 
-## Test and Deploy
+## Jar Files
 
-Use the built-in continuous integration in GitLab.
+If you run `mvn package` you get everything bundled up into a `.jar` file + a ‘fat’ Jar file where all the necessary dependencies have been added:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+* `target/NAME-VERSION.jar` – your compiled project, packaged in a JAR file
+* `target/NAME-VERSION-fat.jar` – your JAR file packaged with dependencies
 
-***
+Run Jar files with, for example, `java -jar target/NAME-VERSION-fat.jar`.
 
-# Editing this README
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+If you have test failures, and *really* need to build a jar anyway, you can skip testing with `mvn -Dmaven.test.skip=true package`.
 
-## Suggestions for a good README
+## Git Setup
+If you look at *Settings → Repository* in GitLab, you can protect branches – for example, forbid pushing to the `main` branch so everyone have to use merge requests.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
-## Name
-Choose a self-explaining name for your project.
+# Credits
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Template example files
+* `src/main/resources/obligator.png` – Ingrid Næss Johansen
+* `src/main/resources/blipp.ogg`– Dr. Richard Boulanger et al (CC-BY-3.0)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+(You should probably delete these if you don't need them!)
