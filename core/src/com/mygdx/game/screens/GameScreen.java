@@ -1,7 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.mygdx.game.TestA4;
+import com.mygdx.game.minecraft2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -10,17 +10,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Input.Keys;
-import com.mygdx.game.TestA4;
+import com.mygdx.game.minecraft2d;
 import com.mygdx.game.utils.Constants;
 import com.mygdx.game.entities.Player;
 
 public class GameScreen implements Screen {
-    private TestA4 game;
+    private minecraft2d game;
     private SpriteBatch batch;
     private Player player;
     private Texture backgroundImage; // Background image
 
-    public GameScreen(TestA4 game) {
+    public GameScreen(minecraft2d game) {
         this.game = game;
         this.batch = new SpriteBatch();
         this.player = new Player();
