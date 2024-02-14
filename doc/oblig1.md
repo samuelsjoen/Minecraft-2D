@@ -17,7 +17,6 @@ Da vi har ulike studieretninger i teamet har  vi også noe ulik kompetanse som v
 
 [Klikk her for å se README.md](../README.md)
 
-
 ## Oppgave A2 - konsept
 
 * Spillfigur som kan styres – gå til høyre/venstre, hoppe oppover, åpne inventory
@@ -93,7 +92,6 @@ Som spiller trenger jeg å kunne utforske forskjellige steder, som skoger, ørke
    1. Designe ulike spill-miljøer som har sjeldne ressurser
    2. Lage et system som generer terreng og plasserer sjeldne ressurser tilfeldig, samtidig som plassering av objekter gir mening feks. ikke et tre i ørkenen. 
 
-
 ##### Historie 5:
 Som spiller trenger jeg å kunne bekjempe fiender og monstre som angriper om natten og mørke steder som f.eks. huler, slik at jeg kan beskytte meg selv og mine byggverk.
 
@@ -105,7 +103,6 @@ Som spiller trenger jeg å kunne bekjempe fiender og monstre som angriper om nat
    1. Designe og animere fiendetyper.
    2. Implementere AI for fiender og hvordan de angriper spilleren/oppfører seg.
    3. Utvikle mekanikk for spilleren og hvordan den bruker våpen for å bekjempe zombier etc.
-
 
 ## Oppgave A3 - prosess for teamet
 * Møter og hyppighet av dem
@@ -121,12 +118,18 @@ Lager en liste over hva som må gjøres og fordeler den innad i gruppen.
 Tar en liten gjennomgang av hva som har sjedd gjennom uken hver gruppetime. 
 
 * Deling og oppbevaring av felles dokumenter, diagram og kodebase
-Bruker git til kode og dokumenter under .doc-mappen til obliger. Tar også og lagrer diagram her når vi har noe mer oversikt om spillet med tiden. 
+Bruker git til kode og dokumenter under .doc-mappen til obliger. Tar også og lagrer diagram her når vi har noe mer oversikt om spillet med tiden.
 
 ## Oppgave A4
 
-Se kode i repoet
+Se koden her i repoet vårt.
 
 ## Oppgave A5
+
+Vi har lært at det er ofte vanskelig å ha kontroll når vi ikke har en konkret plan - vi tenker å bli bedre på dette og skal nå drive prosjektplanlegging gjennom asana.com og vi følger kanban-metodikken. Vi skal skrive hvilke oppgaver som må gjøres etc. og har mer kontroll over prosjektet på denne måten. Derfor blir prosjektet noe mer overkommelig. 
+
+Vi er fornøyd med oppmøte på gruppemøter og selvorganiserte møter. 
+
+Vi er fornøyd med innsatsen i oblig 1/del A - vi har fått gjort alt vi skulle og innen tidsfristen. Vi er fornøyde!
 
 
