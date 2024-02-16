@@ -1,0 +1,41 @@
+Referat for møte [16.02.2024]
+
+Formål:
+
+- Fordele oppgaver
+- Få oversikt over koden
+- Fikse pipeline
+- Model-View-Controller
+- Fordele roller
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+
+Sammendrag:
+- Fikk lagt opp model-view-controller og utilities i prosjektet
+- Alle på møtet fikk egen runner som kjører på docker
+- Fikk fordelt litt oppgaver frem til neste møtet
+- Endret navnet på prosjektet
+- Diskutert spillet og få litt mer oversikt
+
+Aksjoner og Ansvar:
+
+    [Fikse tester (implementere Junit) - Nini]
+    [Finne ut av Procedural Terrain Generation (vil det funke?) - Nini]
+    [Skjermer - Martine]
+    [Player (collison, sprite, osv.)]
+    [Inventory? Health (5 hjerter)? - Samuel]
+
+Tidsrammer:
+
+    Jobb med oppgaven(e) du har fått utdelt frem til neste møte (neste fredag?)
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - fikse pipeline
+    - finne ut av roller?
+    - finne ut hvordan man skal begrense spillet, slik at det får ok omfang
