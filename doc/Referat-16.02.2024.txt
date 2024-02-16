@@ -26,7 +26,7 @@ Aksjoner og Ansvar:
     [Fikse tester (implementere Junit) - Nini]
     [Finne ut av Procedural Terrain Generation (vil det funke?) - Nini]
     [Skjermer - Martine]
-    [Player (collison, sprite, osv.)]
+    [Player (collison, sprite, osv.) - Magnus]
     [Inventory? Health (5 hjerter)? - Samuel]
 
 Tidsrammer:
