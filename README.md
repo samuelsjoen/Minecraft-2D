@@ -4,7 +4,7 @@
 - **Teammedlemmer:** Magnus Yadi Halvorsen, Martine Naustdal Larsen, Nini Øyane Bjørnstad, Samuel Alois Starck Sjøen
 - **Prosjekt:** Minecraft 2D (light versjon)
 - **Lenke til asana:** https://app.asana.com/0/1206585808458619/1206585820662301
-- **Lenke til git:** https://git.app.uib.no/samuel.sjoen/minecraft2d.git
+- **Lenke til git:** https://git.app.uib.no/samuel.sjoen/team6
 
 ## Om spillet
 "Minecraft 2D light" er en todimensjonal versjon inspirert av det ikoniske Minecraft-universet. Målet er å utforske, bygge og mine ved å bevege seg rundt i en todimensjonell verden. 
