@@ -1,4 +1,4 @@
-package com.mygdx.game.world;
+package com.mygdx.game.controller;
 
 public class WorldController {
 

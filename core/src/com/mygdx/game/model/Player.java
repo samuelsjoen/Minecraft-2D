@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
 

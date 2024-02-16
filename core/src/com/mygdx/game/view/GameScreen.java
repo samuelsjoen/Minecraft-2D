@@ -1,8 +1,8 @@
-package com.mygdx.game.screens;
+package com.mygdx.game.view;
 
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.minecraft2d;
-
+import com.mygdx.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Input.Keys;
 import com.mygdx.game.minecraft2d;
 import com.mygdx.game.utils.Constants;
-import com.mygdx.game.entities.Player;
 
 public class GameScreen implements Screen {
     private minecraft2d game;
