@@ -4,12 +4,14 @@ stages:
 
 build:
   stage: build
+  image: gradle:8.6-jdk8
   script:
     - echo "Building the project..."
     - gradle build
 
 test:
   stage: test
+  image: gradle:8.6-jdk8
   script:
     - echo "Testing the project..."
     - gradle test
