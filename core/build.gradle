@@ -1,14 +1,11 @@
-// Set Java source compatibility
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-// Set encoding for compiling Java sources
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-// Define source directories for main and test Java sources
 sourceSets {
     main {
         java {
@@ -22,7 +19,6 @@ sourceSets {
     }
 }
 
-// Configure Eclipse project name
 eclipse {
     project {
         name = "${project.name}-core"
