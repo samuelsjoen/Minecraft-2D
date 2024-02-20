@@ -21,6 +21,11 @@ void falseAssumption() {
 }
 
 @Test
+void ok() {
+    
+}
+
+@Test
 void assumptionThat() {
     String someString = "Just a string";
     assumingThat(
