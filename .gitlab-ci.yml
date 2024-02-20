@@ -4,16 +4,37 @@ stages:
 
 build:
   stage: build
+  image: gradle:8.6-jdk17
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+    - echo "Building the project..."
+    - gradle build
 
 test:
   stage: test
+  image: gradle:8.6-jdk17
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
+    - echo "Testing the project..."
+    - gradle test
+
+# Add additional stages and jobs as needed
+
+
+# stages:
+#   - build
+#   - test
+# 
+# build:
+#   stage: build
+#   script:
+#     - echo "Compiling the code..."
+#     - echo "Compile complete."
+# 
+# test:
+#   stage: test
+#   script:
+#     - echo "Running unit tests... This will take about 60 seconds."
+#     - sleep 60
+#     - echo "Code coverage is 90%"
 
 # image: gradle:8.5.0-jdk17
 # 
