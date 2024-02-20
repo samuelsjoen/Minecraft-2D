@@ -1,6 +1,3 @@
-except:
-  - main
-
 stages:
   - build
   - test
@@ -11,6 +8,8 @@ build:
   script:
     - echo "Building the project..."
     - gradle build
+  only:
+    - nini-test
 
 test:
   stage: test
@@ -18,6 +17,8 @@ test:
   script:
     - echo "Testing the project..."
     - gradle test
+  only:
+    - nini-test
 
 # Add additional stages and jobs as needed
 
