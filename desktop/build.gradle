@@ -1,6 +1,17 @@
-sourceCompatibility = 1.8
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["../assets"]
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/"]
+        }
+        resources {
+            srcDirs = ["../assets"]
+        }
+    }
+}
 
 project.ext.mainClassName = "com.mygdx.game.DesktopLauncher"
 project.ext.assetsDir = new File("../assets")
@@ -8,22 +19,21 @@ project.ext.assetsDir = new File("../assets")
 import org.gradle.internal.os.OperatingSystem
 
 tasks.register('run', JavaExec) {
-    dependsOn classes
-    mainClass = project.mainClassName
+    dependsOn(classes)
+    main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
 
     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
-        // Required to run on macOS
         jvmArgs += "-XstartOnFirstThread"
     }
 }
 
 tasks.register('debug', JavaExec) {
-    dependsOn classes
-    mainClass = project.mainClassName
+    dependsOn(classes)
+    main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -32,18 +42,21 @@ tasks.register('debug', JavaExec) {
 }
 
 tasks.register('dist', Jar) {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes 'Main-Class': project.mainClassName
+        attributes('Main-Class': project.mainClassName)
     }
-    dependsOn configurations.runtimeClasspath
+    dependsOn(configurations.runtimeClasspath)
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     with jar
 }
 
+tasks.named('dist').configure {
+    dependsOn(classes)
+}
 
-dist.dependsOn classes
-
-eclipse.project.name = appName + "-desktop"
+eclipse.project {
+    name = "${appName}-desktop"
+}

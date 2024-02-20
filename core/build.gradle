@@ -1,7 +1,30 @@
-sourceCompatibility = 1.8
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+// Set Java source compatibility
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.test.java.srcDirs = [ "test/" ]
+// Set encoding for compiling Java sources
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
-eclipse.project.name = appName + "-core"
+// Define source directories for main and test Java sources
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test/']
+        }
+    }
+}
+
+// Configure Eclipse project name
+eclipse {
+    project {
+        name = "${project.name}-core"
+    }
+}
