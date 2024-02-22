@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.utils.Constants;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Inventory {
-    private HashMap<String, Integer> items;
+    private HashMap<Item, Integer> items;
     private int maxItems;
     private int currentItems;
     private int currentSlot;
@@ -17,35 +17,40 @@ public class Inventory {
     private float xItm, yItm;
     private float invJump;
     private float scale;
+    private SpriteBatch batch;
 
-    public Inventory() {
-        items = new HashMap<String, Integer>();
-        maxItems = 10;
-        currentItems = items.size();
-        currentSlot = 0;
+    public Inventory(SpriteBatch batch) {
+        this.batch = batch;
+        this.items = new HashMap<Item, Integer>();
+        this.maxItems = 10;
+        this.currentItems = items.size();
+        this.currentSlot = 0;
 
-        inventorySprite = new Texture(Gdx.files.internal("inventory.png"));
-        selectedItem = new Texture(Gdx.files.internal("selectedItem.png"));
+        this.inventorySprite = new Texture(Gdx.files.internal("inventory.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("selectedItem.png"));
 
         // Coordinates for the inventory
-        xInv = 0;
-        yInv = 0;
-        
+        this.xInv = 0;
+        this.yInv = 0;
+
         // Coordinates for the first item in inventory
-        xItm = xInv + 5;
-        yItm = yInv + 5;
+        this.xItm = xInv + 5;
+        this.yItm = yInv + 5;
 
         // The amount of pixels to jump to the next item slot
-        invJump = 25;
+        this.invJump = 25;
 
         this.scale = 1f;
-      
+
         // Default items
-        addItem(Item.SWORD.getName());
-        addItem(Item.PICKAXE.getName());
+        addItem(Item.SWORD);
+        addItem(Item.PICKAXE);
+
+        renderInventory();
+        renderCurrentSlot();
     }
 
-    public void addItem(String name, int quantity) {
+    public void addItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) + quantity);
         } else {
@@ -53,34 +58,55 @@ public class Inventory {
                 items.put(name, quantity);
             }
         }
+        renderItems();
     }
 
-    public void addItem(String name) {
+    public void addItem(Item name) {
         addItem(name, 1);
     }
 
-    public void removeItem(String name, int quantity) {
+    public void removeItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) - quantity);
             if (items.get(name) <= 0) {
                 items.remove(name);
             }
         }
+        renderItems();
     }
 
-    public void removeItem(String name) {
+    public void removeItem(Item name) {
         removeItem(name, 1);
     }
 
-    public void removeAllItems(String name) {
+    public void removeAllItems(Item name) {
         items.remove(name);
+        renderItems();
     }
 
-    public boolean isFull() {
+    private boolean isFull() {
         return currentItems >= maxItems;
     }
 
-    public void renderItem() {
+    public void changeSlot(int slot) {
+        currentSlot = (currentSlot + slot) % maxItems;
+        renderCurrentSlot();
+    }
 
+    private void renderItems() {
+        int iteration = 0;
+        for (Item item : items.keySet()) {
+            Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+            batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump));
+            iteration++;
+        }
+    }
+
+    private void renderInventory() {
+        batch.draw(inventorySprite, xInv, yInv);
+    }
+
+    private void renderCurrentSlot() {
+        batch.draw(selectedItem, xItm + (currentSlot * invJump), yItm + (currentSlot * invJump));
     }
 }

@@ -15,6 +15,7 @@ public enum Item {
         this.name = name;
         this.description = description;
         this.texture = texture;
+
     }
 
     public String getName() {
@@ -23,5 +24,9 @@ public enum Item {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getTexture() {
+        return texture;
     }
 }
