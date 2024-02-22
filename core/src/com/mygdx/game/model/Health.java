@@ -23,7 +23,7 @@ public class Health {
 
         this.healthBarSheet = new Texture(Gdx.files.internal("healthBar.png"));
 
-        this.splitFrames = TextureRegion.split(healthBarSheet, 5, 1);
+        this.splitFrames = TextureRegion.split(healthBarSheet, 1, 5);
 
         renderHealthBar();
     }
