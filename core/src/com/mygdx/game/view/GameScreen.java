@@ -3,6 +3,8 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.mygdx.game.Minecraft2D;
+import com.mygdx.game.model.Health;
+import com.mygdx.game.model.Inventory;
 import com.mygdx.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -31,6 +33,8 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private Player player;
     private Texture backgroundImage; // Background image
+    private Health health;
+    private Inventory inventory;
 
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMap tiledMap;
@@ -51,6 +55,9 @@ public class GameScreen extends ScreenAdapter {
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        this.health = new Health();
+        this.inventory = new Inventory();
+        
 
     }
 
@@ -88,6 +95,8 @@ public class GameScreen extends ScreenAdapter {
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
 
+        health.renderHealthBar(batch);
+        inventory.renderInventory(batch);
         if (player != null) {
             player.render(batch);
         }
