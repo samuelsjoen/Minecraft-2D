@@ -6,163 +6,117 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.mygdx.game.utils.Constants;
 
-public class Player {
-    private Animation<TextureRegion> runAnimation;
-    private Animation<TextureRegion> jumpAnimation;
+public class Player extends GameEntity {
+
+    // count amount of jumps (only want double, not triple/friple... etc.)
+    private int jumpCounter;
+
     private Animation<TextureRegion> idleAnimation;
-    private TextureRegion currentFrame;
+    private Animation<TextureRegion> runningAnimation;
     private float stateTime;
-    private Texture characterSheet;
-    private float x, y;
-    private float velocityY;
-    private boolean facingRight;
-    private boolean isJumping;
-    private float scale;
-    private boolean debugMode;
-    private ShapeRenderer shapeRenderer;
+    private boolean isFacingRight = true;
 
-    public Player() {
-        characterSheet = new Texture(Gdx.files.internal("knight.png")); // Make sure the path matches the asset
-                                                                        // directory
-        TextureRegion[][] splitFrames = TextureRegion.split(characterSheet,
-                characterSheet.getWidth() / Constants.FRAME_COLS,
-                characterSheet.getHeight() / Constants.FRAME_ROWS);
+    private enum State {
+        IDLE, RUNNING
+    }
 
-        // Idle animation is in row 3
-        idleAnimation = new Animation<>(Constants.IDLE_FRAME_DURATION, splitFrames[2]); // Arrays are 0-indexed, so row
-                                                                                        // 3 is at index 2
-        // Running animation is in row 4
-        runAnimation = new Animation<>(Constants.RUN_FRAME_DURATION, splitFrames[3]); // Arrays are 0-indexed, so row 4
-                                                                                      // is at index 3
-        // Jumping animation is in row 4
-        jumpAnimation = new Animation<>(Constants.RUN_FRAME_DURATION, splitFrames[3]); // Arrays are 0-indexed, so row 4
-                                                                                       // is at index 3
+    private State currentState;
 
+    public Player(float width, float height, Body body) {
+        super(width, height, body);
+        this.speed = 10f;
+        this.jumpCounter = 0;
+
+        Texture knightSheet = new Texture("assets/knight.png");
+        TextureRegion[][] tmpFrames = TextureRegion.split(knightSheet, knightSheet.getWidth() / 10,
+                knightSheet.getHeight() / 4);
+
+        idleAnimation = new Animation<>(0.1f, tmpFrames[2]); // Assuming row 3 for idle
+        runningAnimation = new Animation<>(0.1f, tmpFrames[3]); // Assuming row 4 for running
         stateTime = 0f;
-        x = 100; // Starting X position
-        y = 100; // Starting Y position (adjust based on our ground level)
-        facingRight = true;
-        isJumping = false;
-
-        currentFrame = idleAnimation.getKeyFrame(stateTime, true);
-        shapeRenderer = new ShapeRenderer();
-
-        // Use constants for initial setup
-        this.scale = Constants.CHARACTER_SCALE;
-        this.debugMode = Constants.DEBUG_MODE;
+        currentState = State.IDLE;
 
     }
 
-    public void update(float deltaTime) {
-        stateTime += deltaTime;
-
-        boolean isMoving = false;
-        if (Gdx.input.isKeyPressed(Constants.MOVE_LEFT_KEY)) {
-            if (!facingRight) { // Only flip frames if character is facing right
-                flipAnimationFrames(runAnimation);
-                flipAnimationFrames(idleAnimation);
-                facingRight = false; // Update facing direction
-            }
-            if (x > 0) {
-                x -= Constants.PLAYER_MOVE_SPEED * deltaTime;
-            }
-            // x -= Constants.PLAYER_MOVE_SPEED * deltaTime;
-            isMoving = true;
-        } else if (Gdx.input.isKeyPressed(Constants.MOVE_RIGHT_KEY)) {
-            if (facingRight) { // Only flip frames if character is facing left
-                flipAnimationFrames(runAnimation);
-                flipAnimationFrames(idleAnimation);
-                facingRight = true; // Update facing direction
-            }
-            float scaledCharacterWidth = currentFrame.getRegionWidth() * scale;
-            if (x + scaledCharacterWidth < Constants.SCREEN_WIDTH) {
-                x += Constants.PLAYER_MOVE_SPEED * deltaTime;
-            }
-            // x += Constants.PLAYER_MOVE_SPEED * deltaTime;
-            isMoving = true;
-        }
-
-        // for debugmode
-        if (Gdx.input.isKeyJustPressed(Constants.TOGGLE_DEBUG_KEY)) {
-            debugMode = !debugMode;
-        }
-
-        // Simplified jump logic - checks if the player is on the ground and initiates a
-        // jump
-        if (Gdx.input.isKeyJustPressed(Constants.JUMP_KEY) && !isJumping) {
-            isJumping = true;
-            velocityY = Constants.PLAYER_JUMP_VELOCITY; // Initiates the jump with an upward velocity
-        }
-
-        // Apply gravity - always applying gravity unless on the ground
-        velocityY += Constants.GRAVITY * deltaTime;
-        y += velocityY * deltaTime;
-
-        // Simulate landing from a jump
-        if (y <= 100) { // Assume 100 is ground level
-            y = 100;
-            isJumping = false;
-            velocityY = 0;
-        }
-
-        // Update animation frame
-        if (isJumping) {
-            // We should add a condition to flip the jump animation if needed (done)
-            currentFrame = jumpAnimation.getKeyFrame(stateTime, false);
-        } else if (isMoving) {
-            currentFrame = runAnimation.getKeyFrame(stateTime, true);
+    @Override
+    public void update() {
+        x = body.getPosition().x * Constants.PPM;
+        y = body.getPosition().y * Constants.PPM;
+        if (Math.abs(body.getLinearVelocity().x) > 0) {
+            currentState = State.RUNNING;
         } else {
-            currentFrame = idleAnimation.getKeyFrame(stateTime, true);
-        }
-    }
-
-    private void flipAnimationFrames(Animation<TextureRegion> animation) {
-        for (TextureRegion frame : animation.getKeyFrames()) {
-            frame.flip(false, false);
-        }
-    }
-
-    public void draw(SpriteBatch batch) {
-        // Calculate scaled width and height
-        float width = currentFrame.getRegionWidth() * scale;
-        float height = currentFrame.getRegionHeight() * scale;
-
-        // Draw the character with scaling
-        batch.draw(currentFrame, x, y, width, height);
-
-        // Draw hitbox in debug mode
-        if (debugMode) {
-            batch.end(); // End SpriteBatch to begin ShapeRenderer
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.RED);
-            shapeRenderer.rect(x, y, width, height);
-            shapeRenderer.end();
-            batch.begin(); // Resume SpriteBatch for other rendering
-        }
-    }
-
-    // Method to set character scale
-    public void setScale(float scale) {
-        this.scale = scale;
-    }
-
-    public void dispose() {
-        // Dispose of the character sheet texture
-        if (characterSheet != null) {
-            characterSheet.dispose();
+            currentState = State.IDLE;
         }
 
-        // dispose of ShapeRenderer for debug drawing
-        if (shapeRenderer != null) {
-            shapeRenderer.dispose();
+        // Update isFacingRight based on character movement (so we can flip the sprite)
+
+        if (body.getLinearVelocity().x < 0) {
+            isFacingRight = false;
+        } else if (body.getLinearVelocity().x > 0) {
+            isFacingRight = true;
         }
 
-        // If there are other disposable resources, dispose them here
+        checkUserInput();
     }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        stateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame;
+
+        switch (currentState) {
+            case RUNNING:
+                currentFrame = runningAnimation.getKeyFrame(stateTime, true);
+                break;
+            default:
+                currentFrame = idleAnimation.getKeyFrame(stateTime, true);
+        }
+
+        // Check if we need to flip the frame
+        if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
+            currentFrame.flip(true, false);
+        }
+
+        // Render the sprite at the new position based on the direction
+        // WORK IN PROGRESS
+        if (isFacingRight == true) {
+            batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
+        } else {
+            batch.draw(currentFrame, x - 179, y - 63, width + 200, height + 200);
+        }
+        // batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
+
+    }
+
+    public void checkUserInput() {
+        // reset the current velocity x to 0 to stop the movement
+        velX = 0;
+        if (Gdx.input.isKeyPressed(Constants.MOVE_RIGHT_KEY))
+            velX = 1 * Constants.PLAYER_MOVE_SPEED;
+        if (Gdx.input.isKeyPressed(Constants.MOVE_LEFT_KEY))
+            velX = -1 * Constants.PLAYER_MOVE_SPEED;
+
+        if (Gdx.input.isKeyJustPressed(Constants.JUMP_KEY) && jumpCounter < 2) {
+            float force = body.getMass() * Constants.PLAYER_JUMP_VELOCITY;
+            body.setLinearVelocity(body.getLinearVelocity().x, 0);
+            body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
+            jumpCounter++;
+        }
+
+        // reset jumpcounter [maybe fix this so there is some collision detection]
+        // we have hit the floor after jump
+        if (body.getLinearVelocity().y == 0)
+            jumpCounter = 0;
+
+        body.setLinearVelocity(velX * speed, body.getLinearVelocity().y);
+    }
+
 }

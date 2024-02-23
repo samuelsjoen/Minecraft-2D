@@ -30,7 +30,7 @@ public class Inventory {
         // Coordinates for the inventory
         xInv = 0;
         yInv = 0;
-        
+
         // Coordinates for the first item in inventory
         xItm = xInv + 5;
         yItm = yInv + 5;
@@ -39,7 +39,7 @@ public class Inventory {
         invJump = 25;
 
         this.scale = 1f;
-      
+
         // Default items
         addItem(Item.SWORD.getName());
         addItem(Item.PICKAXE.getName());
