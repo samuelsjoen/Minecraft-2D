@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="10">
+ <tileset firstgid="1" source="Textures-64-noBlur-TILES.tsx"/>
+ <layer id="1" name="Rutelag 1" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhZ4CEjAg9G80Cgj4pmUdu8xcwIvByIlwHxaiBeA8QrGRCYkREVz2PCjg8zI/ARID4GxKeB+AyZ5i1ioC4GAC8+KLo=
+  </data>
+ </layer>
+ <layer id="2" name="Rutelag 2" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4A2wJgJgocyAABTcABr
+  </data>
+ </layer>
+ <objectgroup id="3" name="collisions">
+  <object id="2" x="0" y="192" visible="0">
+   <polygon points="0,0 0,128 192,128 192,0"/>
+  </object>
+  <object id="3" x="64" y="320" visible="0">
+   <polygon points="0,0 0,128 64,128 64,0"/>
+  </object>
+  <object id="5" x="0" y="448" visible="0">
+   <polygon points="0,0 640,0 640,192 0,192"/>
+  </object>
+  <object id="6" x="640" y="576" visible="0">
+   <polygon points="0,0 0,64 256,64 256,0"/>
+  </object>
+  <object id="7" x="896" y="448" visible="0">
+   <polygon points="0,0 0,192 384,192 384,0"/>
+  </object>
+  <object id="9" name="player" type="Player" x="64" y="64" width="64" height="128"/>
+ </objectgroup>
+</map>
