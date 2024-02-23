@@ -1,6 +1,26 @@
-sourceCompatibility = 1.8
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
-eclipse.project.name = appName + "-core"
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test/']
+        }
+    }
+}
+
+eclipse {
+    project {
+        name = "${project.name}-core"
+    }
+}
