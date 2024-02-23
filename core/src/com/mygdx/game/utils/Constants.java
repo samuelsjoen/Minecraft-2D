@@ -7,8 +7,8 @@ public class Constants {
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 720;
     // player
-    public static final float PLAYER_MOVE_SPEED = 200;
-    public static final float PLAYER_JUMP_VELOCITY = 500;
+    public static final float PLAYER_MOVE_SPEED = 1.5f;
+    public static final float PLAYER_JUMP_VELOCITY = 15;
     public static final float GRAVITY = -999.8f;
     // Animation frame durations and counts for the player character
     public static final float IDLE_FRAME_DURATION = 0.1f;
@@ -30,4 +30,7 @@ public class Constants {
 
     // Key to toggle debug mode if needed dynamically
     public static final int TOGGLE_DEBUG_KEY = Keys.F1;
+
+    public static final float PPM = 32.0f;
+
 }

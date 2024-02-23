@@ -30,8 +30,8 @@ public class Inventory {
         this.selectedItem = new Texture(Gdx.files.internal("selectedItem.png"));
 
         // Coordinates for the inventory
-        this.xInv = 0;
-        this.yInv = 0;
+        xInv = 0;
+        yInv = 0;
 
         // Coordinates for the first item in inventory
         this.xItm = xInv + 5;
