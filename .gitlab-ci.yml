@@ -9,7 +9,7 @@ build:
     - echo "Building the project..."
     - gradle build
   only:
-    - nini-test
+    - main
 
 test:
   stage: test
@@ -18,52 +18,4 @@ test:
     - echo "Testing the project..."
     - gradle test
   only:
-    - nini-test
-
-# Add additional stages and jobs as needed
-
-
-# stages:
-#   - build
-#   - test
-# 
-# build:
-#   stage: build
-#   script:
-#     - echo "Compiling the code..."
-#     - echo "Compile complete."
-# 
-# test:
-#   stage: test
-#   script:
-#     - echo "Running unit tests... This will take about 60 seconds."
-#     - sleep 60
-#     - echo "Code coverage is 90%"
-
-# image: gradle:8.5.0-jdk17
-# 
-# stages:
-#   - build
-#   - test
-# 
-# before_script:
-#   - export GRADLE_USER_HOME='pwd'/.gradle
-# 
-# cache:
-#   paths:
-#     - .gradle/wrapper
-#     - .gradle/caches
-# 
-# build:
-#   stage: build
-#   script:
-#     - ./gradlew dist 
-#   artifacts:
-#     paths:
-#       - desktop/build/libs/desktop-*.jar
-#     expire_in: 1 week
-# 
-# test:
-#   stage: test
-#   script:
-#     - ./gradlew test
+    - main

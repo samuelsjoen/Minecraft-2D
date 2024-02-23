@@ -6,8 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Inventory extends GameEntity {
-    private HashMap<InventoryItem, Integer> items;
+public class Inventory {
+    private HashMap<Item, Integer> items;
     private int maxItems;
     private int currentItems;
     private int currentSlot;
@@ -17,18 +17,20 @@ public class Inventory extends GameEntity {
     private float xItm, yItm;
     private float invJump;
     private float scale;
-    private float xPlayer, yPlayer;
+    private SpriteBatch batch;
 
-    public Inventory() {
-        this.items = new HashMap<InventoryItem, Integer>();
+    public Inventory(SpriteBatch batch) {
+        this.batch = batch;
+        this.items = new HashMap<Item, Integer>();
         this.maxItems = 10;
         this.currentItems = items.size();
         this.currentSlot = 0;
+
         this.inventorySprite = new Texture(Gdx.files.internal("inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("selectedItem.png"));
 
         // Coordinates for the inventory
-        xInv = GameEntity.getBody().getPosition().x;
+        xInv = 0;
         yInv = 0;
 
         // Coordinates for the first item in inventory
@@ -41,10 +43,11 @@ public class Inventory extends GameEntity {
         this.scale = 1f;
 
         // Default items
-        addItem(InventoryItem.SWORD);
+        addItem(Item.SWORD);
+        addItem(Item.PICKAXE);
     }
 
-    public void addItem(InventoryItem name, int quantity) {
+    public void addItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) + quantity);
         } else {
@@ -52,27 +55,30 @@ public class Inventory extends GameEntity {
                 items.put(name, quantity);
             }
         }
+        renderItems();
     }
 
-    public void addItem(InventoryItem name) {
+    public void addItem(Item name) {
         addItem(name, 1);
     }
 
-    public void removeItem(InventoryItem name, int quantity) {
+    public void removeItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) - quantity);
             if (items.get(name) <= 0) {
                 items.remove(name);
             }
         }
+        renderItems();
     }
 
-    public void removeItem(InventoryItem name) {
+    public void removeItem(Item name) {
         removeItem(name, 1);
     }
 
-    public void removeAllItems(InventoryItem name) {
+    public void removeAllItems(Item name) {
         items.remove(name);
+        renderItems();
     }
 
     private boolean isFull() {
@@ -81,36 +87,25 @@ public class Inventory extends GameEntity {
 
     public void changeSlot(int slot) {
         currentSlot = (currentSlot + slot) % maxItems;
+        renderCurrentSlot();
     }
 
-    private void renderItems(SpriteBatch batch) {
+    private void renderItems() {
         int iteration = 0;
-        for (InventoryItem item : items.keySet()) {
+        for (Item item : items.keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
             batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump));
             iteration++;
         }
     }
 
-    private void renderInventory(SpriteBatch batch) {
-        batch.draw(inventorySprite, xInv, yInv, 319, 33);
-        renderCurrentSlot(batch);
-        renderItems(batch);
+    public void renderInventory() {
+        batch.draw(inventorySprite, xInv, yInv);
+        renderCurrentSlot();
+        renderItems();
     }
 
-    private void renderCurrentSlot(SpriteBatch batch) {
-        batch.draw(selectedItem, xItm-1 + (currentSlot * invJump), yItm-1 + (currentSlot * invJump), 35, 35);
-    }
-
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+    private void renderCurrentSlot() {
+        batch.draw(selectedItem, xItm + (currentSlot * invJump), yItm + (currentSlot * invJump));
     }
 }

@@ -1,17 +1,6 @@
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ["src/"]
-        }
-        resources {
-            srcDirs = ["../assets"]
-        }
-    }
-}
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["../assets"]
 
 project.ext.mainClassName = "com.mygdx.game.DesktopLauncher"
 project.ext.assetsDir = new File("../assets")
@@ -19,8 +8,8 @@ project.ext.assetsDir = new File("../assets")
 import org.gradle.internal.os.OperatingSystem
 
 tasks.register('run', JavaExec) {
-    dependsOn(classes)
-    main = project.mainClassName
+    dependsOn classes
+    mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -33,8 +22,8 @@ tasks.register('run', JavaExec) {
 }
 
 tasks.register('debug', JavaExec) {
-    dependsOn(classes)
-    main = project.mainClassName
+    dependsOn classes
+    mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -43,21 +32,18 @@ tasks.register('debug', JavaExec) {
 }
 
 tasks.register('dist', Jar) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
-        attributes('Main-Class': project.mainClassName)
+        attributes 'Main-Class': project.mainClassName
     }
-    dependsOn(configurations.runtimeClasspath)
+    dependsOn configurations.runtimeClasspath
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     with jar
 }
 
-tasks.named('dist').configure {
-    dependsOn(classes)
-}
 
-eclipse.project {
-    name = "${appName}-desktop"
-}
+dist.dependsOn classes
+
+eclipse.project.name = appName + "-desktop"

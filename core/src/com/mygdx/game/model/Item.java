@@ -1,6 +1,6 @@
 package com.mygdx.game.model;
 
-public enum InventoryItem {
+public enum Item {
     SWORD("Sword", "A sharp sword for fighting", "sword.png"),
     PICKAXE("Pickaxe", "A pickaxe for mining", "pickaxe.png"),
     DIRT("Dirt", "A block of dirt", "dirt.png"),
@@ -11,7 +11,7 @@ public enum InventoryItem {
     private final String description;
     private final String texture;
 
-    InventoryItem(String name, String description, String texture) {
+    Item(String name, String description, String texture) {
         this.name = name;
         this.description = description;
         this.texture = texture;
