@@ -9,13 +9,7 @@ public class Constants {
     // player
     public static final float PLAYER_MOVE_SPEED = 1.5f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
-    public static final float GRAVITY = -999.8f;
     // Animation frame durations and counts for the player character
-    public static final float IDLE_FRAME_DURATION = 0.1f;
-    public static final float RUN_FRAME_DURATION = 0.1f;
-    public static final float JUMP_FRAME_DURATION = 0.1f;
-    public static final int FRAME_COLS = 10; // Number of columns in the sprite sheet
-    public static final int FRAME_ROWS = 4; // Number of rows in the sprite sheet
 
     // Input key constants
     public static final int MOVE_LEFT_KEY = Keys.A;
