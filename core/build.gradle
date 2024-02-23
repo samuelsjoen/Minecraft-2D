@@ -1,8 +1,70 @@
-sourceCompatibility = 1.8
+/*sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
+
+eclipse.project.name = appName + "-core"
+*/
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}
+
+sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "test/" ]
+sourceSets.main.resources.srcDirs = ["assets"]
+
+// Legg til konfigurasjonene fra desktop-modulen her
+project.ext.mainClassName = "com.minecraft.game.DesktopLauncher"
+project.ext.assetsDir = new File("assets")
+
+import org.gradle.internal.os.OperatingSystem
+
+task run(type: JavaExec) {
+    dependsOn classes
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+
+    if (OperatingSystem.current().isMacOsX()) {
+        jvmArgs += "-XstartOnFirstThread"
+    }
+}
+
+task debug(type: JavaExec) {
+    dependsOn classes
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+    debug = true
+}
+
+task dist(type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.isDirectory() }.collect { it }
+        configurations.runtimeClasspath.findAll { !it.isDirectory() }.collect { zipTree(it) }
+    }
+    with jar
+}
 
 eclipse.project.name = appName + "-core"
 

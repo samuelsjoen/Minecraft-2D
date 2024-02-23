@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         
+
     }
 }
 
@@ -17,7 +18,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = "team-6-private"
+        appName = "Minecraft"
         gdxVersion = '1.12.1'
         roboVMVersion = '2.3.20'
         box2DLightsVersion = '1.5'
@@ -37,23 +38,14 @@ allprojects {
     }
 }
 
-project(":desktop") {
-    apply plugin: "java-library"
-
-
-    dependencies {
-        implementation project(":core")
-        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        
-    }
-}
-
 project(":core") {
     apply plugin: "java-library"
 
     dependencies {
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         testImplementation(platform('org.junit:junit-bom:5.10.2'))
