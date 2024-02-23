@@ -142,5 +142,4 @@ public class Player extends GameEntity {
 
         body.setLinearVelocity(velX * speed, body.getLinearVelocity().y);
     }
-
 }

@@ -6,6 +6,7 @@ public class Constants {
     // Screen dimensions
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 720;
+    
     // player
     public static final float PLAYER_MOVE_SPEED = 1.5f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
