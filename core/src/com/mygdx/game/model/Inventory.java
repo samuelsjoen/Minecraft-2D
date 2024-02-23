@@ -45,9 +45,6 @@ public class Inventory {
         // Default items
         addItem(Item.SWORD);
         addItem(Item.PICKAXE);
-
-        renderInventory();
-        renderCurrentSlot();
     }
 
     public void addItem(Item name, int quantity) {
@@ -102,8 +99,10 @@ public class Inventory {
         }
     }
 
-    private void renderInventory() {
+    public void renderInventory() {
         batch.draw(inventorySprite, xInv, yInv);
+        renderCurrentSlot();
+        renderItems();
     }
 
     private void renderCurrentSlot() {

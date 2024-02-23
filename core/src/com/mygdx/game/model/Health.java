@@ -24,8 +24,6 @@ public class Health {
         this.healthBarSheet = new Texture(Gdx.files.internal("healthBar.png"));
 
         this.splitFrames = TextureRegion.split(healthBarSheet, 1, 5);
-
-        renderHealthBar();
     }
 
     public int getHealth() {
@@ -58,7 +56,7 @@ public class Health {
         return alive;
     }
 
-    private void renderHealthBar() {
+    public void renderHealthBar() {
         batch.draw(splitFrames[health-1][0], x, y);
     }
 }

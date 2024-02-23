@@ -2,6 +2,8 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.Minecraft2D;
+import com.mygdx.game.model.Health;
+import com.mygdx.game.model.Inventory;
 import com.mygdx.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,12 +19,16 @@ public class GameScreen implements Screen {
     private Minecraft2D game;
     private SpriteBatch batch;
     private Player player;
+    private Health health;
+    private Inventory inventory;
     private Texture backgroundImage; // Background image
 
     public GameScreen(Minecraft2D game) {
         this.game = game;
         this.batch = new SpriteBatch();
         this.player = new Player();
+        this.health = new Health(batch);
+        this.inventory = new Inventory(batch);
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
     }
 
@@ -32,10 +38,11 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-
         batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         player.update(delta);
         player.draw(batch);
+        health.renderHealthBar();
+        inventory.renderInventory();
         batch.end();
     }
 
