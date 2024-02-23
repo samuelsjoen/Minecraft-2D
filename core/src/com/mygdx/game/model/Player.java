@@ -21,11 +21,12 @@ public class Player extends GameEntity {
 
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runningAnimation;
+    private Animation<TextureRegion> attackAnimation;
     private float stateTime;
     private boolean isFacingRight = true;
 
     private enum State {
-        IDLE, RUNNING
+        IDLE, RUNNING, ATTACKING
     }
 
     private State currentState;
@@ -39,8 +40,18 @@ public class Player extends GameEntity {
         TextureRegion[][] tmpFrames = TextureRegion.split(knightSheet, knightSheet.getWidth() / 10,
                 knightSheet.getHeight() / 4);
 
+        TextureRegion[] attackFrames = new TextureRegion[6];
+        for (int i = 0; i < 6; i++) {
+            attackFrames[i] = tmpFrames[0][i];
+        }
+        // attackAnimation = new Animation<>(0.1f, tmpFrames[0]); // Adjust the frame duration as needed
+                
+
         idleAnimation = new Animation<>(0.1f, tmpFrames[2]); // Assuming row 3 for idle
         runningAnimation = new Animation<>(0.1f, tmpFrames[3]); // Assuming row 4 for running
+        attackAnimation = new Animation<>(0.1f, attackFrames); // Adjust the frame duration as needed
+
+        
         stateTime = 0f;
         currentState = State.IDLE;
 
@@ -80,6 +91,15 @@ public class Player extends GameEntity {
                 currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
 
+        // attack animation
+        if (currentState == State.ATTACKING) {
+            currentFrame = attackAnimation.getKeyFrame(stateTime, true);
+            // Reset to IDLE or RUNNING after the attack animation finishes
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                currentState = State.IDLE; // Or RUNNING, based on movement
+            }
+        }
+
         // Check if we need to flip the frame
         if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
             currentFrame.flip(true, false);
@@ -110,6 +130,10 @@ public class Player extends GameEntity {
             body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
             jumpCounter++;
         }
+        // attacking
+        if (Gdx.input.isKeyPressed(Keys.TAB)) {
+            currentState = State.ATTACKING;
+        }        
 
         // reset jumpcounter [maybe fix this so there is some collision detection]
         // we have hit the floor after jump
