@@ -51,7 +51,7 @@ public class Enemy extends GameEntity {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DynamicBody;
         bodyDef.position.set(x, y);
-        bodyDef.fixedRotation = false; // Prevent the body from rotating
+        bodyDef.fixedRotation = true; // Prevent the body from rotating
 
         Body body = world.createBody(bodyDef);
 
