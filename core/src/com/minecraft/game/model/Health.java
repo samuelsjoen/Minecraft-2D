@@ -57,6 +57,6 @@ public class Health {
     }
 
     public void renderHealthBar() {
-        batch.draw(splitFrames[health-1][0], x, y);
+        batch.draw(splitFrames[health - 1][0], x, y);
     }
 }

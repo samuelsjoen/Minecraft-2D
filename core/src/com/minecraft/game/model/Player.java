@@ -44,14 +44,13 @@ public class Player extends GameEntity {
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = tmpFrames[0][i];
         }
-        // attackAnimation = new Animation<>(0.1f, tmpFrames[0]); // Adjust the frame duration as needed
-                
+        // attackAnimation = new Animation<>(0.1f, tmpFrames[0]); // Adjust the frame
+        // duration as needed
 
         idleAnimation = new Animation<>(0.1f, tmpFrames[2]); // Assuming row 3 for idle
         runningAnimation = new Animation<>(0.1f, tmpFrames[3]); // Assuming row 4 for running
         attackAnimation = new Animation<>(0.1f, attackFrames); // Adjust the frame duration as needed
 
-        
         stateTime = 0f;
         currentState = State.IDLE;
 
@@ -73,6 +72,14 @@ public class Player extends GameEntity {
             isFacingRight = false;
         } else if (body.getLinearVelocity().x > 0) {
             isFacingRight = true;
+        }
+
+        // Teleport the player back to the middle if they fall too low
+        float yfall = -10f;
+        if (body.getPosition().y < yfall) {
+            float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
+            float middleY = Gdx.graphics.getHeight() / 2 / Constants.PPM; // Middle of the screen on Y-axis
+            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player to the middle
         }
 
         checkUserInput();
@@ -133,7 +140,7 @@ public class Player extends GameEntity {
         // attacking
         if (Gdx.input.isKeyPressed(Keys.TAB)) {
             currentState = State.ATTACKING;
-        }        
+        }
 
         // reset jumpcounter [maybe fix this so there is some collision detection]
         // we have hit the floor after jump
@@ -142,4 +149,5 @@ public class Player extends GameEntity {
 
         body.setLinearVelocity(velX * speed, body.getLinearVelocity().y);
     }
+
 }

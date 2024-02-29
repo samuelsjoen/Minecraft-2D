@@ -6,7 +6,7 @@ public class Constants {
     // Screen dimensions
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 720;
-    
+
     // player
     public static final float PLAYER_MOVE_SPEED = 1.5f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
@@ -27,5 +27,8 @@ public class Constants {
     public static final int TOGGLE_DEBUG_KEY = Keys.F1;
 
     public static final float PPM = 32.0f;
+
+    // Enemy stuff
+    public static final float ENEMY_SPEED = 1.2f;
 
 }
