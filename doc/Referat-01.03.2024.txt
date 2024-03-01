@@ -1,0 +1,36 @@
+Referat for møte [01.03.2024]
+
+Formål:
+
+- Diskutere og skrive på OBLIG2
+- Fordele roller
+- Få oversikt over veien videre (hva som må gjøres, hvem som skal gjøre hva)
+- "merge"/kombinere kode vi har gjort denne uken
+- vi må lage noen tester
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+    Samuel 
+
+Sammendrag:
+- Ble nesten ferdig med å skrive Del B, Oblig 2
+- Fikk fordelt noen roller
+- Var enige om at vi skal begynne å lage tester til koden vi selv har skrevet, og at vi skal gjøre dette underveis.
+
+Aksjoner og Ansvar:
+
+Samuel - fikse damage (gjøre at player kan miste liv); samme for enemies. Fikse health user interface. Fikse inventory
+Magnus - Enemies, spritebatch, effekter
+Nini og Martine - parprogrammering (lage map i tiled, implementere det i prosjektet, iterere gjennom tiles'ene i map'et, og evt. gjøre de collidable, (evt. også mulighet til å fjerne/legge ned tiles)
+
+Tidsrammer:
+
+    Jobb med oppgaven(e) du har fått utdelt frem til neste møte (neste fredag?)
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - Gjøre ferdig Oblig2, lage klassediagram, og levere dette.
