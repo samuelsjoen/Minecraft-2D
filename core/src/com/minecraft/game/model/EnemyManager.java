@@ -3,6 +3,8 @@ package com.minecraft.game.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.World;
+import com.minecraft.game.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,15 @@ public class EnemyManager {
         }
 
         // Update all enemies
+        ArrayList<Enemy> toRemove = new ArrayList<>();
         for (Enemy enemy : enemies) {
             enemy.update();
+            if (!enemy.isAlive()) {
+                toRemove.add(enemy);
+            }
+        }
+        for (Enemy enemyToRemove : toRemove) {
+            enemies.remove(enemyToRemove);
         }
     }
 
@@ -44,7 +53,7 @@ public class EnemyManager {
         // Spawn position relative to the player with some randomness
         float spawnPosX = player.getBody().getPosition().x + MathUtils.random(-20, 20);
         float spawnPosY = player.getBody().getPosition().y + MathUtils.random(1, 2);
-        Enemy enemy = new Enemy(1, 1, world, player, spawnPosX, spawnPosY);
+        Enemy enemy = new Enemy(1, 1, world, player, spawnPosX, spawnPosY, new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
         enemies.add(enemy);
     }
 }

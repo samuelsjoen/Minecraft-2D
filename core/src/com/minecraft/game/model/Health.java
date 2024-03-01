@@ -13,8 +13,8 @@ public class Health {
     private boolean alive;
 
     public Health(int health, int maxHealth) {
-        this.maxHealth = health;
-        this.health = maxHealth;
+        this.maxHealth = maxHealth;
+        this.health = health;
         this.alive = true;
     }
 

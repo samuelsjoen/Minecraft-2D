@@ -51,7 +51,7 @@ public class GameScreen extends ScreenAdapter {
     private EnemyManager enemyManager;
 
     public GameScreen(OrthographicCamera camera) {
-        this.playerHealth = new Health(5, 5);
+        this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img

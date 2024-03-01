@@ -21,6 +21,7 @@ public class Enemy extends GameEntity {
     private State currentState;
     private boolean isFacingRight = true;
     private Player player;
+    private Health health;
     private float detectionRange = 6.0f; // range within which the enemy detects the player
     TextureRegion[] attackFrames = new TextureRegion[6];
 
@@ -28,10 +29,11 @@ public class Enemy extends GameEntity {
         IDLE, RUNNING, ATTACKING
     }
 
-    public Enemy(float width, float height, World world, Player player, float x, float y) {
+    public Enemy(float width, float height, World world, Player player, float x, float y, Health health) {
         super(width, height, createBody(width, height, world, x, y));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
+        this.health = health;
 
         // Load the texture and set up animations
         Texture enemySheet = new Texture("assets/enemyKnight.png");
@@ -68,6 +70,7 @@ public class Enemy extends GameEntity {
 
     @Override
     public void update() {
+
         stateTime += Gdx.graphics.getDeltaTime();
 
         // float distanceToPlayer = Math.abs(player.getBody().getPosition().x -
@@ -91,10 +94,13 @@ public class Enemy extends GameEntity {
                     // Enemy is to the right of the player, push player left and up
                     player.getBody().applyLinearImpulse(new Vector2(-2, 2),
                             player.getBody().getWorldCenter(), true);
+                            health.damage(1);
+
                 } else {
                     // Enemy is to the left of the player, push player right and up
                     player.getBody().applyLinearImpulse(new Vector2(2, 2),
                             player.getBody().getWorldCenter(), true);
+                            health.damage(1);
                 }
             }
             // Stop moving when attacking
@@ -125,7 +131,7 @@ public class Enemy extends GameEntity {
 
         float spriteWidth = width * 330;
         float spriteHeight = height * 270;
-
+        
         if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
             currentFrame.flip(true, false);
         }
@@ -156,5 +162,9 @@ public class Enemy extends GameEntity {
                 break;
         }
         return region;
+    }
+
+    public boolean isAlive() {
+        return health.isAlive();
     }
 }

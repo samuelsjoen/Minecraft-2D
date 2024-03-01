@@ -10,6 +10,7 @@ public class Constants {
     // player
     public static final float PLAYER_MOVE_SPEED = 1.5f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
+    public static final int PLAYER_MAX_HEALTH = 5;
     // Animation frame durations and counts for the player character
 
     // Input key constants
@@ -33,5 +34,6 @@ public class Constants {
 
     // Enemy stuff
     public static final float ENEMY_SPEED = 1.2f;
+    public static final int ENEMY_MAX_HEALTH = 1;
 
 }
