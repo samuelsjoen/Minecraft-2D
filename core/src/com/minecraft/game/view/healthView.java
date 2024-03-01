@@ -16,7 +16,7 @@ public class HealthView extends GameEntity {
     
     public HealthView(float width, float height, Body body, Health health) {
         super(width, height, body);
-        this.healthBarSheet = new Texture(Gdx.files.internal("assets/healthBar.png"));
+        this.healthBarSheet = new Texture(Gdx.files.internal("assets/overlay/healthBar.png"));
         this.splitFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(), healthBarSheet.getHeight() / 5);
         this.health = health;
 

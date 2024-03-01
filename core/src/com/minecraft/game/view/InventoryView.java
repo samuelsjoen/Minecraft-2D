@@ -20,8 +20,8 @@ public class InventoryView extends GameEntity {
     public InventoryView(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
         this.inventory = inventory;
-        this.inventorySprite = new Texture(Gdx.files.internal("assets/inventory.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("assets/selectedItem.png"));
+        this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
         
         // The amount of pixels to jump to the next item slot
         this.invJump = 40;
