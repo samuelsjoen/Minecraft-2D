@@ -113,5 +113,11 @@ Thumbs.db
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
 
-# To ignore *.lock-files
-*.lock
+# To ignore executionHistory.lock
+executionHistory.lock
+.gradle/8.5/checksums/checksums.lock
+.gradle/8.5/checksums/md5-checksums.bin
+.gradle/8.5/checksums/sha1-checksums.bin
+.gradle/8.5/executionHistory/executionHistory.lock
+.gradle/8.5/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock

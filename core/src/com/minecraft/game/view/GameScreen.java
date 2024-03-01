@@ -3,6 +3,8 @@ package com.minecraft.game.view;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.minecraft.game.Minecraft;
+import com.minecraft.game.model.Health;
+import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -31,6 +33,8 @@ public class GameScreen extends ScreenAdapter {
     private Minecraft game;
     private SpriteBatch batch;
     private Player player;
+    private Health health;
+    private Inventory inventory;
     private Texture backgroundImage; // Background image
 
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -47,7 +51,6 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
-
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
@@ -66,6 +69,8 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
+        health.update();
+        inventory.update();
         enemyManager.update(0.01f);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -98,6 +103,14 @@ public class GameScreen extends ScreenAdapter {
         if (player != null) {
             player.render(batch);
         }
+
+        if (health != null) {
+            health.render(batch);
+        }
+
+        if (inventory != null) {
+            inventory.render(batch);
+        }
         batch.end();
         box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
     }
@@ -108,6 +121,8 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.health = new Health(2000, 2000, player.getBody());
+        this.inventory = new Inventory(200, 200, player.getBody());
     }
 
 }

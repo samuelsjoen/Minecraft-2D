@@ -16,6 +16,9 @@ public class Constants {
     public static final int MOVE_LEFT_KEY = Keys.A;
     public static final int MOVE_RIGHT_KEY = Keys.D;
     public static final int JUMP_KEY = Keys.SPACE;
+    public static final int INVENTORY_LEFT = Keys.LEFT;
+    public static final int INVENTORY_RIGHT = Keys.RIGHT;
+    public static final int INVENTORY_DROP = Keys.Q;
 
     // Character scale (1.0f for original size, adjust as needed)
     public static final float CHARACTER_SCALE = 2.5f; // Example scale to make character bigger

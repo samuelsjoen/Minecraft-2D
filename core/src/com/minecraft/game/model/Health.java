@@ -4,24 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.minecraft.game.utils.Constants;
 
-public class Health {
+public class Health extends GameEntity {
     private int health;
     private int maxHealth;
     private boolean alive;
-    private float x, y;
     private float scale;
-    private SpriteBatch batch;
     private Texture healthBarSheet;
     private TextureRegion[][] splitFrames;
 
-    public Health(SpriteBatch batch) {
+    public Health(float width, float height, Body body) {
+        super(width, height, body);
         this.maxHealth = 5;
         this.health = maxHealth;
         this.alive = true;
-        this.batch = batch;
 
-        this.healthBarSheet = new Texture(Gdx.files.internal("healthBar.png"));
+        this.healthBarSheet = new Texture(Gdx.files.internal("assets/healthBar.png"));
 
         this.splitFrames = TextureRegion.split(healthBarSheet, 1, 5);
     }
@@ -32,7 +32,6 @@ public class Health {
 
     private void setHealth(int health) {
         this.health = health;
-        renderHealthBar();
     }
 
     public void damage(int damage) {
@@ -56,7 +55,13 @@ public class Health {
         return alive;
     }
 
-    public void renderHealthBar() {
-        batch.draw(splitFrames[health - 1][0], x, y);
+    public void render(SpriteBatch batch) {
+        batch.draw(splitFrames[health-1][0], x, y);
+    }
+
+    @Override
+    public void update() {
+        x = body.getPosition().x * Constants.PPM;
+        y = body.getPosition().y * Constants.PPM;
     }
 }

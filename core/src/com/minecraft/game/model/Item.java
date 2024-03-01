@@ -1,8 +1,8 @@
 package com.minecraft.game.model;
 
 public enum Item {
-    SWORD("Sword", "A sharp sword for fighting", "sword.png"),
-    PICKAXE("Pickaxe", "A pickaxe for mining", "pickaxe.png"),
+    SWORD("Sword", "A sharp sword for fighting", "assets/sword.png"),
+    PICKAXE("Pickaxe", "A pickaxe for mining", "assets/pickaxe.png"),
     DIRT("Dirt", "A block of dirt", "dirt.png"),
     GRASS("Grass", "A block of grass", "grass.png"),
     STONE("Stone", "A block of stone", "stone.png");
