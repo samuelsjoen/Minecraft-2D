@@ -7,23 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.utils.Constants;
 
-public class Health extends GameEntity {
+public class Health {
     private int health;
     private int maxHealth;
     private boolean alive;
-    private float scale;
-    private Texture healthBarSheet;
-    private TextureRegion[][] splitFrames;
 
-    public Health(float width, float height, Body body) {
-        super(width, height, body);
-        this.maxHealth = 5;
+    public Health(int health, int maxHealth) {
+        this.maxHealth = health;
         this.health = maxHealth;
         this.alive = true;
-
-        this.healthBarSheet = new Texture(Gdx.files.internal("assets/healthBar.png"));
-
-        this.splitFrames = TextureRegion.split(healthBarSheet, 1, 5);
     }
 
     public int getHealth() {
@@ -53,15 +45,5 @@ public class Health extends GameEntity {
 
     public boolean isAlive() {
         return alive;
-    }
-
-    public void render(SpriteBatch batch) {
-        batch.draw(splitFrames[health-1][0], x, y);
-    }
-
-    @Override
-    public void update() {
-        x = body.getPosition().x * Constants.PPM;
-        y = body.getPosition().y * Constants.PPM;
     }
 }

@@ -39,9 +39,6 @@ public class Inventory extends GameEntity {
 
         // Default items
         addItem(Item.SWORD);
-        addItem(Item.SWORD);
-        addItem(Item.SWORD);
-        addItem(Item.SWORD);
     }
 
     private void addItem(Item name, int quantity) {
@@ -121,7 +118,7 @@ public class Inventory extends GameEntity {
 
     @Override
     public void update() {
-        x = body.getPosition().x * Constants.PPM-600;
+        x = body.getPosition().x * Constants.PPM+200;
         y = body.getPosition().y * Constants.PPM+300;
         xItm = x + 5;
         yItm = y + 5;

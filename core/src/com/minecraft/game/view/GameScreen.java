@@ -33,7 +33,8 @@ public class GameScreen extends ScreenAdapter {
     private Minecraft game;
     private SpriteBatch batch;
     private Player player;
-    private Health health;
+    private Health playerHealth;
+    private healthView healthView;
     private Inventory inventory;
     private Texture backgroundImage; // Background image
 
@@ -50,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
     private EnemyManager enemyManager;
 
     public GameScreen(OrthographicCamera camera) {
+        this.playerHealth = new Health(5, 5);
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
@@ -69,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        health.update();
+        healthView.update();
         inventory.update();
         enemyManager.update(0.01f);
 
@@ -104,8 +106,8 @@ public class GameScreen extends ScreenAdapter {
             player.render(batch);
         }
 
-        if (health != null) {
-            health.render(batch);
+        if (healthView != null) {
+            healthView.render(batch);
         }
 
         if (inventory != null) {
@@ -121,7 +123,7 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.health = new Health(2000, 2000, player.getBody());
+        this.healthView = new healthView(2000, 2000, player.getBody(), playerHealth);
         this.inventory = new Inventory(200, 200, player.getBody());
     }
 
