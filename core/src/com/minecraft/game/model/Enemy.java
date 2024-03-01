@@ -94,13 +94,13 @@ public class Enemy extends GameEntity {
                     // Enemy is to the right of the player, push player left and up
                     player.getBody().applyLinearImpulse(new Vector2(-2, 2),
                             player.getBody().getWorldCenter(), true);
-                            health.damage(1);
+                            // health.damage(1);
 
                 } else {
                     // Enemy is to the left of the player, push player right and up
                     player.getBody().applyLinearImpulse(new Vector2(2, 2),
                             player.getBody().getWorldCenter(), true);
-                            health.damage(1);
+                            // health.damage(1);
                 }
             }
             // Stop moving when attacking
