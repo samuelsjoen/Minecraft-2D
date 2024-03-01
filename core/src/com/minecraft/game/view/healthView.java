@@ -9,12 +9,12 @@ import com.minecraft.game.model.GameEntity;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.utils.Constants;
 
-public class healthView extends GameEntity {
+public class HealthView extends GameEntity {
     private Texture healthBarSheet;
     private TextureRegion[][] splitFrames;
     private Health health;
     
-    public healthView(float width, float height, Body body, Health health) {
+    public HealthView(float width, float height, Body body, Health health) {
         super(width, height, body);
         this.healthBarSheet = new Texture(Gdx.files.internal("assets/healthBar.png"));
         this.splitFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(), healthBarSheet.getHeight() / 5);

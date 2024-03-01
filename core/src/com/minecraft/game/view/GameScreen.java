@@ -34,8 +34,9 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private Player player;
     private Health playerHealth;
-    private healthView healthView;
+    private HealthView healthView;
     private Inventory inventory;
+    private InventoryView inventoryView;
     private Texture backgroundImage; // Background image
 
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -52,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
+        this.inventory = new Inventory();
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
@@ -72,7 +74,7 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
         healthView.update();
-        inventory.update();
+        inventoryView.update();
         enemyManager.update(0.01f);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -110,8 +112,8 @@ public class GameScreen extends ScreenAdapter {
             healthView.render(batch);
         }
 
-        if (inventory != null) {
-            inventory.render(batch);
+        if (inventoryView != null) {
+            inventoryView.render(batch);
         }
         batch.end();
         box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
@@ -123,8 +125,8 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.healthView = new healthView(2000, 2000, player.getBody(), playerHealth);
-        this.inventory = new Inventory(200, 200, player.getBody());
+        this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
+        this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
     }
 
 }
