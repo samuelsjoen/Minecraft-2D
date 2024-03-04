@@ -1,6 +1,5 @@
 package com.minecraft.game.utils;
 
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -29,7 +28,7 @@ public class TileMapHelper {
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("assets/mapExample2-64.tmx");
+        tiledMap = new TmxMapLoader().load("assets/map/mapExample2-64.tmx");
         createMapObjects();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
         //parseMapObjects(tiledMap.getLayers().get("liquid").get);
