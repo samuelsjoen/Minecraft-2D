@@ -15,7 +15,6 @@ public class MenuScreen implements Screen {
     private Texture startButtonTexture;
     private Texture optionsButtonTexture;
     private Texture quitButtonTexture;
-    private final float scaleFactor = 0.25f; // Adjusting the scale factor as needed
     private final float buttonSpacing = 5; // Adjusting the spacing between buttons as needed
 
     public MenuScreen(Minecraft game) {
@@ -26,11 +25,12 @@ public class MenuScreen implements Screen {
 
     // Last inn bilder
     private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("assets/menu_background.png"));
-        titleTexture = new Texture(Gdx.files.internal("assets/minecraft_logo.png"));
-        startButtonTexture = new Texture(Gdx.files.internal("assets/start_button.png"));
-        optionsButtonTexture = new Texture(Gdx.files.internal("assets/options_button.png"));
-        quitButtonTexture = new Texture(Gdx.files.internal("assets/quit_button.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("assets/home/menu_background.png"));
+        titleTexture = new Texture(Gdx.files.internal("assets/home/minecraft_logo.png"));
+        
+        startButtonTexture = new Texture(Gdx.files.internal("assets/home/start_button.png"));
+        optionsButtonTexture = new Texture(Gdx.files.internal("assets/home/options_button.png"));
+        quitButtonTexture = new Texture(Gdx.files.internal("assets/home/quit_button.png"));
     }
 
     @Override
@@ -62,11 +62,11 @@ public class MenuScreen implements Screen {
     
     // Tegn tittelen
     private void drawTitle() {
-        // Beregn posisjon og størrelse for tittelen
-        int titleWidth = (int)(titleTexture.getWidth() * scaleFactor * 3);
-        int titleHeight = (int)(titleTexture.getHeight() * scaleFactor * 3);
+        // Beregner posisjon og størrelse for tittelen
+        int titleWidth = (int)(titleTexture.getWidth() * 0.6f);
+        int titleHeight = (int)(titleTexture.getHeight() * 0.6f);
         int titleX = (Gdx.graphics.getWidth() - titleWidth) / 2;
-        int titleY = Gdx.graphics.getHeight() - titleHeight - 50;
+        int titleY = Gdx.graphics.getHeight() - titleHeight - 100;
         batch.draw(titleTexture, titleX, titleY, titleWidth, titleHeight);
     }
     
@@ -82,8 +82,8 @@ public class MenuScreen implements Screen {
     
     // Tegn en enkelt knapp og returner den nye Y-posisjonen
     private float drawButton(Texture buttonTexture, float buttonY) {
-        int buttonWidth = (int)(buttonTexture.getWidth() * scaleFactor);
-        int buttonHeight = (int)(buttonTexture.getHeight() * scaleFactor);
+        int buttonWidth = (int)(buttonTexture.getWidth()); 
+        int buttonHeight = (int)(buttonTexture.getHeight()); 
         int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
         batch.draw(buttonTexture, buttonX, buttonY, buttonWidth, buttonHeight);
         return buttonY - buttonHeight;
@@ -95,8 +95,8 @@ public class MenuScreen implements Screen {
             float touchX = Gdx.input.getX();
             
             // Calculate the button positions
-            int buttonWidth = (int)(startButtonTexture.getWidth() * scaleFactor);
-            int buttonHeight = (int)(startButtonTexture.getHeight() * scaleFactor);
+            int buttonWidth = (int)(startButtonTexture.getWidth());
+            int buttonHeight = (int)(startButtonTexture.getHeight());
             float startButtonY = 300; // Y-coordinate for the start button
             float optionsButtonY = startButtonY - buttonHeight - buttonSpacing; // Y-coordinate for the options button
             float quitButtonY = optionsButtonY - buttonHeight - buttonSpacing; // Y-coordinate for the quit button
@@ -104,15 +104,16 @@ public class MenuScreen implements Screen {
             
             // Check if start button is clicked
             if (isButtonClicked(buttonX, startButtonY, touchX, touchY)) {
-                //game.setScreen(new GameScreen(game)); // Start the game
-                //return;
+            
+                game.setScreen(new GameScreen(game.orthographicCamera)); // Start the game
+                return;
             }
     
             // Check if options button is clicked
             if (isButtonClicked(buttonX, optionsButtonY, touchX, touchY)) {
                 // Handle options button click
-                //game.setScreen(new OptionsScreen(game)); 
-                //return;
+                game.setScreen(new OptionsScreen(game)); 
+                return;
             }
             
             // Check if quit button is clicked
@@ -125,9 +126,9 @@ public class MenuScreen implements Screen {
     
     private boolean isButtonClicked(float buttonX, float buttonY, float touchX, float touchY) {
         return (touchX >= buttonX &&
-                touchX <= buttonX + startButtonTexture.getWidth() * scaleFactor &&
+                touchX <= buttonX + startButtonTexture.getWidth() &&
                 touchY >= buttonY &&
-                touchY <= buttonY + startButtonTexture.getHeight() * scaleFactor);
+                touchY <= buttonY + startButtonTexture.getHeight());
     }
 
     @Override
