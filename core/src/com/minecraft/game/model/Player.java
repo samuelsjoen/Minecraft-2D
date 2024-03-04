@@ -1,7 +1,10 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
-
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,6 +24,8 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> attackAnimation;
     private float stateTime;
     private boolean isFacingRight = true;
+    private boolean inWater;
+
 
     private enum State {
         IDLE, RUNNING, ATTACKING
@@ -32,6 +37,7 @@ public class Player extends GameEntity {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
+        this.inWater = false;
 
         Texture knightSheet = new Texture("assets/knight.png");
         TextureRegion[][] tmpFrames = TextureRegion.split(knightSheet, knightSheet.getWidth() / 10,
@@ -71,6 +77,14 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
+        /* 
+        if (inWater) {
+            body.setGravityScale(1f);
+        } else {
+            body.setGravityScale(1f);
+        }
+        */
+
         // Teleport the player back to the middle if they fall too low
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
@@ -80,6 +94,10 @@ public class Player extends GameEntity {
         }
 
         checkUserInput();
+    }
+
+    public void setInWater(boolean inWater) {
+        this.inWater = inWater;
     }
 
     @Override
@@ -138,6 +156,19 @@ public class Player extends GameEntity {
         if (Gdx.input.isKeyPressed(Keys.TAB)) {
             currentState = State.ATTACKING;
         }
+
+        // Swimming controls
+        if (inWater) {
+            if (Gdx.input.isKeyPressed(Constants.MOVE_UP_KEY)) {
+                body.setLinearVelocity(body.getLinearVelocity().x, Constants.PLAYER_MOVE_SPEED);
+            } else if (Gdx.input.isKeyPressed(Constants.MOVE_DOWN_KEY)) {
+                body.setLinearVelocity(body.getLinearVelocity().x, -Constants.PLAYER_MOVE_SPEED);
+            } else {
+                // If no swim up/down input is given, stop vertical movement
+                body.setLinearVelocity(body.getLinearVelocity().x, 0);
+            }
+        }
+
 
         // reset jumpcounter [maybe fix this so there is some collision detection]
         // we have hit the floor after jump

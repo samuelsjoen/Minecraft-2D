@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 //import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
+import com.minecraft.game.controller.WorldListener;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -26,6 +27,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 //import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class GameScreen extends ScreenAdapter {
     //private Minecraft game;
@@ -50,6 +55,8 @@ public class GameScreen extends ScreenAdapter {
 
     private EnemyManager enemyManager;
 
+    private WorldListener contactListener = new WorldListener();
+
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
         this.inventory = new Inventory();
@@ -57,11 +64,13 @@ public class GameScreen extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
+        this.world.setContactListener(contactListener);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+        box2DDebugRenderer.setDrawBodies(false);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
-        enemyManager = new EnemyManager(world, player);
+        //enemyManager = new EnemyManager(world, player);
 
     }
 
@@ -72,9 +81,16 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
+
+        if (contactListener.inWater) {
+            player.setInWater(true);
+        } else {
+            player.setInWater(false);
+        }
+
         healthView.update();
         inventoryView.update();
-        enemyManager.update(0.01f);
+        //enemyManager.update(0.01f);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
@@ -101,7 +117,7 @@ public class GameScreen extends ScreenAdapter {
         // render objects
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
-        enemyManager.render(batch);
+        //enemyManager.render(batch);
 
         if (player != null) {
             player.render(batch);

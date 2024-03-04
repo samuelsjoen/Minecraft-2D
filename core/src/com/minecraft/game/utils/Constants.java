@@ -16,6 +16,8 @@ public class Constants {
     // Input key constants
     public static final int MOVE_LEFT_KEY = Keys.A;
     public static final int MOVE_RIGHT_KEY = Keys.D;
+    public static final int MOVE_UP_KEY = Keys.W;
+    public static final int MOVE_DOWN_KEY = Keys.S;
     public static final int JUMP_KEY = Keys.SPACE;
     public static final int INVENTORY_LEFT = Keys.LEFT;
     public static final int INVENTORY_RIGHT = Keys.RIGHT;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class BodyHelperService {
 
-    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
+    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world, String userData) {
         BodyDef bodyDef = new BodyDef();
         // if true, will be a static body, in else case it will be dynamic
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
@@ -20,7 +20,7 @@ public class BodyHelperService {
         fixtureDef.shape = shape;
         // no sticking to the wall
         fixtureDef.friction = 0;
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData(userData);
         shape.dispose();
         return body;
     }

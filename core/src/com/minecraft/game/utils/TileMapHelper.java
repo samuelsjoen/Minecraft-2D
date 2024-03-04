@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.minecraft.game.view.GameScreen;
@@ -39,7 +41,7 @@ public class TileMapHelper {
         for (MapObject mapObject : mapObjects) {
 
             if (mapObject instanceof PolygonMapObject) {
-                createStaticBody((PolygonMapObject) mapObject);
+                createStaticBody((PolygonMapObject) mapObject, !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
             }
 
             if (mapObject instanceof RectangleMapObject) {
@@ -53,19 +55,41 @@ public class TileMapHelper {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
-                            gameScreen.getWorld());
+                            gameScreen.getWorld(),
+                            "player");
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
         }    
     }
 
-    private void createStaticBody(PolygonMapObject polygonMapObject) {
+    /*private void createStaticBody(PolygonMapObject polygonMapObject) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = gameScreen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        body.createFixture(shape, 1000);
+        body.createFixture(shape, 1000).setUserData(shape);;
+        shape.dispose();
+    }*/
+
+    private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
+        int density;
+        if ((boolean) polygonMapObject.getProperties().get("collidable")) {
+            density = 1000;
+        } else {
+            density = 0;
+        }
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body body = gameScreen.getWorld().createBody(bodyDef);
+        Shape shape = createPolygonShape(polygonMapObject);
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = shape;
+        // player goes through the tile if it is a sensor
+        fdef.isSensor = isSensor;
+        fdef.density = density;
+        body.createFixture(fdef).setUserData(userData);
         shape.dispose();
     }
 
@@ -85,8 +109,8 @@ public class TileMapHelper {
 
     private void createMapObjects() {
         
-        //for (MapLayer layer : tiledMap.getLayers()) {
-        MapLayer layer = tiledMap.getLayers().get("mineable");
+        for (MapLayer layer : tiledMap.getLayers()) {
+        //MapLayer layer = tiledMap.getLayers().get("mineable");
             
 
 			//System.out.println("Layer is: " + layer.getName());
@@ -109,8 +133,7 @@ public class TileMapHelper {
                             TileType  tileType = TileType.getTileTypeWithId(tileId);
                             if (tileType !=  null){
 
-                                if (tileType.isCollidable()) {
-                                    MapLayer objectLayer = tiledMap.getLayers().get("collisions");
+                                MapLayer objectLayer = tiledMap.getLayers().get("collisions");
 
                                     float[] vertices = {
                                         x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
@@ -120,11 +143,22 @@ public class TileMapHelper {
                                     };
 
                                     MapObjects objects =  objectLayer.getObjects();
-                                    PolygonMapObject polygon =  new PolygonMapObject(vertices);                            
+
+                                //if (tileType.isCollidable()) {
+                                    
+                                    PolygonMapObject polygon =  new PolygonMapObject(vertices);  
+                                    polygon.setName(tileType.getTextureName());   
+                                    polygon.getProperties().put("id", tileType.getId());
+                                    polygon.getProperties().put("collidable", tileType.isCollidable());
+                                    
+                                    //boolean collidable = (boolean) polygon.getProperties().get("collidable");
+                                    //int id = (int) polygon.getProperties().get("id");                    
                                     
                                    // polygon.getPolygon().setVertices(vertices);
                                     objects.add(polygon);
                                     
+                                //} 
+
                                 }
 
                             }
@@ -134,3 +168,4 @@ public class TileMapHelper {
                 }
             }}}
 
+        
