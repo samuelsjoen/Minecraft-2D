@@ -16,7 +16,7 @@ public class OptionsScreen implements Screen {
     public OptionsScreen(Minecraft game) {
         this.game = game;
         this.batch = new SpriteBatch();
-        backgroundTexture = new Texture(Gdx.files.internal("assets/menu_background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("assets/home/menu_background.png"));
 
     }
     

@@ -32,6 +32,7 @@ public class TileMapHelper {
         tiledMap = new TmxMapLoader().load("assets/mapExample2-64.tmx");
         createMapObjects();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
+        //parseMapObjects(tiledMap.getLayers().get("liquid").get);
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
@@ -85,12 +86,12 @@ public class TileMapHelper {
 
     private void createMapObjects() {
         
-        //for (MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : tiledMap.getLayers()) {
 			//System.out.println("Layer is: " + layer.getName());
 
 		// Access the tile layers
         // we have two map layers, liquid and mineable. 
-		MapLayer layer = tiledMap.getLayers().get("mineable");
+		//MapLayer layer = tiledMap.getLayers().get("mineable");
 
             if (layer instanceof TiledMapTileLayer) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
@@ -104,28 +105,30 @@ public class TileMapHelper {
                             int tileId = cell.getTile().getId();
                             // Do something with the tile ID, for example, print it
                             TileType  tileType = TileType.getTileTypeWithId(tileId);
-                            if (tileType.isCollidable()) {
-                                MapLayer objectLayer = tiledMap.getLayers().get("collisions");
+                            if (tileType !=  null){
 
-                                MapObjects objects =  objectLayer.getObjects();
-                                PolygonMapObject polygon =  new PolygonMapObject();
-                                
-                                float[] vertices = {
-                                    x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
-                                    (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
-                                    (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
-                                    x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
-                                };
+                                if (tileType.isCollidable()) {
+                                    MapLayer objectLayer = tiledMap.getLayers().get("collisions");
 
-                                polygon.getPolygon().setVertices(vertices);
-                                objects.add(polygon);
-                                
-                            }
+                                    float[] vertices = {
+                                        x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
+                                        (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
+                                        (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
+                                        x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
+                                    };
+
+                                    MapObjects objects =  objectLayer.getObjects();
+                                    PolygonMapObject polygon =  new PolygonMapObject(vertices);                            
+                                    
+                                   // polygon.getPolygon().setVertices(vertices);
+                                    objects.add(polygon);
+                                    
+                                }
 
                             }
                             //System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
                         }
                     }
                 }
-            }
+            }}}
 }

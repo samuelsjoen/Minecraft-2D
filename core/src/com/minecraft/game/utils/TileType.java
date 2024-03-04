@@ -7,12 +7,18 @@ public enum TileType {
 
     GRASS(1, true, "grass"),
     DIRT(2, true, "dirt"),
-    COBBLESTONE(3, true, "cobblestone"),
+    STONE(3, true, "stone"),
     WATER(4, false, "water"),
     LAVA(5, false, "lava"),
     BEDROCK(6, true, "bedrock"),
     DIAMOND_ORE(7, true, "diamond_ore"),
-    IRON_ORE(8, true, "iron_ore"),;
+    IRON_ORE(8, true, "iron_ore"),
+    SKY(9, false, "sky"),
+    BLACK(10, false, "black"),
+    STONE_SNOW(11, true, "stone_snow"),
+    DIRT_SNOW(12, true, "dirt_snow"),
+    LEAVES(13, false, "leaves"),
+    WOOD(14, false, "wood");
     
     private int id;
     private boolean collidable;
