@@ -1,48 +1,47 @@
 package com.minecraft.game.view;
 
-import com.badlogic.gdx.Screen;
+//import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.minecraft.game.Minecraft;
+//import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+//import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Input.Keys;
-import com.minecraft.game.Minecraft;
-import com.minecraft.game.utils.BodyHelperService;
+//import com.badlogic.gdx.Input.Keys;
+//import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.TileMapHelper;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+//import com.badlogic.gdx.maps.tiled.TiledMap;
+//import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.Body;
+//import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class GameScreen extends ScreenAdapter {
-    private Minecraft game;
+    //private Minecraft game;
     private SpriteBatch batch;
     private Player player;
     private Health playerHealth;
     private HealthView healthView;
     private Inventory inventory;
     private InventoryView inventoryView;
+    @SuppressWarnings("unused")
     private Texture backgroundImage; // Background image
 
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private TiledMap tiledMap;
+    //private OrthogonalTiledMapRenderer mapRenderer;
+    //private TiledMap tiledMap;
     private World world;
-    private Box2DDebugRenderer debugRenderer;
+    //private Box2DDebugRenderer debugRenderer;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;

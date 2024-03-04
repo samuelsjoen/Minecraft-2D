@@ -2,12 +2,13 @@ package com.minecraft.game.model;
 
 import java.util.HashMap;
 
+/*
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.utils.Constants;
-
+*/
 public class Inventory {
     private HashMap<Item, Integer> items;
     private int maxItemSlots;
@@ -59,6 +60,7 @@ public class Inventory {
         removeItem(name, 1);
     }
 
+    @SuppressWarnings("unused")
     private void removeAllItems(Item name) {
         items.remove(name);
     }

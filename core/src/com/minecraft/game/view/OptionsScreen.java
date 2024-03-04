@@ -9,6 +9,7 @@ import com.minecraft.game.Minecraft;
 
 public class OptionsScreen implements Screen {
     
+    @SuppressWarnings("unused")
     private final Minecraft game;
     private final SpriteBatch batch;
     private Texture backgroundTexture;
