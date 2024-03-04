@@ -115,6 +115,10 @@ public class GameScreen extends ScreenAdapter {
             inventoryView.render(batch);
         }
         batch.end();
+
+        // rendering the liquid layer in the end, so it looks like the player is behind the liquid
+        orthogonalTiledMapRenderer.render(new int[]{2});
+
         box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
     }
 

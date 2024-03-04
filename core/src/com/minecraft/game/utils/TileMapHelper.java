@@ -85,7 +85,10 @@ public class TileMapHelper {
 
     private void createMapObjects() {
         
-        for (MapLayer layer : tiledMap.getLayers()) {
+        //for (MapLayer layer : tiledMap.getLayers()) {
+        MapLayer layer = tiledMap.getLayers().get("mineable");
+            
+
 			//System.out.println("Layer is: " + layer.getName());
 
 		// Access the tile layers
@@ -130,4 +133,4 @@ public class TileMapHelper {
                     }
                 }
             }}}
-}
+
