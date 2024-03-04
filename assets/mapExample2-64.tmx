@@ -37,15 +37,6 @@
  </layer>
  <objectgroup id="6" name="collisions" visible="0">
   <object id="1" name="player" type="player" x="64" y="768" width="64" height="128"/>
-  <object id="2" name="first block to left" type="dirt" x="0" y="896">
-   <polygon points="0,0 0,64 64,64 64,0 0,0"/>
-  </object>
-  <object id="3" x="64" y="896">
-   <polygon points="0,0 0,64 64,64 64,0"/>
-  </object>
-  <object id="4" x="128" y="896">
-   <polygon points="0,0 0,64 64,64 64,0"/>
-  </object>
  </objectgroup>
  <layer id="5" name="liquid" width="45" height="30" visible="0">
   <data encoding="csv">
