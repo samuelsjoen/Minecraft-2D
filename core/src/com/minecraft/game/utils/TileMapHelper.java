@@ -1,11 +1,13 @@
 package com.minecraft.game.utils;
 
 import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,7 +29,8 @@ public class TileMapHelper {
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("assets/mapExample-64.tmx");
+        tiledMap = new TmxMapLoader().load("assets/mapExample2-64.tmx");
+        createMapObjects();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
@@ -54,7 +57,7 @@ public class TileMapHelper {
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
-        }
+        }    
     }
 
     private void createStaticBody(PolygonMapObject polygonMapObject) {
@@ -80,4 +83,49 @@ public class TileMapHelper {
         return shape;
     }
 
+    private void createMapObjects() {
+        
+        //for (MapLayer layer : tiledMap.getLayers()) {
+			//System.out.println("Layer is: " + layer.getName());
+
+		// Access the tile layers
+        // we have two map layers, liquid and mineable. 
+		MapLayer layer = tiledMap.getLayers().get("mineable");
+
+            if (layer instanceof TiledMapTileLayer) {
+                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
+
+                // Iterate through each cell of the layer
+                for (int y = 0; y < tiledLayer.getHeight(); y++) {
+                    for (int x = 0; x < tiledLayer.getWidth(); x++) {
+                        TiledMapTileLayer.Cell cell = tiledLayer.getCell(x, y);
+                        if (cell != null) {
+                            // Get the tile ID of the cell
+                            int tileId = cell.getTile().getId();
+                            // Do something with the tile ID, for example, print it
+                            TileType  tileType = TileType.getTileTypeWithId(tileId);
+                            if (tileType.isCollidable()) {
+                                MapLayer objectLayer = tiledMap.getLayers().get("collisions");
+
+                                MapObjects objects =  objectLayer.getObjects();
+                                PolygonMapObject polygon =  new PolygonMapObject();
+                                
+                                float[] vertices = {
+                                    x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
+                                    (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
+                                    (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
+                                    x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
+                                };
+
+                                polygon.getPolygon().setVertices(vertices);
+                                objects.add(polygon);
+                                
+                            }
+
+                            }
+                            //System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
+                        }
+                    }
+                }
+            }
 }
