@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 //import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
+import com.minecraft.game.controller.CharacterController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -28,7 +29,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class GameScreen extends ScreenAdapter {
-    //private Minecraft game;
+    // private Minecraft game;
     private SpriteBatch batch;
     private Player player;
     private Health playerHealth;
@@ -38,10 +39,10 @@ public class GameScreen extends ScreenAdapter {
     @SuppressWarnings("unused")
     private Texture backgroundImage; // Background image
 
-    //private OrthogonalTiledMapRenderer mapRenderer;
-    //private TiledMap tiledMap;
+    // private OrthogonalTiledMapRenderer mapRenderer;
+    // private TiledMap tiledMap;
     private World world;
-    //private Box2DDebugRenderer debugRenderer;
+    // private Box2DDebugRenderer debugRenderer;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -49,6 +50,7 @@ public class GameScreen extends ScreenAdapter {
     private TileMapHelper tileMapHelper;
 
     private EnemyManager enemyManager;
+    private CharacterController characterController;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -58,8 +60,10 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+        box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        this.characterController = new CharacterController(player);
 
         enemyManager = new EnemyManager(world, player);
 
@@ -68,10 +72,11 @@ public class GameScreen extends ScreenAdapter {
     private void update() {
         world.step(1 / 60f, 6, 2);
         cameraUpdate();
-
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
+        characterController.update();
+
         healthView.update();
         inventoryView.update();
         enemyManager.update(0.01f);
@@ -116,8 +121,9 @@ public class GameScreen extends ScreenAdapter {
         }
         batch.end();
 
-        // rendering the liquid layer in the end, so it looks like the player is behind the liquid
-        orthogonalTiledMapRenderer.render(new int[]{2});
+        // rendering the liquid layer in the end, so it looks like the player is behind
+        // the liquid
+        orthogonalTiledMapRenderer.render(new int[] { 2 });
 
         box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
     }

@@ -8,7 +8,7 @@ public class Constants {
     public static final int SCREEN_HEIGHT = 720;
 
     // player
-    public static final float PLAYER_MOVE_SPEED = 1.5f;
+    public static final float PLAYER_MOVE_SPEED = 15f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
     public static final int PLAYER_MAX_HEALTH = 5;
     // Animation frame durations and counts for the player character

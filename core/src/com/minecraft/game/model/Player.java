@@ -22,7 +22,7 @@ public class Player extends GameEntity {
     private float stateTime;
     private boolean isFacingRight = true;
 
-    private enum State {
+    public enum State {
         IDLE, RUNNING, ATTACKING
     }
 
@@ -79,7 +79,6 @@ public class Player extends GameEntity {
             body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player to the middle
         }
 
-        checkUserInput();
     }
 
     @Override
@@ -120,31 +119,12 @@ public class Player extends GameEntity {
 
     }
 
-    public void checkUserInput() {
-        // reset the current velocity x to 0 to stop the movement
-        velX = 0;
-        if (Gdx.input.isKeyPressed(Constants.MOVE_RIGHT_KEY))
-            velX = 1 * Constants.PLAYER_MOVE_SPEED;
-        if (Gdx.input.isKeyPressed(Constants.MOVE_LEFT_KEY))
-            velX = -1 * Constants.PLAYER_MOVE_SPEED;
+    public void setCurrentState(State state) {
+        this.currentState = state;
+    }
 
-        if (Gdx.input.isKeyJustPressed(Constants.JUMP_KEY) && jumpCounter < 2) {
-            float force = body.getMass() * Constants.PLAYER_JUMP_VELOCITY;
-            body.setLinearVelocity(body.getLinearVelocity().x, 0);
-            body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
-            jumpCounter++;
-        }
-        // attacking
-        if (Gdx.input.isKeyPressed(Keys.TAB)) {
-            currentState = State.ATTACKING;
-        }
-
-        // reset jumpcounter [maybe fix this so there is some collision detection]
-        // we have hit the floor after jump
-        if (body.getLinearVelocity().y == 0)
-            jumpCounter = 0;
-
-        body.setLinearVelocity(velX * speed, body.getLinearVelocity().y);
+    public State getCurrentState() {
+        return this.currentState;
     }
 
 }
