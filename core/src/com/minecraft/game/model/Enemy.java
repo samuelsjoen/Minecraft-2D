@@ -24,6 +24,9 @@ public class Enemy extends GameEntity {
     private Health health;
     private float detectionRange = 6.0f; // range within which the enemy detects the player
     TextureRegion[] attackFrames = new TextureRegion[6];
+    // private float jumpForce = 5.0f; // Jump height
+    private float jumpForce = 150;
+    private float jumpThreshold = 0.9f; // Vertical distance threshold for jumping
 
     private enum State {
         IDLE, RUNNING, ATTACKING
@@ -77,12 +80,20 @@ public class Enemy extends GameEntity {
         // this.body.getPosition().x);
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
         float distanceToPlayerY = Math.abs(player.getBody().getPosition().y - this.body.getPosition().y);
+        float distanceToPlayerYnotABS = player.getBody().getPosition().y - this.body.getPosition().y;
 
         // vertical range within which the enemy can attack
         float verticalAttackRange = 2.0f; // Example value, adjust as needed
 
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+
+        // jump logic for enemy
+        if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
+                && Math.abs(body.getLinearVelocity().y) == 0 && player.getBody().getLinearVelocity().y == 0) {
+            // The last condition checks if the enemy is not already jumping or falling
+            body.applyLinearImpulse(new Vector2(0, jumpForce), body.getWorldCenter(), true);
+        }
 
         // Check if the enemy is close enough to attack but not currently attacking
         // if (distanceToPlayer < 3.0f) {
