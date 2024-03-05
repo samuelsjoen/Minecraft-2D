@@ -17,6 +17,10 @@ public class Health {
         this.maxHealth = maxHealth;
         this.health = health;
         this.alive = true;
+
+        this.healthBarSheet = new Texture(Gdx.files.internal("assets/healthBar.png"));
+
+        this.splitFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(), healthBarSheet.getHeight() / 5);
     }
 
     public int getHealth() {
@@ -46,5 +50,15 @@ public class Health {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public void render(SpriteBatch batch) {
+        batch.draw(splitFrames[health-1][0], x, y, 40, 200);
+    }
+
+    @Override
+    public void update() {
+        x = body.getPosition().x * Constants.PPM+500;
+        y = body.getPosition().y * Constants.PPM+300;
     }
 }
