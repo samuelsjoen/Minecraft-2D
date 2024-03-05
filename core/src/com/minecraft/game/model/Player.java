@@ -84,7 +84,7 @@ public class Player extends GameEntity {
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
             float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
-            float middleY = Gdx.graphics.getHeight() / 2 / Constants.PPM; // Middle of the screen on Y-axis
+            float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // Middle of the screen on Y-axis
             body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player to the middle
         }
 
