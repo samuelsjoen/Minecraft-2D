@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 //import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
+import com.minecraft.game.controller.WorldInputProcessor;
 import com.minecraft.game.controller.WorldListener;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.TileMapHelper;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -55,7 +57,8 @@ public class GameScreen extends ScreenAdapter {
 
     private EnemyManager enemyManager;
 
-    private WorldListener contactListener = new WorldListener();
+    private WorldListener contactListener;
+    private WorldInputProcessor inputProcessor;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -64,11 +67,16 @@ public class GameScreen extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
-        this.world.setContactListener(contactListener);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(false);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+
+        // controller
+        this.contactListener = new WorldListener();
+        this.world.setContactListener(contactListener);
+        this.inputProcessor = new WorldInputProcessor(this);
+        Gdx.input.setInputProcessor(inputProcessor);
 
         //enemyManager = new EnemyManager(world, player);
 
@@ -140,6 +148,14 @@ public class GameScreen extends ScreenAdapter {
 
     public World getWorld() {
         return world;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public TiledMap getTiledMap() {
+        return tileMapHelper.getTiledMap();
     }
 
     public void setPlayer(Player player) {

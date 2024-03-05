@@ -33,7 +33,6 @@ public class TileMapHelper {
         tiledMap = new TmxMapLoader().load("assets/map/mapExample2-64.tmx");
         createMapObjects();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
-        //parseMapObjects(tiledMap.getLayers().get("liquid").get);
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
@@ -41,7 +40,8 @@ public class TileMapHelper {
         for (MapObject mapObject : mapObjects) {
 
             if (mapObject instanceof PolygonMapObject) {
-                createStaticBody((PolygonMapObject) mapObject, !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
+                createStaticBody((PolygonMapObject) mapObject,
+                        !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
             }
 
             if (mapObject instanceof RectangleMapObject) {
@@ -60,17 +60,19 @@ public class TileMapHelper {
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
-        }    
+        }
     }
 
-    /*private void createStaticBody(PolygonMapObject polygonMapObject) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body = gameScreen.getWorld().createBody(bodyDef);
-        Shape shape = createPolygonShape(polygonMapObject);
-        body.createFixture(shape, 1000).setUserData(shape);;
-        shape.dispose();
-    }*/
+    /*
+     * private void createStaticBody(PolygonMapObject polygonMapObject) {
+     * BodyDef bodyDef = new BodyDef();
+     * bodyDef.type = BodyDef.BodyType.StaticBody;
+     * Body body = gameScreen.getWorld().createBody(bodyDef);
+     * Shape shape = createPolygonShape(polygonMapObject);
+     * body.createFixture(shape, 1000).setUserData(shape);;
+     * shape.dispose();
+     * }
+     */
 
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
         int density;
@@ -108,16 +110,15 @@ public class TileMapHelper {
     }
 
     private void createMapObjects() {
-        
+
         for (MapLayer layer : tiledMap.getLayers()) {
-        //MapLayer layer = tiledMap.getLayers().get("mineable");
-            
+            // MapLayer layer = tiledMap.getLayers().get("mineable");
 
-			//System.out.println("Layer is: " + layer.getName());
+            // System.out.println("Layer is: " + layer.getName());
 
-		// Access the tile layers
-        // we have two map layers, liquid and mineable. 
-		//MapLayer layer = tiledMap.getLayers().get("mineable");
+            // Access the tile layers
+            // we have two map layers, liquid and mineable.
+            // MapLayer layer = tiledMap.getLayers().get("mineable");
 
             if (layer instanceof TiledMapTileLayer) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
@@ -130,42 +131,63 @@ public class TileMapHelper {
                             // Get the tile ID of the cell
                             int tileId = cell.getTile().getId();
                             // Do something with the tile ID, for example, print it
-                            TileType  tileType = TileType.getTileTypeWithId(tileId);
-                            if (tileType !=  null){
+                            TileType tileType = TileType.getTileTypeWithId(tileId);
+                            if (tileType != null) {
 
                                 MapLayer objectLayer = tiledMap.getLayers().get("collisions");
 
-                                    float[] vertices = {
+                                float[] vertices = {
                                         x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
                                         (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
                                         (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
                                         x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
-                                    };
+                                };
 
-                                    MapObjects objects =  objectLayer.getObjects();
+                                MapObjects objects = objectLayer.getObjects();
 
-                                //if (tileType.isCollidable()) {
-                                    
-                                    PolygonMapObject polygon =  new PolygonMapObject(vertices);  
-                                    polygon.setName(tileType.getTextureName());   
-                                    polygon.getProperties().put("id", tileType.getId());
-                                    polygon.getProperties().put("collidable", tileType.isCollidable());
-                                    
-                                    //boolean collidable = (boolean) polygon.getProperties().get("collidable");
-                                    //int id = (int) polygon.getProperties().get("id");                    
-                                    
-                                   // polygon.getPolygon().setVertices(vertices);
-                                    objects.add(polygon);
-                                    
-                                //} 
+                                // if (tileType.isCollidable()) {
 
-                                }
+                                PolygonMapObject polygon = new PolygonMapObject(vertices);
+                                polygon.setName(tileType.getTextureName());
+                                polygon.getProperties().put("id", tileType.getId());
+                                polygon.getProperties().put("collidable", tileType.isCollidable());
+
+                                // boolean collidable = (boolean) polygon.getProperties().get("collidable");
+                                // int id = (int) polygon.getProperties().get("id");
+
+                                // polygon.getPolygon().setVertices(vertices);
+                                objects.add(polygon);
+
+                                // }
 
                             }
-                            //System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
+
                         }
+                        // System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
                     }
                 }
-            }}}
+            }
+        }
+    }
 
-        
+    public TiledMap getTiledMap() {
+        return tiledMap;
+    }
+
+    /*public void getTileType(int tileX, int tileY) {
+        if (tiledMap == null) {
+            System.out.println("TiledMap is null.");
+        } else {
+            System.out.println("TiledMap is not null.");
+        }
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("collisions");
+        TiledMapTileLayer.Cell cell = layer.getCell(tileX, tileY);
+        if (cell != null) {
+            int tileId = cell.getTile().getId();
+            return TileType.getTileTypeWithId(tileId);
+        } else {
+            return null;
+        }
+    }*/
+
+}
