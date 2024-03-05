@@ -142,13 +142,16 @@ public class TileMapHelper {
                                         (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
                                         x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
                                 };
+                                // for the name
+                                String coordinatesTile = (x * tiledLayer.getTileWidth()) + ", " + (y * tiledLayer.getTileHeight());
 
                                 MapObjects objects = objectLayer.getObjects();
 
                                 // if (tileType.isCollidable()) {
 
                                 PolygonMapObject polygon = new PolygonMapObject(vertices);
-                                polygon.setName(tileType.getTextureName());
+                                //polygon.setName(tileType.getTextureName()); !!! makes multiple polygons with same name
+                                polygon.setName(coordinatesTile);
                                 polygon.getProperties().put("id", tileType.getId());
                                 polygon.getProperties().put("collidable", tileType.isCollidable());
 

@@ -2,9 +2,12 @@ package com.minecraft.game.controller;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Vector3;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.TileType;
@@ -51,14 +54,27 @@ public class WorldInputProcessor implements InputProcessor {
             int tileY = (int) (worldY / Constants.TILE_SIZE);
             System.out.println("Tile coordinates: " + tileX + ", " + tileY);
 
-            // Get the tile type based on the tile coordinates
             TiledMap tiledMap = gameScreen.getTiledMap();
             TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
             Cell cell = mineableLayer.getCell(tileX, tileY);
             if (cell != null) {
+                // Get the tile type based on the tile coordinates
                 int tileId = cell.getTile().getId();
                 TileType tiletype = TileType.getTileTypeWithId(tileId);
                 System.out.println("Tile type: " + tiletype);
+
+                // Get the mapobject based on the tile coordinates
+                String tileCoordinatesConcatinated = tileX*Constants.TILE_SIZE + ", " + tileY*Constants.TILE_SIZE;
+                MapObject polygon = tiledMap.getLayers().get("collisions").getObjects().get(tileCoordinatesConcatinated);
+                int polygonID = (int) polygon.getProperties().get("id");
+                TileType polygonTileType = TileType.getTileTypeWithId(polygonID);
+                System.out.println(polygonTileType.getTextureName());
+
+                // Remove a map object from the collisions layer (but i also need to remove like collision and stuff)
+                // like, "RemoveStaticBody method in TileMapHelper"
+                //tiledMap.getLayers().get("collisions").getObjects().remove(polygon);
+
+
             } else {
                 System.out.println("Cell is null.");
             }
