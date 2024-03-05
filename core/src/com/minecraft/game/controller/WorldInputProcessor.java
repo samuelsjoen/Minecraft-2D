@@ -4,20 +4,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector3;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.utils.TileMapHelper;
 import com.minecraft.game.utils.TileType;
 import com.minecraft.game.view.GameScreen;
 
 public class WorldInputProcessor implements InputProcessor {
 
     private GameScreen gameScreen;
-    private TileMapHelper tileMapHelper;
 
     public WorldInputProcessor(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        this.tileMapHelper = new TileMapHelper(gameScreen);
     }
 
     @Override
@@ -42,7 +40,7 @@ public class WorldInputProcessor implements InputProcessor {
             int y = screenY;
             System.out.println("Screen coordinates: " + x + ", " + y);
             Vector3 touchPos = new Vector3(x, y, 0);
-            // convert screen coordinates to world coordinates
+            // Convert screen coordinates to world coordinates
             gameScreen.getCamera().unproject(touchPos);
             float worldX = touchPos.x;
             float worldY = touchPos.y;
@@ -51,14 +49,12 @@ public class WorldInputProcessor implements InputProcessor {
             // Calculate tile coordinates
             int tileX = (int) (worldX / Constants.TILE_SIZE);
             int tileY = (int) (worldY / Constants.TILE_SIZE);
-
             System.out.println("Tile coordinates: " + tileX + ", " + tileY);
 
-            // TileType tileType = tileMapHelper.getTileType(tileX, tileY);
-            // System.out.println("Tile type: " + tileType);
+            // Get the tile type based on the tile coordinates
             TiledMap tiledMap = gameScreen.getTiledMap();
-            TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-            TiledMapTileLayer.Cell cell = layer.getCell(tileX, tileY);
+            TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+            Cell cell = mineableLayer.getCell(tileX, tileY);
             if (cell != null) {
                 int tileId = cell.getTile().getId();
                 TileType tiletype = TileType.getTileTypeWithId(tileId);
@@ -67,7 +63,6 @@ public class WorldInputProcessor implements InputProcessor {
                 System.out.println("Cell is null.");
             }
         }
-
         return true;
     }
 
