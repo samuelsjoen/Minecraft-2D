@@ -3,6 +3,7 @@ package com.minecraft.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Plane.PlaneSide;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
 
@@ -17,6 +18,10 @@ public class CharacterController {
 
     public void update() {
         float velX = 0;
+        if (Player.currentState == Player.State.DEAD) {
+            // velX = 0; // if you want the player to stop moving when dead
+            return;
+        }
         if (Gdx.input.isKeyPressed(Constants.MOVE_RIGHT_KEY)) {
             velX = Constants.PLAYER_MOVE_SPEED;
         }

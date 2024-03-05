@@ -86,27 +86,32 @@ public class Enemy extends GameEntity {
 
         // Check if the enemy is close enough to attack but not currently attacking
         // if (distanceToPlayer < 3.0f) {
-        if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange) {
+        if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange
+                && player.getCurrentState() != Player.State.DEAD) {
 
             currentState = State.ATTACKING;
             if (currentFrameIndex == 2) {
+                // player.getHealth().damage(1);
+                player.getHit();
+
+                // Push the player when he gets hit (from the left or right)
                 if (this.body.getPosition().x > player.getBody().getPosition().x) {
                     // Enemy is to the right of the player, push player left and up
                     player.getBody().applyLinearImpulse(new Vector2(-2, 2),
                             player.getBody().getWorldCenter(), true);
-                            // health.damage(1);
+                    // health.damage(1);
 
                 } else {
                     // Enemy is to the left of the player, push player right and up
                     player.getBody().applyLinearImpulse(new Vector2(2, 2),
                             player.getBody().getWorldCenter(), true);
-                            // health.damage(1);
+                    // health.damage(1);
                 }
             }
             // Stop moving when attacking
             body.setLinearVelocity(0, body.getLinearVelocity().y);
             // } else if (distanceToPlayer < detectionRange) {
-        } else if (distanceToPlayerX < detectionRange) {
+        } else if (distanceToPlayerX < detectionRange && player.getCurrentState() != Player.State.DEAD) {
 
             if (player.getBody().getPosition().x > this.body.getPosition().x) {
                 body.setLinearVelocity(speed, body.getLinearVelocity().y); // Move right towards the player
@@ -131,7 +136,7 @@ public class Enemy extends GameEntity {
 
         float spriteWidth = width * 330;
         float spriteHeight = height * 270;
-        
+
         if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
             currentFrame.flip(true, false);
         }
