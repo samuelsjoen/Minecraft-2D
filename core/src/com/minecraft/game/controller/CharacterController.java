@@ -22,6 +22,7 @@ public class CharacterController {
             // velX = 0; // if you want the player to stop moving when dead
             if (Gdx.input.isKeyJustPressed(Keys.R)) {
                 Player.getHealth().heal(5);
+                Player.deadStateTime = 0f;
                 player.setCurrentState(Player.State.IDLE);
             }
             return;

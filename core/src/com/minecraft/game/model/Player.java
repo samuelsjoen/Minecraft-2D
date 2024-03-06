@@ -29,6 +29,7 @@ public class Player extends GameEntity {
     private boolean isInvincible;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 3 seconds
+    public static float deadStateTime = 0f; // Timer for the dead animation
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -97,8 +98,16 @@ public class Player extends GameEntity {
             // Optional: Add blinking logic here
         }
 
-        if (health.getHealth() <= 0) {
+        // if (health.getHealth() <= 0) {
+        // currentState = State.DEAD;
+        // }
+        if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
+            // deadStateTime = 0f; // Reset animation state time for dead animation
+
+        }
+        if (currentState == State.DEAD) {
+            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         }
 
     }
@@ -110,7 +119,7 @@ public class Player extends GameEntity {
 
         switch (currentState) {
             case DEAD:
-                currentFrame = deadAnimation.getKeyFrame(stateTime, false);
+                currentFrame = deadAnimation.getKeyFrame(deadStateTime, false);
                 break;
             case RUNNING:
                 currentFrame = runningAnimation.getKeyFrame(stateTime, true);
