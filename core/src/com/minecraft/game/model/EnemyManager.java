@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyManager {
-    private List<Enemy> enemies;
+    public static List<Enemy> enemies;
     private World world;
     private Player player;
     private float spawnTimer;
@@ -31,16 +31,19 @@ public class EnemyManager {
         }
 
         // Update all enemies
-        ArrayList<Enemy> toRemove = new ArrayList<>();
+        ArrayList<Enemy> deadEnemies = new ArrayList<>();
         for (Enemy enemy : enemies) {
             enemy.update();
-            if (!enemy.isAlive()) {
-                toRemove.add(enemy);
+            if (enemy.getHealth().getHealth() <= 0) {
+                world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
+                deadEnemies.add(enemy); // Add dead enemies to the list
             }
+            // if (!enemy.isAlive()) {
+            // world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
+            // deadEnemies.add(enemy); // Add dead enemies to the list
+            // }
         }
-        for (Enemy enemyToRemove : toRemove) {
-            enemies.remove(enemyToRemove);
-        }
+        enemies.removeAll(deadEnemies); // Remove all dead enemies from the list
     }
 
     public void render(SpriteBatch batch) {
@@ -71,4 +74,9 @@ public class EnemyManager {
             enemies.add(enemy);
         }
     }
+
+    public static List<Enemy> getEnemies() {
+        return enemies;
+    }
+
 }

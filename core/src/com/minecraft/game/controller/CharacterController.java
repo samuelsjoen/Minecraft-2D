@@ -41,6 +41,7 @@ public class CharacterController {
 
         if (Gdx.input.isKeyPressed(Keys.TAB)) {
             player.setCurrentState(Player.State.ATTACKING);
+            player.attack();
         }
 
         // Check if the player is on the ground to reset the jump counter

@@ -16,27 +16,27 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.utils.Constants;
 
 public class Enemy extends GameEntity {
-    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation;
+    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, deadAnimation;
     private float stateTime;
     private State currentState;
     private boolean isFacingRight = true;
     private Player player;
-    private Health health;
     private float detectionRange = 6.0f; // range within which the enemy detects the player
     TextureRegion[] attackFrames = new TextureRegion[6];
     // private float jumpForce = 5.0f; // Jump height
     private float jumpForce = 150;
     private float jumpThreshold = 0.9f; // Vertical distance threshold for jumping
+    public Health health;
 
     private enum State {
-        IDLE, RUNNING, ATTACKING
+        IDLE, RUNNING, ATTACKING, DEAD
     }
 
     public Enemy(float width, float height, World world, Player player, float x, float y, Health health) {
         super(width, height, createBody(width, height, world, x, y));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = health;
+        this.health = new Health(5, 5);
 
         // Load the texture and set up animations
         Texture enemySheet = new Texture("assets/enemyKnight.png");
@@ -45,10 +45,12 @@ public class Enemy extends GameEntity {
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = splitFrames[0][i];
         }
-        idleAnimation = new Animation<>(0.1f, splitFrames[2]); // 2 row is running
-        runningAnimation = new Animation<>(0.1f, splitFrames[3]); // 3 row is running
+        idleAnimation = new Animation<>(0.1f, splitFrames[2]); // 3 row is running
+        runningAnimation = new Animation<>(0.1f, splitFrames[3]); // 4 row is running
         attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
         currentState = State.IDLE;
+        deadAnimation = new Animation<>(0.1f, splitFrames[1]); // row 2 = ded
+
         stateTime = 0f;
     }
 
@@ -90,7 +92,8 @@ public class Enemy extends GameEntity {
 
         // jump logic for enemy
         if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
-                && Math.abs(body.getLinearVelocity().y) == 0 && player.getBody().getLinearVelocity().y == 0) {
+                && Math.abs(body.getLinearVelocity().y) == 0 && player.getBody().getLinearVelocity().y == 0
+                && player.getCurrentState() != Player.State.DEAD) {
             // The last condition checks if the enemy is not already jumping or falling
             body.applyLinearImpulse(new Vector2(0, jumpForce), body.getWorldCenter(), true);
         }
@@ -106,17 +109,19 @@ public class Enemy extends GameEntity {
                 player.getHit();
 
                 // Push the player when he gets hit (from the left or right)
-                if (this.body.getPosition().x > player.getBody().getPosition().x) {
-                    // Enemy is to the right of the player, push player left and up
-                    player.getBody().applyLinearImpulse(new Vector2(-2, 2),
-                            player.getBody().getWorldCenter(), true);
-                    // health.damage(1);
+                if (player.getCurrentState() != Player.State.ATTACKING) {
+                    if (this.body.getPosition().x > player.getBody().getPosition().x) {
+                        // Enemy is to the right of the player, push player left and up
+                        player.getBody().applyLinearImpulse(new Vector2(-2, 2),
+                                player.getBody().getWorldCenter(), true);
+                        // health.damage(1);
 
-                } else {
-                    // Enemy is to the left of the player, push player right and up
-                    player.getBody().applyLinearImpulse(new Vector2(2, 2),
-                            player.getBody().getWorldCenter(), true);
-                    // health.damage(1);
+                    } else {
+                        // Enemy is to the left of the player, push player right and up
+                        player.getBody().applyLinearImpulse(new Vector2(2, 2),
+                                player.getBody().getWorldCenter(), true);
+                        // health.damage(1);
+                    }
                 }
             }
             // Stop moving when attacking
@@ -136,6 +141,10 @@ public class Enemy extends GameEntity {
             currentState = State.IDLE;
             // stop moving when idle
             body.setLinearVelocity(0, body.getLinearVelocity().y);
+        }
+
+        if (health.getHealth() <= 0) {
+            currentState = State.DEAD;
         }
     }
 
@@ -183,4 +192,13 @@ public class Enemy extends GameEntity {
     public boolean isAlive() {
         return health.isAlive();
     }
+
+    public Health getHealth() {
+        return health;
+    }
+
+    public void getHit() {
+        health.damage(1); // call damage method and reduces health
+    }
+
 }

@@ -20,6 +20,7 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> runningAnimation;
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> deadAnimation;
+    TextureRegion[] attackFrames = new TextureRegion[6];
     private float stateTime;
     private boolean isFacingRight = true;
     private static Health health;
@@ -45,7 +46,6 @@ public class Player extends GameEntity {
         TextureRegion[][] tmpFrames = TextureRegion.split(knightSheet, knightSheet.getWidth() / 10,
                 knightSheet.getHeight() / 4);
 
-        TextureRegion[] attackFrames = new TextureRegion[6];
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = tmpFrames[0][i];
         }
@@ -171,6 +171,25 @@ public class Player extends GameEntity {
             isInvincible = true;
             invincibilityTimer = INVINCIBILITY_DURATION;
             // Optional: Initial actions for becoming invincible, such as playing a sound
+        }
+    }
+
+    public void attack() {
+        float attackRange = 5.0f; // Example value, adjust as needed
+        float verticalAttackRange = 3.0f; // Adjust as needed
+        float frameDuration = attackAnimation.getFrameDuration();
+        int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+
+        for (Enemy enemy : EnemyManager.getEnemies()) {
+            float distanceToEnemyX = enemy.getBody().getPosition().x - this.body.getPosition().x;
+            float distanceToEnemyY = Math.abs(enemy.getBody().getPosition().y - this.body.getPosition().y);
+
+            boolean isEnemyInFront = isFacingRight ? distanceToEnemyX > 0 : distanceToEnemyX < 0;
+
+            if (Math.abs(distanceToEnemyX) < attackRange && distanceToEnemyY <= verticalAttackRange
+                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                enemy.getHit(); // Applies damage to the targeted enemy
+            }
         }
     }
 
