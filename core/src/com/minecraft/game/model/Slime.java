@@ -14,17 +14,18 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.utils.Constants;
 
-public class Enemy extends GameEntity {
+public class Slime extends GameEntity {
     private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, deadAnimation;
     private float stateTime;
     private State currentState;
     private boolean isFacingRight = true;
     private Player player;
-    private float detectionRange = 6.0f; // range within which the enemy detects the player
-    TextureRegion[] attackFrames = new TextureRegion[6];
+    private float detectionRange = 10.0f; // range within which the enemy detects the player
+    TextureRegion[] attackFrames = new TextureRegion[8];
+    TextureRegion[] deadFrames = new TextureRegion[5];
     // private float jumpForce = 5.0f; // Jump height
-    private float jumpForce = 150;
-    private float jumpThreshold = 0.9f; // Vertical distance threshold for jumping
+    private float jumpForce = 55;
+    private float jumpThreshold = 1.5f; // Vertical distance threshold for jumping
     public Health health;
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
@@ -33,24 +34,27 @@ public class Enemy extends GameEntity {
         IDLE, RUNNING, ATTACKING, DEAD
     }
 
-    public Enemy(float width, float height, World world, Player player, float x, float y, Health health) {
+    public Slime(float width, float height, World world, Player player, float x, float y, Health health) {
         super(width, height, createBody(width, height, world, x, y, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(1, 1);
 
         // Load the texture and set up animations
-        Texture enemySheet = new Texture("assets/enemyKnight.png");
-        TextureRegion[][] splitFrames = TextureRegion.split(enemySheet, enemySheet.getWidth() / 10,
-                enemySheet.getHeight() / 4);
-        for (int i = 0; i < 6; i++) {
-            attackFrames[i] = splitFrames[0][i];
+        Texture enemySheet = new Texture("assets/slime-Sheet.png");
+        TextureRegion[][] splitFrames = TextureRegion.split(enemySheet, enemySheet.getWidth() / 8,
+                enemySheet.getHeight() / 3);
+        for (int i = 0; i < 8; i++) {
+            attackFrames[i] = splitFrames[1][i];
         }
-        idleAnimation = new Animation<>(0.1f, splitFrames[2]); // 3 row is running
-        runningAnimation = new Animation<>(0.1f, splitFrames[3]); // 4 row is running
+        for (int i = 0; i < 5; i++) {
+            deadFrames[i] = splitFrames[2][i];
+        }
+        idleAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
+        runningAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
         attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
         currentState = State.IDLE;
-        deadAnimation = new Animation<>(0.1f, splitFrames[1]); // row 2 = ded
+        deadAnimation = new Animation<>(0.1f, deadFrames); // row 3 = ded
 
         stateTime = 0f;
     }
@@ -65,10 +69,11 @@ public class Enemy extends GameEntity {
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 1, height / 0.5f);
+        shape.setAsBox(width / 1, height / 1);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
+
         fixtureDef.filter.categoryBits = categoryBits; // New stuff added
         fixtureDef.filter.maskBits = maskBits; // New stuff added
 
@@ -90,7 +95,7 @@ public class Enemy extends GameEntity {
         float distanceToPlayerYnotABS = player.getBody().getPosition().y - this.body.getPosition().y;
 
         // vertical range within which the enemy can attack
-        float verticalAttackRange = 2.0f;
+        float verticalAttackRange = 1.5f;
 
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
@@ -105,11 +110,11 @@ public class Enemy extends GameEntity {
 
             // Check if the enemy is close enough to attack but not currently attacking
             // if (distanceToPlayer < 3.0f) {
-            if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange
+            if (distanceToPlayerX < 1.5f && distanceToPlayerY <= verticalAttackRange
                     && player.getCurrentState() != Player.State.DEAD) {
 
                 currentState = State.ATTACKING;
-                if (currentFrameIndex == 2) {
+                if (currentFrameIndex == 4) {
                     // player.getHealth().damage(1);
                     player.getHit();
 
@@ -133,10 +138,10 @@ public class Enemy extends GameEntity {
 
                 if (player.getBody().getPosition().x > this.body.getPosition().x) {
                     body.setLinearVelocity(speed, body.getLinearVelocity().y); // Move right towards the player
-                    isFacingRight = true;
+                    isFacingRight = false;
                 } else {
                     body.setLinearVelocity(-speed, body.getLinearVelocity().y); // Move left towards the player
-                    isFacingRight = false;
+                    isFacingRight = true;
                 }
                 currentState = State.RUNNING;
             } else {
@@ -172,12 +177,12 @@ public class Enemy extends GameEntity {
 
         if (isFacingRight) {
 
-            batch.draw(currentFrame, (posX - spriteWidth / 2) + 15, (posY - spriteHeight / 4) + 4,
-                    spriteWidth, spriteHeight);
+            batch.draw(currentFrame, (posX - 40), (posY - 35),
+                    spriteWidth / 4, spriteHeight / 4);
         } else {
 
-            batch.draw(currentFrame, (posX - spriteWidth / 2) - 15, (posY - spriteHeight / 4) + 4,
-                    spriteWidth, spriteHeight);
+            batch.draw(currentFrame, (posX - 40), (posY - 35),
+                    spriteWidth / 4, spriteHeight / 4);
         }
     }
 

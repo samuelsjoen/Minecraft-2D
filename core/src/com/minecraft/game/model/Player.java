@@ -186,6 +186,17 @@ public class Player extends GameEntity {
                 enemy.getHit(); // Applies damage to the targeted enemy
             }
         }
+        for (Slime slime : EnemyManager.getSlimes()) {
+            float distanceToSlimeX = slime.getBody().getPosition().x - this.body.getPosition().x;
+            float distanceToSlimeY = Math.abs(slime.getBody().getPosition().y - this.body.getPosition().y);
+
+            boolean isEnemyInFront = isFacingRight ? distanceToSlimeX > 0 : distanceToSlimeX < 0;
+
+            if (Math.abs(distanceToSlimeX) < attackRange && distanceToSlimeY <= verticalAttackRange
+                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                slime.getHit(); // Applies damage to the targeted enemy
+            }
+        }
     }
 
 }

@@ -39,9 +39,13 @@ public class Constants {
     // Collision stuff
     public static final short CATEGORY_PLAYER = 0x0001;
     public static final short CATEGORY_ENEMY = 0x0002;
+    // public static final short CATEGORY_SLIME = 0x0003;
     public static final short CATEGORY_WORLD = 0x0004;
     public static final short MASK_PLAYER = CATEGORY_WORLD; // Player collides with the world
     public static final short MASK_ENEMY = CATEGORY_WORLD; // Enemy collides with the world
-    public static final short MASK_WORLD = CATEGORY_PLAYER | CATEGORY_ENEMY; // World collides with player and enemy
+    // public static final short MASK_SLIME = CATEGORY_WORLD; // Slimes collides
+    // with the world
+    public static final short MASK_WORLD = CATEGORY_PLAYER | CATEGORY_ENEMY; // World collides with
+                                                                             // player and enemy
 
 }
