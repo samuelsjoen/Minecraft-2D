@@ -34,7 +34,8 @@ public class EnemyManager {
         ArrayList<Enemy> deadEnemies = new ArrayList<>();
         for (Enemy enemy : enemies) {
             enemy.update();
-            if (enemy.getHealth().getHealth() <= 0) {
+            // if (enemy.getHealth().getHealth() <= 0) {
+            if (enemy.isMarkedForRemoval()) {
                 world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
                 deadEnemies.add(enemy); // Add dead enemies to the list
             }

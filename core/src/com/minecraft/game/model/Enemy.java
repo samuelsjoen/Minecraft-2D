@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-//import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
 public class Enemy extends GameEntity {
@@ -27,6 +26,8 @@ public class Enemy extends GameEntity {
     private float jumpForce = 150;
     private float jumpThreshold = 0.9f; // Vertical distance threshold for jumping
     public Health health;
+    private boolean markForRemoval = false;
+    private float deadStateTime = 0f; // Timer for the dead animation
 
     private enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -36,7 +37,7 @@ public class Enemy extends GameEntity {
         super(width, height, createBody(width, height, world, x, y));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(5, 5);
+        this.health = new Health(1, 1);
 
         // Load the texture and set up animations
         Texture enemySheet = new Texture("assets/enemyKnight.png");
@@ -89,63 +90,69 @@ public class Enemy extends GameEntity {
 
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+        if (currentState != State.DEAD) {
+            // jump logic for enemy
+            if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
+                    && Math.abs(body.getLinearVelocity().y) == 0 && player.getBody().getLinearVelocity().y == 0
+                    && player.getCurrentState() != Player.State.DEAD) {
+                // The last condition checks if the enemy is not already jumping or falling
+                body.applyLinearImpulse(new Vector2(0, jumpForce), body.getWorldCenter(), true);
+            }
 
-        // jump logic for enemy
-        if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
-                && Math.abs(body.getLinearVelocity().y) == 0 && player.getBody().getLinearVelocity().y == 0
-                && player.getCurrentState() != Player.State.DEAD) {
-            // The last condition checks if the enemy is not already jumping or falling
-            body.applyLinearImpulse(new Vector2(0, jumpForce), body.getWorldCenter(), true);
-        }
+            // Check if the enemy is close enough to attack but not currently attacking
+            // if (distanceToPlayer < 3.0f) {
+            if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange
+                    && player.getCurrentState() != Player.State.DEAD) {
 
-        // Check if the enemy is close enough to attack but not currently attacking
-        // if (distanceToPlayer < 3.0f) {
-        if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange
-                && player.getCurrentState() != Player.State.DEAD) {
+                currentState = State.ATTACKING;
+                if (currentFrameIndex == 2) {
+                    // player.getHealth().damage(1);
+                    player.getHit();
 
-            currentState = State.ATTACKING;
-            if (currentFrameIndex == 2) {
-                // player.getHealth().damage(1);
-                player.getHit();
+                    // Push the player when he gets hit (from the left or right)
+                    if (player.getCurrentState() != Player.State.ATTACKING) {
+                        if (this.body.getPosition().x > player.getBody().getPosition().x) {
+                            // Enemy is to the right of the player, push player left and up
+                            player.getBody().applyLinearImpulse(new Vector2(-2, 2),
+                                    player.getBody().getWorldCenter(), true);
+                            // health.damage(1);
 
-                // Push the player when he gets hit (from the left or right)
-                if (player.getCurrentState() != Player.State.ATTACKING) {
-                    if (this.body.getPosition().x > player.getBody().getPosition().x) {
-                        // Enemy is to the right of the player, push player left and up
-                        player.getBody().applyLinearImpulse(new Vector2(-2, 2),
-                                player.getBody().getWorldCenter(), true);
-                        // health.damage(1);
-
-                    } else {
-                        // Enemy is to the left of the player, push player right and up
-                        player.getBody().applyLinearImpulse(new Vector2(2, 2),
-                                player.getBody().getWorldCenter(), true);
-                        // health.damage(1);
+                        } else {
+                            // Enemy is to the left of the player, push player right and up
+                            player.getBody().applyLinearImpulse(new Vector2(2, 2),
+                                    player.getBody().getWorldCenter(), true);
+                            // health.damage(1);
+                        }
                     }
                 }
-            }
-            // Stop moving when attacking
-            body.setLinearVelocity(0, body.getLinearVelocity().y);
-            // } else if (distanceToPlayer < detectionRange) {
-        } else if (distanceToPlayerX < detectionRange && player.getCurrentState() != Player.State.DEAD) {
+                // Stop moving when attacking
+                body.setLinearVelocity(0, body.getLinearVelocity().y);
+                // } else if (distanceToPlayer < detectionRange) {
+            } else if (distanceToPlayerX < detectionRange && player.getCurrentState() != Player.State.DEAD) {
 
-            if (player.getBody().getPosition().x > this.body.getPosition().x) {
-                body.setLinearVelocity(speed, body.getLinearVelocity().y); // Move right towards the player
-                isFacingRight = true;
+                if (player.getBody().getPosition().x > this.body.getPosition().x) {
+                    body.setLinearVelocity(speed, body.getLinearVelocity().y); // Move right towards the player
+                    isFacingRight = true;
+                } else {
+                    body.setLinearVelocity(-speed, body.getLinearVelocity().y); // Move left towards the player
+                    isFacingRight = false;
+                }
+                currentState = State.RUNNING;
             } else {
-                body.setLinearVelocity(-speed, body.getLinearVelocity().y); // Move left towards the player
-                isFacingRight = false;
+                currentState = State.IDLE;
+                // stop moving when idle
+                body.setLinearVelocity(0, body.getLinearVelocity().y);
             }
-            currentState = State.RUNNING;
-        } else {
-            currentState = State.IDLE;
-            // stop moving when idle
-            body.setLinearVelocity(0, body.getLinearVelocity().y);
+        }
+        if (health.getHealth() <= 0 && currentState != State.DEAD) {
+            currentState = State.DEAD;
+            // deadStateTime = 0f; // Reset animation state time for dead animation
+
+        }
+        if (currentState == State.DEAD) {
+            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         }
 
-        if (health.getHealth() <= 0) {
-            currentState = State.DEAD;
-        }
     }
 
     @Override
@@ -175,6 +182,13 @@ public class Enemy extends GameEntity {
     private TextureRegion getCurrentFrame() {
         TextureRegion region;
         switch (currentState) {
+            case DEAD:
+                region = deadAnimation.getKeyFrame(deadStateTime, false);
+                if (deadAnimation.isAnimationFinished(deadStateTime)) {
+                    markForRemoval = true; // This flag indicates that the enemy is ready to be removed
+                }
+                break;
+
             case ATTACKING:
                 region = attackAnimation.getKeyFrame(stateTime, true);
                 break;
@@ -199,6 +213,10 @@ public class Enemy extends GameEntity {
 
     public void getHit() {
         health.damage(1); // call damage method and reduces health
+    }
+
+    public boolean isMarkedForRemoval() {
+        return markForRemoval;
     }
 
 }
