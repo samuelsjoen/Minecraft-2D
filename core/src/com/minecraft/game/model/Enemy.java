@@ -34,7 +34,7 @@ public class Enemy extends GameEntity {
     }
 
     public Enemy(float width, float height, World world, Player player, float x, float y, Health health) {
-        super(width, height, createBody(width, height, world, x, y));
+        super(width, height, createBody(width, height, world, x, y, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(1, 1);
@@ -55,7 +55,8 @@ public class Enemy extends GameEntity {
         stateTime = 0f;
     }
 
-    private static Body createBody(float width, float height, World world, float x, float y) {
+    private static Body createBody(float width, float height, World world, float x, float y, short categoryBits,
+            short maskBits) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DynamicBody;
         bodyDef.position.set(x, y);
