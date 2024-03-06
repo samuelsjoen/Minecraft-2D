@@ -25,7 +25,7 @@ public class Constants {
     public static final float CHARACTER_SCALE = 2.5f; // Example scale to make character bigger
 
     // Debug mode for drawing hitbox around the character
-    public static final boolean DEBUG_MODE = true; // Set to false to disable by default
+    public static final boolean DEBUG_MODE = true; // Set to true or false to show or hide the world tiles !
 
     // Key to toggle debug mode if needed dynamically
     public static final int TOGGLE_DEBUG_KEY = Keys.F1;
