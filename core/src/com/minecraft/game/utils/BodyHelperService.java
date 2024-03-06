@@ -21,8 +21,8 @@ public class BodyHelperService {
         fixtureDef.shape = shape;
         // no sticking to the wall
         fixtureDef.friction = 0;
-        fixtureDef.filter.categoryBits = categoryBits;
-        fixtureDef.filter.maskBits = maskBits;
+        fixtureDef.filter.categoryBits = categoryBits; // New stuff added
+        fixtureDef.filter.maskBits = maskBits; // New stuff added
 
         body.createFixture(fixtureDef);
         shape.dispose();
