@@ -28,7 +28,7 @@ public class Player extends GameEntity {
     // latest changes fji jiefi f
     private boolean isInvincible;
     private float invincibilityTimer;
-    private static final float INVINCIBILITY_DURATION = 1.0f; // 3 seconds
+    private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
     public static float deadStateTime = 0f; // Timer for the dead animation
 
     public enum State {
@@ -50,12 +50,10 @@ public class Player extends GameEntity {
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = tmpFrames[0][i];
         }
-        // attackAnimation = new Animation<>(0.1f, tmpFrames[0]); // Adjust the frame
-        // duration as needed
 
         idleAnimation = new Animation<>(0.1f, tmpFrames[2]); // row 3 for idle
         runningAnimation = new Animation<>(0.1f, tmpFrames[3]); // row 4 for running
-        attackAnimation = new Animation<>(0.1f, attackFrames); // Adjust the frame duration as needed
+        attackAnimation = new Animation<>(0.1f, attackFrames); // atk
         deadAnimation = new Animation<>(0.1f, tmpFrames[1]); // row 2 = ded
 
         stateTime = 0.1f;
@@ -85,8 +83,9 @@ public class Player extends GameEntity {
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
             float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
-            float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // Middle of the screen on Y-axis
-            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player to the middle
+            float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // A lil more above the middle of the
+                                                                             // screen on Y-axis
+            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player
         }
 
         if (isInvincible) {
@@ -95,17 +94,13 @@ public class Player extends GameEntity {
                 isInvincible = false;
                 // Ensure the player is visible after invincibility ends
             }
-            // Optional: Add blinking logic here
+            // Optional: Add blinking logic/Sound/Cool effect here
         }
 
-        // if (health.getHealth() <= 0) {
-        // currentState = State.DEAD;
-        // }
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
-            // deadStateTime = 0f; // Reset animation state time for dead animation
-
         }
+
         if (currentState == State.DEAD) {
             deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         }
@@ -136,22 +131,12 @@ public class Player extends GameEntity {
 
         }
 
-        // // attack animation
-        // if (currentState == State.ATTACKING) {
-        // currentFrame = attackAnimation.getKeyFrame(stateTime, true);
-        // // Reset to IDLE or RUNNING after the attack animation finishes
-        // if (attackAnimation.isAnimationFinished(stateTime)) {
-        // currentState = State.IDLE; // Or RUNNING, based on movement
-        // }
-        // }
-
         // Check if we need to flip the frame
         if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
             currentFrame.flip(true, false);
         }
 
         // Render the sprite at the new position based on the direction
-        // WORK IN PROGRESS
         if (!isInvincible || (int) (invincibilityTimer * 10) % 2 == 0) {
             if (isFacingRight == true) {
                 batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
@@ -179,13 +164,14 @@ public class Player extends GameEntity {
             health.damage(1); // call damage method and reduces health
             isInvincible = true;
             invincibilityTimer = INVINCIBILITY_DURATION;
-            // Optional: Initial actions for becoming invincible, such as playing a sound
+            // Optional: Initial actions for becoming invincible, such as playing a
+            // sound/effects/etc...
         }
     }
 
     public void attack() {
-        float attackRange = 5.0f; // Example value, adjust as needed
-        float verticalAttackRange = 3.0f; // Adjust as needed
+        float attackRange = 5.0f;
+        float verticalAttackRange = 3.0f;
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
 

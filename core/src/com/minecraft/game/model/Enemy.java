@@ -87,7 +87,7 @@ public class Enemy extends GameEntity {
         float distanceToPlayerYnotABS = player.getBody().getPosition().y - this.body.getPosition().y;
 
         // vertical range within which the enemy can attack
-        float verticalAttackRange = 2.0f; // Example value, adjust as needed
+        float verticalAttackRange = 2.0f;
 
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
@@ -116,19 +116,16 @@ public class Enemy extends GameEntity {
                             // Enemy is to the right of the player, push player left and up
                             player.getBody().applyLinearImpulse(new Vector2(-2, 2),
                                     player.getBody().getWorldCenter(), true);
-                            // health.damage(1);
 
                         } else {
                             // Enemy is to the left of the player, push player right and up
                             player.getBody().applyLinearImpulse(new Vector2(2, 2),
                                     player.getBody().getWorldCenter(), true);
-                            // health.damage(1);
                         }
                     }
                 }
                 // Stop moving when attacking
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
-                // } else if (distanceToPlayer < detectionRange) {
             } else if (distanceToPlayerX < detectionRange && player.getCurrentState() != Player.State.DEAD) {
 
                 if (player.getBody().getPosition().x > this.body.getPosition().x) {
@@ -147,7 +144,8 @@ public class Enemy extends GameEntity {
         }
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
-            // deadStateTime = 0f; // Reset animation state time for dead animation
+            // deadStateTime = 0f; // It should reset animation state time for dead
+            // animation but its broken
 
         }
         if (currentState == State.DEAD) {

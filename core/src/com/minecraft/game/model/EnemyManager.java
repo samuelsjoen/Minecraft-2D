@@ -53,22 +53,11 @@ public class EnemyManager {
         }
     }
 
-    // private void spawnEnemy() {
-    // // Spawn position relative to the player with some randomness
-    // float spawnPosX = player.getBody().getPosition().x + MathUtils.random(-20,
-    // 20);
-    // float spawnPosY = player.getBody().getPosition().y + MathUtils.random(1, 2);
-    // Enemy enemy = new Enemy(1, 1, world, player, spawnPosX, spawnPosY, new
-    // Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
-    // enemies.add(enemy);
-    // }
     private void spawnEnemy() {
-        if (enemies.size() < 5) { // Ensures no more than 5 enemies
+        if (enemies.size() < 5) { // Ensures no more than 5 enemies spawns
             float spawnPosX, spawnPosY;
-            // do {
             spawnPosX = player.getBody().getPosition().x + MathUtils.random(-10, 10);
             spawnPosY = player.getBody().getPosition().y + MathUtils.random(2, 10);
-            // } while (isCollidable(spawnPosX, spawnPosY));
 
             Enemy enemy = new Enemy(1, 1, world, player, spawnPosX, spawnPosY,
                     new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));

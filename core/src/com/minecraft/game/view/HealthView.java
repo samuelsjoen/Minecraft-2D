@@ -29,7 +29,7 @@ public class HealthView extends GameEntity {
         int playerHealth = Player.getHealth().getHealth();
         if (playerHealth > 0) {
             batch.draw(splitFrames[playerHealth - 1][0], x, y, 200, 40);
-        } // DED TEXT OR SPRITE
+        } // ADD ded text or something
     }
 
     @Override
