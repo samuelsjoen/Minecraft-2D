@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.controller.CharacterController;
+import com.minecraft.game.controller.InventoryController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -51,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
 
     private EnemyManager enemyManager;
     private CharacterController characterController;
+    private InventoryController inventoryController;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -64,6 +66,7 @@ public class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.characterController = new CharacterController(player);
+        this.inventoryController = new InventoryController(inventory);
 
         enemyManager = new EnemyManager(world, player);
 
@@ -76,6 +79,7 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
         characterController.update();
+        inventoryController.update();
 
         healthView.update();
         inventoryView.update();

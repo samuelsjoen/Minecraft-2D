@@ -52,18 +52,6 @@ public class InventoryView extends GameEntity {
         y = body.getPosition().y * Constants.PPM+300;
         xItm = x + 5;
         yItm = y + 5;
-        checkUserInput();
-    }
-
-    private void checkUserInput() {
-        if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_LEFT)) {
-            inventory.changeSlot(-1);
-        }
-        if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_RIGHT)) {
-            inventory.changeSlot(+1);
-        }
-        if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_DROP)) {
-            inventory.dropItem();
-        }
+        
     }
 }

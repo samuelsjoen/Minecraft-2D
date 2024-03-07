@@ -84,7 +84,7 @@ public class Inventory {
     }
 
     public void dropItem() {
-        if (items.size() > 0) {
+        if (currentSlot <= items.size()) {
             Item item = (Item) items.keySet().toArray()[currentSlot];
             removeItem(item);
         }
