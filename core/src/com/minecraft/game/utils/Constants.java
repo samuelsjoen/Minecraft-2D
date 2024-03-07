@@ -1,6 +1,8 @@
 package com.minecraft.game.utils;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.utils.Array;
+import com.minecraft.game.model.Item;
 
 public class Constants {
     // Screen dimensions
@@ -35,5 +37,11 @@ public class Constants {
     // Enemy stuff
     public static final float ENEMY_SPEED = 1.2f;
     public static final int ENEMY_MAX_HEALTH = 1;
+
+    // Inventory
+    public static final Item[] DEFAULT_ITEMS = new Item[]{
+        Item.SWORD,
+        // Item.PICKAXE
+    };
 
 }

@@ -10,24 +10,22 @@ import com.minecraft.game.model.Item;
 
 public class InventoryTest {
 
-    Inventory inventory = new Inventory();
+    Inventory inventory = new Inventory(new Item[]{});
     @Test
     void testAddItem() {
         int prevSize = inventory.getSize();
-        assumeTrue(inventory.getAmount(Item.DIRT) == 0);
-        assumeFalse(inventory.contains(Item.DIRT));
-        inventory.addItem(Item.DIRT);
+        assumeTrue(inventory.getAmount(Item.PICKAXE) == 0);
+        assumeFalse(inventory.contains(Item.PICKAXE));
+        inventory.addItem(Item.PICKAXE);
         assumeTrue(inventory.getSize() == prevSize + 1);
-        assumeTrue(inventory.contains(Item.DIRT));
-        assumeTrue(inventory.getAmount(Item.DIRT) == 1);
-    }
-
-    @Test
-    void testDropItem() {
-        Item item = inventory.getSelectedItem();
-        int amount = inventory.getAmount(item);
-        inventory.dropItem();
-        assumeTrue(amount - 1 == inventory.getAmount(item));
+        assumeTrue(inventory.contains(Item.PICKAXE));
+        assumeTrue(inventory.getAmount(Item.PICKAXE) == 1);
+        inventory.addItem(Item.PICKAXE);
+        assumeTrue(inventory.getAmount(Item.PICKAXE) == 1);
+        inventory.addItem(Item.DIRT, 5);
+        assumeTrue(inventory.getAmount(Item.DIRT) == 5);
+        inventory.addItem(Item.DIRT, 100);
+        assumeTrue(inventory.getAmount(Item.DIRT) == 64);
     }
 
     @Test
@@ -43,4 +41,16 @@ public class InventoryTest {
         assumeTrue(inventory.getCurrentSlot() == 0);
     }
 
+    @Test
+    void testDropItem() {
+        inventory.addItem(Item.PICKAXE);
+        inventory.addItem(Item.DIRT, 10);
+        assumeTrue(inventory.getSelectedItem() == Item.PICKAXE);
+        inventory.dropItem();
+        assumeFalse(inventory.contains(Item.PICKAXE));
+        assumeTrue(inventory.getSelectedItem() == Item.DIRT);
+        int amount = inventory.getAmount(inventory.getSelectedItem());
+        inventory.dropItem();
+        assumeTrue(amount - 1 == inventory.getAmount(inventory.getSelectedItem()));
+    }
 }

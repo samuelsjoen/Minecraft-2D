@@ -9,38 +9,49 @@ import com.minecraft.game.utils.Constants;
 */
 
 public class Health {
-    private int health;
+    private int currentHealth;
     private int maxHealth;
     private boolean alive;
 
-    public Health(int health, int maxHealth) {
+    public Health(int currentHealth, int maxHealth) {
         this.maxHealth = maxHealth;
-        this.health = health;
+        this.currentHealth = currentHealth;
         this.alive = true;
     }
 
     public int getHealth() {
-        return health;
+        return currentHealth;
     }
 
     private void setHealth(int health) {
-        this.health = health;
+        if (health <= maxHealth) {
+            currentHealth = health;
+        }
     }
 
     public void damage(int damage) {
-        if (health - damage <= 0) {
+        if (currentHealth - damage <= 0) {
             setHealth(0);
             alive = false;
         } else {
-            setHealth(health - damage);
+            setHealth(currentHealth - damage);
         }
     }
 
     public void heal(int heal) {
-        if (health + heal >= maxHealth) {
-            setHealth(maxHealth);
-        } else {
-            setHealth(health + heal);
+        if (isAlive()) {
+            if (currentHealth + heal >= maxHealth) {
+                setHealth(maxHealth);
+            } else {
+                setHealth(currentHealth + heal);
+            }
+        }
+    }
+
+    public void revive() {
+        if (!isAlive()) {
+            alive = true;
+            heal(maxHealth);
         }
     }
 
