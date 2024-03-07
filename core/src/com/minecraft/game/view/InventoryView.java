@@ -32,7 +32,9 @@ public class InventoryView extends GameEntity {
         int iteration = 0;
         for (Item item : inventory.getItems().keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
-            batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump), 23, 23);
+            //batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump), 23, 23);
+            // fixed so that item doesn't move up the y axis
+            batch.draw(itemTexture, xItm + (iteration * invJump), yItm, 23, 23);
             iteration++;
         }
     }
