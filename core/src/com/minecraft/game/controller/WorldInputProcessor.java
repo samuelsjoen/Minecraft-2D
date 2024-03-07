@@ -1,5 +1,7 @@
 package com.minecraft.game.controller;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.MapObject;
@@ -64,40 +66,57 @@ public class WorldInputProcessor implements InputProcessor {
 
         if (button == Input.Buttons.LEFT) {
             if (cell != null) {
-                 // remove a tile from the map
-                tileMapHelper.removeTile(tileX, tileY, gameScreen.getTiledMap());
-                // remove a map object from the map
-                tileMapHelper.removeMapObject(tileX, tileY, gameScreen.getTiledMap());
-                // add an item to the inventory
-                gameScreen.getInventory().addItem(Item.GRASS);
-                
 
+                // add an item to the inventory
                 // Get the tile type based on the tile coordinates
                 int tileId = cell.getTile().getId();
                 TileType tiletype = TileType.getTileTypeWithId(tileId);
                 System.out.println("Tile type: " + tiletype);
+
+                int tileTypeId = tiletype.getId();
+                Item item = Item.getItemWithId(tileTypeId);
+                if (item != null) {
+                    gameScreen.getInventory().addItem(item);
+                    // remove a tile from the map
+                    tileMapHelper.removeTile(tileX, tileY, gameScreen.getTiledMap());
+                    // remove a map object from the map
+                    tileMapHelper.removeMapObject(tileX, tileY, gameScreen.getTiledMap());
+                }
+
                 // Get the mapobject based on the tile coordinates
-                String tileCoordinatesConcatinated = tileX*Constants.TILE_SIZE + ", " + tileY*Constants.TILE_SIZE;
-                MapObject polygon = tiledMap.getLayers().get("collisions").getObjects().get(tileCoordinatesConcatinated);
+                String tileCoordinatesConcatinated = tileX * Constants.TILE_SIZE + ", " + tileY * Constants.TILE_SIZE;
+                MapObject polygon = tiledMap.getLayers().get("collisions").getObjects()
+                        .get(tileCoordinatesConcatinated);
                 int polygonID = (int) polygon.getProperties().get("id");
                 TileType polygonTileType = TileType.getTileTypeWithId(polygonID);
                 System.out.println(polygonTileType.getTextureName());
 
             } else {
                 System.out.println("Cell is null.");
-            } 
+            }
         }
 
         if (button == Input.Buttons.RIGHT) {
             // put down a tile/ block
             if (cell == null) {
-                gameScreen.getInventory().removeItem(Item.GRASS);
-                tileMapHelper.addTile(gameScreen.getTiledMap(), TileType.GRASS, tileX, tileY);
-                tileMapHelper.addMapObject(tileX, tileY, 1, gameScreen.getTiledMap());
+                // get selected item from inventory
+                Inventory inventory = gameScreen.getInventory();
+                HashMap<Item, Integer> items = inventory.getItems();
+                int currentSlot = inventory.getCurrentSlot();
+                Item item = (Item) items.keySet().toArray()[currentSlot];
+                System.out.println("Selected item: " + item);
+                int itemId = item.getId();
+
+                TileType tileType = TileType.getTileTypeWithId(itemId);
+
+                if (tileType != null) {
+                    inventory.removeItem(item);
+                    tileMapHelper.addTile(gameScreen.getTiledMap(), tileType, tileX, tileY);
+                    tileMapHelper.addMapObject(tileX, tileY, tileType.getId(), gameScreen.getTiledMap());
+                }
             }
 
         }
-
         return true;
     }
 

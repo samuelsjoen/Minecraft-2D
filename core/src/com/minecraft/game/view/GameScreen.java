@@ -68,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        //box2DDebugRenderer.setDrawBodies(false);
+        box2DDebugRenderer.setDrawBodies(false);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
@@ -78,7 +78,7 @@ public class GameScreen extends ScreenAdapter {
         this.inputProcessor = new WorldInputProcessor(this);
         Gdx.input.setInputProcessor(inputProcessor);
 
-        //enemyManager = new EnemyManager(world, player);
+        enemyManager = new EnemyManager(world, player);
 
     }
 
@@ -90,15 +90,15 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
 
-        if (contactListener.inWater) {
+        /*if (contactListener.inWater) {
             player.setInWater(true);
         } else {
             player.setInWater(false);
-        }
+        }*/
 
         healthView.update();
         inventoryView.update();
-        //enemyManager.update(0.01f);
+        enemyManager.update(0.01f);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
@@ -125,7 +125,7 @@ public class GameScreen extends ScreenAdapter {
         // render objects
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
-        //enemyManager.render(batch);
+        enemyManager.render(batch);
 
         if (player != null) {
             player.render(batch);
@@ -169,79 +169,3 @@ public class GameScreen extends ScreenAdapter {
     }
 
 }
-
-/*
- * package com.mygdx.game.view;
- * 
- * import com.badlogic.gdx.Screen;
- * import com.mygdx.game.Minecraft2D;
- * import com.mygdx.game.model.Player;
- * import com.badlogic.gdx.Gdx;
- * import com.badlogic.gdx.Screen;
- * import com.badlogic.gdx.graphics.GL20;
- * import com.badlogic.gdx.graphics.Texture;
- * import com.badlogic.gdx.graphics.g2d.Sprite;
- * import com.badlogic.gdx.graphics.g2d.SpriteBatch;
- * import com.badlogic.gdx.Input.Keys;
- * import com.mygdx.game.Minecraft2D;
- * import com.mygdx.game.utils.Constants;
- * 
- * public class GameScreen implements Screen {
- * private Minecraft2D game;
- * private SpriteBatch batch;
- * private Player player;
- * private Texture backgroundImage; // Background image
- * 
- * public GameScreen(Minecraft2D game) {
- * this.game = game;
- * this.batch = new SpriteBatch();
- * this.player = new Player();
- * this.backgroundImage = new
- * Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background
- * img
- * }
- * 
- * @Override
- * public void render(float delta) {
- * Gdx.gl.glClearColor(0, 0, 0, 1);
- * Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
- * 
- * batch.begin();
- * 
- * batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
- * Gdx.graphics.getHeight());
- * player.update(delta);
- * player.draw(batch);
- * batch.end();
- * }
- * 
- * // Implement other necessary methods for the Screen interface
- * 
- * @Override
- * public void show() {
- * }
- * 
- * @Override
- * public void resize(int width, int height) {
- * }
- * 
- * @Override
- * public void pause() {
- * }
- * 
- * @Override
- * public void resume() {
- * }
- * 
- * @Override
- * public void hide() {
- * }
- * 
- * @Override
- * public void dispose() {
- * batch.dispose();
- * player.dispose();
- * backgroundImage.dispose();
- * }
- * }
- */
