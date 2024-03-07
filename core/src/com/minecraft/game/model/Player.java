@@ -175,7 +175,7 @@ public class Player extends GameEntity {
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
 
-        for (Enemy enemy : EnemyManager.getEnemies()) {
+        for (Knight enemy : EnemyManager.getEnemies()) {
             float distanceToEnemyX = enemy.getBody().getPosition().x - this.body.getPosition().x;
             float distanceToEnemyY = Math.abs(enemy.getBody().getPosition().y - this.body.getPosition().y);
 
@@ -195,6 +195,17 @@ public class Player extends GameEntity {
             if (Math.abs(distanceToSlimeX) < attackRange && distanceToSlimeY <= verticalAttackRange
                     && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
                 slime.getHit(); // Applies damage to the targeted enemy
+            }
+        }
+        for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
+            float distanceToPinkMonsterX = pinkMonster.getBody().getPosition().x - this.body.getPosition().x;
+            float distanceToPinkMonsterY = Math.abs(pinkMonster.getBody().getPosition().y - this.body.getPosition().y);
+
+            boolean isEnemyInFront = isFacingRight ? distanceToPinkMonsterX > 0 : distanceToPinkMonsterX < 0;
+
+            if (Math.abs(distanceToPinkMonsterX) < attackRange && distanceToPinkMonsterY <= verticalAttackRange
+                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                pinkMonster.getHit(); // Applies damage to the targeted enemy
             }
         }
     }

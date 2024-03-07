@@ -1,6 +1,7 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,44 +14,64 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.view.GameScreen;
 
-public class Enemy extends GameEntity {
-    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, deadAnimation;
+public class PinkMonster extends GameEntity {
+    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, attack2Animation, deadAnimation;
     private float stateTime;
     private State currentState;
     private boolean isFacingRight = true;
     private Player player;
-    private float detectionRange = 6.0f; // range within which the enemy detects the player
+    private float detectionRange = 10.0f; // range within which the enemy detects the player
     TextureRegion[] attackFrames = new TextureRegion[6];
+    TextureRegion[] attack2Frames = new TextureRegion[4];
+    TextureRegion[] deadFrames = new TextureRegion[8];
+    TextureRegion[] idleFrames = new TextureRegion[4];
+    TextureRegion[] runFrames = new TextureRegion[6];
     // private float jumpForce = 5.0f; // Jump height
-    private float jumpForce = 150;
-    private float jumpThreshold = 0.9f; // Vertical distance threshold for jumping
+    private float jumpForce = 105;
+    private float jumpThreshold = 1.5f; // Vertical distance threshold for jumping
     public Health health;
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
+    private World world;
 
     private enum State {
-        IDLE, RUNNING, ATTACKING, DEAD
+        IDLE, RUNNING, ATTACKING, ATTACKING2, DEAD
     }
 
-    public Enemy(float width, float height, World world, Player player, float x, float y, Health health) {
+    public PinkMonster(float width, float height, World world, Player player, float x, float y, Health health) {
         super(width, height, createBody(width, height, world, x, y, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(1, 1);
+        this.world = world;
 
         // Load the texture and set up animations
-        Texture enemySheet = new Texture("assets/enemyKnight.png");
-        TextureRegion[][] splitFrames = TextureRegion.split(enemySheet, enemySheet.getWidth() / 10,
-                enemySheet.getHeight() / 4);
+        Texture enemySheet = new Texture("assets/Pink_Monster.png");
+        TextureRegion[][] splitFrames = TextureRegion.split(enemySheet, enemySheet.getWidth() / 8,
+                enemySheet.getHeight() / 14);
         for (int i = 0; i < 6; i++) {
-            attackFrames[i] = splitFrames[0][i];
+            attackFrames[i] = splitFrames[2][i];
         }
-        idleAnimation = new Animation<>(0.1f, splitFrames[2]); // 3 row is running
-        runningAnimation = new Animation<>(0.1f, splitFrames[3]); // 4 row is running
-        attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
+        for (int i = 0; i < 4; i++) {
+            attack2Frames[i] = splitFrames[10][i];
+        }
+        for (int i = 0; i < 8; i++) {
+            deadFrames[i] = splitFrames[4][i];
+        }
+        for (int i = 0; i < 4; i++) {
+            idleFrames[i] = splitFrames[6][i];
+        }
+        for (int i = 0; i < 6; i++) {
+            runFrames[i] = splitFrames[9][i];
+        }
+        idleAnimation = new Animation<>(0.1f, idleFrames);
+        runningAnimation = new Animation<>(0.1f, runFrames);
+        attackAnimation = new Animation<>(0.1f, attackFrames);
+        attack2Animation = new Animation<>(0.2f, attack2Frames);
+        deadAnimation = new Animation<>(0.1f, deadFrames);
         currentState = State.IDLE;
-        deadAnimation = new Animation<>(0.1f, splitFrames[1]); // row 2 = ded
 
         stateTime = 0f;
     }
@@ -69,6 +90,7 @@ public class Enemy extends GameEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
+
         fixtureDef.filter.categoryBits = categoryBits; // New stuff added
         fixtureDef.filter.maskBits = maskBits; // New stuff added
 
@@ -80,7 +102,6 @@ public class Enemy extends GameEntity {
 
     @Override
     public void update() {
-
         stateTime += Gdx.graphics.getDeltaTime();
 
         // float distanceToPlayer = Math.abs(player.getBody().getPosition().x -
@@ -90,26 +111,41 @@ public class Enemy extends GameEntity {
         float distanceToPlayerYnotABS = player.getBody().getPosition().y - this.body.getPosition().y;
 
         // vertical range within which the enemy can attack
-        float verticalAttackRange = 2.0f;
+        float verticalAttackRange = 1.5f;
 
+        // Get the current frame index/number
         float frameDuration = attackAnimation.getFrameDuration();
-        int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+        float frame2Duration = attack2Animation.getFrameDuration();
+        int currentAttackFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+        int currentAtack2FrameIndex = (int) (stateTime / frame2Duration) % attack2Frames.length;
+
         if (currentState != State.DEAD) {
-            // jump logic for enemy
+
+            // JUMP LOGIC
             if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
                     && Math.abs(body.getLinearVelocity().y) == 0 && player.getBody().getLinearVelocity().y == 0
                     && player.getCurrentState() != Player.State.DEAD) {
                 // The last condition checks if the enemy is not already jumping or falling
                 body.applyLinearImpulse(new Vector2(0, jumpForce), body.getWorldCenter(), true);
             }
-
+            // ATTACK LOGIC
             // Check if the enemy is close enough to attack but not currently attacking
             // if (distanceToPlayer < 3.0f) {
-            if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange
+
+            // ATTACK 2 LOGIC
+            if (distanceToPlayerX <= 15 && distanceToPlayerX > 10) {
+                currentState = State.ATTACKING2;
+                // Only create a projectile at a specific frame of the attack animation to
+                // simulate the throwing action
+                if (currentState == State.ATTACKING2 && currentAtack2FrameIndex == 3) {
+
+                }
+
+            } else if (distanceToPlayerX < 2f && distanceToPlayerY <= verticalAttackRange
                     && player.getCurrentState() != Player.State.DEAD) {
 
                 currentState = State.ATTACKING;
-                if (currentFrameIndex == 2) {
+                if (currentAttackFrameIndex == 3 || currentAttackFrameIndex == 5) {
                     // player.getHealth().damage(1);
                     player.getHit();
 
@@ -117,18 +153,20 @@ public class Enemy extends GameEntity {
                     if (player.getCurrentState() != Player.State.ATTACKING) {
                         if (this.body.getPosition().x > player.getBody().getPosition().x) {
                             // Enemy is to the right of the player, push player left and up
-                            player.getBody().applyLinearImpulse(new Vector2(-2, 2),
+                            player.getBody().applyLinearImpulse(new Vector2(-6, 0),
                                     player.getBody().getWorldCenter(), true);
 
                         } else {
                             // Enemy is to the left of the player, push player right and up
-                            player.getBody().applyLinearImpulse(new Vector2(2, 2),
+                            player.getBody().applyLinearImpulse(new Vector2(6, 0),
                                     player.getBody().getWorldCenter(), true);
                         }
                     }
                 }
                 // Stop moving when attacking
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
+
+                // MOVING LOGIC
             } else if (distanceToPlayerX < detectionRange && player.getCurrentState() != Player.State.DEAD) {
 
                 if (player.getBody().getPosition().x > this.body.getPosition().x) {
@@ -145,6 +183,8 @@ public class Enemy extends GameEntity {
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
             }
         }
+
+        // DEAD LOGIC
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
             // deadStateTime = 0f; // It should reset animation state time for dead
@@ -172,12 +212,12 @@ public class Enemy extends GameEntity {
 
         if (isFacingRight) {
 
-            batch.draw(currentFrame, (posX - spriteWidth / 2) + 15, (posY - spriteHeight / 4) + 4,
-                    spriteWidth, spriteHeight);
+            batch.draw(currentFrame, (posX - 55), (posY - 68),
+                    (spriteWidth / 4) + 20, (spriteHeight / 2) + 20);
         } else {
 
-            batch.draw(currentFrame, (posX - spriteWidth / 2) - 15, (posY - spriteHeight / 4) + 4,
-                    spriteWidth, spriteHeight);
+            batch.draw(currentFrame, (posX - 50), (posY - 68),
+                    (spriteWidth / 4) + 20, (spriteHeight / 2) + 20);
         }
     }
 
@@ -193,6 +233,9 @@ public class Enemy extends GameEntity {
 
             case ATTACKING:
                 region = attackAnimation.getKeyFrame(stateTime, true);
+                break;
+            case ATTACKING2:
+                region = attack2Animation.getKeyFrame(stateTime, true);
                 break;
             case RUNNING:
                 region = runningAnimation.getKeyFrame(stateTime, true);

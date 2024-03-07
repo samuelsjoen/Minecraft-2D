@@ -9,19 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyManager {
-    public static List<Enemy> enemies;
+    public static List<Knight> enemies;
     public static List<Slime> slimes;
+    public static List<PinkMonster> pinkMonsters;
     private World world;
     private Player player;
     private float spawnTimer;
+    private float chooseEnemy;
     private final float spawnIntervalMin = 1.0f; // Minimum time between spawns
-    private final float spawnIntervalMax = 5.0f; // Maximum time between spawns
+    private final float spawnIntervalMax = 1.0f; // Maximum time between spawns
 
     public EnemyManager(World world, Player player) {
         this.world = world;
         this.player = player;
         this.enemies = new ArrayList<>();
         this.slimes = new ArrayList<>();
+        this.pinkMonsters = new ArrayList<>();
         this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
     }
 
@@ -33,19 +36,16 @@ public class EnemyManager {
         }
 
         // Update all enemies
-        ArrayList<Enemy> deadEnemies = new ArrayList<>();
+        ArrayList<Knight> deadEnemies = new ArrayList<>();
         ArrayList<Slime> deadSlimes = new ArrayList<>();
-        for (Enemy enemy : enemies) {
+        ArrayList<PinkMonster> deadPinkMonsters = new ArrayList<>();
+        for (Knight enemy : enemies) {
             enemy.update();
             // if (enemy.getHealth().getHealth() <= 0) {
             if (enemy.isMarkedForRemoval()) {
                 world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
                 deadEnemies.add(enemy); // Add dead enemies to the list
             }
-            // if (!enemy.isAlive()) {
-            // world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
-            // deadEnemies.add(enemy); // Add dead enemies to the list
-            // }
         }
         for (Slime slime : slimes) {
             slime.update();
@@ -54,35 +54,46 @@ public class EnemyManager {
                 world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
                 deadSlimes.add(slime); // Add dead enemies to the list
             }
-            // if (!enemy.isAlive()) {
-            // world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
-            // deadEnemies.add(enemy); // Add dead enemies to the list
-            // }
+        }
+        for (PinkMonster pinkMonster : pinkMonsters) {
+            pinkMonster.update();
+            // if (enemy.getHealth().getHealth() <= 0) {
+            if (pinkMonster.isMarkedForRemoval()) {
+                world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
+                deadPinkMonsters.add(pinkMonster); // Add dead enemies to the list
+            }
         }
         enemies.removeAll(deadEnemies); // Remove all dead enemies from the list
         slimes.removeAll(deadSlimes); // Remove all dead enemies from the list
+        pinkMonsters.removeAll(deadPinkMonsters); // Remove all dead enemies from the list
     }
 
     public void render(SpriteBatch batch) {
-        for (Enemy enemy : enemies) {
+        for (Knight enemy : enemies) {
             enemy.render(batch);
         }
         for (Slime slime : slimes) {
             slime.render(batch);
         }
+        for (PinkMonster pinkMonster : pinkMonsters) {
+            pinkMonster.render(batch);
+        }
     }
 
     private void spawnEnemy() {
-        if (enemies.size() < 5) { // Ensures no more than 5 enemies spawns
+        chooseEnemy = MathUtils.random(0, 2);
+        // chooseEnemy = 2;
+
+        if (enemies.size() < 2 && chooseEnemy == 0) { // Ensures no more than 5 enemies spawns
             float spawnPosX, spawnPosY;
             spawnPosX = player.getBody().getPosition().x + MathUtils.random(-15, 15);
             spawnPosY = player.getBody().getPosition().y + MathUtils.random(2, 10);
 
-            Enemy enemy = new Enemy(1, 1, world, player, spawnPosX, spawnPosY,
+            Knight enemy = new Knight(1, 1, world, player, spawnPosX, spawnPosY,
                     new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
             enemies.add(enemy);
         }
-        if (slimes.size() < 5) { // Ensures no more than 5 enemies spawns
+        if (slimes.size() < 3 && chooseEnemy == 1) { // Ensures no more than 5 enemies spawns
             float spawnPosX, spawnPosY;
             spawnPosX = player.getBody().getPosition().x + MathUtils.random(-15, 15);
             spawnPosY = player.getBody().getPosition().y + MathUtils.random(2, 10);
@@ -91,14 +102,27 @@ public class EnemyManager {
                     new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
             slimes.add(slime);
         }
+        if (pinkMonsters.size() < 1 && chooseEnemy == 2) { // Ensures no more than 5 enemies spawns
+            float spawnPosX, spawnPosY;
+            spawnPosX = player.getBody().getPosition().x + MathUtils.random(-15, 15);
+            spawnPosY = player.getBody().getPosition().y + MathUtils.random(2, 10);
+
+            PinkMonster pinkMonster = new PinkMonster(1, 1, world, player, spawnPosX, spawnPosY,
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
+            pinkMonsters.add(pinkMonster);
+        }
     }
 
-    public static List<Enemy> getEnemies() {
+    public static List<Knight> getEnemies() {
         return enemies;
     }
 
     public static List<Slime> getSlimes() {
         return slimes;
+    }
+
+    public static List<PinkMonster> getPinkMonsters() {
+        return pinkMonsters;
     }
 
 }
