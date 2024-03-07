@@ -2,6 +2,7 @@ package com.minecraft.game.controller;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.MapObject;
@@ -45,6 +46,7 @@ public class WorldInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
         int x = screenX;
         int y = screenY;
         System.out.println("Screen coordinates: " + x + ", " + y);
@@ -96,24 +98,32 @@ public class WorldInputProcessor implements InputProcessor {
             }
         }
 
+        // Put down a tile/ block
         if (button == Input.Buttons.RIGHT) {
-            // put down a tile/ block
+            // If the cell is null, we can place a tile
             if (cell == null) {
-                // get selected item from inventory
+                // Get selected item from inventory
                 Inventory inventory = gameScreen.getInventory();
                 HashMap<Item, Integer> items = inventory.getItems();
                 int currentSlot = inventory.getCurrentSlot();
-                Item item = (Item) items.keySet().toArray()[currentSlot];
-                System.out.println("Selected item: " + item);
-                int itemId = item.getId();
 
-                TileType tileType = TileType.getTileTypeWithId(itemId);
+                // Check if there are items in the inventory
+                if (items.size() > 0) {
+                    // INDEX OUT OF BOUNDS!!!!
+                    Item item = (Item) items.keySet().toArray()[currentSlot];
+                    System.out.println("Selected item: " + item);
+                    int itemId = item.getId();
 
-                if (tileType != null) {
-                    inventory.removeItem(item);
-                    tileMapHelper.addTile(gameScreen.getTiledMap(), tileType, tileX, tileY);
-                    tileMapHelper.addMapObject(tileX, tileY, tileType.getId(), gameScreen.getTiledMap());
+                    TileType tileType = TileType.getTileTypeWithId(itemId);
+
+                    // Check if the tile type exists
+                    if (tileType != null) {
+                        inventory.removeItem(item);
+                        tileMapHelper.addTile(gameScreen.getTiledMap(), tileType, tileX, tileY);
+                        tileMapHelper.addMapObject(tileX, tileY, tileType.getId(), gameScreen.getTiledMap());
+                    }
                 }
+
             }
 
         }
@@ -132,8 +142,16 @@ public class WorldInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // touchDown(screenX, screenY, pointer, );
-        return false;
+        // default button
+        int button = Input.Buttons.LEFT;
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+            button = Input.Buttons.RIGHT;
+        }
+
+        // Call touchDown method
+        touchDown(screenX, screenY, pointer, button);
+
+        return true;
     }
 
     @Override
