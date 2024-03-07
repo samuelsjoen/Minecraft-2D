@@ -65,7 +65,7 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
-        this.characterController = new CharacterController(player);
+        this.characterController = new CharacterController(player, inventory);
         this.inventoryController = new InventoryController(inventory);
 
         enemyManager = new EnemyManager(world, player);

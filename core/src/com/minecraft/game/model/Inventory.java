@@ -33,7 +33,7 @@ public class Inventory {
         return currentSlot;
     }
 
-    private void addItem(Item name, int quantity) {
+    public void addItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) + quantity);
         } else {
@@ -43,7 +43,7 @@ public class Inventory {
         }
     }
 
-    private void addItem(Item name) {
+    public void addItem(Item name) {
         addItem(name, 1);
     }
 
@@ -56,7 +56,7 @@ public class Inventory {
         }
     }
 
-    public void removeItem(Item name) {
+    private void removeItem(Item name) {
         removeItem(name, 1);
     }
 
@@ -84,10 +84,28 @@ public class Inventory {
     }
 
     public void dropItem() {
-        if (currentSlot <= items.size()) {
+        if (currentSlot < items.size()) {
             Item item = (Item) items.keySet().toArray()[currentSlot];
             removeItem(item);
         }
     }
 
+    public Item getSelectedItem() {
+        if (currentSlot < items.size()) {
+            return (Item) items.keySet().toArray()[currentSlot];
+        }
+        else return null;
+    }
+
+    public int getSize() {
+        return items.size();
+    }
+
+    public boolean contains(Item item) {
+        return items.containsKey(item);
+    }
+
+    public int getAmount(Item item) {
+        return items.getOrDefault(item, 0);
+    }
 }
