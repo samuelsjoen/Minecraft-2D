@@ -43,7 +43,7 @@ public class Inventory {
         }
     }
 
-    private void addItem(Item name) {
+    public void addItem(Item name) {
         addItem(name, 1);
     }
 

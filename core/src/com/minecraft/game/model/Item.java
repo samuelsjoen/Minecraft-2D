@@ -4,7 +4,7 @@ public enum Item {
     SWORD("Sword", "A sharp sword for fighting", "assets/inventoryItems/sword.png"),
     PICKAXE("Pickaxe", "A pickaxe for mining", "assets/inventoryItems/pickaxe.png"),
     DIRT("Dirt", "A block of dirt", "dirt.png"),
-    GRASS("Grass", "A block of grass", "grass.png"),
+    GRASS("grass", "A block of grass", "assets/inventoryItems/grass.png"),
     STONE("Stone", "A block of stone", "stone.png");
 
     private final String name;

@@ -68,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawBodies(false);
+        //box2DDebugRenderer.setDrawBodies(false);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
@@ -156,6 +156,10 @@ public class GameScreen extends ScreenAdapter {
 
     public TiledMap getTiledMap() {
         return tileMapHelper.getTiledMap();
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public void setPlayer(Player player) {
