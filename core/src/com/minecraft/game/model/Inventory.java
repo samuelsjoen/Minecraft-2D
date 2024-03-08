@@ -3,6 +3,8 @@ package com.minecraft.game.model;
 import java.util.HashMap;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.Array;
+
 /*
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -63,7 +65,7 @@ public class Inventory {
         }
     }
 
-    public void removeItem(Item name) {
+    private void removeItem(Item name) {
         removeItem(name, 1);
     }
 
