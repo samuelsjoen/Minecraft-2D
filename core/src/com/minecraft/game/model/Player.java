@@ -119,7 +119,7 @@ public class Player extends GameEntity {
     }
 
     public void setInWater(boolean inWater) {
-        this.inWater = inWater;
+        // this.inWater = inWater;
     }
 
     @Override

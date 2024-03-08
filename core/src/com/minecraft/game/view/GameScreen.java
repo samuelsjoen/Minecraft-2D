@@ -6,6 +6,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.controller.CharacterController;
+import com.minecraft.game.controller.WorldInputProcessor;
+import com.minecraft.game.controller.WorldListener;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
