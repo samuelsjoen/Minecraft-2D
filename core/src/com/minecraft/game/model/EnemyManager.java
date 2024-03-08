@@ -34,6 +34,8 @@ public class EnemyManager {
             spawnEnemy();
             spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         }
+        // Y-coordinate threshold below which enemies should die
+        float deathThreshold = -10.0f;
 
         // Update all enemies
         ArrayList<Knight> deadEnemies = new ArrayList<>();
@@ -42,7 +44,7 @@ public class EnemyManager {
         for (Knight enemy : enemies) {
             enemy.update();
             // if (enemy.getHealth().getHealth() <= 0) {
-            if (enemy.isMarkedForRemoval()) {
+            if (enemy.getBody().getPosition().y < deathThreshold || enemy.isMarkedForRemoval()) {
                 world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
                 deadEnemies.add(enemy); // Add dead enemies to the list
             }
@@ -50,7 +52,7 @@ public class EnemyManager {
         for (Slime slime : slimes) {
             slime.update();
             // if (enemy.getHealth().getHealth() <= 0) {
-            if (slime.isMarkedForRemoval()) {
+            if (slime.getBody().getPosition().y < deathThreshold || slime.isMarkedForRemoval()) {
                 world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
                 deadSlimes.add(slime); // Add dead enemies to the list
             }
@@ -58,7 +60,7 @@ public class EnemyManager {
         for (PinkMonster pinkMonster : pinkMonsters) {
             pinkMonster.update();
             // if (enemy.getHealth().getHealth() <= 0) {
-            if (pinkMonster.isMarkedForRemoval()) {
+            if (pinkMonster.getBody().getPosition().y < deathThreshold || pinkMonster.isMarkedForRemoval()) {
                 world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
                 deadPinkMonsters.add(pinkMonster); // Add dead enemies to the list
             }
@@ -81,8 +83,8 @@ public class EnemyManager {
     }
 
     private void spawnEnemy() {
-        // chooseEnemy = MathUtils.random(0, 2);
-        chooseEnemy = 2;
+        chooseEnemy = MathUtils.random(0, 2); // chosing a random enemy
+        // chooseEnemy = 2;
 
         if (enemies.size() < 2 && chooseEnemy == 0) { // Ensures no more than 5 enemies spawns
             float spawnPosX, spawnPosY;

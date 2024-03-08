@@ -135,7 +135,7 @@ public class PinkMonster extends GameEntity {
 
             // ATTACK LOGIC--
             // ATTACK 2 LOGIC
-            if (distanceToPlayerX <= 15 && distanceToPlayerX > 10 && timeSinceLastAttack >= attackCooldown) {
+            if (distanceToPlayerX <= 20 && distanceToPlayerX > 10 && timeSinceLastAttack >= attackCooldown) {
                 currentState = State.ATTACKING2;
 
                 // Only create a projectile at a specific frame of the attack animation to
