@@ -33,6 +33,7 @@ public class TileMapHelper {
 
     /**
      * Setup the map
+     * 
      * @return OrthogonalTiledMapRenderer
      */
     public OrthogonalTiledMapRenderer setupMap() {
@@ -42,7 +43,8 @@ public class TileMapHelper {
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
-    // Parse the map objects and based on the type of map object, either create a static body or a player
+    // Parse the map objects and based on the type of map object, either create a
+    // static body or a player
     private void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
 
@@ -72,18 +74,7 @@ public class TileMapHelper {
         }
     }
 
-    /*
-     * private void createStaticBody(PolygonMapObject polygonMapObject) {
-     * BodyDef bodyDef = new BodyDef();
-     * bodyDef.type = BodyDef.BodyType.StaticBody;
-     * Body body = gameScreen.getWorld().createBody(bodyDef);
-     * Shape shape = createPolygonShape(polygonMapObject);
-     * body.createFixture(shape, 1000).setUserData(shape);;
-     * shape.dispose();
-     * }
-     */
-
-     // Create a static body for a polygon map object and add it to the world
+    // Create a static body for a polygon map object and add it to the world
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
 
         BodyDef bodyDef = new BodyDef();
@@ -92,7 +83,7 @@ public class TileMapHelper {
         Shape shape = createPolygonShape(polygonMapObject);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.isSensor = isSensor; 
+        fixtureDef.isSensor = isSensor;
         fixtureDef.density = 1f; // Adjust as needed
         fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
         fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world, collides with player and enemy
@@ -131,8 +122,8 @@ public class TileMapHelper {
 
         for (MapLayer layer : tiledMap.getLayers()) {
 
-        if (layer instanceof TiledMapTileLayer) {
-            TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
+            if (layer instanceof TiledMapTileLayer) {
+                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
 
                 // Iterate through each cell of the layer
                 for (int y = 0; y < tiledLayer.getHeight(); y++) {
@@ -176,7 +167,7 @@ public class TileMapHelper {
 
     // Create a polygon map object
     private PolygonMapObject createPolygonMapObject(int x, int y, int tileId, TiledMap tiledMap) {
-        
+
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
         TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         TileType tileType = TileType.getTileTypeWithId(tileId);
@@ -223,7 +214,7 @@ public class TileMapHelper {
     // Add a tile to the map
     private void addTile(int x, int y, TileType tileType, TiledMap tiledMap) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        
+
         TiledMapTileSets tileSets = tiledMap.getTileSets();
         TiledMapTile tile = tileSets.getTile(tileType.getId());
         Cell cell = new Cell();
@@ -237,11 +228,12 @@ public class TileMapHelper {
         PolygonMapObject mapObject = createPolygonMapObject(x, y, tileId, tiledMap);
 
         createStaticBody((PolygonMapObject) mapObject,
-                        !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
+                !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
     }
 
-     /**
+    /**
      * Remove a block from the map
+     * 
      * @param x
      * @param y
      * @param tiledMap
@@ -253,6 +245,7 @@ public class TileMapHelper {
 
     /**
      * Add a block to the map
+     * 
      * @param x
      * @param y
      * @param tileType

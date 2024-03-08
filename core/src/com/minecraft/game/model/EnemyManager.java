@@ -28,9 +28,9 @@ public class EnemyManager {
     public EnemyManager(World world, Player player, TiledMap tiledMap) {
         this.world = world;
         this.player = player;
-        this.enemies = new ArrayList<>();
-        this.slimes = new ArrayList<>();
-        this.pinkMonsters = new ArrayList<>();
+        EnemyManager.enemies = new ArrayList<>();
+        EnemyManager.slimes = new ArrayList<>();
+        EnemyManager.pinkMonsters = new ArrayList<>();
         this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
     }

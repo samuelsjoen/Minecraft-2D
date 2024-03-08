@@ -10,6 +10,7 @@ public class InventoryController {
     public InventoryController(Inventory inventory) {
         this.inventory = inventory;
     }
+
     public void update() {
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_LEFT)) {
             inventory.changeSlot(-1);

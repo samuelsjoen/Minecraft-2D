@@ -3,7 +3,6 @@ package com.minecraft.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Plane.PlaneSide;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.Item;
 import com.minecraft.game.model.Player;

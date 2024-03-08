@@ -64,5 +64,5 @@ public enum Item {
     public int getMaxAmount() {
         return maxAmount;
     }
-    
+
 }

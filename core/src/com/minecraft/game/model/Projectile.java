@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+//import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
@@ -12,6 +12,7 @@ import com.minecraft.game.utils.Constants;
 public class Projectile extends GameEntity {
 
     private Texture texture;
+    @SuppressWarnings("unused")
     private Vector2 target;
     private float lifeTime = 3.0f; // Time after which the projectile will be destroyed if it doesn't hit the
                                    // target
@@ -32,7 +33,7 @@ public class Projectile extends GameEntity {
 
         // Calculate horizontal (dx) and vertical (dy) distances to the target
         float dx = target.x - startPosition.x;
-        float dy = target.y - startPosition.y;
+        // float dy = target.y - startPosition.y;
 
         // Decide on an initial angle for the projectile's trajectory
         float angleRadians = 45.0f * (float) Math.PI / 180.0f; // 45 degrees in radians

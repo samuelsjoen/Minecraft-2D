@@ -1,22 +1,23 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+//import com.badlogic.gdx.physics.box2d.Contact;
+//import com.badlogic.gdx.physics.box2d.ContactImpulse;
+//import com.badlogic.gdx.physics.box2d.ContactListener;
+//import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+//import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+//import com.badlogic.gdx.Input.Keys;
 import com.minecraft.game.utils.Constants;
 
 public class Player extends GameEntity {
 
     // count amount of jumps (only want double, not triple/friple... etc.)
+    @SuppressWarnings("unused")
     private int jumpCounter;
 
     private Animation<TextureRegion> idleAnimation;
@@ -44,7 +45,7 @@ public class Player extends GameEntity {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
-        this.health = new Health(5, 5);
+        Player.health = new Health(5, 5);
 
         Texture knightSheet = new Texture("assets/knight.png");
         TextureRegion[][] tmpFrames = TextureRegion.split(knightSheet, knightSheet.getWidth() / 10,
@@ -82,13 +83,13 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
-        /* 
-        if (inWater) {
-            body.setGravityScale(1f);
-        } else {
-            body.setGravityScale(1f);
-        }
-        */
+        /*
+         * if (inWater) {
+         * body.setGravityScale(1f);
+         * } else {
+         * body.setGravityScale(1f);
+         * }
+         */
 
         // Teleport the player back to the middle if they fall too low
         float yfall = -10f;
@@ -163,11 +164,11 @@ public class Player extends GameEntity {
     }
 
     public void setCurrentState(State state) {
-        this.currentState = state;
+        Player.currentState = state;
     }
 
     public State getCurrentState() {
-        return this.currentState;
+        return Player.currentState;
     }
 
     public static Health getHealth() {
@@ -197,7 +198,7 @@ public class Player extends GameEntity {
             boolean isEnemyInFront = isFacingRight ? distanceToEnemyX > 0 : distanceToEnemyX < 0;
 
             if (Math.abs(distanceToEnemyX) < attackRange && distanceToEnemyY <= verticalAttackRange
-                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                    && Player.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
                 enemy.getHit(); // Applies damage to the targeted enemy
             }
         }
@@ -208,7 +209,7 @@ public class Player extends GameEntity {
             boolean isEnemyInFront = isFacingRight ? distanceToSlimeX > 0 : distanceToSlimeX < 0;
 
             if (Math.abs(distanceToSlimeX) < attackRange && distanceToSlimeY <= verticalAttackRange
-                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                    && Player.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
                 slime.getHit(); // Applies damage to the targeted enemy
             }
         }
@@ -219,7 +220,7 @@ public class Player extends GameEntity {
             boolean isEnemyInFront = isFacingRight ? distanceToPinkMonsterX > 0 : distanceToPinkMonsterX < 0;
 
             if (Math.abs(distanceToPinkMonsterX) < attackRange && distanceToPinkMonsterY <= verticalAttackRange
-                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                    && Player.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
                 pinkMonster.getHit(); // Applies damage to the targeted enemy
             }
         }

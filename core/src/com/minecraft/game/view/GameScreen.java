@@ -138,7 +138,8 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        // Draw background image based on the lower left corner of the screen window
+        // Added temporary background based on the lower left corner of the screen window
+        // Should be changed so that one cannot see clouds behind tiles, when player is "in the ground".
         Vector2 lowerLeftCorner = getLowerLeftCorner();
         batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
         batch.end();

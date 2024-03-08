@@ -19,7 +19,7 @@ public enum TileType {
     DIRT_SNOW(12, true, "dirt_snow"),
     LEAVES(13, false, "leaves"),
     WOOD(14, false, "wood");
-    
+
     private int id;
     private boolean collidable;
     private String textureName;

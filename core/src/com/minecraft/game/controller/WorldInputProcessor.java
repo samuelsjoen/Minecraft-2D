@@ -144,5 +144,4 @@ public class WorldInputProcessor implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
 }

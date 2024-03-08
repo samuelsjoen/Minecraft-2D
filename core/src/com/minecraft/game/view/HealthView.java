@@ -13,6 +13,7 @@ import com.minecraft.game.model.Player;
 public class HealthView extends GameEntity {
     private Texture healthBarSheet;
     private TextureRegion[][] splitFrames;
+    @SuppressWarnings("unused")
     private Health health;
 
     public HealthView(float width, float height, Body body, Health health) {

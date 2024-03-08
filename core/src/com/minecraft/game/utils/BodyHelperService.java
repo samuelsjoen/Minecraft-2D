@@ -21,10 +21,10 @@ public class BodyHelperService {
         fixtureDef.shape = shape;
         // no sticking to the wall
         fixtureDef.friction = 0;
-        fixtureDef.filter.categoryBits = categoryBits; // New stuff added
-        fixtureDef.filter.maskBits = maskBits; // New stuff added
+        fixtureDef.filter.categoryBits = categoryBits; 
+        fixtureDef.filter.maskBits = maskBits; 
 
-        body.createFixture(fixtureDef).setUserData(userData);;
+        body.createFixture(fixtureDef).setUserData(userData);
         shape.dispose();
         return body;
     }
