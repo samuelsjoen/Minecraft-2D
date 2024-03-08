@@ -138,6 +138,9 @@ public class PinkMonster extends GameEntity {
             if (distanceToPlayerX <= 20 && distanceToPlayerX > 10 && timeSinceLastAttack >= attackCooldown) {
                 currentState = State.ATTACKING2;
 
+                // Determine the monster's orientation based on the player's position
+                isFacingRight = player.getBody().getPosition().x > this.getBody().getPosition().x;
+
                 // Only create a projectile at a specific frame of the attack animation to
                 // simulate the throwing action
                 if (currentState == State.ATTACKING2 && currentAtack2FrameIndex == 3) {
