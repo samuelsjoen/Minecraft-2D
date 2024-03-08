@@ -1,7 +1,10 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
-
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -79,6 +82,14 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
+        /* 
+        if (inWater) {
+            body.setGravityScale(1f);
+        } else {
+            body.setGravityScale(1f);
+        }
+        */
+
         // Teleport the player back to the middle if they fall too low
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
@@ -105,6 +116,10 @@ public class Player extends GameEntity {
             deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         }
 
+    }
+
+    public void setInWater(boolean inWater) {
+        this.inWater = inWater;
     }
 
     @Override

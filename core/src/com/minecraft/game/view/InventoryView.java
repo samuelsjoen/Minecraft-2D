@@ -3,6 +3,7 @@ package com.minecraft.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.model.GameEntity;
 import com.minecraft.game.model.Inventory;
@@ -31,7 +32,9 @@ public class InventoryView extends GameEntity {
         int iteration = 0;
         for (Item item : inventory.getItems().keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
-            batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump), 23, 23);
+            //batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump), 23, 23);
+            // fixed so that item doesn't move up the y axis
+            batch.draw(itemTexture, xItm + (iteration * invJump), yItm, 23, 23);
             iteration++;
         }
     }

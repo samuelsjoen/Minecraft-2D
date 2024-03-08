@@ -16,6 +16,8 @@ public class Constants {
     // Input key constants
     public static final int MOVE_LEFT_KEY = Keys.A;
     public static final int MOVE_RIGHT_KEY = Keys.D;
+    public static final int MOVE_UP_KEY = Keys.W;
+    public static final int MOVE_DOWN_KEY = Keys.S;
     public static final int JUMP_KEY = Keys.SPACE;
     public static final int INVENTORY_LEFT = Keys.LEFT;
     public static final int INVENTORY_RIGHT = Keys.RIGHT;
@@ -30,7 +32,11 @@ public class Constants {
     // Key to toggle debug mode if needed dynamically
     public static final int TOGGLE_DEBUG_KEY = Keys.F1;
 
+    // PPM (pixels per meter) for Box2D
     public static final float PPM = 32.0f;
+    
+    // Tile size
+    public static final int TILE_SIZE = 64;
 
     // Enemy stuff
     public static final float ENEMY_SPEED = 1.2f;

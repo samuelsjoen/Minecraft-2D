@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.TileMapHelper;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -43,10 +44,7 @@ public class GameScreen extends ScreenAdapter {
     @SuppressWarnings("unused")
     private Texture backgroundImage; // Background image
 
-    // private OrthogonalTiledMapRenderer mapRenderer;
-    // private TiledMap tiledMap;
     private World world;
-    // private Box2DDebugRenderer debugRenderer;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -56,6 +54,9 @@ public class GameScreen extends ScreenAdapter {
     private EnemyManager enemyManager;
     private CharacterController characterController;
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
+
+    private WorldListener contactListener;
+    private WorldInputProcessor inputProcessor;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -69,6 +70,12 @@ public class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.characterController = new CharacterController(player);
+
+        // controller
+        this.contactListener = new WorldListener();
+        this.world.setContactListener(contactListener);
+        this.inputProcessor = new WorldInputProcessor(this);
+        Gdx.input.setInputProcessor(inputProcessor);
 
         enemyManager = new EnemyManager(world, player);
 
@@ -124,6 +131,7 @@ public class GameScreen extends ScreenAdapter {
         // render objects
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
+        
         enemyManager.render(batch);
 
         if (player != null) {
@@ -153,6 +161,18 @@ public class GameScreen extends ScreenAdapter {
 
     public World getWorld() {
         return world;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public TiledMap getTiledMap() {
+        return tileMapHelper.getTiledMap();
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public void setPlayer(Player player) {
