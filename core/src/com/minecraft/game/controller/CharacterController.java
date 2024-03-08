@@ -25,6 +25,8 @@ public class CharacterController {
         if (Player.currentState == Player.State.DEAD) {
             // velX = 0; // if you want the player to stop moving when dead
             if (Gdx.input.isKeyJustPressed(Keys.R)) {
+                //Player.getHealth().heal(5);
+                //Player.deadStateTime = 0f;
                 Player.getHealth().revive();
                 player.setCurrentState(Player.State.IDLE);
             }
@@ -46,6 +48,10 @@ public class CharacterController {
         if (Gdx.input.isKeyPressed(Keys.TAB)) {
             if (inventory.getSelectedItem() == Item.SWORD) {
                 player.setCurrentState(Player.State.ATTACKING);
+                player.attack();
+
+            //player.setCurrentState(Player.State.ATTACKING);
+            //player.attack();
             }
         }
 

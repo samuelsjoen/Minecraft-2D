@@ -6,6 +6,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.controller.CharacterController;
+import com.minecraft.game.controller.WorldInputProcessor;
+import com.minecraft.game.controller.WorldListener;
 import com.minecraft.game.controller.InventoryController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
@@ -20,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.TileMapHelper;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -28,6 +31,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 //import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+
+import com.minecraft.game.model.Projectile;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
     // private Minecraft game;
@@ -40,10 +47,7 @@ public class GameScreen extends ScreenAdapter {
     @SuppressWarnings("unused")
     private Texture backgroundImage; // Background image
 
-    // private OrthogonalTiledMapRenderer mapRenderer;
-    // private TiledMap tiledMap;
     private World world;
-    // private Box2DDebugRenderer debugRenderer;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -52,7 +56,11 @@ public class GameScreen extends ScreenAdapter {
 
     private EnemyManager enemyManager;
     private CharacterController characterController;
+    private static ArrayList<Projectile> projectiles = new ArrayList<>();
     private InventoryController inventoryController;
+
+    private WorldListener contactListener;
+    private WorldInputProcessor inputProcessor;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -67,6 +75,12 @@ public class GameScreen extends ScreenAdapter {
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.characterController = new CharacterController(player, inventory);
         this.inventoryController = new InventoryController(inventory);
+
+        // controller
+        this.contactListener = new WorldListener();
+        this.world.setContactListener(contactListener);
+        this.inputProcessor = new WorldInputProcessor(this);
+        Gdx.input.setInputProcessor(inputProcessor);
 
         enemyManager = new EnemyManager(world, player);
 
@@ -88,6 +102,19 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+
+        Iterator<Projectile> iterator = projectiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile projectile = iterator.next();
+            projectile.update();
+            projectile.checkCollisionWithPlayer(player);
+
+            if (projectile.isMarkedForRemoval()) {
+                world.destroyBody(projectile.getBody());
+                iterator.remove();
+            }
+        }
+
     }
 
     private void cameraUpdate() {
@@ -110,6 +137,7 @@ public class GameScreen extends ScreenAdapter {
         // render objects
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
+        
         enemyManager.render(batch);
 
         if (player != null) {
@@ -123,6 +151,11 @@ public class GameScreen extends ScreenAdapter {
         if (inventoryView != null) {
             inventoryView.render(batch);
         }
+
+        for (Projectile projectile : projectiles) {
+            projectile.render(batch);
+        }
+
         batch.end();
 
         // rendering the liquid layer in the end, so it looks like the player is behind
@@ -136,10 +169,26 @@ public class GameScreen extends ScreenAdapter {
         return world;
     }
 
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public TiledMap getTiledMap() {
+        return tileMapHelper.getTiledMap();
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
         this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
+    }
+
+    public static void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
     }
 
 }

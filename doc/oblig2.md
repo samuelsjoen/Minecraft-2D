@@ -16,7 +16,6 @@ Vi har ikke fordelt roller innad i teamet - vi har funnet ut at det er noe vi b�
 Det var vanskelig å vite hvilke roller vi skulle dele inn i ved start og hvilke roller vi trengte tidlig i prosjektet. Så vi gikk for en demokratisk variant - der vi alle har noe ansvar - vi kommunsierer godt og fordeler oppgavene som må gjøres. 
 Slik at vi alle har delområder vi har ansvar for hele tiden. F.eks. har Magnus hatt ansvar for player/entity, Samuel har hatt kontroll over health og inventory, Nini har hatt ansvar over map, pipeline, gradle og Martine har hatt kontroll over menu-screen og vedlikehold av bugs. Slik at vi ikke har hatt overlappende områder - slik at vår kode-prosess har fungert bra - selv om vi ikke har hatt distinkte roller. 
 
-
 ### Erfaringer og refleksjoner
 - Teamet har funnet at å ikke ha roller har vært tilfredsstillende, men vi vurderer å gjøre noen justeringer nå for å få oversikt over alle oppgavene som må gjøres, men de fleste rollene betjens av alle. 
 
@@ -44,19 +43,19 @@ Slik at vi alle har delområder vi har ansvar for hele tiden. F.eks. har Magnus 
 ## Krav og spesifikasjon
 
 ### Status på kravene
-- Vi har prioritert kravene [list opp prioriterte krav], og vi har kommet [beskriv status].
-- Vi har gjort følgende siden forrige leveranse [beskriv hva som er gjort siden sist].
-- Vi har ikke nådd MVP, men vi nærmer oss målet.
+- Vi har prioritert kravene som gjør at vi får en player i en verden, og vi har kommet nesten i mål. Vi har prioritert kravene i rekkefølge.
+- Vi har gjort følgende siden forrige levering: laget health, enemies, collision, attacking, plassering av blokker og mining.
+- Vi har ikke nådd MVP, men vi nærmer oss målet. Vi mangler kun å få et mål for spillet og få et nytt spill når man avslutter
 
 Dette var MVP-kravene våre fra oblig1: 
 1. ~~Vise et spillebrett~~
 2. ~~Vise spiller på spillebrett~~
 3. ~~Flytte spiller med pil-taster, spesifisert mer i readme~~
-4. Spiller interagerer med terreng (vha. mus for å klikke på blokker)
+4. ~~Spiller interagerer med terreng (vha. mus for å klikke på blokker)~~
 5. ~~Vise fiender/monstre; de skal interagere med terreng og spiller~~
-6. Spiller kan dø (ved kontakt med fiender og ved å falle utfor skjermen)
-7. Mål for spillbrett (enten et sted, en mengde poeng, drepe alle fiender e.l.)
-8. Nytt spillbrett når forrige er ferdig
+6. ~~Spiller kan dø (ved kontakt med fiender og ved å falle utfor skjermen)~~
+7. Mål for spillbrett (enten et sted, en mengde poeng, drepe alle fiender e.l.) ENDRING: Vi tenker å ha en portal som man må åpne med en nøkkel. Når man entrer portalen så får man en BOSS man må bekjempe. Når BOSS dør vinner man spillet!
+8. Nytt spillbrett når forrige er ferdig ENDRING: Når man bekjemper bossen eller dør så får man en skjerm hvor man kan velge å starte spillet på nytt.
 9. ~~Start-skjerm ved oppstart / game over, samt en skjerm som viser ulike tastetrykk etc man kan bruke i spillet~~
 
 ### Prioritering av oppgaver
@@ -64,17 +63,18 @@ Dette var MVP-kravene våre fra oblig1:
 - Vi deler oppgaver hver fredag når vi har gruppemøte. 
 
 ### Endringer i kravene
-- Vi har gjort noen justeringer i kravene basert på 
-- Endringene har blitt gjort for å 
+- Vi har gjort noen justeringer i kravene basert på at vi har litt mer oversikt over hvordan spillet skal være. Blant annet når det kommer til målet for spillet og hva som skjer når man er ferdig med spillet.
+- Endringene har blitt gjort for å gjøre det lettere for oss å vite hva vi skal gjøre og hva som er målet. 
 
 ## Produkt og kode
 
 ### Bidrag til kodebasen
 - Vi har bidratt jevnt med å kode. Noen comitter ikke like ofte, mens andre comitter små kodebiter ofte. Sammenlagt er det like mye kode som blir utarbeidet av hvert av teammedlemmene - selv om det kanskje ikke er like mange commits per person.
 
-### Utbedring av feil
+### Dette har vi fikset siden sist
 - Vi har fikset følgende siden sist:
   - Vi har fått til å animere player, slik at den nå har et sverd og beveger seg i riktig retning - før så beveget figur-animasjonen mot høyre selv om figuren ble styrt mot venstre. Selve figuren bevegte seg i riktig retning, det var kun animasjonen som var feil retning. 
+- Implementert mining og plassering av blokker, ui for health og inventory. Fått lagt til at enemies kan dø og at player kan dø.
 
 ### Bygging, testing og kjøring
 - Prosessen for å bygge, teste og kjøre koden er dokumentert i [README.md]. [Klikk her for å se README.md](../README.md)
@@ -84,6 +84,5 @@ Dette var MVP-kravene våre fra oblig1:
 - Vi har utarbeidet et klassediagram som viser de ulike klassene våre. Vi har brukt MVC-oppsettet slik at koden vår er delt inn i model-view-controller.
 
 ### Kodekvalitet og testdekning
-- Vi har ikke jobbet med testdekning enda.
+- Vi har ikke jobbet med tester enda. Vi har noen tester i en annen branch, og vi tenker å jobbe med å få flere tester på plass frem mot neste innlevering. 
 - Vi har ikke fått på plass automatiske tester for å dekke logikken i koden, vi har kun "testet" kode ved å se på player og verdenen visuelt. Dette er selvsagt noe vi skal jobbe mot å nå frem mot neste innlevering. 
-
