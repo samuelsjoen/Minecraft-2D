@@ -34,6 +34,7 @@ public class PinkMonster extends GameEntity {
     public Health health;
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
+    private float attack2StateTime = 0f; // Timer for the attack2 animation
     private World world;
     private float attackCooldown = 4.0f; // 5 seconds cooldown
     private float timeSinceLastAttack = 0; // Time since last attack
@@ -141,7 +142,7 @@ public class PinkMonster extends GameEntity {
                 // simulate the throwing action
                 if (currentState == State.ATTACKING2 && currentAtack2FrameIndex == 3) {
                     Vector2 startPosition = new Vector2(this.getBody().getPosition().x * Constants.PPM,
-                            this.getBody().getPosition().y * Constants.PPM);
+                            (this.getBody().getPosition().y * Constants.PPM) + 20);
                     Vector2 targetPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
                             player.getBody().getPosition().y * Constants.PPM);
                     // Create a new projectile
@@ -149,6 +150,7 @@ public class PinkMonster extends GameEntity {
                     GameScreen.addProjectile(projectile);
                     hasThrownRock = true; // Mark that a rock has been thrown
                     timeSinceLastAttack = 0; // Reset the timer immediately after throwing a rock
+                    attack2StateTime = 0f; // Reset the animation time for attack2
 
                 }
 
@@ -205,6 +207,9 @@ public class PinkMonster extends GameEntity {
         if (currentState == State.DEAD) {
             deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         }
+        if (currentState == State.ATTACKING2) {
+            attack2StateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+        }
         if (timeSinceLastAttack >= attackCooldown) {
             hasThrownRock = false;
         }
@@ -252,7 +257,7 @@ public class PinkMonster extends GameEntity {
                 region = attackAnimation.getKeyFrame(stateTime, true);
                 break;
             case ATTACKING2:
-                region = attack2Animation.getKeyFrame(stateTime, true);
+                region = attack2Animation.getKeyFrame(attack2StateTime, false);
                 break;
             case RUNNING:
                 region = runningAnimation.getKeyFrame(stateTime, true);

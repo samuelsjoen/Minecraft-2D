@@ -94,6 +94,8 @@ public class GameScreen extends ScreenAdapter {
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.update();
+            projectile.checkCollisionWithPlayer(player);
+
             if (projectile.isMarkedForRemoval()) {
                 world.destroyBody(projectile.getBody());
                 iterator.remove();

@@ -28,9 +28,29 @@ public class Projectile extends GameEntity {
     }
 
     private void calculateTrajectory(Vector2 startPosition, Vector2 target) {
-        Vector2 velocity = new Vector2(target.x - startPosition.x, target.y - startPosition.y);
-        // Adjust velocity to change how fast projectile moves
-        velocity.scl(0.1f); // Scale the velocity to make it more realistic
+        float gravity = 0.7f; // Adjust based on your game's gravity scale
+
+        // Calculate horizontal (dx) and vertical (dy) distances to the target
+        float dx = target.x - startPosition.x;
+        float dy = target.y - startPosition.y;
+
+        // Decide on an initial angle for the projectile's trajectory
+        float angleRadians = 45.0f * (float) Math.PI / 180.0f; // 45 degrees in radians
+
+        // Calculate the initial speed needed to reach the target at the specified angle
+        // Simplified formula based on projectile motion equations: v = sqrt(g*h /
+        // sin(2*theta))
+        // Adjusted to incorporate horizontal distance (dx) and to fine-tune for game
+        // feel
+        float speed = (float) Math.sqrt((gravity * Math.abs(dx)) / Math.sin(2 * angleRadians));
+
+        // Calculate velocity components
+        float vx = speed * (float) Math.cos(angleRadians);
+        float vy = speed * (float) Math.sin(angleRadians);
+
+        // Apply the velocity to the projectile
+        // Adjust vx based on the direction to the target
+        Vector2 velocity = new Vector2(dx < 0 ? -vx : vx, vy);
         this.body.setLinearVelocity(velocity);
     }
 
@@ -50,6 +70,18 @@ public class Projectile extends GameEntity {
                     (body.getPosition().y * Constants.PPM) - 25,
                     width,
                     height);
+        }
+    }
+
+    public void checkCollisionWithPlayer(Player player) {
+        float distanceThreshold = 70f; // Distance required between player and coordinates
+        Vector2 playerPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
+                player.getBody().getPosition().y * Constants.PPM);
+        Vector2 projectilePosition = new Vector2(body.getPosition().x * Constants.PPM,
+                body.getPosition().y * Constants.PPM);
+        if (playerPosition.dst(projectilePosition) < distanceThreshold) {
+            player.getHit();
+            this.markForDestruction();
         }
     }
 
