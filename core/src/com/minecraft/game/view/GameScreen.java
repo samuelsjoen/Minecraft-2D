@@ -66,7 +66,7 @@ public class GameScreen extends ScreenAdapter {
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.camera = camera;
         this.batch = new SpriteBatch();
-        this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
+        this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
