@@ -22,39 +22,44 @@ public class Player extends GameEntity {
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runningAnimation;
     private Animation<TextureRegion> attackAnimation;
+    private Animation<TextureRegion> deadAnimation;
+    TextureRegion[] attackFrames = new TextureRegion[6];
     private float stateTime;
     private boolean isFacingRight = true;
-    private boolean inWater;
+    private static Health health;
 
+    // latest changes fji jiefi f
+    private boolean isInvincible;
+    private float invincibilityTimer;
+    private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
+    public static float deadStateTime = 0f; // Timer for the dead animation
 
-    private enum State {
-        IDLE, RUNNING, ATTACKING
+    public enum State {
+        IDLE, RUNNING, ATTACKING, DEAD
     }
 
-    private State currentState;
+    public static State currentState;
 
     public Player(float width, float height, Body body) {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
-        this.inWater = false;
+        this.health = new Health(5, 5);
 
         Texture knightSheet = new Texture("assets/knight.png");
         TextureRegion[][] tmpFrames = TextureRegion.split(knightSheet, knightSheet.getWidth() / 10,
                 knightSheet.getHeight() / 4);
 
-        TextureRegion[] attackFrames = new TextureRegion[6];
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = tmpFrames[0][i];
         }
-        // attackAnimation = new Animation<>(0.1f, tmpFrames[0]); // Adjust the frame
-        // duration as needed
 
-        idleAnimation = new Animation<>(0.1f, tmpFrames[2]); // Assuming row 3 for idle
-        runningAnimation = new Animation<>(0.1f, tmpFrames[3]); // Assuming row 4 for running
-        attackAnimation = new Animation<>(0.1f, attackFrames); // Adjust the frame duration as needed
+        idleAnimation = new Animation<>(0.1f, tmpFrames[2]); // row 3 for idle
+        runningAnimation = new Animation<>(0.1f, tmpFrames[3]); // row 4 for running
+        attackAnimation = new Animation<>(0.1f, attackFrames); // atk
+        deadAnimation = new Animation<>(0.1f, tmpFrames[1]); // row 2 = ded
 
-        stateTime = 0f;
+        stateTime = 0.1f;
         currentState = State.IDLE;
 
     }
@@ -89,11 +94,28 @@ public class Player extends GameEntity {
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
             float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
-            float middleY = Gdx.graphics.getHeight() / 2 / Constants.PPM; // Middle of the screen on Y-axis
-            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player to the middle
+            float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // A lil more above the middle of the
+                                                                             // screen on Y-axis
+            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player
         }
 
-        checkUserInput();
+        if (isInvincible) {
+            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            if (invincibilityTimer <= 0) {
+                isInvincible = false;
+                // Ensure the player is visible after invincibility ends
+            }
+            // Optional: Add blinking logic/Sound/Cool effect here
+        }
+
+        if (health.getHealth() <= 0 && currentState != State.DEAD) {
+            currentState = State.DEAD;
+        }
+
+        if (currentState == State.DEAD) {
+            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+        }
+
     }
 
     public void setInWater(boolean inWater) {
@@ -106,20 +128,22 @@ public class Player extends GameEntity {
         TextureRegion currentFrame;
 
         switch (currentState) {
+            case DEAD:
+                currentFrame = deadAnimation.getKeyFrame(deadStateTime, false);
+                break;
             case RUNNING:
                 currentFrame = runningAnimation.getKeyFrame(stateTime, true);
                 break;
+            case ATTACKING:
+                currentFrame = attackAnimation.getKeyFrame(stateTime, true);
+                // Reset to IDLE or RUNNING after the attack animation finishes
+                if (attackAnimation.isAnimationFinished(stateTime)) {
+                    currentState = State.IDLE; // Or RUNNING, based on movement
+                }
+                break;
             default:
                 currentFrame = idleAnimation.getKeyFrame(stateTime, true);
-        }
 
-        // attack animation
-        if (currentState == State.ATTACKING) {
-            currentFrame = attackAnimation.getKeyFrame(stateTime, true);
-            // Reset to IDLE or RUNNING after the attack animation finishes
-            if (attackAnimation.isAnimationFinished(stateTime)) {
-                currentState = State.IDLE; // Or RUNNING, based on movement
-            }
         }
 
         // Check if we need to flip the frame
@@ -128,54 +152,77 @@ public class Player extends GameEntity {
         }
 
         // Render the sprite at the new position based on the direction
-        // WORK IN PROGRESS
-        if (isFacingRight == true) {
-            batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
-        } else {
-            batch.draw(currentFrame, x - 179, y - 63, width + 200, height + 200);
+        if (!isInvincible || (int) (invincibilityTimer * 10) % 2 == 0) {
+            if (isFacingRight == true) {
+                batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
+            } else {
+                batch.draw(currentFrame, x - 179, y - 63, width + 200, height + 200);
+            }
+            // batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
         }
-        // batch.draw(currentFrame, x - 150, y - 63, width + 200, height + 200);
-
     }
 
-    public void checkUserInput() {
-        // reset the current velocity x to 0 to stop the movement
-        velX = 0;
-        if (Gdx.input.isKeyPressed(Constants.MOVE_RIGHT_KEY))
-            velX = 1 * Constants.PLAYER_MOVE_SPEED;
-        if (Gdx.input.isKeyPressed(Constants.MOVE_LEFT_KEY))
-            velX = -1 * Constants.PLAYER_MOVE_SPEED;
+    public void setCurrentState(State state) {
+        this.currentState = state;
+    }
 
-        if (Gdx.input.isKeyJustPressed(Constants.JUMP_KEY) && jumpCounter < 2) {
-            float force = body.getMass() * Constants.PLAYER_JUMP_VELOCITY;
-            body.setLinearVelocity(body.getLinearVelocity().x, 0);
-            body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
-            jumpCounter++;
-        }
-        // attacking
-        if (Gdx.input.isKeyPressed(Keys.TAB)) {
-            currentState = State.ATTACKING;
-        }
+    public State getCurrentState() {
+        return this.currentState;
+    }
 
-        // Swimming controls
-        if (inWater) {
-            if (Gdx.input.isKeyPressed(Constants.MOVE_UP_KEY)) {
-                body.setLinearVelocity(body.getLinearVelocity().x, Constants.PLAYER_MOVE_SPEED);
-            } else if (Gdx.input.isKeyPressed(Constants.MOVE_DOWN_KEY)) {
-                body.setLinearVelocity(body.getLinearVelocity().x, -Constants.PLAYER_MOVE_SPEED);
-            } else {
-                // If no swim up/down input is given, stop vertical movement
-                body.setLinearVelocity(body.getLinearVelocity().x, 0);
+    public static Health getHealth() {
+        return health;
+    }
+
+    public void getHit() {
+        if (!isInvincible) {
+            health.damage(1); // call damage method and reduces health
+            isInvincible = true;
+            invincibilityTimer = INVINCIBILITY_DURATION;
+            // Optional: Initial actions for becoming invincible, such as playing a
+            // sound/effects/etc...
+        }
+    }
+
+    public void attack() {
+        float attackRange = 5.0f;
+        float verticalAttackRange = 3.0f;
+        float frameDuration = attackAnimation.getFrameDuration();
+        int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+
+        for (Knight enemy : EnemyManager.getEnemies()) {
+            float distanceToEnemyX = enemy.getBody().getPosition().x - this.body.getPosition().x;
+            float distanceToEnemyY = Math.abs(enemy.getBody().getPosition().y - this.body.getPosition().y);
+
+            boolean isEnemyInFront = isFacingRight ? distanceToEnemyX > 0 : distanceToEnemyX < 0;
+
+            if (Math.abs(distanceToEnemyX) < attackRange && distanceToEnemyY <= verticalAttackRange
+                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                enemy.getHit(); // Applies damage to the targeted enemy
             }
         }
+        for (Slime slime : EnemyManager.getSlimes()) {
+            float distanceToSlimeX = slime.getBody().getPosition().x - this.body.getPosition().x;
+            float distanceToSlimeY = Math.abs(slime.getBody().getPosition().y - this.body.getPosition().y);
 
+            boolean isEnemyInFront = isFacingRight ? distanceToSlimeX > 0 : distanceToSlimeX < 0;
 
-        // reset jumpcounter [maybe fix this so there is some collision detection]
-        // we have hit the floor after jump
-        if (body.getLinearVelocity().y == 0)
-            jumpCounter = 0;
+            if (Math.abs(distanceToSlimeX) < attackRange && distanceToSlimeY <= verticalAttackRange
+                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                slime.getHit(); // Applies damage to the targeted enemy
+            }
+        }
+        for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
+            float distanceToPinkMonsterX = pinkMonster.getBody().getPosition().x - this.body.getPosition().x;
+            float distanceToPinkMonsterY = Math.abs(pinkMonster.getBody().getPosition().y - this.body.getPosition().y);
 
-        body.setLinearVelocity(velX * speed, body.getLinearVelocity().y);
+            boolean isEnemyInFront = isFacingRight ? distanceToPinkMonsterX > 0 : distanceToPinkMonsterX < 0;
+
+            if (Math.abs(distanceToPinkMonsterX) < attackRange && distanceToPinkMonsterY <= verticalAttackRange
+                    && this.currentState == State.ATTACKING && currentFrameIndex == 2 && isEnemyInFront) {
+                pinkMonster.getHit(); // Applies damage to the targeted enemy
+            }
+        }
     }
 
 }

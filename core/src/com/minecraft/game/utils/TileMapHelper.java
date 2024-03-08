@@ -63,7 +63,8 @@ public class TileMapHelper {
                             rectangle.getHeight(),
                             false,
                             gameScreen.getWorld(),
-                            "player");
+                            Constants.CATEGORY_PLAYER,
+                            Constants.MASK_PLAYER); // New stuff added
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
@@ -94,13 +95,15 @@ public class TileMapHelper {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = gameScreen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        FixtureDef fdef = new FixtureDef();
-        fdef.shape = shape;
-        // player goes through the tile if it is a sensor 
-        fdef.isSensor = isSensor;
-        fdef.density = density;
-        body.createFixture(fdef).setUserData(userData);
-        polygonMapObject.getProperties().put("body", body);
+        // body.createFixture(shape, 1000);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f; // Adjust as needed
+        fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
+        fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world, collides with player and enemy
+
+        body.createFixture(fixtureDef);
+
         shape.dispose();
     }
 
@@ -132,8 +135,8 @@ public class TileMapHelper {
 
         for (MapLayer layer : tiledMap.getLayers()) {
 
-            if (layer instanceof TiledMapTileLayer) {
-                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
+        if (layer instanceof TiledMapTileLayer) {
+            TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
 
                 // Iterate through each cell of the layer
                 for (int y = 0; y < tiledLayer.getHeight(); y++) {
@@ -168,6 +171,7 @@ public class TileMapHelper {
                                 objects.add(polygon);
                             }
                         }
+                        // System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
                     }
                 }
             }

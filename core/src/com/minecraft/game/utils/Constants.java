@@ -8,7 +8,7 @@ public class Constants {
     public static final int SCREEN_HEIGHT = 720;
 
     // player
-    public static final float PLAYER_MOVE_SPEED = 1.5f;
+    public static final float PLAYER_MOVE_SPEED = 15f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
     public static final int PLAYER_MAX_HEALTH = 5;
     // Animation frame durations and counts for the player character
@@ -27,7 +27,7 @@ public class Constants {
     public static final float CHARACTER_SCALE = 2.5f; // Example scale to make character bigger
 
     // Debug mode for drawing hitbox around the character
-    public static final boolean DEBUG_MODE = true; // Set to false to disable by default
+    public static final boolean DEBUG_MODE = true; // Set to true or false to show or hide the world tiles !
 
     // Key to toggle debug mode if needed dynamically
     public static final int TOGGLE_DEBUG_KEY = Keys.F1;
@@ -41,5 +41,17 @@ public class Constants {
     // Enemy stuff
     public static final float ENEMY_SPEED = 1.2f;
     public static final int ENEMY_MAX_HEALTH = 1;
+
+    // Collision stuff
+    public static final short CATEGORY_PLAYER = 0x0001;
+    public static final short CATEGORY_ENEMY = 0x0002;
+    // public static final short CATEGORY_SLIME = 0x0003;
+    public static final short CATEGORY_WORLD = 0x0004;
+    public static final short MASK_PLAYER = CATEGORY_WORLD; // Player collides with the world
+    public static final short MASK_ENEMY = CATEGORY_WORLD; // Enemy collides with the world
+    // public static final short MASK_SLIME = CATEGORY_WORLD; // Slimes collides
+    // with the world
+    public static final short MASK_WORLD = CATEGORY_PLAYER | CATEGORY_ENEMY; // World collides with
+                                                                             // player and enemy
 
 }
