@@ -44,7 +44,6 @@ public class GameScreen extends ScreenAdapter {
     private HealthView healthView;
     private Inventory inventory;
     private InventoryView inventoryView;
-    @SuppressWarnings("unused")
     private Texture backgroundImage; // Background image
 
     private World world;
@@ -126,17 +125,26 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+    private Vector2 getLowerLeftCorner() {
+        float cameraX = camera.position.x - camera.viewportWidth / 2;
+        float cameraY = camera.position.y - camera.viewportHeight / 2;
+        return new Vector2(cameraX, cameraY);
+    }
+
     @Override
     public void render(float delta) {
         this.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        orthogonalTiledMapRenderer.render();
         batch.begin();
-        // render objects
-        // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
-        // Gdx.graphics.getHeight());
+        // Draw background image based on the lower left corner of the screen window
+        Vector2 lowerLeftCorner = getLowerLeftCorner();
+        batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
+        batch.end();
+
+        orthogonalTiledMapRenderer.render();        
+        batch.begin();
 
         enemyManager.render(batch);
 
