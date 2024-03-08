@@ -8,13 +8,14 @@ public enum Item {
     GRASS(1, "grass", "A block of grass", "assets/inventoryItems/grass.png"),
     DIRT(2, "Dirt", "A block of dirt", "assets/inventoryItems/dirt.png"),
     STONE(3, "Stone", "A block of stone", "assets/inventoryItems/stone.png"),
-    BEDROCK(6, "bedrock", "A block of bedrock", "assets/inventoryItems/grass.png"),
-    DIAMOND_ORE(7, "diamond_ore", "A block of diamond ore", "assets/inventoryItems/grass.png"),
-    IRON_ORE(8, "iron_ore", "A block of iron ore", "assets/inventoryItems/grass.png"),
-    STONE_SNOW(11, "stone_snow", "A block of stone with snow", "assets/inventoryItems/grass.png"),
-    DIRT_SNOW(12, "dirt_snow", "A block of dirt with snow", "assets/inventoryItems/grass.png"),
-    LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/grass.png"),
-    WOOD(14, "wood", "A block of wood", "assets/inventoryItems/grass.png");
+    BEDROCK(6, "bedrock", "A block of bedrock", "assets/inventoryItems/bedrock.png"),
+    DIAMOND_ORE(7, "diamond_ore", "A block of diamond ore", "assets/inventoryItems/diamond_ore.png"),
+    IRON_ORE(8, "iron_ore", "A block of iron ore", "assets/inventoryItems/iron_ore.png"),
+    STONE_SNOW(11, "stone_snow", "A block of stone with snow", "assets/inventoryItems/stone_snow.png"),
+    DIRT_SNOW(12, "dirt_snow", "A block of dirt with snow", "assets/inventoryItems/dirt_snow.png"),
+    LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/leaves.png"),
+    WOOD(14, "wood", "A block of wood", "assets/inventoryItems/wood.png");
+
 
     private final int id;
     private final String name;
