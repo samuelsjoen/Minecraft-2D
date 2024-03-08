@@ -82,7 +82,7 @@ public class GameScreen extends ScreenAdapter {
         this.inputProcessor = new WorldInputProcessor(this);
         Gdx.input.setInputProcessor(inputProcessor);
 
-        enemyManager = new EnemyManager(world, player);
+        enemyManager = new EnemyManager(world, player, getTiledMap());
 
     }
 
@@ -137,7 +137,7 @@ public class GameScreen extends ScreenAdapter {
         // render objects
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
-        
+
         enemyManager.render(batch);
 
         if (player != null) {
