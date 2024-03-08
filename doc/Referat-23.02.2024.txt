@@ -1,0 +1,26 @@
+Referat for møte [23.02.2024]
+
+Formål:
+
+- Merge én branch inn i main
+- Diskuterte hva man har gjort siden sist
+- Programmere litt
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+    Samuel Sjøen
+
+Sammendrag:
+- Etter vi merget, fikk noen av oss problemer. Dermed endte det med at noen kodet litt på prosjektet, mens andre prøvde å fikse på prosjektet, med lite hell.
+- Senere på dagen konkluderte vi med at alle hadde fått problemer. 
+- Vi brukte flere timer på å finne ut av hva som var feil. Vi fant vel egentlig ikke ut av det. Med en gang vi trodde vi hadde fikset ett problem, dukket det opp et nytt et.
+- Vi endte opp med å måtte bygge opp prosjektet helt fra bunnen av. 
+
+Aksjoner og Ansvar:
+- Rakk ikke å få diskutert dette ettersom vi brukte mye av tiden vår på å fikse prosjektet.
+
+Neste skritt:
+- Fikk ikke diskutert dette heller. Tenker at neste møte blir litt mer oversiktlig.

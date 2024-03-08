@@ -1,0 +1,35 @@
+Referat for møte [08.03.2024]
+
+Formål:
+
+- Merge branches
+- Gjøre ferdig Oblig2, lage klassediagram, og levere
+- Diskutere videre framgang
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+
+Sammendrag:
+
+- Fikk merget Magnus sin branch til main uten noen problemer.
+- Da vi også skulle merge Martine og Nini sin branch til main, støtte vi på flere konflikter, og det resulterte i at spillet ikke fungerte helt slik det var planlagt. Tror dette kan fikses ved å bare gjøre noen få endringer.
+- Fikk diskutert og skrevet ferdig oblig2.
+
+Aksjoner og Ansvar:
+
+[Fikse spawn, tekst som kommer opp på skjermen når fiender angriper, og begynne å lage litt tester - Magnus]
+[Fikse problemer som oppstod etter merge - Nini og Martine]
+[Lage tester og bossmap(?) - Nini]
+[Lage tester og map(?) - Martine]
+[Merge til main, jobbe med crafting - Samuel]
+
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - lage/få lagd noen tester
+    - diskutere hva vi skal gjøre fremover
+    
