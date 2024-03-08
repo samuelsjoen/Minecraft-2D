@@ -56,7 +56,7 @@ public class Inventory {
         addItem(name, 1);
     }
 
-    private void removeItem(Item name, int quantity) {
+    public void removeItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) - quantity);
             if (items.get(name) <= 0) {
@@ -65,7 +65,7 @@ public class Inventory {
         }
     }
 
-    private void removeItem(Item name) {
+    public void removeItem(Item name) {
         removeItem(name, 1);
     }
 
