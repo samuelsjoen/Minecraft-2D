@@ -1,16 +1,15 @@
 package com.minecraft.game.controller;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Vector3;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.Item;
@@ -44,62 +43,48 @@ public class WorldInputProcessor implements InputProcessor {
         return false;
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        int x = screenX;
-        int y = screenY;
-        System.out.println("Screen coordinates: " + x + ", " + y);
+    private LinkedList<Integer> calculateTileXAndY(int x, int y) {
         Vector3 touchPos = new Vector3(x, y, 0);
         // Convert screen coordinates to world coordinates
         gameScreen.getCamera().unproject(touchPos);
         float worldX = touchPos.x;
         float worldY = touchPos.y;
-        System.out.println("World coordinates: " + worldX + ", " + worldY);
-
         // Calculate tile coordinates
         int tileX = (int) (worldX / Constants.TILE_SIZE);
         int tileY = (int) (worldY / Constants.TILE_SIZE);
-        System.out.println("Tile coordinates: " + tileX + ", " + tileY);
+        return new LinkedList<Integer>(List.of(tileX, tileY));
+    }
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        // Calculate tile coordinates
+        LinkedList<Integer> tileXAndY = calculateTileXAndY(screenX, screenY);
+        int tileX = tileXAndY.remove();
+        int tileY = tileXAndY.pop();
+
+        // Get the mineable layer, and the cell at the tile coordinates
         TiledMap tiledMap = gameScreen.getTiledMap();
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         Cell cell = mineableLayer.getCell(tileX, tileY);
 
+        // Place a block
         if (button == Input.Buttons.LEFT) {
             if (cell != null) {
-
-                // add an item to the inventory
                 // Get the tile type based on the tile coordinates
                 int tileId = cell.getTile().getId();
                 TileType tiletype = TileType.getTileTypeWithId(tileId);
-                System.out.println("Tile type: " + tiletype);
 
                 int tileTypeId = tiletype.getId();
                 Item item = Item.getItemWithId(tileTypeId);
                 if (item != null) {
+                    // Add the item to the inventory
                     gameScreen.getInventory().addItem(item);
-                    // remove a tile from the map
-                    tileMapHelper.removeTile(tileX, tileY, gameScreen.getTiledMap());
-                    // remove a map object from the map
-                    tileMapHelper.removeMapObject(tileX, tileY, gameScreen.getTiledMap());
+                    // Remove the block from the mineable layer
+                    tileMapHelper.removeBlock(tileX, tileY, gameScreen.getTiledMap());
                 }
-
-                // Get the mapobject based on the tile coordinates
-                String tileCoordinatesConcatinated = tileX * Constants.TILE_SIZE + ", " + tileY * Constants.TILE_SIZE;
-                MapObject polygon = tiledMap.getLayers().get("collisions").getObjects()
-                        .get(tileCoordinatesConcatinated);
-                int polygonID = (int) polygon.getProperties().get("id");
-                TileType polygonTileType = TileType.getTileTypeWithId(polygonID);
-                System.out.println(polygonTileType.getTextureName());
-
-            } else {
-                System.out.println("Cell is null.");
             }
-        }
-
-        // Put down a tile/ block
-        if (button == Input.Buttons.RIGHT) {
+            // Put down a block
+        } else if (button == Input.Buttons.RIGHT) {
             // If the cell is null, we can place a tile
             if (cell == null) {
                 // Get selected item from inventory
@@ -111,21 +96,17 @@ public class WorldInputProcessor implements InputProcessor {
                 if (items.size() > 0) {
                     // INDEX OUT OF BOUNDS!!!!
                     Item item = (Item) items.keySet().toArray()[currentSlot];
-                    System.out.println("Selected item: " + item);
                     int itemId = item.getId();
 
                     TileType tileType = TileType.getTileTypeWithId(itemId);
-
-                    // Check if the tile type exists
                     if (tileType != null) {
+                        // Remove the item from the inventory
                         inventory.removeItem(item);
-                        tileMapHelper.addTile(gameScreen.getTiledMap(), tileType, tileX, tileY);
-                        tileMapHelper.addMapObject(tileX, tileY, tileType.getId(), gameScreen.getTiledMap());
+                        // Add the block to the mineable layer
+                        tileMapHelper.addBlock(tileX, tileY, tileType, gameScreen.getTiledMap());
                     }
                 }
-
             }
-
         }
         return true;
     }
