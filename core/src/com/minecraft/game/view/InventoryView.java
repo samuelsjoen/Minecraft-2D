@@ -22,7 +22,7 @@ public class InventoryView extends GameEntity {
         this.inventory = inventory;
         this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
-        
+
         // The amount of pixels to jump to the next item slot
         this.invJump = 40;
     }
@@ -48,8 +48,8 @@ public class InventoryView extends GameEntity {
 
     @Override
     public void update() {
-        x = body.getPosition().x * Constants.PPM+200;
-        y = body.getPosition().y * Constants.PPM+300;
+        x = body.getPosition().x * Constants.PPM + 200;
+        y = body.getPosition().y * Constants.PPM + 300;
         xItm = x + 5;
         yItm = y + 5;
         checkUserInput();

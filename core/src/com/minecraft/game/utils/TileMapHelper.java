@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.minecraft.game.view.GameScreen;
@@ -31,7 +32,7 @@ public class TileMapHelper {
         tiledMap = new TmxMapLoader().load("assets/map/mapExample2-64.tmx");
         createMapObjects();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
-        //parseMapObjects(tiledMap.getLayers().get("liquid").get);
+        // parseMapObjects(tiledMap.getLayers().get("liquid").get);
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
@@ -53,11 +54,13 @@ public class TileMapHelper {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
-                            gameScreen.getWorld());
+                            gameScreen.getWorld(),
+                            Constants.CATEGORY_PLAYER,
+                            Constants.MASK_PLAYER); // New stuff added
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
-        }    
+        }
     }
 
     private void createStaticBody(PolygonMapObject polygonMapObject) {
@@ -65,7 +68,15 @@ public class TileMapHelper {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = gameScreen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        body.createFixture(shape, 1000);
+        // body.createFixture(shape, 1000);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f; // Adjust as needed
+        fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
+        fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world, collides with player and enemy
+
+        body.createFixture(fixtureDef);
+
         shape.dispose();
     }
 
@@ -84,53 +95,53 @@ public class TileMapHelper {
     }
 
     private void createMapObjects() {
-        
-        //for (MapLayer layer : tiledMap.getLayers()) {
+
+        // for (MapLayer layer : tiledMap.getLayers()) {
         MapLayer layer = tiledMap.getLayers().get("mineable");
-            
 
-			//System.out.println("Layer is: " + layer.getName());
+        // System.out.println("Layer is: " + layer.getName());
 
-		// Access the tile layers
-        // we have two map layers, liquid and mineable. 
-		//MapLayer layer = tiledMap.getLayers().get("mineable");
+        // Access the tile layers
+        // we have two map layers, liquid and mineable.
+        // MapLayer layer = tiledMap.getLayers().get("mineable");
 
-            if (layer instanceof TiledMapTileLayer) {
-                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
+        if (layer instanceof TiledMapTileLayer) {
+            TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
 
-                // Iterate through each cell of the layer
-                for (int y = 0; y < tiledLayer.getHeight(); y++) {
-                    for (int x = 0; x < tiledLayer.getWidth(); x++) {
-                        TiledMapTileLayer.Cell cell = tiledLayer.getCell(x, y);
-                        if (cell != null) {
-                            // Get the tile ID of the cell
-                            int tileId = cell.getTile().getId();
-                            // Do something with the tile ID, for example, print it
-                            TileType  tileType = TileType.getTileTypeWithId(tileId);
-                            if (tileType !=  null){
+            // Iterate through each cell of the layer
+            for (int y = 0; y < tiledLayer.getHeight(); y++) {
+                for (int x = 0; x < tiledLayer.getWidth(); x++) {
+                    TiledMapTileLayer.Cell cell = tiledLayer.getCell(x, y);
+                    if (cell != null) {
+                        // Get the tile ID of the cell
+                        int tileId = cell.getTile().getId();
+                        // Do something with the tile ID, for example, print it
+                        TileType tileType = TileType.getTileTypeWithId(tileId);
+                        if (tileType != null) {
 
-                                if (tileType.isCollidable()) {
-                                    MapLayer objectLayer = tiledMap.getLayers().get("collisions");
+                            if (tileType.isCollidable()) {
+                                MapLayer objectLayer = tiledMap.getLayers().get("collisions");
 
-                                    float[] vertices = {
+                                float[] vertices = {
                                         x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
                                         (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
                                         (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
                                         x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
-                                    };
+                                };
 
-                                    MapObjects objects =  objectLayer.getObjects();
-                                    PolygonMapObject polygon =  new PolygonMapObject(vertices);                            
-                                    
-                                   // polygon.getPolygon().setVertices(vertices);
-                                    objects.add(polygon);
-                                    
-                                }
+                                MapObjects objects = objectLayer.getObjects();
+                                PolygonMapObject polygon = new PolygonMapObject(vertices);
+
+                                // polygon.getPolygon().setVertices(vertices);
+                                objects.add(polygon);
 
                             }
-                            //System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
+
                         }
+                        // System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
                     }
                 }
-            }}}
-
+            }
+        }
+    }
+}

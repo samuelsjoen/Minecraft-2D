@@ -28,6 +28,10 @@ import com.badlogic.gdx.physics.box2d.World;
 //import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
+import com.minecraft.game.model.Projectile;
+import java.util.Iterator;
+import java.util.ArrayList;
+
 public class GameScreen extends ScreenAdapter {
     // private Minecraft game;
     private SpriteBatch batch;
@@ -51,6 +55,7 @@ public class GameScreen extends ScreenAdapter {
 
     private EnemyManager enemyManager;
     private CharacterController characterController;
+    private static ArrayList<Projectile> projectiles = new ArrayList<>();
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -84,6 +89,19 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+
+        Iterator<Projectile> iterator = projectiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile projectile = iterator.next();
+            projectile.update();
+            projectile.checkCollisionWithPlayer(player);
+
+            if (projectile.isMarkedForRemoval()) {
+                world.destroyBody(projectile.getBody());
+                iterator.remove();
+            }
+        }
+
     }
 
     private void cameraUpdate() {
@@ -119,6 +137,11 @@ public class GameScreen extends ScreenAdapter {
         if (inventoryView != null) {
             inventoryView.render(batch);
         }
+
+        for (Projectile projectile : projectiles) {
+            projectile.render(batch);
+        }
+
         batch.end();
 
         // rendering the liquid layer in the end, so it looks like the player is behind
@@ -136,6 +159,10 @@ public class GameScreen extends ScreenAdapter {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
         this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
+    }
+
+    public static void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
     }
 
 }
