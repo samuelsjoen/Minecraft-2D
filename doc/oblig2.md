@@ -16,7 +16,6 @@ Vi har ikke fordelt roller innad i teamet - vi har funnet ut at det er noe vi b�
 Det var vanskelig å vite hvilke roller vi skulle dele inn i ved start og hvilke roller vi trengte tidlig i prosjektet. Så vi gikk for en demokratisk variant - der vi alle har noe ansvar - vi kommunsierer godt og fordeler oppgavene som må gjøres. 
 Slik at vi alle har delområder vi har ansvar for hele tiden. F.eks. har Magnus hatt ansvar for player/entity, Samuel har hatt kontroll over health og inventory, Nini har hatt ansvar over map, pipeline, gradle og Martine har hatt kontroll over menu-screen og vedlikehold av bugs. Slik at vi ikke har hatt overlappende områder - slik at vår kode-prosess har fungert bra - selv om vi ikke har hatt distinkte roller. 
 
-
 ### Erfaringer og refleksjoner
 - Teamet har funnet at å ikke ha roller har vært tilfredsstillende, men vi vurderer å gjøre noen justeringer nå for å få oversikt over alle oppgavene som må gjøres, men de fleste rollene betjens av alle. 
 
@@ -87,4 +86,3 @@ Dette var MVP-kravene våre fra oblig1:
 ### Kodekvalitet og testdekning
 - Vi har ikke jobbet med tester enda. Vi har noen tester i en annen branch, og vi tenker å jobbe med å få flere tester på plass frem mot neste innlevering. 
 - Vi har ikke fått på plass automatiske tester for å dekke logikken i koden, vi har kun "testet" kode ved å se på player og verdenen visuelt. Dette er selvsagt noe vi skal jobbe mot å nå frem mot neste innlevering. 
-
