@@ -2,6 +2,7 @@ package com.minecraft.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,12 +18,14 @@ public class InventoryView extends GameEntity {
     private float xItm, yItm;
     private float invJump;
     private Inventory inventory;
+    private BitmapFont font;
 
     public InventoryView(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
         this.inventory = inventory;
         this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
+        this.font = new BitmapFont();
 
         // The amount of pixels to jump to the next item slot
         this.invJump = 40;
@@ -34,7 +37,10 @@ public class InventoryView extends GameEntity {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
             //batch.draw(itemTexture, xItm + (iteration * invJump), yItm + (iteration * invJump), 23, 23);
             // fixed so that item doesn't move up the y axis
+            //batch.draw(itemTexture, xItm + (iteration * invJump), yItm, 23, 23);
             batch.draw(itemTexture, xItm + (iteration * invJump), yItm, 23, 23);
+            font.draw(batch, Integer.toString(inventory.getAmount(item)), xItm + (iteration * invJump), y+35);
+
             iteration++;
         }
     }
@@ -55,10 +61,10 @@ public class InventoryView extends GameEntity {
         y = body.getPosition().y * Constants.PPM + 300;
         xItm = x + 5;
         yItm = y + 5;
-        checkUserInput();
+        //checkUserInput();
     }
 
-    private void checkUserInput() {
+    /*private void checkUserInput() {
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_LEFT)) {
             inventory.changeSlot(-1);
         }
@@ -68,5 +74,5 @@ public class InventoryView extends GameEntity {
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_DROP)) {
             inventory.dropItem();
         }
-    }
+    }*/
 }

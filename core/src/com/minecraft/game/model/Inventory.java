@@ -1,6 +1,7 @@
 package com.minecraft.game.model;
 
 import java.util.HashMap;
+import com.badlogic.gdx.utils.Array;
 
 /*
 import com.badlogic.gdx.Gdx;
@@ -15,14 +16,15 @@ public class Inventory {
     private int currentItems;
     private int currentSlot;
 
-    public Inventory() {
+    public Inventory(Item[] defaultItems) {
         this.items = new HashMap<Item, Integer>();
         this.maxItemSlots = 9;
         this.currentItems = items.size();
         this.currentSlot = 0;
 
-        // Default items
-        addItem(Item.SWORD);
+        for (Item item : defaultItems) {
+            addItem(item);
+        }
     }
 
     public HashMap<Item, Integer> getItems() {
@@ -33,12 +35,17 @@ public class Inventory {
         return currentSlot;
     }
 
-    private void addItem(Item name, int quantity) {
+    public void addItem(Item name, int quantity) {
         if (items.containsKey(name)) {
-            items.put(name, items.get(name) + quantity);
+            if ((items.get(name) + quantity) >= name.getMaxAmount()) {
+                items.put(name, name.getMaxAmount());
+            } else {
+                items.put(name, items.get(name) + quantity);
+            }
         } else {
             if (!isFull()) {
-                items.put(name, quantity);
+                items.put(name, 0);
+                addItem(name, quantity);
             }
         }
     }
@@ -74,20 +81,36 @@ public class Inventory {
 
         if (nextSlot < 0) {
             currentSlot = 9;
-        }
-        else if (nextSlot > maxItemSlots) {
+        } else if (nextSlot > maxItemSlots) {
             currentSlot = 0;
-        }
-        else {
+        } else {
             currentSlot = nextSlot;
         }
     }
 
     public void dropItem() {
-        if (items.size() > 0) {
+        if (currentSlot < items.size()) {
             Item item = (Item) items.keySet().toArray()[currentSlot];
             removeItem(item);
         }
     }
 
+    public Item getSelectedItem() {
+        if (currentSlot < items.size()) {
+            return (Item) items.keySet().toArray()[currentSlot];
+        } else
+            return null;
+    }
+
+    public int getSize() {
+        return items.size();
+    }
+
+    public boolean contains(Item item) {
+        return items.containsKey(item);
+    }
+
+    public int getAmount(Item item) {
+        return items.getOrDefault(item, 0);
+    }
 }

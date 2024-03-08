@@ -4,16 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Plane.PlaneSide;
+import com.minecraft.game.model.Inventory;
+import com.minecraft.game.model.Item;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
 
 public class CharacterController {
 
     private Player player;
+    private Inventory inventory;
     private int jumpCounter = 0; // Jump counter initialized
 
-    public CharacterController(Player player) {
+    public CharacterController(Player player, Inventory inventory) {
         this.player = player;
+        this.inventory = inventory;
     }
 
     public void update() {
@@ -21,8 +25,9 @@ public class CharacterController {
         if (Player.currentState == Player.State.DEAD) {
             // velX = 0; // if you want the player to stop moving when dead
             if (Gdx.input.isKeyJustPressed(Keys.R)) {
-                Player.getHealth().heal(5);
-                Player.deadStateTime = 0f;
+                //Player.getHealth().heal(5);
+                //Player.deadStateTime = 0f;
+                Player.getHealth().revive();
                 player.setCurrentState(Player.State.IDLE);
             }
             return;
@@ -41,8 +46,13 @@ public class CharacterController {
         }
 
         if (Gdx.input.isKeyPressed(Keys.TAB)) {
-            player.setCurrentState(Player.State.ATTACKING);
-            player.attack();
+            if (inventory.getSelectedItem() == Item.SWORD) {
+                player.setCurrentState(Player.State.ATTACKING);
+                player.attack();
+
+            //player.setCurrentState(Player.State.ATTACKING);
+            //player.attack();
+            }
         }
 
         // Check if the player is on the ground to reset the jump counter

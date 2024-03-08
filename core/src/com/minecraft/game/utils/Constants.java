@@ -1,6 +1,8 @@
 package com.minecraft.game.utils;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.utils.Array;
+import com.minecraft.game.model.Item;
 
 public class Constants {
     // Screen dimensions
@@ -54,4 +56,9 @@ public class Constants {
     public static final short MASK_WORLD = CATEGORY_PLAYER | CATEGORY_ENEMY; // World collides with
                                                                              // player and enemy
 
+    // Inventory
+    public static final Item[] DEFAULT_ITEMS = new Item[]{
+        Item.SWORD,
+        // Item.PICKAXE,
+    };                                                
 }

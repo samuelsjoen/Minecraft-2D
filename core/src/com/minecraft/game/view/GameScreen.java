@@ -8,6 +8,7 @@ import com.minecraft.game.model.Inventory;
 import com.minecraft.game.controller.CharacterController;
 import com.minecraft.game.controller.WorldInputProcessor;
 import com.minecraft.game.controller.WorldListener;
+import com.minecraft.game.controller.InventoryController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -56,13 +57,14 @@ public class GameScreen extends ScreenAdapter {
     private EnemyManager enemyManager;
     private CharacterController characterController;
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
+    private InventoryController inventoryController;
 
     private WorldListener contactListener;
     private WorldInputProcessor inputProcessor;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
@@ -71,7 +73,8 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
-        this.characterController = new CharacterController(player);
+        this.characterController = new CharacterController(player, inventory);
+        this.inventoryController = new InventoryController(inventory);
 
         // controller
         this.contactListener = new WorldListener();
@@ -90,6 +93,7 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
         characterController.update();
+        inventoryController.update();
 
         healthView.update();
         inventoryView.update();
