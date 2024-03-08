@@ -64,7 +64,8 @@ public class TileMapHelper {
                             false,
                             gameScreen.getWorld(),
                             Constants.CATEGORY_PLAYER,
-                            Constants.MASK_PLAYER); // New stuff added
+                            Constants.MASK_PLAYER,
+                            "player"); // New stuff added
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
@@ -84,25 +85,20 @@ public class TileMapHelper {
 
      // Create a static body for a polygon map object and add it to the world
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
-        int density;
-        if ((boolean) polygonMapObject.getProperties().get("collidable")) {
-            density = 1000;
-        } else {
-            density = 0;
-        }
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = gameScreen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        // body.createFixture(shape, 1000);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.isSensor = isSensor; 
         fixtureDef.density = 1f; // Adjust as needed
         fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
         fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world, collides with player and enemy
 
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData(userData);
+        polygonMapObject.getProperties().put("body", body);
 
         shape.dispose();
     }

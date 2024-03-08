@@ -20,7 +20,7 @@ public class Projectile extends GameEntity {
 
     public Projectile(float width, float height, World world, Vector2 startPosition, Vector2 target) {
         super(width, height, BodyHelperService.createBody(startPosition.x, startPosition.y, width, height, false, world,
-                Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY));
+                Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "notUsed"));
         this.texture = new Texture("assets/Rock2.png");
         this.target = target;
         this.body.setBullet(true); // To ensure continuous collision detection
