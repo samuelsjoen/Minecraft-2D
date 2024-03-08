@@ -35,6 +35,9 @@ public class PinkMonster extends GameEntity {
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
     private World world;
+    private float attackCooldown = 4.0f; // 5 seconds cooldown
+    private float timeSinceLastAttack = 0; // Time since last attack
+    private boolean hasThrownRock = false; // Flag to check if rock has been thrown in the current attack
 
     private enum State {
         IDLE, RUNNING, ATTACKING, ATTACKING2, DEAD
@@ -103,7 +106,7 @@ public class PinkMonster extends GameEntity {
     @Override
     public void update() {
         stateTime += Gdx.graphics.getDeltaTime();
-
+        timeSinceLastAttack += Gdx.graphics.getDeltaTime();
         // float distanceToPlayer = Math.abs(player.getBody().getPosition().x -
         // this.body.getPosition().x);
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
@@ -128,16 +131,24 @@ public class PinkMonster extends GameEntity {
                 // The last condition checks if the enemy is not already jumping or falling
                 body.applyLinearImpulse(new Vector2(0, jumpForce), body.getWorldCenter(), true);
             }
-            // ATTACK LOGIC
-            // Check if the enemy is close enough to attack but not currently attacking
-            // if (distanceToPlayer < 3.0f) {
 
+            // ATTACK LOGIC--
             // ATTACK 2 LOGIC
-            if (distanceToPlayerX <= 15 && distanceToPlayerX > 10) {
+            if (distanceToPlayerX <= 15 && distanceToPlayerX > 10 && timeSinceLastAttack >= attackCooldown) {
                 currentState = State.ATTACKING2;
+
                 // Only create a projectile at a specific frame of the attack animation to
                 // simulate the throwing action
                 if (currentState == State.ATTACKING2 && currentAtack2FrameIndex == 3) {
+                    Vector2 startPosition = new Vector2(this.getBody().getPosition().x * Constants.PPM,
+                            this.getBody().getPosition().y * Constants.PPM);
+                    Vector2 targetPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
+                            player.getBody().getPosition().y * Constants.PPM);
+                    // Create a new projectile
+                    Projectile projectile = new Projectile(50, 50, world, startPosition, targetPosition);
+                    GameScreen.addProjectile(projectile);
+                    hasThrownRock = true; // Mark that a rock has been thrown
+                    timeSinceLastAttack = 0; // Reset the timer immediately after throwing a rock
 
                 }
 
@@ -193,6 +204,12 @@ public class PinkMonster extends GameEntity {
         }
         if (currentState == State.DEAD) {
             deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+        }
+        if (timeSinceLastAttack >= attackCooldown) {
+            hasThrownRock = false;
+        }
+        if (distanceToPlayerX <= 15 && distanceToPlayerX > 10 && !hasThrownRock) {
+            hasThrownRock = true;
         }
 
     }

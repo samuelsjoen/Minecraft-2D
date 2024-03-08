@@ -81,8 +81,8 @@ public class EnemyManager {
     }
 
     private void spawnEnemy() {
-        chooseEnemy = MathUtils.random(0, 2);
-        // chooseEnemy = 2;
+        // chooseEnemy = MathUtils.random(0, 2);
+        chooseEnemy = 2;
 
         if (enemies.size() < 2 && chooseEnemy == 0) { // Ensures no more than 5 enemies spawns
             float spawnPosX, spawnPosY;
