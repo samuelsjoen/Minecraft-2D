@@ -74,8 +74,8 @@ public class WorldInputProcessor implements InputProcessor {
                 int tileId = cell.getTile().getId();
                 TileType tiletype = TileType.getTileTypeWithId(tileId);
 
-                int tileTypeId = tiletype.getId();
-                Item item = Item.getItemWithId(tileTypeId);
+                // Get the item based on the tile type
+                Item item = Item.getItemWithName(tiletype.getTextureName());
                 if (item != null) {
                     // Add the item to the inventory
                     gameScreen.getInventory().addItem(item);
@@ -96,9 +96,9 @@ public class WorldInputProcessor implements InputProcessor {
                 if (items.size() > 0) {
                     // INDEX OUT OF BOUNDS!!!!
                     Item item = (Item) items.keySet().toArray()[currentSlot];
-                    int itemId = item.getId();
+                    String itemName = item.getName();
 
-                    TileType tileType = TileType.getTileTypeWithId(itemId);
+                    TileType tileType = TileType.getTileTypeWithName(itemName);
                     if (tileType != null) {
                         // Remove the item from the inventory
                         inventory.removeItem(item);

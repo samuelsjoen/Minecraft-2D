@@ -20,10 +20,10 @@ public enum TileType {
     LEAVES(13, false, "leaves"),
     WOOD(14, false, "wood");
 
-    private int id;
-    private boolean collidable;
-    private String textureName;
-    private float damage;
+    private final int id;
+    private final boolean collidable;
+    private final String textureName;
+    private final float damage;
 
     TileType(int id, boolean collidable, String textureName, float damage) {
         this.id = id;
@@ -37,8 +37,7 @@ public enum TileType {
     }
 
     // Storing the tiletypes
-    private static HashMap<Integer, TileType> tileMap;
-
+    private static final HashMap<Integer, TileType> tileMap;
     // Static initializer
     static {
         tileMap = new HashMap<Integer, TileType>();
@@ -48,9 +47,24 @@ public enum TileType {
         }
     }
 
+    // Storing the tiletypes with name as key
+    private static final HashMap<String, TileType> tileMapName;
+    // Static initializer
+    static {
+        tileMapName = new HashMap<String, TileType>();
+        for (TileType tileType : TileType.values()) {
+            tileMapName.put(tileType.getTextureName(), tileType);
+        }
+    }
+
     // Get the tiletype with id
     public static TileType getTileTypeWithId(int id) {
         return tileMap.get(id);
+    }
+
+    // Get the tiletype with name
+    public static TileType getTileTypeWithName(String name) {
+        return tileMapName.get(name);
     }
 
     // Getters
