@@ -46,7 +46,7 @@ public class CharacterController {
         }
 
         if (Gdx.input.isKeyPressed(Keys.TAB)) {
-            if (inventory.getSelectedItem() == Item.SWORD) {
+            if (inventory.getSelectedItem() == Item.WOODEN_SWORD) {
                 player.setCurrentState(Player.State.ATTACKING);
                 player.attack();
 

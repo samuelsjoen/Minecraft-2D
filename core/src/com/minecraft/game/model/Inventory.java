@@ -65,7 +65,7 @@ public class Inventory {
         }
     }
 
-    private void removeItem(Item name) {
+    public void removeItem(Item name) {
         removeItem(name, 1);
     }
 

@@ -14,14 +14,14 @@ public class InventoryTest {
     @Test
     void testAddItem() {
         int prevSize = inventory.getSize();
-        assumeTrue(inventory.getAmount(Item.PICKAXE) == 0);
-        assumeFalse(inventory.contains(Item.PICKAXE));
-        inventory.addItem(Item.PICKAXE);
+        assumeTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 0);
+        assumeFalse(inventory.contains(Item.WOODEN_PICKAXE));
+        inventory.addItem(Item.WOODEN_PICKAXE);
         assumeTrue(inventory.getSize() == prevSize + 1);
-        assumeTrue(inventory.contains(Item.PICKAXE));
-        assumeTrue(inventory.getAmount(Item.PICKAXE) == 1);
-        inventory.addItem(Item.PICKAXE);
-        assumeTrue(inventory.getAmount(Item.PICKAXE) == 1);
+        assumeTrue(inventory.contains(Item.WOODEN_PICKAXE));
+        assumeTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
+        inventory.addItem(Item.WOODEN_PICKAXE);
+        assumeTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
         inventory.addItem(Item.DIRT, 5);
         assumeTrue(inventory.getAmount(Item.DIRT) == 5);
         inventory.addItem(Item.DIRT, 100);
@@ -43,11 +43,11 @@ public class InventoryTest {
 
     @Test
     void testDropItem() {
-        inventory.addItem(Item.PICKAXE);
+        inventory.addItem(Item.WOODEN_PICKAXE);
         inventory.addItem(Item.DIRT, 10);
-        assumeTrue(inventory.getSelectedItem() == Item.PICKAXE);
+        assumeTrue(inventory.getSelectedItem() == Item.WOODEN_PICKAXE);
         inventory.dropItem();
-        assumeFalse(inventory.contains(Item.PICKAXE));
+        assumeFalse(inventory.contains(Item.WOODEN_PICKAXE));
         assumeTrue(inventory.getSelectedItem() == Item.DIRT);
         int amount = inventory.getAmount(inventory.getSelectedItem());
         inventory.dropItem();

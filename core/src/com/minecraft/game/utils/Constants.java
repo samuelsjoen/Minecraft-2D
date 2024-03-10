@@ -58,7 +58,6 @@ public class Constants {
 
     // Inventory
     public static final Item[] DEFAULT_ITEMS = new Item[]{
-        Item.SWORD,
-        // Item.PICKAXE,
+        Item.WOODEN_SWORD
     };                                                
 }
