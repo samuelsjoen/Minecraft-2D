@@ -144,7 +144,8 @@ public class Player extends GameEntity {
             boolean isEnemyInFront = isFacingRight ? distanceToEnemyX > 0 : distanceToEnemyX < 0;
 
             if (Math.abs(distanceToEnemyX) < attackRange && distanceToEnemyY <= verticalAttackRange
-                    && Player.currentState == State.ATTACKING && SpriteManager.getCurrentFrameIndex() == 2
+                    && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
+                            || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
                 enemy.getHit(); // Applies damage to the targeted enemy
             }
@@ -156,7 +157,8 @@ public class Player extends GameEntity {
             boolean isEnemyInFront = isFacingRight ? distanceToSlimeX > 0 : distanceToSlimeX < 0;
 
             if (Math.abs(distanceToSlimeX) < attackRange && distanceToSlimeY <= verticalAttackRange
-                    && Player.currentState == State.ATTACKING && SpriteManager.getCurrentFrameIndex() == 2
+                    && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
+                            || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
                 slime.getHit(); // Applies damage to the targeted enemy
             }
@@ -168,7 +170,8 @@ public class Player extends GameEntity {
             boolean isEnemyInFront = isFacingRight ? distanceToPinkMonsterX > 0 : distanceToPinkMonsterX < 0;
 
             if (Math.abs(distanceToPinkMonsterX) < attackRange && distanceToPinkMonsterY <= verticalAttackRange
-                    && Player.currentState == State.ATTACKING && SpriteManager.getCurrentFrameIndex() == 2
+                    && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
+                            || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
                 pinkMonster.getHit(); // Applies damage to the targeted enemy
             }

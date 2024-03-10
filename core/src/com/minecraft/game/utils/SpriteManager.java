@@ -125,7 +125,8 @@ public class SpriteManager implements Disposable {
 
     private void initializeItemToSpriteMapping() {
         itemToSpriteMapping.put(Item.DIRT,
-                new String[] { "Character_Leggings", "Character_Chestplate", "Character_Hat", "Character_Boots" });
+                new String[] { "Character_Leggings", "Character_Chestplate", "Character_Hat", "Character_Boots",
+                        "Character_Gloves" });
         itemToSpriteMapping.put(Item.WOOD, new String[] { "Character_Sword", "Character_FX" });
 
         itemToSpriteMapping.put(Item.STONE, new String[] { "Character_Sword_2", "Character_FX" });
