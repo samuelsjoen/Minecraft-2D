@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.Input.Keys;
 //import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.utils.TileMapHelper;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -60,6 +61,7 @@ public class GameScreen extends ScreenAdapter {
 
     private WorldListener contactListener;
     private WorldInputProcessor inputProcessor;
+    private SpriteManager spriteManager;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -93,6 +95,8 @@ public class GameScreen extends ScreenAdapter {
         player.update();
         characterController.update();
         inventoryController.update();
+
+        spriteManager.update();
 
         healthView.update();
         inventoryView.update();
@@ -138,19 +142,23 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        // Added temporary background based on the lower left corner of the screen window
-        // Should be changed so that one cannot see clouds behind tiles, when player is "in the ground".
+        // Added temporary background based on the lower left corner of the screen
+        // window
+        // Should be changed so that one cannot see clouds behind tiles, when player is
+        // "in the ground".
         Vector2 lowerLeftCorner = getLowerLeftCorner();
         batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
         batch.end();
 
-        orthogonalTiledMapRenderer.render();        
+        orthogonalTiledMapRenderer.render();
         batch.begin();
 
         enemyManager.render(batch);
 
         if (player != null) {
             player.render(batch);
+            spriteManager.render(batch, player.getX(), player.getY());
+
         }
 
         if (healthView != null) {
@@ -194,6 +202,7 @@ public class GameScreen extends ScreenAdapter {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
         this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
+        this.spriteManager = new SpriteManager(player, inventory);
     }
 
     public static void addProjectile(Projectile projectile) {
