@@ -8,7 +8,7 @@ import com.minecraft.game.model.Inventory;
 import com.minecraft.game.controller.CharacterController;
 import com.minecraft.game.controller.WorldInputProcessor;
 import com.minecraft.game.controller.WorldListener;
-import com.minecraft.game.controller.InventoryController;
+import com.minecraft.game.controller.OverlayController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -57,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
     private EnemyManager enemyManager;
     private CharacterController characterController;
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
-    private InventoryController inventoryController;
+    private OverlayController overlayController;
 
     private WorldListener contactListener;
     private WorldInputProcessor inputProcessor;
@@ -74,7 +74,7 @@ public class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.characterController = new CharacterController(player, inventory);
-        this.inventoryController = new InventoryController(inventory);
+        this.overlayController = new OverlayController(inventory);
 
         // controller
         this.contactListener = new WorldListener();
@@ -93,7 +93,7 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
         characterController.update();
-        inventoryController.update();
+        overlayController.update();
 
         healthView.update();
         inventoryView.update();

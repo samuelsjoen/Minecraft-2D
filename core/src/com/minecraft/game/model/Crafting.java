@@ -48,4 +48,8 @@ public class Crafting {
         clearTable(false);
         inventory.addItem(item);
     }
+
+    public Item[][] getTable() {
+        return table;
+    }
 }

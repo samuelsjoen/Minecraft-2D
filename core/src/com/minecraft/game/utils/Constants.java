@@ -24,6 +24,7 @@ public class Constants {
     public static final int INVENTORY_LEFT = Keys.LEFT;
     public static final int INVENTORY_RIGHT = Keys.RIGHT;
     public static final int INVENTORY_DROP = Keys.Q;
+    public static final int CRAFTING_OPEN = Keys.E;
 
     // Character scale (1.0f for original size, adjust as needed)
     public static final float CHARACTER_SCALE = 2.5f; // Example scale to make character bigger
@@ -59,5 +60,5 @@ public class Constants {
     // Inventory
     public static final Item[] DEFAULT_ITEMS = new Item[]{
         Item.WOODEN_SWORD
-    };                                                
+    };
 }
