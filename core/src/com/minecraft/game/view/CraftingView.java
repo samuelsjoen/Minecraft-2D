@@ -27,8 +27,8 @@ public class CraftingView extends GameEntity {
 
     @Override
     public void update() {
-        x = body.getPosition().x * Constants.PPM + 200;
-        y = body.getPosition().y * Constants.PPM + 250;
+        x = body.getPosition().x * Constants.PPM + 185;
+        y = body.getPosition().y * Constants.PPM + 120;
     }
 
     @Override
@@ -48,8 +48,10 @@ public class CraftingView extends GameEntity {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 Item item = table[row][col];
-                Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
-                batch.draw(itemTexture, x + (row * jump), (col * jump), 50, 50);
+                if (item != null) {
+                    Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+                    batch.draw(itemTexture, x + (row * jump), (col * jump), 50, 50);
+                }
             }
         }
     }

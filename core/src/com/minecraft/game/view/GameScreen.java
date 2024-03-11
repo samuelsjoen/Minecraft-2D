@@ -9,6 +9,7 @@ import com.minecraft.game.controller.CharacterController;
 import com.minecraft.game.controller.WorldInputProcessor;
 import com.minecraft.game.controller.WorldListener;
 import com.minecraft.game.controller.OverlayController;
+import com.minecraft.game.model.Crafting;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -44,6 +45,8 @@ public class GameScreen extends ScreenAdapter {
     private HealthView healthView;
     private Inventory inventory;
     private InventoryView inventoryView;
+    private Crafting crafting;
+    private CraftingView craftingView;
     @SuppressWarnings("unused")
     private Texture backgroundImage; // Background image
 
@@ -65,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.crafting = new Crafting(inventory);
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
@@ -74,8 +78,7 @@ public class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.characterController = new CharacterController(player, inventory);
-        this.overlayController = new OverlayController(inventory);
-
+        
         // controller
         this.contactListener = new WorldListener();
         this.world.setContactListener(contactListener);
@@ -94,6 +97,7 @@ public class GameScreen extends ScreenAdapter {
         player.update();
         characterController.update();
         overlayController.update();
+        craftingView.update();
 
         healthView.update();
         inventoryView.update();
@@ -133,25 +137,22 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         orthogonalTiledMapRenderer.render();
+        
         batch.begin();
         // render objects
         // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
         // Gdx.graphics.getHeight());
-        
+
+        healthView.render(batch);
+        craftingView.render(batch);
+        inventoryView.render(batch);
         enemyManager.render(batch);
 
         if (player != null) {
             player.render(batch);
         }
 
-        if (healthView != null) {
-            healthView.render(batch);
-        }
-
-        if (inventoryView != null) {
-            inventoryView.render(batch);
-        }
-
+    
         for (Projectile projectile : projectiles) {
             projectile.render(batch);
         }
@@ -185,6 +186,8 @@ public class GameScreen extends ScreenAdapter {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
         this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
+        this.craftingView = new CraftingView(200, 200, player.getBody(), crafting);
+        this.overlayController = new OverlayController(inventory, craftingView);
     }
 
     public static void addProjectile(Projectile projectile) {

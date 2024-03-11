@@ -11,6 +11,7 @@ public class OverlayController {
 
     public OverlayController(Inventory inventory, CraftingView craftingView) {
         this.inventory = inventory;
+        this.craftingView = craftingView;
     }
     public void update() {
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_LEFT)) {
