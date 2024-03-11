@@ -89,13 +89,8 @@ public class WorldInputProcessor implements InputProcessor {
             if (cell == null) {
                 // Get selected item from inventory
                 Inventory inventory = gameScreen.getInventory();
-                HashMap<Item, Integer> items = inventory.getItems();
-                int currentSlot = inventory.getCurrentSlot();
-
-                // Check if there are items in the inventory
-                if (items.size() > 0) {
-                    // INDEX OUT OF BOUNDS!!!!
-                    Item item = (Item) items.keySet().toArray()[currentSlot];
+                Item item = inventory.getSelectedItem();
+                if (item != null) {
                     String itemName = item.getName();
 
                     TileType tileType = TileType.getTileTypeWithName(itemName);
