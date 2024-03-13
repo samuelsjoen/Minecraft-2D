@@ -26,9 +26,11 @@ public class TileMapHelper {
 
     private TiledMap tiledMap;
     private GameScreen gameScreen;
+    private String mapPath;
 
     public TileMapHelper(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        this.mapPath = "assets/map/mapExample2-64.tmx";
     }
 
     /**
@@ -37,10 +39,14 @@ public class TileMapHelper {
      * @return OrthogonalTiledMapRenderer
      */
     public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("assets/map/mapExample2-64.tmx");
+        tiledMap = loadMap(mapPath);
         createMapObjects();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
+    }
+
+    private TiledMap loadMap(String filename) {
+        return new TmxMapLoader().load(filename);
     }
 
     // Parse the map objects and based on the type of map object, either create a
@@ -63,11 +69,13 @@ public class TileMapHelper {
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
                             rectangle.getHeight(),
+                            null,
                             false,
                             gameScreen.getWorld(),
                             Constants.CATEGORY_PLAYER,
                             Constants.MASK_PLAYER,
-                            "player"); // New stuff added
+                            "player",
+                            false);
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
@@ -76,22 +84,38 @@ public class TileMapHelper {
 
     // Create a static body for a polygon map object and add it to the world
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
+        Body body = BodyHelperService.createBody(
+                createPolygonShape(polygonMapObject),
+                true,
+                gameScreen.getWorld(),
+                Constants.CATEGORY_WORLD,
+                Constants.MASK_WORLD,
+                userData,
+                isSensor);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body = gameScreen.getWorld().createBody(bodyDef);
-        Shape shape = createPolygonShape(polygonMapObject);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.isSensor = isSensor;
-        fixtureDef.density = 1f; // Adjust as needed
-        fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
-        fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world, collides with player and enemy
-
-        body.createFixture(fixtureDef).setUserData(userData);
+        // Add the body to the map object so that we can access it later
         polygonMapObject.getProperties().put("body", body);
 
-        shape.dispose();
+        // -----------------------------------------------------------------------------------------
+        // Old way of creating a static body, which was a lot like the method in BodyHelperService. 
+        // Aka a lot of code duplication:
+
+        // BodyDef bodyDef = new BodyDef();
+        // bodyDef.type = BodyDef.BodyType.StaticBody;
+        // Body body = gameScreen.getWorld().createBody(bodyDef);
+        // Shape shape = createPolygonShape(polygonMapObject);
+        // FixtureDef fixtureDef = new FixtureDef();
+        // fixtureDef.shape = shape;
+        // fixtureDef.isSensor = isSensor;
+        // fixtureDef.density = 1f; // Adjust as needed
+        // fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
+        // fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world,
+        // collides with player and enemy
+
+        // body.createFixture(fixtureDef).setUserData(userData);
+        // polygonMapObject.getProperties().put("body", body);
+
+        // shape.dispose();
     }
 
     // Remove a static body from the world
@@ -158,7 +182,6 @@ public class TileMapHelper {
                                 objects.add(polygon);
                             }
                         }
-                        // System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
                     }
                 }
             }
@@ -205,10 +228,13 @@ public class TileMapHelper {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
         MapObjects objects = objectLayer.getObjects();
         String coordinatesTile = x * Constants.TILE_SIZE + ", " + y * Constants.TILE_SIZE;
-        PolygonMapObject polygon = (PolygonMapObject) objects.get(coordinatesTile);
-        removeStaticBody(polygon);
-        int objectId = (int) polygon.getProperties().get("id");
-        objects.remove(objectId);
+        MapObject mapObject = objects.get(coordinatesTile);
+        if (mapObject instanceof PolygonMapObject) {
+            PolygonMapObject polygon = (PolygonMapObject) mapObject;
+            removeStaticBody(polygon);
+            int objectId = (int) polygon.getProperties().get("id");
+            objects.remove(objectId);
+        }
     }
 
     // Add a tile to the map
@@ -225,10 +251,10 @@ public class TileMapHelper {
     // Add a map object to the map
     private void addMapObject(int x, int y, int tileId, TiledMap tiledMap) {
 
-        PolygonMapObject mapObject = createPolygonMapObject(x, y, tileId, tiledMap);
+        PolygonMapObject polygon = createPolygonMapObject(x, y, tileId, tiledMap);
 
-        createStaticBody((PolygonMapObject) mapObject,
-                !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
+        createStaticBody(polygon,
+                !polygon.getProperties().get("collidable", Boolean.class), polygon.getName());
     }
 
     /**
@@ -257,6 +283,11 @@ public class TileMapHelper {
     }
 
     // Getter
+    /**
+     * Get the tiled map
+     * 
+     * @return TiledMap object
+     */
     public TiledMap getTiledMap() {
         return tiledMap;
     }

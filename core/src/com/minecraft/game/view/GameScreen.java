@@ -209,6 +209,19 @@ public class GameScreen extends ScreenAdapter {
         projectiles.add(projectile);
     }
 
+    @Override
+    public void dispose() {
+        batch.dispose();
+        backgroundImage.dispose();
+        world.dispose();
+        box2DDebugRenderer.dispose();
+        orthogonalTiledMapRenderer.dispose();
+        // dispose the map
+        getTiledMap().dispose();
+        // dispose the sprite texture
+        spriteManager.dispose();
+    }
+
 }
 
 /*
