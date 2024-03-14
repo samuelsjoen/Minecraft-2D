@@ -37,7 +37,8 @@ public class SpriteManager implements Disposable {
         loadAnimation("Character_Idle.png", 4, 4, 0.1f, "Character_Idle");
         loadAnimation("Character_Move.png", 6, 4, 0.1f, "Character_Move");
         loadAnimation("Character_Attack.png", 6, 4, 0.1f, "Character_Attack");
-        loadAnimation("Character_Death.png", 11, 4, 0.1f, "Character_Death");
+        // loadAnimation("Character_Death.png", 11, 4, 0.1f, "Character_Death");
+        loadAnimationWithCustomIndex("Character_Death.png", 11, 4, 0.1f, "Character_Death", 0);
         Animation<TextureRegion> deathAnim = animations.get("Character_Death");
         if (deathAnim != null) {
             deathAnim.setPlayMode(Animation.PlayMode.NORMAL);
@@ -92,6 +93,21 @@ public class SpriteManager implements Disposable {
         TextureRegion[] animationFrames = new TextureRegion[cols];
         for (int i = 0; i < cols; i++) {
             animationFrames[i] = regions[2][i]; // 3rd row (index 2) for facing direction
+        }
+
+        Animation<TextureRegion> animation = new Animation<>(frameDuration, animationFrames);
+        animations.put(key, animation);
+    }
+
+    private void loadAnimationWithCustomIndex(String filePath, int cols, int rows, float frameDuration, String key,
+            int rowIndex) {
+        Texture sheet = new Texture(Gdx.files.internal("assets/player/" + filePath));
+        TextureRegion[][] regions = TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
+
+        // Use rowIndex to select the correct row for animation
+        TextureRegion[] animationFrames = new TextureRegion[cols];
+        for (int i = 0; i < cols; i++) {
+            animationFrames[i] = regions[rowIndex][i];
         }
 
         Animation<TextureRegion> animation = new Animation<>(frameDuration, animationFrames);
