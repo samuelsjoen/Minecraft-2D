@@ -21,7 +21,7 @@ public class MenuController {
             float touchX = Gdx.input.getX();
 
             if (menuScreen.isStartButtonClicked(touchX, touchY)) {
-                game.setScreen(new GameScreen(game.orthographicCamera));
+                game.setScreen(new GameScreen(game.camera));
             } else if (menuScreen.isOptionsButtonClicked(touchX, touchY)) {
                 game.setScreen(new OptionsScreen(game));
             } else if (menuScreen.isQuitButtonClicked(touchX, touchY)) {

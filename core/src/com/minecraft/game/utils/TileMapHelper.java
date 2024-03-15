@@ -30,7 +30,7 @@ public class TileMapHelper {
 
     public TileMapHelper(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        this.mapPath = "assets/map/mapExample2-64.tmx";
+        this.mapPath = "assets/map/mapExample3-64.tmx";
     }
 
     /**
