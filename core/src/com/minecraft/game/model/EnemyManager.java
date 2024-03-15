@@ -89,7 +89,7 @@ public class EnemyManager {
         }
     }
 
-    private boolean isSpawnLocationValid(float spawnPosX, float spawnPosY, boolean isTwoTilesHigh) {
+    public boolean isSpawnLocationValid(float spawnPosX, float spawnPosY, boolean isTwoTilesHigh) {
         // Convert world coordinates to PPM
         int bottomTileX = (int) ((spawnPosX * Constants.PPM) / Constants.TILE_SIZE);
         int bottomTileY = (int) ((spawnPosY * Constants.PPM) / Constants.TILE_SIZE);
