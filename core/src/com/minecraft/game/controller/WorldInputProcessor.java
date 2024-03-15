@@ -67,7 +67,7 @@ public class WorldInputProcessor implements InputProcessor {
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         Cell cell = mineableLayer.getCell(tileX, tileY);
 
-        // Place a block
+        // Remove a block
         if (button == Input.Buttons.LEFT) {
             if (cell != null) {
                 // Get the tile type based on the tile coordinates

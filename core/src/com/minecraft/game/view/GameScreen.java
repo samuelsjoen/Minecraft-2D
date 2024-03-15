@@ -78,7 +78,7 @@ public class GameScreen extends ScreenAdapter {
         this.inventoryController = new InventoryController(inventory);
 
         // controller
-        this.contactListener = new WorldListener();
+        this.contactListener = new WorldListener(getTiledMap());
         this.world.setContactListener(contactListener);
         this.inputProcessor = new WorldInputProcessor(this);
         Gdx.input.setInputProcessor(inputProcessor);
@@ -198,6 +198,10 @@ public class GameScreen extends ScreenAdapter {
         return inventory;
     }
 
+    public Player getPlayer() {
+        return player;
+    }  
+
     public void setPlayer(Player player) {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
@@ -207,6 +211,19 @@ public class GameScreen extends ScreenAdapter {
 
     public static void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        backgroundImage.dispose();
+        world.dispose();
+        box2DDebugRenderer.dispose();
+        orthogonalTiledMapRenderer.dispose();
+        // dispose the map
+        getTiledMap().dispose();
+        // dispose the sprite texture
+        spriteManager.dispose();
     }
 
 }
