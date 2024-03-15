@@ -78,7 +78,7 @@ public class GameScreen extends ScreenAdapter {
         this.inventoryController = new InventoryController(inventory);
 
         // controller
-        this.contactListener = new WorldListener();
+        this.contactListener = new WorldListener(getTiledMap());
         this.world.setContactListener(contactListener);
         this.inputProcessor = new WorldInputProcessor(this);
         Gdx.input.setInputProcessor(inputProcessor);
@@ -197,6 +197,10 @@ public class GameScreen extends ScreenAdapter {
     public Inventory getInventory() {
         return inventory;
     }
+
+    public Player getPlayer() {
+        return player;
+    }  
 
     public void setPlayer(Player player) {
         this.player = player;

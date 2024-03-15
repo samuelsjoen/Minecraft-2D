@@ -226,8 +226,13 @@ public class TileMapHelper {
      * @param tiledMap
      */
     public void removeBlock(int x, int y, TiledMap tiledMap) {
-        removeTile(x, y, tiledMap);
+        // check if there is a block to remove at the given coordinates
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        if (layer.getCell(x, y) == null) {
+            return;
+        }
         removeMapObject(x, y, tiledMap);
+        removeTile(x, y, tiledMap);
     }
 
     /**
@@ -239,8 +244,22 @@ public class TileMapHelper {
      * @param tiledMap
      */
     public void addBlock(int x, int y, TileType tileType, TiledMap tiledMap) {
-        addTile(x, y, tileType, tiledMap);
+        // check if there is already a block at the coordinates
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        if (layer.getCell(x, y) != null) {
+            return;
+        }
+        // needs to check if player is in the way (player is 2x1 tiles)
+        int playerX = (int) gameScreen.getPlayer().getX() / Constants.TILE_SIZE;
+        int playerY = (int) gameScreen.getPlayer().getY() / Constants.TILE_SIZE;
+        System.out.println("PlayerX: " + playerX + " PlayerY: " + playerY);
+        System.out.println("Tilex: " + x + " Tiley: " + y);
+        if (x == playerX && y == (playerY - 1) || x == playerX && y == playerY) {
+            return;
+        }
+
         addMapObject(x, y, tileType.getId(), tiledMap);
+        addTile(x, y, tileType, tiledMap);
     }
 
     // Getter
