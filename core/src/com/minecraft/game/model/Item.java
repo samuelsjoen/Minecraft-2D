@@ -66,10 +66,10 @@ public enum Item {
         }
     }
 
-    // get the item with id
-    public static Item getItemWithId(int id) {
-        return itemMap.get(id);
-    }
+    // // get the item with id
+    // public static Item getItemWithId(int id) {
+    //     return itemMap.get(id);
+    // }
 
     // get the item with name
     public static Item getItemWithName(String name) {
