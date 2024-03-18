@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //import com.badlogic.gdx.Input.Keys;
 //import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.utils.TileMapHelper;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 //import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -48,6 +49,7 @@ public class GameScreen extends ScreenAdapter {
     private Crafting crafting;
     private CraftingView craftingView;
     @SuppressWarnings("unused")
+
     private Texture backgroundImage; // Background image
 
     private World world;
@@ -64,6 +66,7 @@ public class GameScreen extends ScreenAdapter {
 
     private WorldListener contactListener;
     private WorldInputProcessor inputProcessor;
+    private SpriteManager spriteManager;
 
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
@@ -71,7 +74,7 @@ public class GameScreen extends ScreenAdapter {
         this.crafting = new Crafting(inventory);
         this.camera = camera;
         this.batch = new SpriteBatch();
-        this.backgroundImage = new Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background img
+        this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
         this.world = new World(new Vector2(0, -25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
@@ -80,12 +83,12 @@ public class GameScreen extends ScreenAdapter {
         this.characterController = new CharacterController(player, inventory);
         
         // controller
-        this.contactListener = new WorldListener();
+        this.contactListener = new WorldListener(getTiledMap());
         this.world.setContactListener(contactListener);
         this.inputProcessor = new WorldInputProcessor(this);
         Gdx.input.setInputProcessor(inputProcessor);
 
-        enemyManager = new EnemyManager(world, player);
+        enemyManager = new EnemyManager(world, player, getTiledMap());
 
     }
 
@@ -98,6 +101,8 @@ public class GameScreen extends ScreenAdapter {
         characterController.update();
         overlayController.update();
         craftingView.update();
+
+        spriteManager.update();
 
         healthView.update();
         inventoryView.update();
@@ -130,11 +135,26 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+    private Vector2 getLowerLeftCorner() {
+        float cameraX = camera.position.x - camera.viewportWidth / 2;
+        float cameraY = camera.position.y - camera.viewportHeight / 2;
+        return new Vector2(cameraX, cameraY);
+    }
+
     @Override
     public void render(float delta) {
         this.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.begin();
+        // Added temporary background based on the lower left corner of the screen
+        // window
+        // Should be changed so that one cannot see clouds behind tiles, when player is
+        // "in the ground".
+        Vector2 lowerLeftCorner = getLowerLeftCorner();
+        batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
+        batch.end();
 
         orthogonalTiledMapRenderer.render();
         
@@ -150,6 +170,8 @@ public class GameScreen extends ScreenAdapter {
 
         if (player != null) {
             player.render(batch);
+            spriteManager.render(batch, player.getX(), player.getY());
+
         }
 
     
@@ -182,16 +204,34 @@ public class GameScreen extends ScreenAdapter {
         return inventory;
     }
 
+    public Player getPlayer() {
+        return player;
+    }  
+
     public void setPlayer(Player player) {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
         this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
         this.craftingView = new CraftingView(200, 200, player.getBody(), crafting);
         this.overlayController = new OverlayController(inventory, craftingView);
+        this.spriteManager = new SpriteManager(player, inventory);
     }
 
     public static void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        backgroundImage.dispose();
+        world.dispose();
+        box2DDebugRenderer.dispose();
+        orthogonalTiledMapRenderer.dispose();
+        // dispose the map
+        getTiledMap().dispose();
+        // dispose the sprite texture
+        spriteManager.dispose();
     }
 
 }

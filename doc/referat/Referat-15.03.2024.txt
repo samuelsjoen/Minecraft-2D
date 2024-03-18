@@ -1,0 +1,43 @@
+Referat for møte [15.03.2024]
+
+Formål:
+
+- Merge brancher
+- Diskutere hva vi må gjøre frem til release
+- Begrense 
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+    Samuel Sjøen
+
+Sammendrag:
+Ting som må gjøres:
+- Fikse mining: Det skal ta tid å mine basert på blokken (damage variabel)
+- Crafting UI
+- Større map; lage en minecraftportal, bossmap
+- Crafte nøkkel
+- Legge til timer for dag og natt. Monstre dukker opp om natten. 
+- Enten miste alt/eller ingenting når du dør
+- Alle public methods må kommenteres (javadoc)
+- 75% coverage for tester 
+- Implementere interfaces/forbedre på all kode. Passe på å ikke gjenbruke kode
+- Begrensninger: Fjerne vann og lava (pga. for mye å implementere)
+- Må ha minst én lyd (f.eks. bakgrunnsmusikken endres basert på om det er natt/dag)
+
+
+Aksjoner og Ansvar:
+- Finpusse kode (implementere interfaces/abstract classes, osv.)
+- Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
+[Fikse crafting UI - Samuel]
+[Testing av kode og finpussing - Magnus]
+[Testing av kode + fikse kart - Martine]
+[Testing av kode + evt. implementere dag/natt timer - Nini]
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - lage/få lagd noen tester
+    - diskutere hva vi skal gjøre fremover

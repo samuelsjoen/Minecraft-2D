@@ -1,7 +1,6 @@
 package com.minecraft.game.utils;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.utils.Array;
 import com.minecraft.game.model.Item;
 
 public class Constants {
@@ -30,14 +29,14 @@ public class Constants {
     public static final float CHARACTER_SCALE = 2.5f; // Example scale to make character bigger
 
     // Debug mode for drawing hitbox around the character
-    public static final boolean DEBUG_MODE = true; // Set to true or false to show or hide the world tiles !
+    public static final boolean DEBUG_MODE = false; // Set to true or false to show or hide the world tiles !
 
     // Key to toggle debug mode if needed dynamically
     public static final int TOGGLE_DEBUG_KEY = Keys.F1;
 
     // PPM (pixels per meter) for Box2D
     public static final float PPM = 32.0f;
-    
+
     // Tile size
     public static final int TILE_SIZE = 64;
 

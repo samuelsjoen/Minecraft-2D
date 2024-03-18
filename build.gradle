@@ -20,11 +20,12 @@ allprojects {
     ext {
         appName = "Minecraft"
         gdxVersion = '1.12.1'
-        roboVMVersion = '2.3.20'
-        box2DLightsVersion = '1.5'
-        ashleyVersion = '1.7.4'
-        aiVersion = '1.8.2'
-        gdxControllersVersion = '2.2.1'
+        //roboVMVersion = '2.3.20'
+        //box2DLightsVersion = '1.5'
+        //ashleyVersion = '1.7.4'
+        //aiVersion = '1.8.2'
+        //gdxControllersVersion = '2.2.1'
+        junitVersion = '5.10.2'
     }
 
     repositories {
@@ -48,17 +49,17 @@ project(":core") {
 
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        testImplementation(platform('org.junit:junit-bom:5.10.2'))
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+
+        // JUnit 5
+        testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+        testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion'))")
         testImplementation('org.junit.jupiter:junit-jupiter')
         testRuntimeOnly('org.junit.platform:junit-platform-launcher')
-        
-    }
 
-        test {
-        useJUnitPlatform()
-        testLogging {
-            events "passed", "skipped", "failed"
-        }
+        // mockito
+        testImplementation('org.mockito:mockito-junit-jupiter:5.11.0')
+
+        // headless
+        testImplementation("com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion")
     }
 }

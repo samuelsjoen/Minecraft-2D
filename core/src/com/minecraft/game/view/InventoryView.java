@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.model.GameEntity;
 import com.minecraft.game.model.Inventory;
@@ -36,7 +35,7 @@ public class InventoryView extends GameEntity {
         for (Item item : inventory.getItems().keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
             batch.draw(itemTexture, xItm + (iteration * invJump), yItm, 23, 23);
-            font.draw(batch, Integer.toString(inventory.getAmount(item)), xItm + (iteration * invJump), y+35);
+            font.draw(batch, Integer.toString(inventory.getAmount(item)), xItm + (iteration * invJump), y + 35);
 
             iteration++;
         }

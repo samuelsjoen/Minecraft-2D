@@ -26,23 +26,27 @@ public class TileMapHelper {
 
     private TiledMap tiledMap;
     private GameScreen gameScreen;
+    private String mapPath;
 
     public TileMapHelper(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        this.mapPath = "assets/map/mapExample2-64.tmx";
     }
 
     /**
-     * Setup the map
+     * Set up the tiledmap
+     * 
      * @return OrthogonalTiledMapRenderer
      */
     public OrthogonalTiledMapRenderer setupMap() {
-        tiledMap = new TmxMapLoader().load("assets/map/mapExample2-64.tmx");
-        createMapObjects();
+        tiledMap = TileMapLoader.loadTileMap(mapPath);
+        createMapObjectsForAllTiles();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
-    // Parse the map objects and based on the type of map object, either create a static body or a player
+    // Parse the map objects and based on the type of map object, either create a
+    // static body or a player
     private void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
 
@@ -61,46 +65,32 @@ public class TileMapHelper {
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
                             rectangle.getHeight(),
+                            null,
                             false,
                             gameScreen.getWorld(),
                             Constants.CATEGORY_PLAYER,
                             Constants.MASK_PLAYER,
-                            "player"); // New stuff added
+                            "player",
+                            false);
                     gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
         }
     }
 
-    /*
-     * private void createStaticBody(PolygonMapObject polygonMapObject) {
-     * BodyDef bodyDef = new BodyDef();
-     * bodyDef.type = BodyDef.BodyType.StaticBody;
-     * Body body = gameScreen.getWorld().createBody(bodyDef);
-     * Shape shape = createPolygonShape(polygonMapObject);
-     * body.createFixture(shape, 1000).setUserData(shape);;
-     * shape.dispose();
-     * }
-     */
-
-     // Create a static body for a polygon map object and add it to the world
+    // Create a static body for a polygon map object and add it to the world
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
+        Body body = BodyHelperService.createBody(
+                createPolygonShape(polygonMapObject),
+                true,
+                gameScreen.getWorld(),
+                Constants.CATEGORY_WORLD,
+                Constants.MASK_WORLD,
+                userData,
+                isSensor);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body = gameScreen.getWorld().createBody(bodyDef);
-        Shape shape = createPolygonShape(polygonMapObject);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.isSensor = isSensor; 
-        fixtureDef.density = 1f; // Adjust as needed
-        fixtureDef.filter.categoryBits = Constants.CATEGORY_WORLD; // World category
-        fixtureDef.filter.maskBits = Constants.MASK_WORLD; // Mask for world, collides with player and enemy
-
-        body.createFixture(fixtureDef).setUserData(userData);
+        // Add the body to the map object so that we can access it later
         polygonMapObject.getProperties().put("body", body);
-
-        shape.dispose();
     }
 
     // Remove a static body from the world
@@ -112,11 +102,12 @@ public class TileMapHelper {
     }
 
     // Create a polygon shape
-    private Shape createPolygonShape(PolygonMapObject polygonMapObject) {
+    static Shape createPolygonShape(PolygonMapObject polygonMapObject) {
         float[] vertices = polygonMapObject.getPolygon().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < vertices.length / 2; i++) {
+            // Converting the vertices from pixels to meters ?
             Vector2 current = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
             worldVertices[i] = current;
         }
@@ -126,48 +117,27 @@ public class TileMapHelper {
         return shape;
     }
 
-    // Create a map object for each tile in the map
-    private void createMapObjects() {
-
+    // Create a map object for each tile in the map (these will be polygonmapobjects)
+    private void createMapObjectsForAllTiles () {
+        // Iterate through each layer of the map
         for (MapLayer layer : tiledMap.getLayers()) {
-
-        if (layer instanceof TiledMapTileLayer) {
-            TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
-
+            if (layer instanceof TiledMapTileLayer) {
+                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
                 // Iterate through each cell of the layer
                 for (int y = 0; y < tiledLayer.getHeight(); y++) {
                     for (int x = 0; x < tiledLayer.getWidth(); x++) {
+                        // Get the cell in the layer at the given coordinates
                         Cell cell = tiledLayer.getCell(x, y);
                         if (cell != null) {
                             // Get the tile ID of the cell
                             int tileId = cell.getTile().getId();
-                            // Do something with the tile ID, for example, print it
+                            // Get the tile type based on the tile ID
                             TileType tileType = TileType.getTileTypeWithId(tileId);
                             if (tileType != null) {
-
-                                MapLayer objectLayer = tiledMap.getLayers().get("collisions");
-
-                                float[] vertices = {
-                                        x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
-                                        (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
-                                        (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
-                                        x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
-                                };
-                                // So that we can get the coordinates of the tile/polygon
-                                String coordinatesTile = (x * tiledLayer.getTileWidth()) + ", "
-                                        + (y * tiledLayer.getTileHeight());
-
-                                MapObjects objects = objectLayer.getObjects();
-
-                                PolygonMapObject polygon = new PolygonMapObject(vertices);
-                                polygon.setName(coordinatesTile);
-                                polygon.getProperties().put("id", tileType.getId());
-                                polygon.getProperties().put("collidable", tileType.isCollidable());
-
-                                objects.add(polygon);
+                                // Create a polygon map object for the tile
+                                createPolygonMapObject(x, y, tileType, tiledMap, tiledLayer);
                             }
                         }
-                        // System.out.println("Tile at (" + x + ", " + y + ") has ID: " + tileId);
                     }
                 }
             }
@@ -175,22 +145,22 @@ public class TileMapHelper {
     }
 
     // Create a polygon map object
-    private PolygonMapObject createPolygonMapObject(int x, int y, int tileId, TiledMap tiledMap) {
-        
+    private PolygonMapObject createPolygonMapObject(int x, int y, TileType tileType, TiledMap tiledMap, TiledMapTileLayer tiledLayer) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
-        TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        TileType tileType = TileType.getTileTypeWithId(tileId);
+
+        int tileWidth = tiledLayer.getTileWidth();
+        int tileHeight = tiledLayer.getTileHeight();
 
         float[] vertices = {
-                x * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
-                (x + 1) * tiledLayer.getTileWidth(), y * tiledLayer.getTileHeight(),
-                (x + 1) * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight(),
-                x * tiledLayer.getTileWidth(), (y + 1) * tiledLayer.getTileHeight()
+                x * tileWidth, y * tileHeight,
+                (x + 1) * tileWidth, y * tileHeight,
+                (x + 1) * tileWidth, (y + 1) * tileHeight,
+                x * tileWidth, (y + 1) * tileHeight
         };
-        // So that we can get the coordinates of the tile/polygon
-        String coordinatesTile = (x * tiledLayer.getTileWidth()) + ", "
-                + (y * tiledLayer.getTileHeight());
+        // Saving the coordinates of the tile/polygon for when we need to remove it!
+        String coordinatesTile = (x * tileWidth) + ", " + (y * tileHeight);
 
+        // Get the map objects of the object layer
         MapObjects objects = objectLayer.getObjects();
 
         PolygonMapObject polygon = new PolygonMapObject(vertices);
@@ -198,6 +168,7 @@ public class TileMapHelper {
         polygon.getProperties().put("id", tileType.getId());
         polygon.getProperties().put("collidable", tileType.isCollidable());
 
+        // Add the polygon to the map objects
         objects.add(polygon);
 
         return polygon;
@@ -213,17 +184,22 @@ public class TileMapHelper {
     private void removeMapObject(int x, int y, TiledMap tiledMap) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
         MapObjects objects = objectLayer.getObjects();
+        // Fetching the coordinates of the tile
         String coordinatesTile = x * Constants.TILE_SIZE + ", " + y * Constants.TILE_SIZE;
-        PolygonMapObject polygon = (PolygonMapObject) objects.get(coordinatesTile);
-        removeStaticBody(polygon);
-        int objectId = (int) polygon.getProperties().get("id");
-        objects.remove(objectId);
+        // Get the map object at the given coordinates
+        MapObject mapObject = objects.get(coordinatesTile);
+        if (mapObject instanceof PolygonMapObject) {
+            PolygonMapObject polygon = (PolygonMapObject) mapObject;
+            removeStaticBody(polygon);
+            int objectId = (int) polygon.getProperties().get("id");
+            // Remove the mapObject from objectlayer
+            objects.remove(objectId);
+        }
     }
 
     // Add a tile to the map
     private void addTile(int x, int y, TileType tileType, TiledMap tiledMap) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        
         TiledMapTileSets tileSets = tiledMap.getTileSets();
         TiledMapTile tile = tileSets.getTile(tileType.getId());
         Cell cell = new Cell();
@@ -233,37 +209,65 @@ public class TileMapHelper {
 
     // Add a map object to the map
     private void addMapObject(int x, int y, int tileId, TiledMap tiledMap) {
-
-        PolygonMapObject mapObject = createPolygonMapObject(x, y, tileId, tiledMap);
-
-        createStaticBody((PolygonMapObject) mapObject,
-                        !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
+        TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        TileType tileType = TileType.getTileTypeWithId(tileId);
+        if (tileType != null) {
+            PolygonMapObject polygon = createPolygonMapObject(x, y, tileType, tiledMap, tiledLayer);
+            createStaticBody(polygon,
+                    !polygon.getProperties().get("collidable", Boolean.class), polygon.getName());
+        }
     }
 
-     /**
+    /**
      * Remove a block from the map
+     * 
      * @param x
      * @param y
      * @param tiledMap
      */
     public void removeBlock(int x, int y, TiledMap tiledMap) {
-        removeTile(x, y, tiledMap);
+        // check if there is a block to remove at the given coordinates
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        if (layer.getCell(x, y) == null) {
+            return;
+        }
         removeMapObject(x, y, tiledMap);
+        removeTile(x, y, tiledMap);
     }
 
     /**
      * Add a block to the map
+     * 
      * @param x
      * @param y
      * @param tileType
      * @param tiledMap
      */
     public void addBlock(int x, int y, TileType tileType, TiledMap tiledMap) {
-        addTile(x, y, tileType, tiledMap);
+        // check if there is already a block at the coordinates
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        if (layer.getCell(x, y) != null) {
+            return;
+        }
+        // needs to check if player is in the way (player is 2x1 tiles)
+        int playerX = (int) gameScreen.getPlayer().getX() / Constants.TILE_SIZE;
+        int playerY = (int) gameScreen.getPlayer().getY() / Constants.TILE_SIZE;
+        System.out.println("PlayerX: " + playerX + " PlayerY: " + playerY);
+        System.out.println("Tilex: " + x + " Tiley: " + y);
+        if (x == playerX && y == (playerY - 1) || x == playerX && y == playerY) {
+            return;
+        }
+
         addMapObject(x, y, tileType.getId(), tiledMap);
+        addTile(x, y, tileType, tiledMap);
     }
 
     // Getter
+    /**
+     * Get the tiled map
+     * 
+     * @return TiledMap object
+     */
     public TiledMap getTiledMap() {
         return tiledMap;
     }

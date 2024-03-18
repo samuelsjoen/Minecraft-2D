@@ -67,15 +67,15 @@ public class WorldInputProcessor implements InputProcessor {
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         Cell cell = mineableLayer.getCell(tileX, tileY);
 
-        // Place a block
+        // Remove a block
         if (button == Input.Buttons.LEFT) {
             if (cell != null) {
                 // Get the tile type based on the tile coordinates
                 int tileId = cell.getTile().getId();
                 TileType tiletype = TileType.getTileTypeWithId(tileId);
 
-                int tileTypeId = tiletype.getId();
-                Item item = Item.getItemWithId(tileTypeId);
+                // Get the item based on the tile type
+                Item item = Item.getItemWithName(tiletype.getTextureName());
                 if (item != null) {
                     // Add the item to the inventory
                     gameScreen.getInventory().addItem(item);
@@ -89,16 +89,11 @@ public class WorldInputProcessor implements InputProcessor {
             if (cell == null) {
                 // Get selected item from inventory
                 Inventory inventory = gameScreen.getInventory();
-                HashMap<Item, Integer> items = inventory.getItems();
-                int currentSlot = inventory.getCurrentSlot();
+                Item item = inventory.getSelectedItem();
+                if (item != null) {
+                    String itemName = item.getName();
 
-                // Check if there are items in the inventory
-                if (items.size() > 0) {
-                    // INDEX OUT OF BOUNDS!!!!
-                    Item item = (Item) items.keySet().toArray()[currentSlot];
-                    int itemId = item.getId();
-
-                    TileType tileType = TileType.getTileTypeWithId(itemId);
+                    TileType tileType = TileType.getTileTypeWithName(itemName);
                     if (tileType != null) {
                         // Remove the item from the inventory
                         inventory.removeItem(item);
@@ -144,5 +139,4 @@ public class WorldInputProcessor implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
 }

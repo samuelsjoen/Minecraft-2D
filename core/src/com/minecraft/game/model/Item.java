@@ -30,29 +30,28 @@ public enum Item {
     LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null),
     WOOD(14, "wood", "A block of wood", "assets/inventoryItems/wood.png", 64, null);
 
-    private final int id;
     private final String name;
     private final String description;
     private final String texture;
     private final int maxAmount;
     private final Item[][] recipe;
 
-    Item(int id, String name, String description, String texture, int maxAmount, Item[][] recipe) {
-        this.id = id;
+    Item(int id, String name, String description, String texture, int maxAmount,  Item[][] recipe) {
         this.name = name;
         this.description = description;
         this.texture = texture;
         this.maxAmount = maxAmount;
         this.recipe = recipe;
+        this.id = id;
     }
 
-    // static initializer
-    // storing the item constants in a hashmap
-    private static HashMap<Integer, Item> itemMap;
+    // Storing the items with name as key
+    private static HashMap<String, Item> itemMapName;
+    // Static initializer
     static {
-        itemMap = new HashMap<Integer, Item>();
+        itemMapName = new HashMap<String, Item>();
         for (Item item : Item.values()) {
-            itemMap.put(item.getId(), item);
+            itemMapName.put(item.getName(), item);
         }
     }
 
@@ -69,6 +68,10 @@ public enum Item {
     // get the item with id
     public static Item getItemWithId(int id) {
         return itemMap.get(id);
+
+    // get the item with name
+    public static Item getItemWithName(String name) {
+        return itemMapName.get(name);
     }
 
     public static HashMap<Item[][], Item> getRecipeMap() {
@@ -87,10 +90,6 @@ public enum Item {
         return texture;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public int getMaxAmount() {
         return maxAmount;
     }
@@ -98,4 +97,5 @@ public enum Item {
     public Item[][] getRecipe() {
         return recipe;
     }
+
 }

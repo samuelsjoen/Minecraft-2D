@@ -5,8 +5,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class GameEntity {
 
-    protected float x, y, velX, velY, speed;
-    protected float width, height;
+    public float x;
+    public float y;
+    protected float velX;
+    protected float velY;
+    protected float speed;
+    public float width;
+    public float height;
     protected Body body;
 
     public GameEntity(float width, float height, Body body) {

@@ -13,6 +13,7 @@ public class OverlayController {
         this.inventory = inventory;
         this.craftingView = craftingView;
     }
+
     public void update() {
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_LEFT)) {
             inventory.changeSlot(-1);
