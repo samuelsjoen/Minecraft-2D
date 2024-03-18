@@ -37,7 +37,7 @@ public enum Item {
     private final int maxAmount;
     private final Item[][] recipe;
 
-    Item(int id, String name, String description, String texture, int maxAmount,  Item[][] recipe) {
+    Item(int id, String name, String description, String texture, int maxAmount, Item[][] recipe) {
         this.name = name;
         this.description = description;
         this.texture = texture;
@@ -66,10 +66,18 @@ public enum Item {
         }
     }
 
-    // // get the item with id
-    // public static Item getItemWithId(int id) {
-    //     return itemMap.get(id);
-    // }
+    private static HashMap<Integer, Item> itemMap;
+    static {
+        itemMap = new HashMap<Integer, Item>();
+        for (Item item : Item.values()) {
+            itemMap.put(item.getId(), item);
+        }
+    }
+
+    // get the item with id
+    public static Item getItemWithId(int id) {
+        return itemMap.get(id);
+    }
 
     // get the item with name
     public static Item getItemWithName(String name) {
@@ -78,6 +86,10 @@ public enum Item {
 
     public static HashMap<Item[][], Item> getRecipeMap() {
         return recipeMap;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
