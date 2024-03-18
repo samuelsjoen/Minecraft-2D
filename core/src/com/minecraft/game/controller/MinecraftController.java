@@ -71,11 +71,13 @@ public class MinecraftController implements InputProcessor {
         if (view.isStartButtonClicked(touchX, touchY)) {
             System.out.println("Start button clicked");
             controllableModel.setGameState(GameState.GAME_ACTIVE);
+            view.updateScreen();
             System.out.println("GameState is: " + controllableModel.getGameState());
             return true;
         } else if (view.isOptionsButtonClicked(touchX, touchY)) {
             System.out.println("Options button clicked");
             controllableModel.setGameState(GameState.PAUSED_SCREEN);
+            view.updateScreen();
             System.out.println("GameState is: " + controllableModel.getGameState());
             return true;
         } else if (view.isQuitButtonClicked(touchX, touchY)) {

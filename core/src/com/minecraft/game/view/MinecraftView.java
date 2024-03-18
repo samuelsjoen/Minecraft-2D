@@ -22,6 +22,14 @@ public class MinecraftView {
         this.optionsScreen = new OptionsScreen(game);
         this.gameScreen = new GameScreen(game.camera);
 
+        updateScreen();
+
+        //game.setScreen(menuScreen);
+
+        //game.setScreen(new GameScreen(game.camera));
+    }
+
+    public void updateScreen() {
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             System.out.println("MenuScreen is started");
             game.setScreen(menuScreen);
@@ -34,13 +42,7 @@ public class MinecraftView {
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER){
             //game.setScreen(new GameOverScreen(game));
         }
-
-        //game.setScreen(menuScreen);
-
-        //game.setScreen(new GameScreen(game.camera));
     }
-
-    
 
     public void dispose() {
         // Dispose of resources when the game is closing
