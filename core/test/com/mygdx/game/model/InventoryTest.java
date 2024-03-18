@@ -43,7 +43,7 @@ public class InventoryTest {
 
     @Test
     void testDropItem() {
-        inventory.addItem(Item.PICKAXE);
+        inventory.addItem(Item.WOODEN_PICKAXE);
         inventory.addItem(Item.DIRT, 10);
         assertTrue(inventory.getSelectedItem() == Item.PICKAXE);
         inventory.dropItem();
