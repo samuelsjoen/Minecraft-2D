@@ -56,7 +56,7 @@ public class InventoryView extends GameEntity {
     public void update() {
         x = body.getPosition().x * Constants.PPM + 200;
         y = body.getPosition().y * Constants.PPM + 300;
-        xItm = x + 5;
-        yItm = y + 5;
+        xItm = x + 7;
+        yItm = y + 7;
     }
 }
