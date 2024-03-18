@@ -30,6 +30,7 @@ public enum Item {
     LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null),
     WOOD(14, "wood", "A block of wood", "assets/inventoryItems/wood.png", 64, null);
 
+    private final int id;
     private final String name;
     private final String description;
     private final String texture;
@@ -68,6 +69,7 @@ public enum Item {
     // get the item with id
     public static Item getItemWithId(int id) {
         return itemMap.get(id);
+    }
 
     // get the item with name
     public static Item getItemWithName(String name) {
