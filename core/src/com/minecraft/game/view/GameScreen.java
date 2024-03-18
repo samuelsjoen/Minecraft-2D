@@ -1,36 +1,24 @@
 package com.minecraft.game.view;
 
-//import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-//import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
-import com.minecraft.game.controller.CharacterController;
-import com.minecraft.game.controller.WorldInputProcessor;
-import com.minecraft.game.controller.WorldListener;
-import com.minecraft.game.controller.InventoryController;
+import com.minecraft.game.controller.WorldController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-//import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-//import com.badlogic.gdx.Input.Keys;
-//import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.utils.TileMapHelper;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-//import com.badlogic.gdx.maps.tiled.TiledMap;
-//import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-//import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 import com.minecraft.game.model.Projectile;
@@ -42,9 +30,8 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private Player player;
     private Health playerHealth;
-    private HealthView healthView;
     private Inventory inventory;
-    private InventoryView inventoryView;
+    private OverlayView overlayView;
     private Texture backgroundImage; // Background image
 
     private World world;
@@ -55,12 +42,9 @@ public class GameScreen extends ScreenAdapter {
     private TileMapHelper tileMapHelper;
 
     private EnemyManager enemyManager;
-    private CharacterController characterController;
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
-    private InventoryController inventoryController;
+    private WorldController worldController;
 
-    private WorldListener contactListener;
-    private WorldInputProcessor inputProcessor;
     private SpriteManager spriteManager;
 
     public GameScreen(OrthographicCamera camera) {
@@ -74,14 +58,10 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
-        this.characterController = new CharacterController(player, inventory);
-        this.inventoryController = new InventoryController(inventory);
 
         // controller
-        this.contactListener = new WorldListener(getTiledMap());
-        this.world.setContactListener(contactListener);
-        this.inputProcessor = new WorldInputProcessor(this);
-        Gdx.input.setInputProcessor(inputProcessor);
+        this.worldController = new WorldController(player, inventory, this);
+        Gdx.input.setInputProcessor(worldController);
 
         enemyManager = new EnemyManager(world, player, getTiledMap());
 
@@ -93,18 +73,12 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
-        characterController.update();
-        inventoryController.update();
+        worldController.handleGameInput();
 
         spriteManager.update();
 
-        healthView.update();
-        inventoryView.update();
+        overlayView.update();
         enemyManager.update(0.01f);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }
 
         Iterator<Projectile> iterator = projectiles.iterator();
         while (iterator.hasNext()) {
@@ -161,12 +135,8 @@ public class GameScreen extends ScreenAdapter {
 
         }
 
-        if (healthView != null) {
-            healthView.render(batch);
-        }
-
-        if (inventoryView != null) {
-            inventoryView.render(batch);
+        if (overlayView != null) {
+            overlayView.render(batch);
         }
 
         for (Projectile projectile : projectiles) {
@@ -204,8 +174,7 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
-        this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
+        this.overlayView = new OverlayView(200, 200, player.getBody(), inventory, playerHealth);
         this.spriteManager = new SpriteManager(player, inventory);
     }
 
@@ -227,79 +196,3 @@ public class GameScreen extends ScreenAdapter {
     }
 
 }
-
-/*
- * package com.mygdx.game.view;
- * 
- * import com.badlogic.gdx.Screen;
- * import com.mygdx.game.Minecraft2D;
- * import com.mygdx.game.model.Player;
- * import com.badlogic.gdx.Gdx;
- * import com.badlogic.gdx.Screen;
- * import com.badlogic.gdx.graphics.GL20;
- * import com.badlogic.gdx.graphics.Texture;
- * import com.badlogic.gdx.graphics.g2d.Sprite;
- * import com.badlogic.gdx.graphics.g2d.SpriteBatch;
- * import com.badlogic.gdx.Input.Keys;
- * import com.mygdx.game.Minecraft2D;
- * import com.mygdx.game.utils.Constants;
- * 
- * public class GameScreen implements Screen {
- * private Minecraft2D game;
- * private SpriteBatch batch;
- * private Player player;
- * private Texture backgroundImage; // Background image
- * 
- * public GameScreen(Minecraft2D game) {
- * this.game = game;
- * this.batch = new SpriteBatch();
- * this.player = new Player();
- * this.backgroundImage = new
- * Texture(Gdx.files.internal("assets/backgrd1.png")); // Loads the background
- * img
- * }
- * 
- * @Override
- * public void render(float delta) {
- * Gdx.gl.glClearColor(0, 0, 0, 1);
- * Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
- * 
- * batch.begin();
- * 
- * batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
- * Gdx.graphics.getHeight());
- * player.update(delta);
- * player.draw(batch);
- * batch.end();
- * }
- * 
- * // Implement other necessary methods for the Screen interface
- * 
- * @Override
- * public void show() {
- * }
- * 
- * @Override
- * public void resize(int width, int height) {
- * }
- * 
- * @Override
- * public void pause() {
- * }
- * 
- * @Override
- * public void resume() {
- * }
- * 
- * @Override
- * public void hide() {
- * }
- * 
- * @Override
- * public void dispose() {
- * batch.dispose();
- * player.dispose();
- * backgroundImage.dispose();
- * }
- * }
- */

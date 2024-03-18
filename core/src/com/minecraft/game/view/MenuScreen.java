@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
-import com.minecraft.game.controller.MenuController;
 
 public class MenuScreen implements Screen {
     private final SpriteBatch batch;
-    private final MenuController menuController;
     private Texture backgroundTexture;
     private Texture titleTexture;
     private Texture startButtonTexture;
@@ -20,7 +18,6 @@ public class MenuScreen implements Screen {
 
     public MenuScreen(Minecraft game) {
         this.batch = new SpriteBatch();
-        this.menuController = new MenuController(game, this); // Pass the MenuScreen instance to the controller
         loadTextures();
     }
 
@@ -39,7 +36,6 @@ public class MenuScreen implements Screen {
         batch.begin();
         drawMenu();
         batch.end();
-        menuController.handleInput(); // Call the controller to handle input
     }
 
     private void clearScreen() {
