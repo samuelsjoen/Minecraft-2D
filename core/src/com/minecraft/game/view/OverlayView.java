@@ -1,19 +1,18 @@
 package com.minecraft.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.minecraft.game.model.GameEntity;
+import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.Item;
 import com.minecraft.game.model.Player;
-import com.minecraft.game.utils.Constants;
 
-public class OverlayView extends GameEntity {
+public class OverlayView {
 
     private Texture inventorySprite;
     private Texture selectedItem;
@@ -27,13 +26,15 @@ public class OverlayView extends GameEntity {
     @SuppressWarnings("unused")
     private Health health;
     private float xHealth, yHealth;
+    private OrthographicCamera camera;
+    private float x, y;
 
-    public OverlayView(float width, float height, Body body, Inventory inventory, Health health) {
-        super(width, height, body);
+    public OverlayView(Inventory inventory, Health health, OrthographicCamera camera) {
         this.inventory = inventory;
         this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
         this.font = new BitmapFont();
+        this.camera = camera;
 
         // The amount of pixels to jump to the next item slot
         this.invJump = 40;
@@ -42,6 +43,12 @@ public class OverlayView extends GameEntity {
         this.splitFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(),
                 healthBarSheet.getHeight() / 5);
         this.health = health;
+    }
+
+    private Vector2 getMiddleOfScreen() {
+        float cameraX = camera.position.x - camera.viewportWidth / 2;
+        float cameraY = camera.position.y - camera.viewportHeight / 2;
+        return new Vector2(cameraX, cameraY);
     }
 
     private void renderItems(SpriteBatch batch) {
@@ -70,15 +77,14 @@ public class OverlayView extends GameEntity {
         batch.draw(selectedItem, x + (inventory.getCurrentSlot() * invJump), y);
     }
 
-    @Override
     public void update() {
-        x = body.getPosition().x * Constants.PPM + 200;
-        y = body.getPosition().y * Constants.PPM + 300;
+        x = getMiddleOfScreen().x + 200 + 640;
+        y = getMiddleOfScreen().y + 300 + 360;
+
         xItm = x + 5;
         yItm = y + 5;
 
-        xHealth = body.getPosition().x * Constants.PPM - 600;
-        yHealth = body.getPosition().y * Constants.PPM + 305;
-
+        xHealth = getMiddleOfScreen().x - 600 + 640 ;
+        yHealth = getMiddleOfScreen().y + 305 + 360;
     }
 }

@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
-    // private Minecraft game;
     private SpriteBatch batch;
     private Player player;
     private Health playerHealth;
@@ -174,7 +173,7 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.overlayView = new OverlayView(200, 200, player.getBody(), inventory, playerHealth);
+        this.overlayView = new OverlayView(inventory, playerHealth, camera);
         this.spriteManager = new SpriteManager(player, inventory);
     }
 

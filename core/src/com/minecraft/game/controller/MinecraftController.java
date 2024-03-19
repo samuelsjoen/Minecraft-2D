@@ -63,6 +63,7 @@ public class MinecraftController implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
+        // Controlling the buttons on menuScreen
         if (controllableModel.getGameState() == GameState.WELCOME_SCREEN) {
 
         float touchX = Gdx.input.getX();

@@ -37,10 +37,6 @@ public class WorldController implements InputProcessor {
 
     public void handleGameInput() {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }
-
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_LEFT)) {
             inventory.changeSlot(-1);
         }
