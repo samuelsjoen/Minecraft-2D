@@ -14,20 +14,20 @@ import com.minecraft.game.model.Player;
 
 public class OverlayView {
 
+    private float x, y;
+    private float xItm, yItm;
+    private float xHealth, yHealth;
+
+    private Inventory inventory;
     private Texture inventorySprite;
     private Texture selectedItem;
-    private float xItm, yItm;
     private float invJump;
-    private Inventory inventory;
-    private BitmapFont font;
-
-    private Texture healthBarSheet;
-    private TextureRegion[][] splitFrames;
     @SuppressWarnings("unused")
     private Health health;
-    private float xHealth, yHealth;
+    private Texture healthBarSheet;
+    private TextureRegion[][] splitFrames;
+    private BitmapFont font;
     private OrthographicCamera camera;
-    private float x, y;
 
     public OverlayView(Inventory inventory, Health health, OrthographicCamera camera) {
         this.inventory = inventory;
@@ -41,7 +41,7 @@ public class OverlayView {
 
         this.healthBarSheet = new Texture(Gdx.files.internal("assets/overlay/healthBar.png"));
         this.splitFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(),
-                healthBarSheet.getHeight() / 5);
+                                                healthBarSheet.getHeight() / 5);
         this.health = health;
     }
 

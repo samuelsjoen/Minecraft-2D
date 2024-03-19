@@ -32,9 +32,10 @@ public class Minecraft extends Game {
 		MinecraftMap map = new MinecraftMap();
 		MinecraftModel model = new MinecraftModel(map, factory);
 		MinecraftView view = new MinecraftView(this, model);
-		MinecraftController controller = new MinecraftController(model,view);
+		@SuppressWarnings("unused")
+		MinecraftController controller = new MinecraftController(model, view);
 
-		Gdx.input.setInputProcessor(controller); // comment this out to make WorldController "work" placing tiles etc. I don't think we can have multiple input processors
+		//Gdx.input.setInputProcessor(controller); // comment this out to make WorldController "work" placing tiles etc. I don't think we can have multiple input processors
 
 	}
 

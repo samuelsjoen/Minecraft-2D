@@ -18,8 +18,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
         this.factory = factory;
 
-        //this.gameState = GameState.GAME_ACTIVE; 
-        this.gameState = GameState.WELCOME_SCREEN;
+        this.gameState = GameState.GAME_ACTIVE; 
+        //this.gameState = GameState.WELCOME_SCREEN;
     }
 
     @Override
@@ -31,5 +31,30 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public void setGameState(GameState state) {
         gameState = state;
     }
+    /*
+    @Override
+    public OrthogonalTiledMapRenderer getMapRenderer() {
+        return map.setupMap();
+    }
+
+    @Override
+    public void removeBlock(int x, int y) {
+        map.removeBlock(x, y);
+    }
+
+    @Override
+    public void addBlock(int x, int y) {
+        map.addBlock(x, y);
+    }
+
+    @Override
+    public TiledMap getTiledMap() {
+        return map.getTiledMap();
+    }
+
+    @Override
+    public Health getHealth() {
+        return playerHealth;
+    }*/
 
 }

@@ -31,8 +31,7 @@ public class GameScreen extends ScreenAdapter {
     private Health playerHealth;
     private Inventory inventory;
     private OverlayView overlayView;
-    private Texture backgroundImage; // Background image
-
+    private Texture backgroundImage; 
     private World world;
 
     private OrthographicCamera camera;
@@ -47,32 +46,40 @@ public class GameScreen extends ScreenAdapter {
     private SpriteManager spriteManager;
 
     public GameScreen(OrthographicCamera camera) {
-        this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
-        this.world = new World(new Vector2(0, -25f), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
+
+        // TODO: Should be initialized in model, and use getter for getPlayerHealth() and getInventory()
+        this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        
+        // TODO: Should be initialized in model, and use getter for getOrthogonalTiledMapRenderer() & getWorld()
+        this.world = new World(new Vector2(0, -25f), false);
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
-        // controller
+        // TODO: Should not initialize EnemyManager here, should be initialized in model, and use getter for getViewableEnemies() or something
+        enemyManager = new EnemyManager(world, player, getTiledMap());
+
+        // TODO: Should rather use MinecraftController which is initialized in Minecraft.java instead of initializing a controller here. 
         this.worldController = new WorldController(player, inventory, this);
         Gdx.input.setInputProcessor(worldController);
 
-        enemyManager = new EnemyManager(world, player, getTiledMap());
-
     }
 
+    // TODO: world.step() should be called in model - 
     private void update() {
         world.step(1 / 60f, 6, 2);
+
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
         worldController.handleGameInput();
+        this.inventory = this.getInventory();
 
         spriteManager.update();
 
@@ -90,16 +97,14 @@ public class GameScreen extends ScreenAdapter {
                 iterator.remove();
             }
         }
-
     }
-
+    // TODO: instead of using player.getBody() directly here, we should use a getter
     private void cameraUpdate() {
         Vector3 position = camera.position;
         position.x = Math.round(player.getBody().getPosition().x * Constants.PPM * 10) / 10f;
         position.y = Math.round(player.getBody().getPosition().y * Constants.PPM * 10) / 10f;
         camera.position.set(position);
         camera.update();
-
     }
 
     private Vector2 getLowerLeftCorner() {
@@ -115,10 +120,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        // Added temporary background based on the lower left corner of the screen
-        // window
-        // Should be changed so that one cannot see clouds behind tiles, when player is
-        // "in the ground".
         Vector2 lowerLeftCorner = getLowerLeftCorner();
         batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
         batch.end();
@@ -131,13 +132,13 @@ public class GameScreen extends ScreenAdapter {
         if (player != null) {
             player.render(batch);
             spriteManager.render(batch, player.getX(), player.getY());
-
         }
 
         if (overlayView != null) {
             overlayView.render(batch);
         }
 
+        // TODO: Should be in model - if projectiles should be drawn use getVisibleProjectiles() or something
         for (Projectile projectile : projectiles) {
             projectile.render(batch);
         }
@@ -148,35 +149,43 @@ public class GameScreen extends ScreenAdapter {
         // the liquid
         orthogonalTiledMapRenderer.render(new int[] { 2 });
 
+        // TODO: World used directly - should use getter
         box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
     }
 
-    public World getWorld() {
-        return world;
-    }
-
+    // TODO: Is maybe not needed here - when we have getCamera in MinecraftView?
     public OrthographicCamera getCamera() {
         return camera;
     }
 
+    // TODO: This should be in model - and use getter the other way around from model to view instead
+    public World getWorld() {
+        return world;
+    }
+
+    // TODO: Should be in model
     public TiledMap getTiledMap() {
         return tileMapHelper.getTiledMap();
     }
 
+    // TODO: Should be in model
     public Inventory getInventory() {
         return inventory;
     }
 
+    // TODO: Should be in model, and use getter from model to view through viewableminecraftmodel which we have in MinecraftView.java
     public Player getPlayer() {
         return player;
     }  
 
+    // TODO: instead of using player directly here, we should use a getter or setter
     public void setPlayer(Player player) {
         this.player = player;
         this.overlayView = new OverlayView(inventory, playerHealth, camera);
         this.spriteManager = new SpriteManager(player, inventory);
     }
 
+    // TODO: Should definitely be in model
     public static void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
     }
@@ -188,9 +197,7 @@ public class GameScreen extends ScreenAdapter {
         world.dispose();
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();
-        // dispose the map
         getTiledMap().dispose();
-        // dispose the sprite texture
         spriteManager.dispose();
     }
 

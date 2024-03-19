@@ -12,12 +12,11 @@ public interface ControllableMinecraftModel {
 
     void setGameState(GameState state);
 
-    /*
-    
     // Inventory
     
-    Inventory getInventory();
+    //Inventory getInventory();
 
+    /*
     void changeInventorySlot(int i);
 
     void dropInventoryItem();
@@ -35,11 +34,12 @@ public interface ControllableMinecraftModel {
     void playerJump();
 
     void playerAttack();
+    */
 
-    // Tiles/blocks
+    // Tiles/blocks    
 
-    void removeBlock(int screenX, int screenY);
+    //void removeBlock(int screenX, int screenY);
 
-    void placeBlock(int screenX, int screenY);
-   */ 
+    //void addBlock(int screenX, int screenY);
+   
 }

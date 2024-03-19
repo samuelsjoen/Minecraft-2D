@@ -259,7 +259,6 @@ public class TileMapHelper {
         addTile(x, y, tileType, tiledMap);
     }
 
-    // Getter
     /**
      * Get the tiled map
      * 

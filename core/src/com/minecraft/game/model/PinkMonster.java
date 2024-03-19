@@ -254,7 +254,6 @@ public class PinkMonster extends GameEntity {
                     markForRemoval = true; // This flag indicates that the enemy is ready to be removed
                 }
                 break;
-
             case ATTACKING:
                 region = attackAnimation.getKeyFrame(stateTime, true);
                 break;

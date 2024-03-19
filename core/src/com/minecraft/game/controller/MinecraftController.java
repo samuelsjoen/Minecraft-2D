@@ -91,14 +91,18 @@ public class MinecraftController implements InputProcessor {
     // REMOVING/PLACING TILES LOGIC
     // for removing/placing tiles/blocks
     if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-        /*
-        if (button == Input.Buttons.LEFT) {                 // Remove a block
-            controllableModel.removeBlock(screenX, screenY);
-        } else if (button == Input.Buttons.RIGHT) {         // Place a block
-            controllableModel.placeBlock(screenX, screenY);
+        /*Vector3 touchPos = new Vector3(screenX, screenY, 0);
+        view.getCamera().unproject(touchPos);
+        int worldX = (int) touchPos.x;
+        int worldY = (int) touchPos.y; 
+        
+        if (button == Input.Buttons.LEFT) { // Remove a block
+            controllableModel.removeBlock(worldX, worldY); 
+        } else if (button == Input.Buttons.RIGHT) { // Place a block
+            controllableModel.addBlock(worldX, worldY);
         }
-        return true;*/
-    }
+        return true;
+    */}
         return false;
     }
 

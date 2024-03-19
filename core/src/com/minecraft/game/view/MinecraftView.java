@@ -1,5 +1,6 @@
 package com.minecraft.game.view;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
 
@@ -39,17 +40,16 @@ public class MinecraftView {
         }
     }
 
-    public void updatePlayer() {
-        // like viewableMinecraftModel.getPlayer() or something
-        // Update player position
-        // Unsure of implementation at this moment
-    }
 
     public void dispose() {
         // Dispose of resources when the game is closing
     }
 
-    // Used for checking if menuScrenn buttons are clicked or not. 
+    public OrthographicCamera getCamera() {
+        return game.camera;
+    }
+
+    // Used for checking if menuScreen buttons are clicked or not. 
     public boolean isStartButtonClicked(float touchX, float touchY) {
         return menuScreen.isStartButtonClicked(touchX, touchY);
     }
