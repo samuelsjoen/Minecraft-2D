@@ -1,13 +1,13 @@
 package com.minecraft.game.view;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
 
-public class OptionsScreen implements Screen {
+public class OptionsScreen extends ScreenAdapter {
 
     @SuppressWarnings("unused")
     private final Minecraft game;
@@ -24,38 +24,14 @@ public class OptionsScreen implements Screen {
     public void render(float delta) {
         clearScreen();
         batch.begin();
-
-        // Tegn bakgrunnen
+        // Draw background
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         batch.end();
     }
 
-    // Tøm skjermen
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
-    // Remaining required methods of the Screen interface
-    @Override
-    public void show() {
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
     }
 
     @Override
