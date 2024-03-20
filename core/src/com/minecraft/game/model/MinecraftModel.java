@@ -22,7 +22,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
         this.factory = factory;
 
-        this.gameState = GameState.GAME_ACTIVE; 
+        //this.gameState = GameState.GAME_ACTIVE; 
+        this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
     }

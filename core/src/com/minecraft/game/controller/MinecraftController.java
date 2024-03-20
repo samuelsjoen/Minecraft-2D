@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.MinecraftView;
+import com.minecraft.game.utils.Constants;
 
 public class MinecraftController implements InputProcessor {
 
@@ -24,6 +25,17 @@ public class MinecraftController implements InputProcessor {
         }
 
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+
+            if (keycode == Input.Keys.F) {
+                // turn fullscreen on or off
+                if (Gdx.graphics.isFullscreen()) {
+                    Gdx.graphics.setWindowedMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+                } else {
+                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                }
+    
+                return true;
+            }
 
             // Pause the game
             if (keycode == Input.Keys.P) {
@@ -69,7 +81,7 @@ public class MinecraftController implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        /*
+        
         // Controlling the buttons on menuScreen
         if (controllableModel.getGameState() == GameState.WELCOME_SCREEN) {
 
@@ -94,7 +106,7 @@ public class MinecraftController implements InputProcessor {
                 return true;
             }
         }
-
+        /*
         // REMOVING/PLACING TILES LOGIC
         // for removing/placing tiles/blocks
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
