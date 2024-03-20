@@ -3,14 +3,22 @@ package com.minecraft.game.view;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
+import com.minecraft.game.view.screens.GameOverScreen;
+import com.minecraft.game.view.screens.GameScreen;
+import com.minecraft.game.view.screens.MenuScreen;
+import com.minecraft.game.view.screens.OptionsScreen;
+import com.minecraft.game.view.screens.PausedScreen;
 
 public class MinecraftView {
 
     private Minecraft game;
-    private MenuScreen menuScreen;
     private ViewableMinecraftModel viewableMinecraftModel;
+
+    private MenuScreen menuScreen;
     private OptionsScreen optionsScreen;
+    private PausedScreen pausedScreen;
     private GameScreen gameScreen;
+    private GameOverScreen gameOverScreen;
 
     public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel) {
 
@@ -19,7 +27,10 @@ public class MinecraftView {
 
         this.menuScreen = new MenuScreen(game);
         this.optionsScreen = new OptionsScreen(game);
-        this.gameScreen = new GameScreen(game.camera);
+        this.pausedScreen = new PausedScreen(game);
+        // this.gameScreen = new GameScreen(game.camera);
+        this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel);
+        this.gameOverScreen = new GameOverScreen(game);
 
         updateScreen();
 
@@ -29,17 +40,19 @@ public class MinecraftView {
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             System.out.println("MenuScreen is started");
             game.setScreen(menuScreen);
-        } else if (viewableMinecraftModel.getGameState() == GameState.PAUSED_SCREEN){
-            System.out.println("PausedScreen is started");
+        } else if (viewableMinecraftModel.getGameState() == GameState.OPTIONS_SCREEN){
+            System.out.println("OptionsScreen is started");
             game.setScreen(optionsScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_ACTIVE){
             System.out.println("GameScreen is started");
-            game.setScreen(gameScreen);
+            game.setScreen(gameScreen);        
+        } else if (viewableMinecraftModel.getGameState() == GameState.GAME_PAUSED){
+                System.out.println("PausedScreen is started");
+                game.setScreen(pausedScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER){
-            //game.setScreen(new GameOverScreen(game));
+            game.setScreen(gameOverScreen);
         }
     }
-
 
     public void dispose() {
         // Dispose of resources when the game is closing
@@ -60,6 +73,11 @@ public class MinecraftView {
 
     public boolean isQuitButtonClicked(float touchX, float touchY) {
         return menuScreen.isQuitButtonClicked(touchX, touchY);
+    }
+
+    public void updateMap() {
+        viewableMinecraftModel.getMapRenderer().setView(getCamera());
+        viewableMinecraftModel.getMapRenderer().render();
     }
 
 }

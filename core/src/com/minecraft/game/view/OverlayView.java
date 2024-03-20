@@ -45,7 +45,8 @@ public class OverlayView {
         this.health = health;
     }
 
-    private Vector2 getMiddleOfScreen() {
+    // TODO: should use the same identical method from gamescreen instead
+    private Vector2 getLowerLeftCorner() {
         float cameraX = camera.position.x - camera.viewportWidth / 2;
         float cameraY = camera.position.y - camera.viewportHeight / 2;
         return new Vector2(cameraX, cameraY);
@@ -78,13 +79,13 @@ public class OverlayView {
     }
 
     public void update() {
-        x = getMiddleOfScreen().x + 200 + 640;
-        y = getMiddleOfScreen().y + 300 + 360;
+        x = getLowerLeftCorner().x + 200 + 640;
+        y = getLowerLeftCorner().y + 300 + 360;
 
         xItm = x + 5;
         yItm = y + 5;
 
-        xHealth = getMiddleOfScreen().x - 600 + 640 ;
-        yHealth = getMiddleOfScreen().y + 305 + 360;
+        xHealth = getLowerLeftCorner().x - 600 + 640 ;
+        yHealth = getLowerLeftCorner().y + 305 + 360;
     }
 }

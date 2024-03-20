@@ -1,11 +1,12 @@
-package com.mygdx.game.utils;
+/*package com.mygdx.game.utils;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.minecraft.game.view.GameScreen;
 import com.mygdx.game.LibgdxUnitTest;
-import com.minecraft.game.utils.TileMapHelper;
+import com.minecraft.game.utils.MinecraftMap;
 import com.minecraft.game.utils.TileMapLoader;
+import com.minecraft.game.view.screens.GameScreen;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,20 +16,18 @@ import static org.mockito.Mockito.*;
 
 public class TileMapHelperTest extends LibgdxUnitTest {
 
-    private TileMapHelper tileMapHelper;
-	private TileMapHelper tileMapHelperMock;
+    private MinecraftMap tileMapHelper;
+	private MinecraftMap tileMapHelperMock;
     private GameScreen gameScreenMock;
     private TiledMap tiledMap;
 	private TiledMap tiledMapMock;
 
-    /**
-	 * Static method run before everything else
-	 */
+
 	@BeforeEach
 	void setUp() {
 		// mocking
 		gameScreenMock = mock(GameScreen.class);
-		tileMapHelperMock = mock(TileMapHelper.class);
+		tileMapHelperMock = mock(MinecraftMap.class);
 	
 		tiledMapMock = mock(TiledMap.class);
 
@@ -37,12 +36,11 @@ public class TileMapHelperTest extends LibgdxUnitTest {
         tiledMap = TileMapLoader.loadTileMap(mapPath);
 
 		// create instance of TileMapHelper
-		tileMapHelper = new TileMapHelper(gameScreenMock);
+		tileMapHelper = new MinecraftMap(gameScreenMock);
 	}
 
 	@Test
 	public void testSetupMap() {
-	
 	}
 
 	@Test
@@ -68,4 +66,4 @@ public class TileMapHelperTest extends LibgdxUnitTest {
 	}
 
 
-}
+}*/

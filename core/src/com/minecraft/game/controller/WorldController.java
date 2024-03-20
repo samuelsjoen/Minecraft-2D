@@ -16,9 +16,9 @@ import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.Item;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.utils.TileMapHelper;
+import com.minecraft.game.utils.MinecraftMap;
 import com.minecraft.game.utils.TileType;
-import com.minecraft.game.view.GameScreen;
+import com.minecraft.game.view.screens.GameScreen;
 
 public class WorldController implements InputProcessor {
 
@@ -26,13 +26,13 @@ public class WorldController implements InputProcessor {
     private Inventory inventory;
     private int jumpCounter = 0; // Jump counter initialized
     private GameScreen gameScreen;
-    private TileMapHelper tileMapHelper;
+    private MinecraftMap minecraftMap;
 
     public WorldController(Player player, Inventory inventory, GameScreen gameScreen) {
         this.player = player;
         this.inventory = inventory;
         this.gameScreen = gameScreen;
-        this.tileMapHelper = new TileMapHelper(gameScreen);
+        this.minecraftMap = new MinecraftMap(); //gameScreen);
     }
 
     public void handleGameInput() {
@@ -121,7 +121,7 @@ public class WorldController implements InputProcessor {
                     // Add the item to the inventory
                     gameScreen.getInventory().addItem(item);
                     // Remove the block from the mineable layer
-                    tileMapHelper.removeBlock(tileX, tileY, gameScreen.getTiledMap());
+                    minecraftMap.removeBlock(tileX, tileY, gameScreen.getTiledMap());
                 }
             }
             // Put down a block
@@ -139,7 +139,7 @@ public class WorldController implements InputProcessor {
                         // Remove the item from the inventory
                         inventory.removeItem(item);
                         // Add the block to the mineable layer
-                        tileMapHelper.addBlock(tileX, tileY, tileType, gameScreen.getTiledMap());
+                        minecraftMap.addBlock(tileX, tileY, tileType, gameScreen.getTiledMap());
                     }
                 }
             }
@@ -195,6 +195,5 @@ public class WorldController implements InputProcessor {
     public boolean keyTyped(char character) {
         return false;
     }
-
 
 }

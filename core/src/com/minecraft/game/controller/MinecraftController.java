@@ -24,85 +24,96 @@ public class MinecraftController implements InputProcessor {
         }
 
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            /*
+
+            // Pause the game
+            if (keycode == Input.Keys.P) {
+                controllableModel.setGameState(GameState.GAME_PAUSED);
+                view.updateScreen();
+            }
+            
             // CONTROLLING PLAYER
-            if (keycode == Input.Keys.LEFT) {
+            /*if (keycode == Input.Keys.LEFT) {
                 controllableModel.movePlayerLeft();
-                return true;
+                view.updatePlayer();
             } else if (keycode == Input.Keys.RIGHT) {
                 controllableModel.movePlayerRight();
-                return true;
+                view.updatePlayer();
             } else if (keycode == Input.Keys.UP) {
                 controllableModel.playerJump();
-                return true;
+                view.updatePlayer();
             } else if (keycode == Input.Keys.DOWN) {
                 controllableModel.playerAttack();
-                return true;
+                view.updatePlayer();
             } else if (keycode == Input.Keys.R) {
                 controllableModel.revivePlayer();
-                return true;
+                view.updatePlayer();
             }
 
             // CONTROLLING INVENTORY
             else if (keycode == Input.Keys.A) {
                 controllableModel.changeInventorySlot(-1);
+                view.updateInventory();
                 return true;
             } else if (keycode ==Input.Keys.D) {
                 controllableModel.changeInventorySlot(+1);
+                view.updateInventory();
                 return true;
             } else if (keycode == Input.Keys.Q) {
                 controllableModel.dropInventoryItem();
+                view.updateInventory();
                 return true;
-            }
-            */
+            } */  
         }
-
         return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
+        /*
         // Controlling the buttons on menuScreen
         if (controllableModel.getGameState() == GameState.WELCOME_SCREEN) {
 
-        float touchX = Gdx.input.getX();
-        float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+            float touchX = Gdx.input.getX();
+            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        if (view.isStartButtonClicked(touchX, touchY)) {
-            System.out.println("Start button clicked");
-            controllableModel.setGameState(GameState.GAME_ACTIVE);
-            view.updateScreen();
-            System.out.println("GameState is: " + controllableModel.getGameState());
-            return true;
-        } else if (view.isOptionsButtonClicked(touchX, touchY)) {
-            System.out.println("Options button clicked");
-            controllableModel.setGameState(GameState.PAUSED_SCREEN);
-            view.updateScreen();
-            System.out.println("GameState is: " + controllableModel.getGameState());
-            return true;
-        } else if (view.isQuitButtonClicked(touchX, touchY)) {
-            System.out.println("Quit button clicked");
-            Gdx.app.exit();
-            return true;
+            if (view.isStartButtonClicked(touchX, touchY)) {
+                System.out.println("Start button clicked");
+                controllableModel.setGameState(GameState.GAME_ACTIVE);
+                view.updateScreen();
+                System.out.println("GameState is: " + controllableModel.getGameState());
+                return true;
+            } else if (view.isOptionsButtonClicked(touchX, touchY)) {
+                System.out.println("Options button clicked");
+                controllableModel.setGameState(GameState.OPTIONS_SCREEN);
+                view.updateScreen();
+                System.out.println("GameState is: " + controllableModel.getGameState());
+                return true;
+            } else if (view.isQuitButtonClicked(touchX, touchY)) {
+                System.out.println("Quit button clicked");
+                Gdx.app.exit();
+                return true;
+            }
         }
-    }
 
-    // REMOVING/PLACING TILES LOGIC
-    // for removing/placing tiles/blocks
-    if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-        /*Vector3 touchPos = new Vector3(screenX, screenY, 0);
-        view.getCamera().unproject(touchPos);
-        int worldX = (int) touchPos.x;
-        int worldY = (int) touchPos.y; 
-        
-        if (button == Input.Buttons.LEFT) { // Remove a block
-            controllableModel.removeBlock(worldX, worldY); 
-        } else if (button == Input.Buttons.RIGHT) { // Place a block
-            controllableModel.addBlock(worldX, worldY);
-        }
-        return true;
-    */}
+        // REMOVING/PLACING TILES LOGIC
+        // for removing/placing tiles/blocks
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+            Vector3 touchPos = new Vector3(screenX, screenY, 0);
+            view.getCamera().unproject(touchPos);
+            int worldX = (int) touchPos.x;
+            int worldY = (int) touchPos.y; 
+            
+            if (button == Input.Buttons.LEFT) { // Remove a block
+                controllableModel.removeBlock(worldX, worldY); 
+                view.updateMap();
+
+            } else if (button == Input.Buttons.RIGHT) { // Place a block
+                controllableModel.addBlock(worldX, worldY);
+                view.updateMap();
+
+            }
+            return true;
+        }*/
         return false;
     }
 
@@ -111,13 +122,9 @@ public class MinecraftController implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
 
-            int button = Input.Buttons.LEFT; // default button
-            if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                touchDown(screenX, screenY, pointer, button);
-                button = Input.Buttons.RIGHT;
-            }
-            touchDown(screenX, screenY, pointer, button); // Call touchDown method with specified button
-
+            int button = Gdx.input.isButtonPressed(Input.Buttons.RIGHT) ? Input.Buttons.RIGHT : Input.Buttons.LEFT;
+            touchDown(screenX, screenY, pointer, button); // Call touchDown method with the specified button
+            
             return true;
         }
         return false;
