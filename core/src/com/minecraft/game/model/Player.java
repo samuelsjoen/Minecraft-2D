@@ -173,10 +173,6 @@ public class Player extends GameEntity {
         return y;
     }
 
-    public void setInWater(boolean inWater) {
-        // this.inWater = inWater;
-    }
-
     @Override
     public void render(SpriteBatch batch) {
     }

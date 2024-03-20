@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.view.GameScreen;
+import com.minecraft.game.view.screens.GameScreen;
 
 public class PinkMonster extends GameEntity {
     private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, attack2Animation, deadAnimation;

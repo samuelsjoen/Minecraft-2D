@@ -1,4 +1,4 @@
-package com.minecraft.game.view;
+package com.minecraft.game.view.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Gdx;

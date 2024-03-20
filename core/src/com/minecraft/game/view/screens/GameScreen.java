@@ -1,4 +1,4 @@
-package com.minecraft.game.view;
+package com.minecraft.game.view.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.minecraft.game.model.Health;
@@ -13,7 +13,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
-import com.minecraft.game.utils.TileMapHelper;
+import com.minecraft.game.view.OverlayView;
+import com.minecraft.game.view.ViewableMinecraftModel;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -32,52 +33,73 @@ public class GameScreen extends ScreenAdapter {
     private Inventory inventory;
     private OverlayView overlayView;
     private Texture backgroundImage; 
-    private World world;
+    //private World world;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper;
+    //private TiledMap minecraftMap;
 
     private EnemyManager enemyManager;
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
     private WorldController worldController;
 
     private SpriteManager spriteManager;
+    private ViewableMinecraftModel viewableMinecraftModel;
 
-    public GameScreen(OrthographicCamera camera) {
+    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel) {
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
 
+        this.viewableMinecraftModel = viewableMinecraftModel;
+
+        //this.world = viewableMinecraftModel.getWorld();
+        //this.minecraftMap = viewableMinecraftModel.getTiledMap();
+        this.orthogonalTiledMapRenderer = viewableMinecraftModel.getMapRenderer();
+
+        this.player = viewableMinecraftModel.getPlayer();
+
         // TODO: Should be initialized in model, and use getter for getPlayerHealth() and getInventory()
-        this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
+        //this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         
-        // TODO: Should be initialized in model, and use getter for getOrthogonalTiledMapRenderer() & getWorld()
-        this.world = new World(new Vector2(0, -25f), false);
-        this.tileMapHelper = new TileMapHelper(this);
-        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        this.playerHealth = Player.getHealth();
+
+        // DONE?: Should be initialized in model, and use getter for getOrthogonalTiledMapRenderer() & getWorld()
+        //this.world = new World(new Vector2(0, -25f), false);
+        //this.minecraftMap = new MinecraftMap(this);
+        //this.orthogonalTiledMapRenderer = minecraftMap.setupMap();
 
         // TODO: Should not initialize EnemyManager here, should be initialized in model, and use getter for getViewableEnemies() or something
-        enemyManager = new EnemyManager(world, player, getTiledMap());
+        //enemyManager = new EnemyManager(world, player, getTiledMap());
+        //enemyManager = new EnemyManager(world, viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getTiledMap());
+        enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getTiledMap());
+
+        this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(), inventory); 
+        this.overlayView = new OverlayView(inventory, playerHealth, camera); 
 
         // TODO: Should rather use MinecraftController which is initialized in Minecraft.java instead of initializing a controller here. 
-        this.worldController = new WorldController(player, inventory, this);
+        //this.worldController = new WorldController(player, inventory, this);
+        this.worldController = new WorldController(viewableMinecraftModel.getPlayer(), inventory, this);
+        
         Gdx.input.setInputProcessor(worldController);
 
     }
 
-    // TODO: world.step() should be called in model - 
+    // TODO: world.step() should be called in model?
     private void update() {
-        world.step(1 / 60f, 6, 2);
+        //world.step(1 / 60f, 6, 2);
+        viewableMinecraftModel.getWorld().step(1 / 60f, 6, 2);
+
 
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
-        player.update();
+        viewableMinecraftModel.getPlayer().update();
+        //player.update();
         worldController.handleGameInput();
         this.inventory = this.getInventory();
 
@@ -90,19 +112,25 @@ public class GameScreen extends ScreenAdapter {
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.update();
-            projectile.checkCollisionWithPlayer(player);
+            projectile.checkCollisionWithPlayer(viewableMinecraftModel.getPlayer());
+            //projectile.checkCollisionWithPlayer(player);
 
             if (projectile.isMarkedForRemoval()) {
-                world.destroyBody(projectile.getBody());
+                //world.destroyBody(projectile.getBody());
+                viewableMinecraftModel.getWorld().destroyBody(projectile.getBody());
+
                 iterator.remove();
             }
         }
     }
-    // TODO: instead of using player.getBody() directly here, we should use a getter
+    // DONE?: instead of using player.getBody() directly here, we should use a getter for playerbody from model
     private void cameraUpdate() {
         Vector3 position = camera.position;
-        position.x = Math.round(player.getBody().getPosition().x * Constants.PPM * 10) / 10f;
-        position.y = Math.round(player.getBody().getPosition().y * Constants.PPM * 10) / 10f;
+        position.x = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().x * Constants.PPM * 10) / 10f;
+        position.y = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().y * Constants.PPM * 10) / 10f;
+
+        //position.x = Math.round(player.getBody().getPosition().x * Constants.PPM * 10) / 10f;
+        //position.y = Math.round(player.getBody().getPosition().y * Constants.PPM * 10) / 10f;
         camera.position.set(position);
         camera.update();
     }
@@ -129,10 +157,15 @@ public class GameScreen extends ScreenAdapter {
 
         enemyManager.render(batch);
 
-        if (player != null) {
+        if (viewableMinecraftModel.getPlayer() != null) {
+            viewableMinecraftModel.getPlayer().render(batch);
+            spriteManager.render(batch, viewableMinecraftModel.getPlayer().getX(), viewableMinecraftModel.getPlayer().getY());
+        }
+
+        /*if (player != null) {
             player.render(batch);
             spriteManager.render(batch, player.getX(), player.getY());
-        }
+        }*/
 
         if (overlayView != null) {
             overlayView.render(batch);
@@ -145,12 +178,9 @@ public class GameScreen extends ScreenAdapter {
 
         batch.end();
 
-        // rendering the liquid layer in the end, so it looks like the player is behind
-        // the liquid
-        orthogonalTiledMapRenderer.render(new int[] { 2 });
-
         // TODO: World used directly - should use getter
-        box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
+        box2DDebugRenderer.render(viewableMinecraftModel.getWorld(), camera.combined.scl(Constants.PPM));
     }
 
     // TODO: Is maybe not needed here - when we have getCamera in MinecraftView?
@@ -160,12 +190,13 @@ public class GameScreen extends ScreenAdapter {
 
     // TODO: This should be in model - and use getter the other way around from model to view instead
     public World getWorld() {
-        return world;
+        //return world;
+        return viewableMinecraftModel.getWorld();
     }
 
     // TODO: Should be in model
     public TiledMap getTiledMap() {
-        return tileMapHelper.getTiledMap();
+        return viewableMinecraftModel.getTiledMap();
     }
 
     // TODO: Should be in model
@@ -178,11 +209,11 @@ public class GameScreen extends ScreenAdapter {
         return player;
     }  
 
-    // TODO: instead of using player directly here, we should use a getter or setter
+    // TODO: Instead of using player directly here, we should use a getter or setter
     public void setPlayer(Player player) {
         this.player = player;
-        this.overlayView = new OverlayView(inventory, playerHealth, camera);
-        this.spriteManager = new SpriteManager(player, inventory);
+        this.overlayView = new OverlayView(inventory, playerHealth, camera); // TODO: This should stay in view, but use getter for inventory and health
+        this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(), inventory); // TODO: This should stay in view, but use getter for player and inventory
     }
 
     // TODO: Should definitely be in model
@@ -194,10 +225,9 @@ public class GameScreen extends ScreenAdapter {
     public void dispose() {
         batch.dispose();
         backgroundImage.dispose();
-        world.dispose();
+        //world.dispose();
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();
-        getTiledMap().dispose();
         spriteManager.dispose();
     }
 
