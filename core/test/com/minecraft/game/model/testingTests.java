@@ -1,4 +1,4 @@
-package com.mygdx.game.model;
+package com.minecraft.game.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;

@@ -15,9 +15,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.Item;
 import com.minecraft.game.model.Player;
+import com.minecraft.game.model.map.MinecraftMap;
+import com.minecraft.game.model.map.TileType;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.utils.MinecraftMap;
-import com.minecraft.game.utils.TileType;
 import com.minecraft.game.view.screens.GameScreen;
 
 public class WorldController implements InputProcessor {

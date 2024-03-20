@@ -1,4 +1,4 @@
-package com.minecraft.game.utils;
+package com.minecraft.game.model.map;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Player;
 //import com.minecraft.game.view.screens.GameScreen;
+import com.minecraft.game.utils.BodyHelperService;
+import com.minecraft.game.utils.Constants;
 
 public class MinecraftMap {
 

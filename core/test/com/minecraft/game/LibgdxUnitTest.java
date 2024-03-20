@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.minecraft.game;
 
 import static org.mockito.Mockito.mock;
 

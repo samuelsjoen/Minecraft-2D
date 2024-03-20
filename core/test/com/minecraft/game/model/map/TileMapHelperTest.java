@@ -1,3 +1,4 @@
+package com.minecraft.game.model.map;
 /*package com.mygdx.game.utils;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;

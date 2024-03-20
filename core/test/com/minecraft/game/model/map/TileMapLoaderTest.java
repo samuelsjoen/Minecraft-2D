@@ -1,10 +1,10 @@
-package com.mygdx.game.utils;
+package com.minecraft.game.model.map;
 
 import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.minecraft.game.utils.TileMapLoader;
-import com.mygdx.game.LibgdxUnitTest;
+import com.minecraft.game.LibgdxUnitTest;
+import com.minecraft.game.model.map.TileMapLoader;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -3,7 +3,7 @@ package com.minecraft.game;
 import com.minecraft.game.controller.MinecraftController;
 import com.minecraft.game.model.MinecraftModel;
 import com.minecraft.game.model.entities.EntityFactory;
-import com.minecraft.game.utils.MinecraftMap;
+import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.view.MinecraftView;
 
 import com.badlogic.gdx.Game;

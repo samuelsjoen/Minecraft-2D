@@ -1,11 +1,11 @@
-package com.mygdx.game.utils;
+package com.minecraft.game.model.map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import com.minecraft.game.utils.TileType;
+import com.minecraft.game.model.map.TileType;
 
 public class TileTypeTest {
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.entities.EntityFactory;
-import com.minecraft.game.utils.MinecraftMap;
+import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.view.ViewableMinecraftModel;
 
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
