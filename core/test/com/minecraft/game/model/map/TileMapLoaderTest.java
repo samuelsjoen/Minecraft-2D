@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.model.map.TileMapLoader;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

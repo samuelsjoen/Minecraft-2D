@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.minecraft.game.model.Health;
-
 public class HealthTest {
 
     @Test

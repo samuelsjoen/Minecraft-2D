@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import com.minecraft.game.model.map.TileType;
-
 public class TileTypeTest {
 
     @Test

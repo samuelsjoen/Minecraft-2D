@@ -1,12 +1,8 @@
 package com.minecraft.game.model.map;
-/*package com.mygdx.game.utils;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.mygdx.game.LibgdxUnitTest;
-import com.minecraft.game.utils.MinecraftMap;
-import com.minecraft.game.utils.TileMapLoader;
-import com.minecraft.game.view.screens.GameScreen;
+import com.minecraft.game.LibgdxUnitTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +15,6 @@ public class TileMapHelperTest extends LibgdxUnitTest {
 
     private MinecraftMap tileMapHelper;
 	private MinecraftMap tileMapHelperMock;
-    private GameScreen gameScreenMock;
     private TiledMap tiledMap;
 	private TiledMap tiledMapMock;
 
@@ -27,7 +22,6 @@ public class TileMapHelperTest extends LibgdxUnitTest {
 	@BeforeEach
 	void setUp() {
 		// mocking
-		gameScreenMock = mock(GameScreen.class);
 		tileMapHelperMock = mock(MinecraftMap.class);
 	
 		tiledMapMock = mock(TiledMap.class);
@@ -37,7 +31,8 @@ public class TileMapHelperTest extends LibgdxUnitTest {
         tiledMap = TileMapLoader.loadTileMap(mapPath);
 
 		// create instance of TileMapHelper
-		tileMapHelper = new MinecraftMap(gameScreenMock);
+		//tileMapHelper = new MinecraftMap(gameScreenMock);
+		tileMapHelper = new MinecraftMap();
 	}
 
 	@Test
@@ -61,10 +56,11 @@ public class TileMapHelperTest extends LibgdxUnitTest {
 		// stubbing
 		when(tileMapHelperMock.getTiledMap()).thenReturn(tiledMapMock);
 		// when
-		//TiledMap tiledMap = tileMapHelperMock.getTiledMap();
+		@SuppressWarnings("unused")
+		TiledMap tiledMap = tileMapHelperMock.getTiledMap();
 		// then
 		verify(tileMapHelperMock).getTiledMap();
 	}
 
 
-}*/
+}
