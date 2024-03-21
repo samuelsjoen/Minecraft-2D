@@ -198,6 +198,10 @@ public class Player extends GameEntity {
         return isInvincible;
     }
 
+    public void setIsInvincible() {
+        isInvincible = !isInvincible;
+    }
+
     public float invincibilityTimer() {
         return invincibilityTimer;
     }
