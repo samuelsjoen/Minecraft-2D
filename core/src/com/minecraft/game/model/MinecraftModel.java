@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
+import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
@@ -97,7 +98,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void movePlayerRight() {
         velX = Constants.PLAYER_MOVE_SPEED;  
-        getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y);  
+        getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y); 
     }
 
     @Override
@@ -137,10 +138,20 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public float getTileDamage(int tileX, int tileY) {
+    public State getPlayerState() {
+        return getPlayer().getCurrentState();
+    }
+
+    // TODO: move this to minecraftmap?
+    private Cell getCell(int tileX, int tileY) {
         TiledMap tiledMap = getTiledMap();
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        Cell cell = mineableLayer.getCell(tileX, tileY);
+        return mineableLayer.getCell(tileX, tileY);
+    }
+
+    @Override
+    public float getTileDamage(int tileX, int tileY) {
+        Cell cell = getCell(tileX, tileY);
         if (cell != null) {
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
@@ -153,10 +164,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void removeBlock(int tileX, int tileY) {
-        TiledMap tiledMap = getTiledMap();
-        TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        Cell cell = mineableLayer.getCell(tileX, tileY);
-
+        Cell cell = getCell(tileX, tileY);
         if (cell != null) {
             
             // Get the tile type based on the tile coordinates
@@ -169,17 +177,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                 // Add the item to the inventory
                 getInventory().addItem(item);
                 // Remove the block from the mineable layer
-                map.removeBlock(tileX, tileY, tiledMap);
+                map.removeBlock(tileX, tileY, getTiledMap());
             }
         }
     }
 
     @Override
     public void addBlock(int tileX, int tileY) {
-
-        // check if there is already a block at the coordinates
-        TiledMap tiledMap = getTiledMap();
-        TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
 
         // needs to check if player is in the way (player is 2x1 tiles)
         int playerX = (int) getPlayer().getX() / Constants.TILE_SIZE;
@@ -190,7 +194,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
             return;
         }
 
-        Cell cell = mineableLayer.getCell(tileX, tileY);
+        // check if there is already a block at the coordinates
+        Cell cell = getCell(tileX, tileY);
 
         if (cell == null) {
             // Get selected item from inventory
@@ -204,21 +209,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                     // Remove the item from the inventory
                     inventory.removeItem(item);
                     // Add the block to the mineable layer
-                    map.addBlock(tileX, tileY, tileType, tiledMap);
+                    map.addBlock(tileX, tileY, tileType, getTiledMap());
                 }
             }
         }
     }
-
-    /*@Override
-    public boolean getIsNight() {
-        return DayNightCycle.getIsNight();
-        return isNight;
-    }
-
-    private void setNight(boolean isNight)
-    {
-        this.isNight = isNight;
-    }*/
-
 }

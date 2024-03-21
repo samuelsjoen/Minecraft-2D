@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 /**
  * Used to load a TiledMap from a file.
  */
-public class TileMapLoader {
+public class MapLoader {
     
     public static TiledMap loadTileMap(String mapPath) {
         try {

@@ -27,9 +27,9 @@ public class MinecraftView {
 
         this.menuScreen = new MenuScreen(game);
         this.optionsScreen = new OptionsScreen(game);
-        this.pausedScreen = new PausedScreen(game);
         // this.gameScreen = new GameScreen(game.camera);
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel);
+        this.pausedScreen = new PausedScreen(game);
         this.gameOverScreen = new GameOverScreen(game);
 
         updateScreen();

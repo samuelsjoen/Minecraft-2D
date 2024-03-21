@@ -33,7 +33,7 @@ public class MinecraftMap {
     }
 
     public OrthogonalTiledMapRenderer setupMap(String mapPath) {
-        tiledMap = TileMapLoader.loadTileMap(mapPath);
+        tiledMap = MapLoader.loadTileMap(mapPath);
         createMapObjectsForAllTiles();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
@@ -71,7 +71,6 @@ public class MinecraftMap {
                             "player",
                             false);
                     this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body);
-                    //gameScreen.setPlayer(new Player(rectangle.getHeight(), rectangle.getWidth(), body));
                 }
             }
         }
@@ -148,6 +147,7 @@ public class MinecraftMap {
         }
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     // Create a polygon map object
     private PolygonMapObject createPolygonMapObject(int x, int y, TileType tileType, TiledMap tiledMap, TiledMapTileLayer tiledLayer) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
@@ -178,12 +178,14 @@ public class MinecraftMap {
         return polygon;
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     // Remove a tile from the map
     private void removeTile(int x, int y, TiledMap tiledMap) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         layer.setCell(x, y, null);
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     // Remove a map object from the map and the static body from the world
     private void removeMapObject(int x, int y, TiledMap tiledMap) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
@@ -201,6 +203,7 @@ public class MinecraftMap {
         }
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     // Add a tile to the map
     private void addTile(int x, int y, TileType tileType, TiledMap tiledMap) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
@@ -211,6 +214,7 @@ public class MinecraftMap {
         layer.setCell(x, y, cell);
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     // Add a map object to the map
     private void addMapObject(int x, int y, int tileId, TiledMap tiledMap) {
         TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
@@ -233,6 +237,7 @@ public class MinecraftMap {
         removeTile(x, y, tiledMap);
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     public void addBlock(int x, int y, TileType tileType, TiledMap tiledMap) {
         // check if there is already a block at the coordinates
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");

@@ -48,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
         this.viewableMinecraftModel = viewableMinecraftModel;
 
         this.orthogonalTiledMapRenderer = viewableMinecraftModel.getMapRenderer();
-        
+
         // TODO: Should not initialize EnemyManager here, should be initialized in model, and use getter for getViewableEnemies() or something?
         enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getTiledMap());
 

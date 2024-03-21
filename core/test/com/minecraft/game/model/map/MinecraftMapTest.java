@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-public class TileMapHelperTest extends LibgdxUnitTest {
+public class MinecraftMapTest extends LibgdxUnitTest {
 
     private MinecraftMap tileMapHelper;
 	private MinecraftMap tileMapHelperMock;
@@ -28,7 +28,7 @@ public class TileMapHelperTest extends LibgdxUnitTest {
 
 		// load the map
 		String mapPath = "../assets/map/mapExample2-64.tmx";
-        tiledMap = TileMapLoader.loadTileMap(mapPath);
+        tiledMap = MapLoader.loadTileMap(mapPath);
 
 		// create instance of TileMapHelper
 		//tileMapHelper = new MinecraftMap(gameScreenMock);

@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 import com.minecraft.game.utils.Constants;
 
-public class PixelToCellPositionConverter {
+public class PixelToTilePositionConverter {
     private Camera camera;
 
-    public PixelToCellPositionConverter(Camera camera) {
+    public PixelToTilePositionConverter(Camera camera) {
         this.camera = camera;
     }
 

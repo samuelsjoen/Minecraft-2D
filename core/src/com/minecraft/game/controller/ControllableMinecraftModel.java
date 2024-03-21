@@ -1,6 +1,7 @@
 package com.minecraft.game.controller;
 
 import com.minecraft.game.model.GameState;
+import com.minecraft.game.model.Player.State;
 
 /**
  * The ControllableMinecraftModel interface represents a controllable Minecraft model.
@@ -66,6 +67,13 @@ public interface ControllableMinecraftModel {
      */
     void playerAttack();
 
+    /**
+     * Returns the state of the player.
+     * 
+     * @return the state of the player
+     */
+    State getPlayerState();
+
     // Tiles/Blocks
 
     /**
@@ -84,5 +92,12 @@ public interface ControllableMinecraftModel {
      */
     void addBlock(int tileX, int tileY);
 
+    /**
+     * Returns the damage value of a tile at the specified coordinates.
+     *
+     * @param tileX the x-coordinate of the tile
+     * @param tileY the y-coordinate of the tile
+     * @return the damage value of the tile
+     */
     float getTileDamage(int tileX, int tileY);
 }

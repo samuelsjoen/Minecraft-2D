@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Timer;
 import com.minecraft.game.model.GameState;
+import com.minecraft.game.model.Player.State;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.utils.Constants;
 import java.util.LinkedList;
@@ -33,6 +34,16 @@ public class MinecraftController implements InputProcessor {
             return true;
         }
 
+        if (keycode == Input.Keys.F) {
+            // turn fullscreen on or off
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+            } else {
+                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            }
+            return true;
+        }
+
         if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
             if (keycode == Input.Keys.P) {
                 controllableModel.setGameState(GameState.GAME_ACTIVE);
@@ -43,35 +54,43 @@ public class MinecraftController implements InputProcessor {
 
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
 
-            if (keycode == Input.Keys.F) {
-                // turn fullscreen on or off
-                if (Gdx.graphics.isFullscreen()) {
-                    Gdx.graphics.setWindowedMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-                } else {
-                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-                }
-                return true;
-            }
-
             // Pause the game
             if (keycode == Input.Keys.P) {
                 controllableModel.setGameState(GameState.GAME_PAUSED);
                 view.updateScreen();
             }
+
+            if (controllableModel.getPlayerState() == State.DEAD) {
+                if (keycode == Input.Keys.R) {
+                    controllableModel.revivePlayer();
+                }    
+            }
             
             // CONTROLLING PLAYER
-            if (keycode == Input.Keys.A) {
-                controllableModel.movePlayerLeft();
-            } else if (keycode == Input.Keys.D) {
-                controllableModel.movePlayerRight();
-            } else if (keycode == Input.Keys.SPACE) {
-                controllableModel.playerJump();
-            } else if (keycode == Input.Keys.TAB) {
-                controllableModel.playerAttack();
-            } else if (keycode == Input.Keys.R) {
-                controllableModel.revivePlayer();
-            }
+            if (controllableModel.getPlayerState() != State.DEAD) {
+                if (keycode == Input.Keys.A) {
+                    controllableModel.movePlayerLeft();
+                } else if (keycode == Input.Keys.D) {
+                    controllableModel.movePlayerRight();
+                } else if (keycode == Input.Keys.SPACE) {
+                    controllableModel.playerJump();
+                } else if (keycode == Input.Keys.TAB) {
+                    controllableModel.playerAttack();
+                } 
 
+            // CONTROLLING INVENTORY
+                if (keycode == Input.Keys.LEFT) {
+                    controllableModel.changeInventorySlot(-1);
+                    return true;
+                } else if (keycode ==Input.Keys.RIGHT) {
+                    controllableModel.changeInventorySlot(+1);
+                    return true;
+                } else if (keycode == Input.Keys.Q) {
+                    controllableModel.dropInventoryItem();
+                    return true;
+                }  
+
+            }
                 /*
                 FIXME: ATTACKING WORKS, BUT DOES NOT CHANGE THE PLAYER SPRITE
                 From WorldController:         
@@ -83,17 +102,6 @@ public class MinecraftController implements InputProcessor {
                     }
                 */
 
-            // CONTROLLING INVENTORY
-            else if (keycode == Input.Keys.LEFT) {
-                controllableModel.changeInventorySlot(-1);
-                return true;
-            } else if (keycode ==Input.Keys.RIGHT) {
-                controllableModel.changeInventorySlot(+1);
-                return true;
-            } else if (keycode == Input.Keys.Q) {
-                controllableModel.dropInventoryItem();
-                return true;
-            }  
         }
         return false;
     }
@@ -130,48 +138,49 @@ public class MinecraftController implements InputProcessor {
         // for removing/placing tiles/blocks
         
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+            if (controllableModel.getPlayerState() != State.DEAD) {
 
-            if (timer.isEmpty()) {
-                timer.start();
-            }
-
-            PixelToCellPositionConverter converter = new PixelToCellPositionConverter(view.getCamera());
-
-            // Calculate tile coordinates
-            LinkedList<Integer> tileXAndY = converter.calculateTileXAndY(screenX, screenY);
-            int tileX = tileXAndY.remove();
-            int tileY = tileXAndY.pop();
-
-            if (button == Input.Buttons.LEFT) {
-
-                // Invalid tile coordinates
-                if (tileX < 0 || tileY < 0) { return true; }
-
-                if (tileX != lastTileX || tileY != lastTileY) {
-                    
-                    timer.clear();
+                if (timer.isEmpty()) {
                     timer.start();
-                    Timer.Task blockRemovalTask = new Timer.Task() {
-                        @Override
-                        public void run() {
-                            // Code to remove the block
-                            controllableModel.removeBlock(tileX, tileY);
-                        }
-                    };
-                    
-                    float delay = controllableModel.getTileDamage(tileX, tileY);
-                    timer.scheduleTask(blockRemovalTask, delay);
                 }
 
-                // Store the previous tile coordinates
-                lastTileX = tileX;
-                lastTileY = tileY;
+                PixelToTilePositionConverter converter = new PixelToTilePositionConverter(view.getCamera());
 
-            } else if (button == Input.Buttons.RIGHT) {
-                controllableModel.addBlock(tileX, tileY);
+                // Calculate tile coordinates
+                LinkedList<Integer> tileXAndY = converter.calculateTileXAndY(screenX, screenY);
+                int tileX = tileXAndY.remove();
+                int tileY = tileXAndY.pop();
+
+                if (button == Input.Buttons.LEFT) {
+
+                    // Invalid tile coordinates
+                    if (tileX < 0 || tileY < 0) { return true; }
+
+                    if (tileX != lastTileX || tileY != lastTileY) {
+                        
+                        timer.clear();
+                        timer.start();
+                        Timer.Task blockRemovalTask = new Timer.Task() {
+                            @Override
+                            public void run() {
+                                // Code to remove the block
+                                controllableModel.removeBlock(tileX, tileY);
+                            }
+                        };
+                        
+                        float delay = controllableModel.getTileDamage(tileX, tileY);
+                        timer.scheduleTask(blockRemovalTask, delay);
+                    }
+
+                    // Store the previous tile coordinates
+                    lastTileX = tileX;
+                    lastTileY = tileY;
+
+                } else if (button == Input.Buttons.RIGHT) {
+                    controllableModel.addBlock(tileX, tileY);
+                }
             }
         }
-
         return false;
     }
 
