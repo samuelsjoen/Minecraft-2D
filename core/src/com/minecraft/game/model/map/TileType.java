@@ -5,20 +5,20 @@ import java.util.HashMap;
 // Need to add damage to the tiles + documentation
 public enum TileType {
 
-    GRASS(1, true, "grass"),
-    DIRT(2, true, "dirt"),
-    STONE(3, true, "stone"),
-    WATER(4, false, "water"),
-    LAVA(5, false, "lava"),
-    BEDROCK(6, true, "bedrock"),
-    DIAMOND_ORE(7, true, "diamond_ore"),
-    IRON_ORE(8, true, "iron_ore"),
-    SKY(9, false, "sky"),
-    BLACK(10, false, "black"),
-    STONE_SNOW(11, true, "stone_snow"),
-    DIRT_SNOW(12, true, "dirt_snow"),
-    LEAVES(13, false, "leaves"),
-    WOOD(14, false, "wood");
+    GRASS(1, true, "grass", 0.5f),
+    DIRT(2, true, "dirt", 1),
+    STONE(3, true, "stone", 2),
+    WATER(4, false, "water", 0),
+    LAVA(5, false, "lava", 0),
+    BEDROCK(6, true, "bedrock", 100),
+    DIAMOND_ORE(7, true, "diamond_ore", 5),
+    IRON_ORE(8, true, "iron_ore", 5),
+    SKY(9, false, "sky", 0),
+    BLACK(10, false, "black", 0),
+    STONE_SNOW(11, true, "stone_snow", 3),
+    DIRT_SNOW(12, true, "dirt_snow", 3),
+    LEAVES(13, false, "leaves", 0.5f),
+    WOOD(14, false, "wood", 0.5f);
 
     private final int id;
     private final boolean collidable;

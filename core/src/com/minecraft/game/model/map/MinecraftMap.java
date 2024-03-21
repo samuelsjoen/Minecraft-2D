@@ -18,26 +18,21 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Player;
-//import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
 public class MinecraftMap {
 
     private TiledMap tiledMap;
-    //private GameScreen gameScreen;
-    private String mapPath;
     private World world;
 
     private Player player;
 
-    public MinecraftMap() {// GameScreen gameScreen) {
-        //this.gameScreen = gameScreen;
-        this.mapPath = "assets/map/mapExample3-64.tmx";
+    public MinecraftMap() {
         this.world = new World(new Vector2(0, -25f), false);
     }
 
-    public OrthogonalTiledMapRenderer setupMap() {
+    public OrthogonalTiledMapRenderer setupMap(String mapPath) {
         tiledMap = TileMapLoader.loadTileMap(mapPath);
         createMapObjectsForAllTiles();
         parseMapObjects(tiledMap.getLayers().get("collisions").getObjects());
@@ -71,7 +66,6 @@ public class MinecraftMap {
                             null,
                             false,
                             getWorld(),
-                            //gameScreen.getWorld(),
                             Constants.CATEGORY_PLAYER,
                             Constants.MASK_PLAYER,
                             "player",
@@ -108,8 +102,6 @@ public class MinecraftMap {
         Body body = (Body) polygonMapObject.getProperties().get("body");
         if (body != null) {
             getWorld().destroyBody(body);
-
-            //gameScreen.getWorld().destroyBody(body);
         }
     }
 
@@ -203,9 +195,9 @@ public class MinecraftMap {
         if (mapObject instanceof PolygonMapObject) {
             PolygonMapObject polygon = (PolygonMapObject) mapObject;
             removeStaticBody(polygon);
-            int objectId = (int) polygon.getProperties().get("id");
+            //int objectId = (int) polygon.getProperties().get("id");
             // Remove the mapObject from objectlayer
-            objects.remove(objectId);
+            objects.remove(mapObject);
         }
     }
 
@@ -230,6 +222,7 @@ public class MinecraftMap {
         }
     }
 
+    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
     public void removeBlock(int x, int y, TiledMap tiledMap) {
         // check if there is a block to remove at the given coordinates
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");

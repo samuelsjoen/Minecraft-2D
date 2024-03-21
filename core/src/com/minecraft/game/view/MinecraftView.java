@@ -74,10 +74,6 @@ public class MinecraftView {
     public boolean isQuitButtonClicked(float touchX, float touchY) {
         return menuScreen.isQuitButtonClicked(touchX, touchY);
     }
-
-    public void updateMap() {
-        viewableMinecraftModel.getMapRenderer().setView(getCamera());
-        viewableMinecraftModel.getMapRenderer().render();
-    }
+    
 
 }

@@ -3,24 +3,41 @@ package com.minecraft.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.Timer;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.utils.Constants;
+import java.util.LinkedList;
 
 public class MinecraftController implements InputProcessor {
 
     private ControllableMinecraftModel controllableModel;
     private MinecraftView view;
+    private Timer timer;
+    private int lastTileX;
+    private int lastTileY;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
+        this.timer = new Timer();
+        // default value
+        this.lastTileX = -1;
+        this.lastTileY = -1;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ESCAPE) {
             Gdx.app.exit();
+            return true;
+        }
+
+        if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
+            if (keycode == Input.Keys.P) {
+                controllableModel.setGameState(GameState.GAME_ACTIVE);
+                view.updateScreen();
+            }
             return true;
         }
 
@@ -33,7 +50,6 @@ public class MinecraftController implements InputProcessor {
                 } else {
                     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                 }
-    
                 return true;
             }
 
@@ -44,37 +60,40 @@ public class MinecraftController implements InputProcessor {
             }
             
             // CONTROLLING PLAYER
-            /*if (keycode == Input.Keys.LEFT) {
+            if (keycode == Input.Keys.A) {
                 controllableModel.movePlayerLeft();
-                view.updatePlayer();
-            } else if (keycode == Input.Keys.RIGHT) {
+            } else if (keycode == Input.Keys.D) {
                 controllableModel.movePlayerRight();
-                view.updatePlayer();
-            } else if (keycode == Input.Keys.UP) {
+            } else if (keycode == Input.Keys.SPACE) {
                 controllableModel.playerJump();
-                view.updatePlayer();
-            } else if (keycode == Input.Keys.DOWN) {
+            } else if (keycode == Input.Keys.TAB) {
                 controllableModel.playerAttack();
-                view.updatePlayer();
             } else if (keycode == Input.Keys.R) {
                 controllableModel.revivePlayer();
-                view.updatePlayer();
             }
 
+                /*
+                FIXME: ATTACKING WORKS, BUT DOES NOT CHANGE THE PLAYER SPRITE
+                From WorldController:         
+                if (Gdx.input.isKeyPressed(Keys.TAB)) {
+                        if (inventory.getSelectedItem() == Item.SWORD) {
+                            player.setCurrentState(Player.State.ATTACKING);
+                            player.attack();
+                        }
+                    }
+                */
+
             // CONTROLLING INVENTORY
-            else if (keycode == Input.Keys.A) {
+            else if (keycode == Input.Keys.LEFT) {
                 controllableModel.changeInventorySlot(-1);
-                view.updateInventory();
                 return true;
-            } else if (keycode ==Input.Keys.D) {
+            } else if (keycode ==Input.Keys.RIGHT) {
                 controllableModel.changeInventorySlot(+1);
-                view.updateInventory();
                 return true;
             } else if (keycode == Input.Keys.Q) {
                 controllableModel.dropInventoryItem();
-                view.updateInventory();
                 return true;
-            } */  
+            }  
         }
         return false;
     }
@@ -106,26 +125,53 @@ public class MinecraftController implements InputProcessor {
                 return true;
             }
         }
-        /*
+
         // REMOVING/PLACING TILES LOGIC
         // for removing/placing tiles/blocks
+        
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            Vector3 touchPos = new Vector3(screenX, screenY, 0);
-            view.getCamera().unproject(touchPos);
-            int worldX = (int) touchPos.x;
-            int worldY = (int) touchPos.y; 
-            
-            if (button == Input.Buttons.LEFT) { // Remove a block
-                controllableModel.removeBlock(worldX, worldY); 
-                view.updateMap();
 
-            } else if (button == Input.Buttons.RIGHT) { // Place a block
-                controllableModel.addBlock(worldX, worldY);
-                view.updateMap();
-
+            if (timer.isEmpty()) {
+                timer.start();
             }
-            return true;
-        }*/
+
+            PixelToCellPositionConverter converter = new PixelToCellPositionConverter(view.getCamera());
+
+            // Calculate tile coordinates
+            LinkedList<Integer> tileXAndY = converter.calculateTileXAndY(screenX, screenY);
+            int tileX = tileXAndY.remove();
+            int tileY = tileXAndY.pop();
+
+            if (button == Input.Buttons.LEFT) {
+
+                // Invalid tile coordinates
+                if (tileX < 0 || tileY < 0) { return true; }
+
+                if (tileX != lastTileX || tileY != lastTileY) {
+                    
+                    timer.clear();
+                    timer.start();
+                    Timer.Task blockRemovalTask = new Timer.Task() {
+                        @Override
+                        public void run() {
+                            // Code to remove the block
+                            controllableModel.removeBlock(tileX, tileY);
+                        }
+                    };
+                    
+                    float delay = controllableModel.getTileDamage(tileX, tileY);
+                    timer.scheduleTask(blockRemovalTask, delay);
+                }
+
+                // Store the previous tile coordinates
+                lastTileX = tileX;
+                lastTileY = tileY;
+
+            } else if (button == Input.Buttons.RIGHT) {
+                controllableModel.addBlock(tileX, tileY);
+            }
+        }
+
         return false;
     }
 
@@ -146,32 +192,23 @@ public class MinecraftController implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        timer.stop();
+        timer.clear();
+        return true;
     }
 
     @Override
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) { return false;}
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
+    public boolean mouseMoved(int screenX, int screenY) {return false;}
 
     @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
-    }
+    public boolean scrolled(float amountX, float amountY) {return false;}
 
     @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
+    public boolean keyUp(int keycode) {return false;}
+    
     @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
+    public boolean keyTyped(char character) {return false;}
 }
