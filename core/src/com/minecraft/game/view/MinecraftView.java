@@ -27,7 +27,6 @@ public class MinecraftView {
 
         this.menuScreen = new MenuScreen(game);
         this.optionsScreen = new OptionsScreen(game);
-        // this.gameScreen = new GameScreen(game.camera);
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel);
         this.pausedScreen = new PausedScreen(game);
         this.gameOverScreen = new GameOverScreen(game);
@@ -36,18 +35,18 @@ public class MinecraftView {
 
     }
 
+    public void newGameScreen() {
+        gameScreen = new GameScreen(game.camera, viewableMinecraftModel);
+    }
+
     public void updateScreen() {
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
-            System.out.println("MenuScreen is started");
             game.setScreen(menuScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.OPTIONS_SCREEN){
-            System.out.println("OptionsScreen is started");
             game.setScreen(optionsScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_ACTIVE){
-            System.out.println("GameScreen is started");
             game.setScreen(gameScreen);        
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_PAUSED){
-                System.out.println("PausedScreen is started");
                 game.setScreen(pausedScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER){
             game.setScreen(gameOverScreen);

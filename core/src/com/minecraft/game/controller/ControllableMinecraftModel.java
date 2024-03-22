@@ -100,4 +100,9 @@ public interface ControllableMinecraftModel {
      * @return the damage value of the tile
      */
     float getTileDamage(int tileX, int tileY);
+
+    /**
+     * Restarts the game.
+     */
+    void restartGame();
 }

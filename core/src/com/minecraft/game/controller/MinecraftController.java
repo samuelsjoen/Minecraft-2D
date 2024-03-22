@@ -22,6 +22,7 @@ public class MinecraftController implements InputProcessor {
         this.controllableModel = controllableModel;
         this.view = view;
         this.timer = new Timer();
+
         // default value
         this.lastTileX = -1;
         this.lastTileY = -1;
@@ -52,11 +53,29 @@ public class MinecraftController implements InputProcessor {
             return true;
         }
 
+        // TODO: fix so that it is drawn instantly and not after a button is pressed, should maybe move some of this to model
+
+        if (controllableModel.getGameState() == GameState.GAME_OVER) {
+            if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
+                controllableModel.restartGame();
+                view.newGameScreen();
+                view.updateScreen();
+            }
+            return true;
+        }
+
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
 
             // Pause the game
             if (keycode == Input.Keys.P) {
                 controllableModel.setGameState(GameState.GAME_PAUSED);
+                view.updateScreen();
+            }
+
+            //TODO: move parts of this game over into model or some to view (like the updatescreen?)
+            // Game Over
+            if (controllableModel.getPlayerState() == State.DEAD) {
+                controllableModel.setGameState(GameState.GAME_OVER);
                 view.updateScreen();
             }
 
@@ -116,19 +135,14 @@ public class MinecraftController implements InputProcessor {
             float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
             if (view.isStartButtonClicked(touchX, touchY)) {
-                System.out.println("Start button clicked");
                 controllableModel.setGameState(GameState.GAME_ACTIVE);
                 view.updateScreen();
-                System.out.println("GameState is: " + controllableModel.getGameState());
                 return true;
             } else if (view.isOptionsButtonClicked(touchX, touchY)) {
-                System.out.println("Options button clicked");
                 controllableModel.setGameState(GameState.OPTIONS_SCREEN);
                 view.updateScreen();
-                System.out.println("GameState is: " + controllableModel.getGameState());
                 return true;
             } else if (view.isQuitButtonClicked(touchX, touchY)) {
-                System.out.println("Quit button clicked");
                 Gdx.app.exit();
                 return true;
             }
@@ -197,14 +211,14 @@ public class MinecraftController implements InputProcessor {
         return false;
     }
 
-    // Unused methods - but part of the interface for InputProcessor
-
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         timer.stop();
         timer.clear();
         return true;
     }
+    
+    // Unused methods - but part of the interface for InputProcessor
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) { return false;}

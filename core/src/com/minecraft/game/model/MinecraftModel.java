@@ -177,7 +177,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                 // Add the item to the inventory
                 getInventory().addItem(item);
                 // Remove the block from the mineable layer
-                map.removeBlock(tileX, tileY, getTiledMap());
+                map.removeBlock(tileX, tileY); //, getTiledMap());
             }
         }
     }
@@ -209,9 +209,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                     // Remove the item from the inventory
                     inventory.removeItem(item);
                     // Add the block to the mineable layer
-                    map.addBlock(tileX, tileY, tileType, getTiledMap());
+                    map.addBlock(tileX, tileY, tileType);//, getTiledMap());
                 }
             }
         }
+    }
+
+    @Override
+    public void restartGame() {
+        map = new MinecraftMap();
+        factory = new EntityFactory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        gameState = GameState.WELCOME_SCREEN;
     }
 }

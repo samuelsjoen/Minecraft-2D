@@ -21,17 +21,17 @@ import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
-public class MinecraftMap {
+public class MinecraftMap implements IMinecraftMap {
 
     private TiledMap tiledMap;
     private World world;
-
     private Player player;
 
     public MinecraftMap() {
         this.world = new World(new Vector2(0, -25f), false);
     }
 
+    @Override
     public OrthogonalTiledMapRenderer setupMap(String mapPath) {
         tiledMap = MapLoader.loadTileMap(mapPath);
         createMapObjectsForAllTiles();
@@ -39,15 +39,13 @@ public class MinecraftMap {
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
+    @Override
     public World getWorld() {
         return world;
     }
 
-    // Parse the map objects and based on the type of map object, either create a
-    // static body or a player
     private void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
-
             if (mapObject instanceof PolygonMapObject) {
                 createStaticBody((PolygonMapObject) mapObject,
                         !mapObject.getProperties().get("collidable", Boolean.class), mapObject.getName());
@@ -57,7 +55,7 @@ public class MinecraftMap {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
 
-                if (rectangleName.equals("player")) {
+                if (rectangleName != null && rectangleName.equals("player")) { // Check if rectangleName is not null
                     Body body = BodyHelperService.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
@@ -70,33 +68,31 @@ public class MinecraftMap {
                             Constants.MASK_PLAYER,
                             "player",
                             false);
+                    // TODO: player should probably beinitializedin minecraftmodel?
                     this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body);
                 }
             }
         }
     }
 
+    @Override
     public Player getPlayer() {
         return player;
     }
 
-    // Create a static body for a polygon map object and add it to the world
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
         Body body = BodyHelperService.createBody(
                 createPolygonShape(polygonMapObject),
                 true,
                 getWorld(),
-                //gameScreen.getWorld(),
                 Constants.CATEGORY_WORLD,
                 Constants.MASK_WORLD,
                 userData,
                 isSensor);
 
-        // Add the body to the map object so that we can access it later
         polygonMapObject.getProperties().put("body", body);
     }
 
-    // Remove a static body from the world
     private void removeStaticBody(PolygonMapObject polygonMapObject) {
         Body body = (Body) polygonMapObject.getProperties().get("body");
         if (body != null) {
@@ -104,13 +100,11 @@ public class MinecraftMap {
         }
     }
 
-    // Create a polygon shape
     static Shape createPolygonShape(PolygonMapObject polygonMapObject) {
         float[] vertices = polygonMapObject.getPolygon().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < vertices.length / 2; i++) {
-            // Converting the vertices from pixels to meters ?
             Vector2 current = new Vector2(vertices[i * 2] / Constants.PPM, vertices[i * 2 + 1] / Constants.PPM);
             worldVertices[i] = current;
         }
@@ -120,25 +114,18 @@ public class MinecraftMap {
         return shape;
     }
 
-    // Create a map object for each tile in the map (these will be polygonmapobjects)
     private void createMapObjectsForAllTiles () {
-        // Iterate through each layer of the map
         for (MapLayer layer : tiledMap.getLayers()) {
             if (layer instanceof TiledMapTileLayer) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
-                // Iterate through each cell of the layer
                 for (int y = 0; y < tiledLayer.getHeight(); y++) {
                     for (int x = 0; x < tiledLayer.getWidth(); x++) {
-                        // Get the cell in the layer at the given coordinates
                         Cell cell = tiledLayer.getCell(x, y);
                         if (cell != null) {
-                            // Get the tile ID of the cell
                             int tileId = cell.getTile().getId();
-                            // Get the tile type based on the tile ID
                             TileType tileType = TileType.getTileTypeWithId(tileId);
                             if (tileType != null) {
-                                // Create a polygon map object for the tile
-                                createPolygonMapObject(x, y, tileType, tiledMap, tiledLayer);
+                                createPolygonMapObject(x, y, tileType, tiledLayer);
                             }
                         }
                     }
@@ -147,9 +134,7 @@ public class MinecraftMap {
         }
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    // Create a polygon map object
-    private PolygonMapObject createPolygonMapObject(int x, int y, TileType tileType, TiledMap tiledMap, TiledMapTileLayer tiledLayer) {
+    private PolygonMapObject createPolygonMapObject(int x, int y, TileType tileType, TiledMapTileLayer tiledLayer) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
 
         int tileWidth = tiledLayer.getTileWidth();
@@ -161,10 +146,9 @@ public class MinecraftMap {
                 (x + 1) * tileWidth, (y + 1) * tileHeight,
                 x * tileWidth, (y + 1) * tileHeight
         };
-        // Saving the coordinates of the tile/polygon for when we need to remove it!
+
         String coordinatesTile = (x * tileWidth) + ", " + (y * tileHeight);
 
-        // Get the map objects of the object layer
         MapObjects objects = objectLayer.getObjects();
 
         PolygonMapObject polygon = new PolygonMapObject(vertices);
@@ -172,40 +156,29 @@ public class MinecraftMap {
         polygon.getProperties().put("id", tileType.getId());
         polygon.getProperties().put("collidable", tileType.isCollidable());
 
-        // Add the polygon to the map objects
         objects.add(polygon);
 
         return polygon;
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    // Remove a tile from the map
-    private void removeTile(int x, int y, TiledMap tiledMap) {
+    private void removeTile(int x, int y) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         layer.setCell(x, y, null);
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    // Remove a map object from the map and the static body from the world
-    private void removeMapObject(int x, int y, TiledMap tiledMap) {
+    private void removeMapObject(int x, int y) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
         MapObjects objects = objectLayer.getObjects();
-        // Fetching the coordinates of the tile
         String coordinatesTile = x * Constants.TILE_SIZE + ", " + y * Constants.TILE_SIZE;
-        // Get the map object at the given coordinates
         MapObject mapObject = objects.get(coordinatesTile);
         if (mapObject instanceof PolygonMapObject) {
             PolygonMapObject polygon = (PolygonMapObject) mapObject;
             removeStaticBody(polygon);
-            //int objectId = (int) polygon.getProperties().get("id");
-            // Remove the mapObject from objectlayer
             objects.remove(mapObject);
         }
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    // Add a tile to the map
-    private void addTile(int x, int y, TileType tileType, TiledMap tiledMap) {
+    private void addTile(int x, int y, TileType tileType) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         TiledMapTileSets tileSets = tiledMap.getTileSets();
         TiledMapTile tile = tileSets.getTile(tileType.getId());
@@ -214,41 +187,38 @@ public class MinecraftMap {
         layer.setCell(x, y, cell);
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    // Add a map object to the map
-    private void addMapObject(int x, int y, int tileId, TiledMap tiledMap) {
+    private void addMapObject(int x, int y, int tileId) {
         TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         TileType tileType = TileType.getTileTypeWithId(tileId);
         if (tileType != null) {
-            PolygonMapObject polygon = createPolygonMapObject(x, y, tileType, tiledMap, tiledLayer);
+            PolygonMapObject polygon = createPolygonMapObject(x, y, tileType, tiledLayer);
             createStaticBody(polygon,
                     !polygon.getProperties().get("collidable", Boolean.class), polygon.getName());
         }
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    public void removeBlock(int x, int y, TiledMap tiledMap) {
-        // check if there is a block to remove at the given coordinates
+    @Override
+    public void removeBlock(int x, int y) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         if (layer.getCell(x, y) == null) {
             return;
         }
-        removeMapObject(x, y, tiledMap);
-        removeTile(x, y, tiledMap);
+        removeMapObject(x, y);
+        removeTile(x, y);
     }
 
-    // TODO: maybe we can remove tiledmap as a parameter, since it is already in this class
-    public void addBlock(int x, int y, TileType tileType, TiledMap tiledMap) {
-        // check if there is already a block at the coordinates
+    @Override
+    public void addBlock(int x, int y, TileType tileType) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         if (layer.getCell(x, y) != null) {
             return;
         }
 
-        addMapObject(x, y, tileType.getId(), tiledMap);
-        addTile(x, y, tileType, tiledMap);
+        addMapObject(x, y, tileType.getId());
+        addTile(x, y, tileType);
     }
 
+    @Override
     public TiledMap getTiledMap() {
         return tiledMap;
     }

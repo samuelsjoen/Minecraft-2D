@@ -36,7 +36,7 @@ public interface ViewableMinecraftModel {
     OrthogonalTiledMapRenderer getMapRenderer();
 
     /**
-     * TODO: Add a description
+     * Retrieves the world object.
      *
      * @return the world
      */
