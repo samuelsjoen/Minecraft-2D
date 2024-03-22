@@ -105,4 +105,5 @@ public class Inventory {
     public int getAmount(Item item) {
         return items.getOrDefault(item, 0);
     }
+    
 }
