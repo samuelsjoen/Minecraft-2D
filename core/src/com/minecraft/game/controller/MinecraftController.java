@@ -53,10 +53,11 @@ public class MinecraftController implements InputProcessor {
             return true;
         }
 
-        // TODO: fix so that it is drawn instantly and not after a button is pressed, should maybe move some of this to model
+        // TODO: fix so that it is drawn instantly and not after a button is pressed,
+        // should maybe move some of this to model
 
         if (controllableModel.getGameState() == GameState.GAME_OVER) {
-            if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
+            if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
                 controllableModel.restartGame();
                 view.newGameScreen();
                 view.updateScreen();
@@ -65,14 +66,15 @@ public class MinecraftController implements InputProcessor {
         }
 
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-    
+
             // Pause the game
             if (keycode == Input.Keys.P) {
                 controllableModel.setGameState(GameState.GAME_PAUSED);
                 view.updateScreen();
             }
 
-            //TODO: move parts of this game over into model or some to view (like the updatescreen?)
+            // TODO: move parts of this game over into model or some to view (like the
+            // updatescreen?)
             // Game Over
             if (controllableModel.getPlayerState() == State.DEAD) {
                 controllableModel.setGameState(GameState.GAME_OVER);
@@ -82,9 +84,9 @@ public class MinecraftController implements InputProcessor {
             if (controllableModel.getPlayerState() == State.DEAD) {
                 if (keycode == Input.Keys.R) {
                     controllableModel.revivePlayer();
-                }    
+                }
             }
-            
+
             // CONTROLLING PLAYER
             if (controllableModel.getPlayerState() != State.DEAD) {
                 if (keycode == Input.Keys.A) {
@@ -95,31 +97,31 @@ public class MinecraftController implements InputProcessor {
                     controllableModel.playerJump();
                 } else if (keycode == Input.Keys.TAB) {
                     controllableModel.playerAttack();
-                } 
+                }
 
                 /*
-                FIXME: ATTACKING WORKS, BUT DOES NOT CHANGE THE PLAYER SPRITE
-                From WorldController:         
-                if (Gdx.input.isKeyPressed(Keys.TAB)) {
-                        if (inventory.getSelectedItem() == Item.SWORD) {
-                            player.setCurrentState(Player.State.ATTACKING);
-                            player.attack();
-                        }
-                    }
-                */
+                 * FIXME: ATTACKING WORKS, BUT DOES NOT CHANGE THE PLAYER SPRITE
+                 * From WorldController:
+                 * if (Gdx.input.isKeyPressed(Keys.TAB)) {
+                 * if (inventory.getSelectedItem() == Item.SWORD) {
+                 * player.setCurrentState(Player.State.ATTACKING);
+                 * player.attack();
+                 * }
+                 * }
+                 */
 
-            // CONTROLLING INVENTORY
+                // CONTROLLING INVENTORY
                 if (keycode == Input.Keys.LEFT) {
                     controllableModel.changeInventorySlot(-1);
                     return true;
-                } else if (keycode ==Input.Keys.RIGHT) {
+                } else if (keycode == Input.Keys.RIGHT) {
                     controllableModel.changeInventorySlot(+1);
                     return true;
                 } else if (keycode == Input.Keys.Q) {
                     controllableModel.dropInventoryItem();
                     return true;
                 }
-            // CRAFTING    
+                // CRAFTING
                 if (Gdx.input.isKeyJustPressed(Constants.CRAFTING_OPEN)) {
                     controllableModel.openOrCloseCrafting();
                 }
@@ -130,7 +132,7 @@ public class MinecraftController implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        
+
         // Controlling the buttons on menuScreen
         if (controllableModel.getGameState() == GameState.WELCOME_SCREEN) {
 
@@ -151,7 +153,7 @@ public class MinecraftController implements InputProcessor {
 
         // REMOVING/PLACING TILES LOGIC
         // for removing/placing tiles/blocks
-        
+
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (controllableModel.getPlayerState() != State.DEAD) {
 
@@ -169,10 +171,12 @@ public class MinecraftController implements InputProcessor {
                 if (button == Input.Buttons.LEFT) {
 
                     // Invalid tile coordinates
-                    if (tileX < 0 || tileY < 0) { return true; }
+                    if (tileX < 0 || tileY < 0) {
+                        return true;
+                    }
 
                     if (tileX != lastTileX || tileY != lastTileY) {
-                        
+
                         timer.clear();
                         timer.start();
                         Timer.Task blockRemovalTask = new Timer.Task() {
@@ -182,7 +186,7 @@ public class MinecraftController implements InputProcessor {
                                 controllableModel.removeBlock(tileX, tileY);
                             }
                         };
-                        
+
                         float delay = controllableModel.getTileDamage(tileX, tileY);
                         timer.scheduleTask(blockRemovalTask, delay);
                     }
@@ -206,7 +210,7 @@ public class MinecraftController implements InputProcessor {
 
             int button = Gdx.input.isButtonPressed(Input.Buttons.RIGHT) ? Input.Buttons.RIGHT : Input.Buttons.LEFT;
             touchDown(screenX, screenY, pointer, button); // Call touchDown method with the specified button
-            
+
             return true;
         }
         return false;
@@ -218,21 +222,39 @@ public class MinecraftController implements InputProcessor {
         timer.clear();
         return true;
     }
-    
+
     // Unused methods - but part of the interface for InputProcessor
 
     @Override
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) { return false;}
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {return false;}
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
 
     @Override
-    public boolean scrolled(float amountX, float amountY) {return false;}
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
 
     @Override
-    public boolean keyUp(int keycode) {return false;}
-    
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.TAB) {
+            controllableModel.playerAttack();
+        } else if (keycode == Input.Keys.A) {
+            controllableModel.stopPlayer();
+        } else if (keycode == Input.Keys.D) {
+            controllableModel.stopPlayer();
+        }
+
+        return false;
+    }
+
     @Override
-    public boolean keyTyped(char character) {return false;}
+    public boolean keyTyped(char character) {
+        return false;
+    }
 }

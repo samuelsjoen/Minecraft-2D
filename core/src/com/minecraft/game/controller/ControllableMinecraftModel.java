@@ -4,9 +4,11 @@ import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player.State;
 
 /**
- * The ControllableMinecraftModel interface represents a controllable Minecraft model.
+ * The ControllableMinecraftModel interface represents a controllable Minecraft
+ * model.
  * This interface is a connection between the controller and the model.
- * It provides methods to interact with the game state, inventory, player, and tiles/blocks.
+ * It provides methods to interact with the game state, inventory, player, and
+ * tiles/blocks.
  */
 public interface ControllableMinecraftModel {
 
@@ -29,9 +31,11 @@ public interface ControllableMinecraftModel {
     // Inventory
 
     /**
-     * Changes the inventory slot to the slot adjacent to the currently selected slot.
+     * Changes the inventory slot to the slot adjacent to the currently selected
+     * slot.
      *
-     * @param direction The direction to change the inventory slot. Use -1 for left and +1 for right.
+     * @param direction The direction to change the inventory slot. Use -1 for left
+     *                  and +1 for right.
      */
     void changeInventorySlot(int direction);
 
@@ -51,6 +55,11 @@ public interface ControllableMinecraftModel {
      * Moves the player to the right.
      */
     void movePlayerRight();
+
+    /**
+     * Stops the player.
+     */
+    void stopPlayer();
 
     /**
      * Moves the player to the left.

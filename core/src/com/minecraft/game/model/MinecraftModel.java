@@ -23,7 +23,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private GameState gameState;
     @SuppressWarnings("unused")
     private Player player;
-    private Inventory inventory; 
+    private Inventory inventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
@@ -33,7 +33,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
         this.factory = factory;
 
-        //this.gameState = GameState.GAME_ACTIVE; 
+        // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
@@ -113,13 +113,19 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     // FIXME: player run "forever", same for moveleft
     @Override
     public void movePlayerRight() {
-        velX = Constants.PLAYER_MOVE_SPEED;  
-        getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y); 
+        velX = Constants.PLAYER_MOVE_SPEED;
+        getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y);
     }
 
     @Override
     public void movePlayerLeft() {
         velX = -Constants.PLAYER_MOVE_SPEED;
+        getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y);
+    }
+
+    @Override
+    public void stopPlayer() {
+        velX = 0;
         getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y);
     }
 
@@ -147,10 +153,14 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void playerAttack() {
-        if (getInventory().getSelectedItem() == Item.WOODEN_SWORD) {
-            getPlayer().setCurrentState(Player.State.ATTACKING);
-            getPlayer().attack();
-        }
+        // if (getInventory().getSelectedItem() == Item.WOODEN_SWORD) {
+        // getPlayer().setCurrentState(Player.State.ATTACKING);
+        // getPlayer().attack();
+        // }
+        // getPlayer().setCurrentState(Player.State.ATTACKING);
+        // getPlayer().attack();
+        getPlayer().toggleIsAttacking();
+
     }
 
     @Override
@@ -182,7 +192,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public void removeBlock(int tileX, int tileY) {
         Cell cell = getCell(tileX, tileY);
         if (cell != null) {
-            
+
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
             TileType tiletype = TileType.getTileTypeWithId(tileId);
@@ -193,7 +203,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                 // Add the item to the inventory
                 getInventory().addItem(item);
                 // Remove the block from the mineable layer
-                map.removeBlock(tileX, tileY); //, getTiledMap());
+                map.removeBlock(tileX, tileY); // , getTiledMap());
             }
         }
     }
@@ -225,7 +235,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                     // Remove the item from the inventory
                     inventory.removeItem(item);
                     // Add the block to the mineable layer
-                    map.addBlock(tileX, tileY, tileType);//, getTiledMap());
+                    map.addBlock(tileX, tileY, tileType);// , getTiledMap());
                 }
             }
         }

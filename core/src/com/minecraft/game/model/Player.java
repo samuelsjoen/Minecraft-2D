@@ -16,6 +16,7 @@ public class Player extends GameEntity {
     private static Health health;
 
     private boolean isInvincible;
+    private boolean isAttacking = false;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
     public static float deadStateTime = 0f; // Timer for the dead animation
@@ -69,6 +70,10 @@ public class Player extends GameEntity {
             }
             // Optional: Add blinking logic/Sound/Cool effect here
         }
+        if (isAttacking) {
+            currentState = State.ATTACKING;
+            attack();
+        }
 
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
@@ -91,7 +96,6 @@ public class Player extends GameEntity {
     public void attack() {
         float attackRange = 5.0f;
         float verticalAttackRange = 3.0f;
-
         for (Knight enemy : EnemyManager.getEnemies()) {
             float distanceToEnemyX = enemy.getBody().getPosition().x - this.body.getPosition().x;
             float distanceToEnemyY = Math.abs(enemy.getBody().getPosition().y - this.body.getPosition().y);
@@ -152,8 +156,13 @@ public class Player extends GameEntity {
     public boolean isInvincible() {
         return isInvincible;
     }
+
     public void setIsInvincible() {
         isInvincible = !isInvincible;
+    }
+
+    public void toggleIsAttacking() {
+        isAttacking = !isAttacking;
     }
 
     public float invincibilityTimer() {
