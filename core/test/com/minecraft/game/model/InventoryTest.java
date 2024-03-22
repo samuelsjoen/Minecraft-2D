@@ -38,6 +38,7 @@ public class InventoryTest {
         assertTrue(inventory.getCurrentSlot() == 0);
     }
 
+    // FIXME: this test fails
     @Test
     void testDropItem() {
         inventory.addItem(Item.PICKAXE);
