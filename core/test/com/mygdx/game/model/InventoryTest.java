@@ -14,14 +14,14 @@ public class InventoryTest {
     @Test
     void testAddItem() {
         int prevSize = inventory.getSize();
-        assertTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 0);
-        assertFalse(inventory.contains(Item.WOODEN_PICKAXE));
-        inventory.addItem(Item.WOODEN_PICKAXE);
+        assertTrue(inventory.getAmount(Item.PICKAXE) == 0);
+        assertFalse(inventory.contains(Item.PICKAXE));
+        inventory.addItem(Item.PICKAXE);
         assertTrue(inventory.getSize() == prevSize + 1);
-        assertTrue(inventory.contains(Item.WOODEN_PICKAXE));
-        assertTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
-        inventory.addItem(Item.WOODEN_PICKAXE);
-        assertTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
+        assertTrue(inventory.contains(Item.PICKAXE));
+        assertTrue(inventory.getAmount(Item.PICKAXE) == 1);
+        inventory.addItem(Item.PICKAXE);
+        assertTrue(inventory.getAmount(Item.PICKAXE) == 1);
         inventory.addItem(Item.DIRT, 5);
         assertTrue(inventory.getAmount(Item.DIRT) == 5);
         inventory.addItem(Item.DIRT, 100);
@@ -43,11 +43,11 @@ public class InventoryTest {
 
     @Test
     void testDropItem() {
-        inventory.addItem(Item.WOODEN_PICKAXE);
+        inventory.addItem(Item.PICKAXE);
         inventory.addItem(Item.DIRT, 10);
-        assertTrue(inventory.getSelectedItem() == Item.WOODEN_PICKAXE);
+        assertTrue(inventory.getSelectedItem() == Item.PICKAXE);
         inventory.dropItem();
-        assertFalse(inventory.contains(Item.WOODEN_PICKAXE));
+        assertFalse(inventory.contains(Item.PICKAXE));
         assertTrue(inventory.getSelectedItem() == Item.DIRT);
         int amount = inventory.getAmount(inventory.getSelectedItem());
         inventory.dropItem();

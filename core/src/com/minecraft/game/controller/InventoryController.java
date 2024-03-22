@@ -3,15 +3,12 @@ package com.minecraft.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.view.CraftingView;
 
-public class OverlayController {
+public class InventoryController {
     private Inventory inventory;
-    private CraftingView craftingView;
 
-    public OverlayController(Inventory inventory, CraftingView craftingView) {
+    public InventoryController(Inventory inventory) {
         this.inventory = inventory;
-        this.craftingView = craftingView;
     }
 
     public void update() {
@@ -23,9 +20,6 @@ public class OverlayController {
         }
         if (Gdx.input.isKeyJustPressed(Constants.INVENTORY_DROP)) {
             inventory.dropItem();
-        }
-        if (Gdx.input.isKeyJustPressed(Constants.CRAFTING_OPEN)) {
-            craftingView.open();
         }
     }
 

@@ -8,8 +8,7 @@ import com.minecraft.game.model.Inventory;
 import com.minecraft.game.controller.CharacterController;
 import com.minecraft.game.controller.WorldInputProcessor;
 import com.minecraft.game.controller.WorldListener;
-import com.minecraft.game.controller.OverlayController;
-import com.minecraft.game.model.Crafting;
+import com.minecraft.game.controller.InventoryController;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -46,10 +45,6 @@ public class GameScreen extends ScreenAdapter {
     private HealthView healthView;
     private Inventory inventory;
     private InventoryView inventoryView;
-    private Crafting crafting;
-    private CraftingView craftingView;
-    @SuppressWarnings("unused")
-
     private Texture backgroundImage; // Background image
 
     private World world;
@@ -62,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
     private EnemyManager enemyManager;
     private CharacterController characterController;
     private static ArrayList<Projectile> projectiles = new ArrayList<>();
-    private OverlayController overlayController;
+    private InventoryController inventoryController;
 
     private WorldListener contactListener;
     private WorldInputProcessor inputProcessor;
@@ -71,7 +66,6 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(OrthographicCamera camera) {
         this.playerHealth = new Health(Constants.PLAYER_MAX_HEALTH, Constants.PLAYER_MAX_HEALTH);
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
-        this.crafting = new Crafting(inventory);
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
@@ -81,7 +75,8 @@ public class GameScreen extends ScreenAdapter {
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.characterController = new CharacterController(player, inventory);
-        
+        this.inventoryController = new InventoryController(inventory);
+
         // controller
         this.contactListener = new WorldListener(getTiledMap());
         this.world.setContactListener(contactListener);
@@ -99,8 +94,7 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         player.update();
         characterController.update();
-        overlayController.update();
-        craftingView.update();
+        inventoryController.update();
 
         spriteManager.update();
 
@@ -157,15 +151,8 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
 
         orthogonalTiledMapRenderer.render();
-        
         batch.begin();
-        // render objects
-        // batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(),
-        // Gdx.graphics.getHeight());
 
-        healthView.render(batch);
-        craftingView.render(batch);
-        inventoryView.render(batch);
         enemyManager.render(batch);
 
         if (player != null) {
@@ -174,7 +161,14 @@ public class GameScreen extends ScreenAdapter {
 
         }
 
-    
+        if (healthView != null) {
+            healthView.render(batch);
+        }
+
+        if (inventoryView != null) {
+            inventoryView.render(batch);
+        }
+
         for (Projectile projectile : projectiles) {
             projectile.render(batch);
         }
@@ -212,8 +206,6 @@ public class GameScreen extends ScreenAdapter {
         this.player = player;
         this.healthView = new HealthView(2000, 2000, player.getBody(), playerHealth);
         this.inventoryView = new InventoryView(200, 200, player.getBody(), inventory);
-        this.craftingView = new CraftingView(200, 200, player.getBody(), crafting);
-        this.overlayController = new OverlayController(inventory, craftingView);
         this.spriteManager = new SpriteManager(player, inventory);
     }
 
