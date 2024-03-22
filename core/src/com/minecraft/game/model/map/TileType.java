@@ -2,7 +2,9 @@ package com.minecraft.game.model.map;
 
 import java.util.HashMap;
 
-// Need to add damage to the tiles + documentation
+/**
+ * Represents the types of tiles in the game.
+ */
 public enum TileType {
 
     GRASS(1, true, "grass", 0.5f),
@@ -25,6 +27,14 @@ public enum TileType {
     private final String textureName;
     private final float damage;
 
+    /**
+     * Constructs a TileType with the specified parameters.
+     *
+     * @param id           the ID of the tile type
+     * @param collidable   whether the tile is collidable or not
+     * @param textureName  the name of the texture associated with the tile
+     * @param damage       the damage value of the tile
+     */
     TileType(int id, boolean collidable, String textureName, float damage) {
         this.id = id;
         this.collidable = collidable;
@@ -32,6 +42,13 @@ public enum TileType {
         this.damage = damage;
     }
 
+    /**
+     * Constructs a TileType with the specified parameters and a default damage value of 0.
+     *
+     * @param id           the ID of the tile type
+     * @param collidable   whether the tile is collidable or not
+     * @param textureName  the name of the texture associated with the tile
+     */
     TileType(int id, boolean collidable, String textureName) {
         this(id, collidable, textureName, 0);
     }
@@ -57,29 +74,58 @@ public enum TileType {
         }
     }
 
-    // Get the tiletype with id
+    /**
+     * Returns the TileType with the specified ID.
+     *
+     * @param id  the ID of the tile type
+     * @return    the TileType with the specified ID, or null if not found
+     */
     public static TileType getTileTypeWithId(int id) {
         return tileMap.get(id);
     }
 
-    // Get the tiletype with name
+    /**
+     * Returns the TileType with the specified name.
+     *
+     * @param name  the name of the tile type
+     * @return      the TileType with the specified name, or null if not found
+     */
     public static TileType getTileTypeWithName(String name) {
         return tileMapName.get(name);
     }
 
-    // Getters
+    /**
+     * Returns the ID of the tile type.
+     *
+     * @return the ID of the tile type
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Returns whether the tile is collidable or not.
+     *
+     * @return true if the tile is collidable, false otherwise
+     */
     public boolean isCollidable() {
         return collidable;
     }
 
+    /**
+     * Returns the name of the texture associated with the tile.
+     *
+     * @return the name of the texture associated with the tile
+     */
     public String getTextureName() {
         return textureName;
     }
 
+    /**
+     * Returns the damage value of the tile.
+     *
+     * @return the damage value of the tile
+     */
     public float getDamage() {
         return damage;
     }

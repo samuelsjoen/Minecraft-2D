@@ -44,6 +44,77 @@ public class MinecraftMap implements IMinecraftMap {
         return world;
     }
 
+    @Override
+    public Player getPlayer() {
+        return player;
+    }
+
+    @Override
+    public void removeBlock(int x, int y) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        if (layer.getCell(x, y) == null) {
+            return;
+        }
+        removeMapObject(x, y);
+        removeTile(x, y);
+    }
+
+    @Override
+    public void addBlock(int x, int y, TileType tileType) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        if (layer.getCell(x, y) != null) {
+            return;
+        }
+
+        addMapObject(x, y, tileType.getId());
+        addTile(x, y, tileType);
+    }
+
+    @Override
+    public TiledMap getTiledMap() {
+        return tiledMap;
+    }
+
+    private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
+        Body body = BodyHelperService.createBody(
+                createPolygonShape(polygonMapObject),
+                true,
+                getWorld(),
+                Constants.CATEGORY_WORLD,
+                Constants.MASK_WORLD,
+                userData,
+                isSensor);
+
+        polygonMapObject.getProperties().put("body", body);
+    }
+
+    private void removeStaticBody(PolygonMapObject polygonMapObject) {
+        Body body = (Body) polygonMapObject.getProperties().get("body");
+        if (body != null) {
+            getWorld().destroyBody(body);
+        }
+    }
+
+    private void createMapObjectsForAllTiles () {
+        for (MapLayer layer : tiledMap.getLayers()) {
+            if (layer instanceof TiledMapTileLayer) {
+                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
+                for (int y = 0; y < tiledLayer.getHeight(); y++) {
+                    for (int x = 0; x < tiledLayer.getWidth(); x++) {
+                        Cell cell = tiledLayer.getCell(x, y);
+                        if (cell != null) {
+                            int tileId = cell.getTile().getId();
+                            TileType tileType = TileType.getTileTypeWithId(tileId);
+                            if (tileType != null) {
+                                createPolygonMapObject(x, y, tileType, tiledLayer);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
             if (mapObject instanceof PolygonMapObject) {
@@ -75,31 +146,6 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
-    @Override
-    public Player getPlayer() {
-        return player;
-    }
-
-    private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
-        Body body = BodyHelperService.createBody(
-                createPolygonShape(polygonMapObject),
-                true,
-                getWorld(),
-                Constants.CATEGORY_WORLD,
-                Constants.MASK_WORLD,
-                userData,
-                isSensor);
-
-        polygonMapObject.getProperties().put("body", body);
-    }
-
-    private void removeStaticBody(PolygonMapObject polygonMapObject) {
-        Body body = (Body) polygonMapObject.getProperties().get("body");
-        if (body != null) {
-            getWorld().destroyBody(body);
-        }
-    }
-
     static Shape createPolygonShape(PolygonMapObject polygonMapObject) {
         float[] vertices = polygonMapObject.getPolygon().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
@@ -112,26 +158,6 @@ public class MinecraftMap implements IMinecraftMap {
         PolygonShape shape = new PolygonShape();
         shape.set(worldVertices);
         return shape;
-    }
-
-    private void createMapObjectsForAllTiles () {
-        for (MapLayer layer : tiledMap.getLayers()) {
-            if (layer instanceof TiledMapTileLayer) {
-                TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
-                for (int y = 0; y < tiledLayer.getHeight(); y++) {
-                    for (int x = 0; x < tiledLayer.getWidth(); x++) {
-                        Cell cell = tiledLayer.getCell(x, y);
-                        if (cell != null) {
-                            int tileId = cell.getTile().getId();
-                            TileType tileType = TileType.getTileTypeWithId(tileId);
-                            if (tileType != null) {
-                                createPolygonMapObject(x, y, tileType, tiledLayer);
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private PolygonMapObject createPolygonMapObject(int x, int y, TileType tileType, TiledMapTileLayer tiledLayer) {
@@ -161,9 +187,14 @@ public class MinecraftMap implements IMinecraftMap {
         return polygon;
     }
 
-    private void removeTile(int x, int y) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        layer.setCell(x, y, null);
+    private void addMapObject(int x, int y, int tileId) {
+        TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        TileType tileType = TileType.getTileTypeWithId(tileId);
+        if (tileType != null) {
+            PolygonMapObject polygon = createPolygonMapObject(x, y, tileType, tiledLayer);
+            createStaticBody(polygon,
+                    !polygon.getProperties().get("collidable", Boolean.class), polygon.getName());
+        }
     }
 
     private void removeMapObject(int x, int y) {
@@ -187,40 +218,8 @@ public class MinecraftMap implements IMinecraftMap {
         layer.setCell(x, y, cell);
     }
 
-    private void addMapObject(int x, int y, int tileId) {
-        TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        TileType tileType = TileType.getTileTypeWithId(tileId);
-        if (tileType != null) {
-            PolygonMapObject polygon = createPolygonMapObject(x, y, tileType, tiledLayer);
-            createStaticBody(polygon,
-                    !polygon.getProperties().get("collidable", Boolean.class), polygon.getName());
-        }
-    }
-
-    @Override
-    public void removeBlock(int x, int y) {
+    private void removeTile(int x, int y) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        if (layer.getCell(x, y) == null) {
-            return;
-        }
-        removeMapObject(x, y);
-        removeTile(x, y);
+        layer.setCell(x, y, null);
     }
-
-    @Override
-    public void addBlock(int x, int y, TileType tileType) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        if (layer.getCell(x, y) != null) {
-            return;
-        }
-
-        addMapObject(x, y, tileType.getId());
-        addTile(x, y, tileType);
-    }
-
-    @Override
-    public TiledMap getTiledMap() {
-        return tiledMap;
-    }
-
 }

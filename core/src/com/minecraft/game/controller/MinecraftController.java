@@ -137,15 +137,13 @@ public class MinecraftController implements InputProcessor {
             if (view.isStartButtonClicked(touchX, touchY)) {
                 controllableModel.setGameState(GameState.GAME_ACTIVE);
                 view.updateScreen();
-                return true;
             } else if (view.isOptionsButtonClicked(touchX, touchY)) {
                 controllableModel.setGameState(GameState.OPTIONS_SCREEN);
                 view.updateScreen();
-                return true;
             } else if (view.isQuitButtonClicked(touchX, touchY)) {
                 Gdx.app.exit();
-                return true;
             }
+            return true;
         }
 
         // REMOVING/PLACING TILES LOGIC

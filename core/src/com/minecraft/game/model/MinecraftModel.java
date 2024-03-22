@@ -95,6 +95,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
+    //FIXME: player run "for ever", same for moveleft
     @Override
     public void movePlayerRight() {
         velX = Constants.PLAYER_MOVE_SPEED;  

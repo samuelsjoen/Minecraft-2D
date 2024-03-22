@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
 
 public class OptionsScreen extends ScreenAdapter {
+    // TODO: find out what should be displayed on this screen?
 
     @SuppressWarnings("unused")
     private final Minecraft game;
