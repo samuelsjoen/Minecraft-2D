@@ -27,6 +27,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
+    private Crafting crafting;
 
     public MinecraftModel(MinecraftMap map, EntityFactory factory) {
         this.map = map;
@@ -37,6 +38,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.player = map.getPlayer();
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+
+        this.crafting = new Crafting(getInventory());
 
     }
 
@@ -89,6 +92,18 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         inventory.dropItem();
     }
 
+    // Crafting
+
+    @Override
+    public Crafting getCrafting() {
+        return crafting;
+    }
+
+    @Override
+    public void openOrCloseCrafting() {
+        crafting.open();
+    }
+
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
@@ -132,7 +147,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void playerAttack() {
-        if (getInventory().getSelectedItem() == Item.SWORD) {
+        if (getInventory().getSelectedItem() == Item.WOODEN_SWORD) {
             getPlayer().setCurrentState(Player.State.ATTACKING);
             getPlayer().attack();
         }
@@ -223,4 +238,5 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         gameState = GameState.WELCOME_SCREEN;
     }
+
 }

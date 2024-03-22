@@ -36,8 +36,6 @@ public class GameScreen extends ScreenAdapter {
     private SpriteManager spriteManager;
     private ViewableMinecraftModel viewableMinecraftModel;
 
-    //private boolean isNight;
-
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel) {
         this.camera = camera;
         this.batch = new SpriteBatch();
@@ -54,10 +52,8 @@ public class GameScreen extends ScreenAdapter {
 
         // Disse er greie å ha i view - de handler om view
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getInventory()); 
-        this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(), camera); 
+        this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(), viewableMinecraftModel.getCrafting(), camera); //viewableMinecraftModel.isCraftingOpen()
 
-        // Starts with day
-        //isNight = false;
     }
 
     // TODO: world.step() should be called in model?
@@ -97,25 +93,6 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
     }
 
-    /*private void backgroundUpdate() {
-        if ()
-    }*/
-
-
-/*
-    public void setDay() {
-        isNight = false;
-    }
-
-    public void setNight() {
-        isNight = true;
-    }
-
-    public boolean getNight() {
-        return this.isNight;
-        return viewableMinecraftModel.getIsNight();
-    }*/
-
     private Vector2 getLowerLeftCorner() {
         float cameraX = camera.position.x - camera.viewportWidth / 2;
         float cameraY = camera.position.y - camera.viewportHeight / 2;
@@ -144,18 +121,13 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (overlayView != null) {
-            overlayView.render(batch);
+        overlayView.render(batch);
         }
 
         // TODO: Should be in model - if projectiles should be drawn use getVisibleProjectiles() or something
         for (Projectile projectile : projectiles) {
             projectile.render(batch);
         }
-
-        /*if (isNight) {
-            Gdx.gl.glClearColor(0, 0, 0, (float) 0.5);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        }*/
 
         batch.end();
 

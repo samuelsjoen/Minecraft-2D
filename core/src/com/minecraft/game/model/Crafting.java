@@ -7,6 +7,7 @@ public class Crafting {
     private Inventory inventory;
     private Item[][] table;
     private HashMap<Item[][], Item> recipeTable;
+    boolean open;
 
     public Crafting(Inventory inventory) {
         this.inventory = inventory;
@@ -16,6 +17,7 @@ public class Crafting {
             {null, null, null}
         };
         this.recipeTable = Item.getRecipeMap();
+        this.open = false;
     }
 
     public void addBlock(Item item, int row, int col) {
@@ -51,5 +53,13 @@ public class Crafting {
 
     public Item[][] getTable() {
         return table;
+    }
+
+    public void open() {
+        open = !open;
+    }
+
+    public boolean isOpen() {
+        return open;
     }
 }

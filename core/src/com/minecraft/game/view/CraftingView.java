@@ -1,11 +1,13 @@
-package com.minecraft.game.view;
+/*package com.minecraft.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.model.Crafting;
 import com.minecraft.game.model.GameEntity;
+import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Inventory;
 import com.minecraft.game.model.Item;
 import com.minecraft.game.utils.Constants;
@@ -17,8 +19,7 @@ public class CraftingView extends GameEntity {
     Texture craftingSprite;
     int jump;
 
-    public CraftingView(float width, float height, Body body, Crafting crafting) {
-        super(width, height, body);
+    public CraftingView(Inventory inventory, Health health, OrthographicCamera camera, Crafting crafting) {
         this.crafting = crafting;
         this.open = false;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
@@ -27,8 +28,8 @@ public class CraftingView extends GameEntity {
 
     @Override
     public void update() {
-        x = body.getPosition().x * Constants.PPM + 185;
-        y = body.getPosition().y * Constants.PPM + 120;
+        craftingX = body.getPosition().x * Constants.PPM + 185;
+        craftingY = body.getPosition().y * Constants.PPM + 120;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class CraftingView extends GameEntity {
     }
 
     public void renderTable(SpriteBatch batch) {
-        batch.draw(craftingSprite, x, y);
+        batch.draw(craftingSprite, craftingX, craftingY);
     }
 
     public void renderItems(SpriteBatch batch) {
@@ -60,3 +61,4 @@ public class CraftingView extends GameEntity {
         open = !open;
     }
 }
+*/

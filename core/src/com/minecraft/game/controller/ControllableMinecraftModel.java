@@ -105,4 +105,10 @@ public interface ControllableMinecraftModel {
      * Restarts the game.
      */
     void restartGame();
+
+    /**
+     * Opens or closes the crafting overlay.
+     */
+    void openOrCloseCrafting();
+
 }

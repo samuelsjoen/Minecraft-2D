@@ -1,5 +1,6 @@
 package com.minecraft.game.view;
 
+import com.minecraft.game.model.Crafting;
 import com.minecraft.game.model.GameState;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -56,6 +57,11 @@ public interface ViewableMinecraftModel {
      */
     Inventory getInventory();
 
-    /*boolean getIsNight();*/
+    /**
+     * Represents the crafting system in the Minecraft game.
+     * This class provides methods to interact with the crafting system,
+     * such as retrieving the current crafting recipe.
+     */
+    Crafting getCrafting();
 
 }

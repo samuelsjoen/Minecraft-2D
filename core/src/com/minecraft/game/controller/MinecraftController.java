@@ -65,7 +65,7 @@ public class MinecraftController implements InputProcessor {
         }
 
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-
+    
             // Pause the game
             if (keycode == Input.Keys.P) {
                 controllableModel.setGameState(GameState.GAME_PAUSED);
@@ -97,19 +97,6 @@ public class MinecraftController implements InputProcessor {
                     controllableModel.playerAttack();
                 } 
 
-            // CONTROLLING INVENTORY
-                if (keycode == Input.Keys.LEFT) {
-                    controllableModel.changeInventorySlot(-1);
-                    return true;
-                } else if (keycode ==Input.Keys.RIGHT) {
-                    controllableModel.changeInventorySlot(+1);
-                    return true;
-                } else if (keycode == Input.Keys.Q) {
-                    controllableModel.dropInventoryItem();
-                    return true;
-                }  
-
-            }
                 /*
                 FIXME: ATTACKING WORKS, BUT DOES NOT CHANGE THE PLAYER SPRITE
                 From WorldController:         
@@ -121,6 +108,22 @@ public class MinecraftController implements InputProcessor {
                     }
                 */
 
+            // CONTROLLING INVENTORY
+                if (keycode == Input.Keys.LEFT) {
+                    controllableModel.changeInventorySlot(-1);
+                    return true;
+                } else if (keycode ==Input.Keys.RIGHT) {
+                    controllableModel.changeInventorySlot(+1);
+                    return true;
+                } else if (keycode == Input.Keys.Q) {
+                    controllableModel.dropInventoryItem();
+                    return true;
+                }
+            // CRAFTING    
+                if (Gdx.input.isKeyJustPressed(Constants.CRAFTING_OPEN)) {
+                    controllableModel.openOrCloseCrafting();
+                }
+            }
         }
         return false;
     }
