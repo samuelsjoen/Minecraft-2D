@@ -1,12 +1,12 @@
 package com.minecraft.game.view;
 
-import com.minecraft.game.model.Crafting;
 import com.minecraft.game.model.GameState;
+import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.minecraft.game.model.Inventory;
-import com.minecraft.game.model.Player;
+import com.minecraft.game.model.crafting.Crafting;
+import com.minecraft.game.model.crafting.Inventory;
 
 /**
  * The ViewableMinecraftModel interface represents a viewable Minecraft model.

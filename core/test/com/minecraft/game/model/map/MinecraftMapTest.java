@@ -45,7 +45,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 		// There is placed a bedrock tile at the cooordiantes 0,0, so it shouldn't be null
 		System.out.println(tiledMapLayer.getCell(0, 0).getTile().getId());
 		assertNotNull(tiledMapLayer.getCell(0, 0));
-		tileMapHelper.removeBlock(0, 0);//, tiledMap);
+		tileMapHelper.removeBlock(0, 0, tiledMap);
 		// The bedrock tile should be removed
 		assertNull(tiledMapLayer.getCell(0, 0));
 	}

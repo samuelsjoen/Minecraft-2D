@@ -3,6 +3,10 @@ package com.minecraft.game.model;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
+import com.minecraft.game.model.entities.GameEntity;
+import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
 

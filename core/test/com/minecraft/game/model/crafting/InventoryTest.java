@@ -1,4 +1,4 @@
-package com.minecraft.game.model;
+package com.minecraft.game.model.crafting;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

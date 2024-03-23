@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.minecraft.game.model.Crafting;
 import com.minecraft.game.model.Health;
-import com.minecraft.game.model.Inventory;
-import com.minecraft.game.model.Item;
 import com.minecraft.game.model.Player;
+import com.minecraft.game.model.crafting.Crafting;
+import com.minecraft.game.model.crafting.Inventory;
+import com.minecraft.game.model.crafting.Item;
 
 public class OverlayView {
 

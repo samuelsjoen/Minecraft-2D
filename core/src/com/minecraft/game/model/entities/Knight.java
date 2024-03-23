@@ -1,4 +1,4 @@
-package com.minecraft.game.model;
+package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.minecraft.game.model.Health;
+import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
 
 public class Knight extends GameEntity {

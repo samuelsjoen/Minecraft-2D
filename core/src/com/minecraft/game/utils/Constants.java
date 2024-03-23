@@ -1,7 +1,7 @@
 package com.minecraft.game.utils;
 
 import com.badlogic.gdx.Input.Keys;
-import com.minecraft.game.model.Item;
+import com.minecraft.game.model.crafting.Item;
 
 public class Constants {
     // Screen dimensions

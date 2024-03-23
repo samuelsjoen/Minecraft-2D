@@ -54,6 +54,7 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void drawTitle() {
+        // TODO: fix so that it is drawn based on screen size and not hardcoded
         int titleWidth = (int) (titleTexture.getWidth() * 0.6f);
         int titleHeight = (int) (titleTexture.getHeight() * 0.6f);
         int titleX = (Gdx.graphics.getWidth() - titleWidth) / 2;
@@ -62,6 +63,8 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void drawButtons() {
+        // TODO: fix so that it is drawn based on screen size and not hardcoded
+
         float buttonY = 300;
         buttonY = drawButton(startButtonTexture, buttonY);
         buttonY -= buttonSpacing;

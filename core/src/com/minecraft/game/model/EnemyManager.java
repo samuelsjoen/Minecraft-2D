@@ -8,6 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.World;
+import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.utils.Constants;
 
 import java.util.ArrayList;
