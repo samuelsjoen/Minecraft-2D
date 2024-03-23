@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
+import com.minecraft.game.model.crafting.Crafting;
+import com.minecraft.game.model.crafting.Inventory;
+import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
@@ -100,7 +103,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public void openOrCloseCrafting() {
+    public void toggleCrafting() {
         crafting.open();
     }
 
@@ -110,16 +113,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
-    // FIXME: player run "forever", same for moveleft
     @Override
-    public void movePlayerRight() {
-        velX = Constants.PLAYER_MOVE_SPEED;
-        getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y);
-    }
-
-    @Override
-    public void movePlayerLeft() {
-        velX = -Constants.PLAYER_MOVE_SPEED;
+    public void movePlayer(int direction) {
+        // direction = 1 for right, -1 for left
+        velX = direction * Constants.PLAYER_MOVE_SPEED;
         getPlayer().getBody().setLinearVelocity(velX, getPlayer().getBody().getLinearVelocity().y);
     }
 
@@ -203,7 +200,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                 // Add the item to the inventory
                 getInventory().addItem(item);
                 // Remove the block from the mineable layer
-                map.removeBlock(tileX, tileY); // , getTiledMap());
+                map.removeBlock(tileX, tileY, getTiledMap());
             }
         }
     }
@@ -235,7 +232,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                     // Remove the item from the inventory
                     inventory.removeItem(item);
                     // Add the block to the mineable layer
-                    map.addBlock(tileX, tileY, tileType);// , getTiledMap());
+                    map.addBlock(tileX, tileY, tileType, getTiledMap());
                 }
             }
         }

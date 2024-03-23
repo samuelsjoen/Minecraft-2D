@@ -90,25 +90,14 @@ public class MinecraftController implements InputProcessor {
             // CONTROLLING PLAYER
             if (controllableModel.getPlayerState() != State.DEAD) {
                 if (keycode == Input.Keys.A) {
-                    controllableModel.movePlayerLeft();
+                    controllableModel.movePlayer(-1);
                 } else if (keycode == Input.Keys.D) {
-                    controllableModel.movePlayerRight();
+                    controllableModel.movePlayer(+1);
                 } else if (keycode == Input.Keys.SPACE) {
                     controllableModel.playerJump();
                 } else if (keycode == Input.Keys.TAB) {
                     controllableModel.playerAttack();
                 }
-
-                /*
-                 * FIXME: ATTACKING WORKS, BUT DOES NOT CHANGE THE PLAYER SPRITE
-                 * From WorldController:
-                 * if (Gdx.input.isKeyPressed(Keys.TAB)) {
-                 * if (inventory.getSelectedItem() == Item.SWORD) {
-                 * player.setCurrentState(Player.State.ATTACKING);
-                 * player.attack();
-                 * }
-                 * }
-                 */
 
                 // CONTROLLING INVENTORY
                 if (keycode == Input.Keys.LEFT) {
@@ -122,11 +111,24 @@ public class MinecraftController implements InputProcessor {
                     return true;
                 }
                 // CRAFTING
-                if (Gdx.input.isKeyJustPressed(Constants.CRAFTING_OPEN)) {
-                    controllableModel.openOrCloseCrafting();
+                if (keycode == Input.Keys.E) {
+                    controllableModel.toggleCrafting();
                 }
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.TAB) {
+            controllableModel.playerAttack();
+        } else if (keycode == Input.Keys.A) {
+            controllableModel.stopPlayer();
+        } else if (keycode == Input.Keys.D) {
+            controllableModel.stopPlayer();
+        }
+
         return false;
     }
 
@@ -237,19 +239,6 @@ public class MinecraftController implements InputProcessor {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.TAB) {
-            controllableModel.playerAttack();
-        } else if (keycode == Input.Keys.A) {
-            controllableModel.stopPlayer();
-        } else if (keycode == Input.Keys.D) {
-            controllableModel.stopPlayer();
-        }
-
         return false;
     }
 

@@ -52,19 +52,16 @@ public interface ControllableMinecraftModel {
     void revivePlayer();
 
     /**
-     * Moves the player to the right.
+     * Moves the player in the specified direction.
+     * 
+     * @param direction The direction to move the player. Use -1 for left and +1 for right.
      */
-    void movePlayerRight();
+    void movePlayer(int direction);
 
     /**
      * Stops the player.
      */
     void stopPlayer();
-
-    /**
-     * Moves the player to the left.
-     */
-    void movePlayerLeft();
 
     /**
      * Makes the player jump.
@@ -118,6 +115,6 @@ public interface ControllableMinecraftModel {
     /**
      * Opens or closes the crafting overlay.
      */
-    void openOrCloseCrafting();
+    void toggleCrafting();
 
 }
