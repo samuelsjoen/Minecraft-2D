@@ -223,6 +223,12 @@ public class MinecraftMap implements IMinecraftMap {
         layer.setCell(x, y, null);
     }
 
+    public Cell getCell(int tileX, int tileY) {
+        TiledMap tiledMap = getTiledMap();
+        TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        return mineableLayer.getCell(tileX, tileY);
+    }
+
     // Setter method for tiledMap to be used for testing
     public void setTiledMap(TiledMap tiledMap) {
         this.tiledMap = tiledMap;

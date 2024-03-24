@@ -1,7 +1,6 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -150,14 +149,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void playerAttack() {
-        // if (getInventory().getSelectedItem() == Item.WOODEN_SWORD) {
-        // getPlayer().setCurrentState(Player.State.ATTACKING);
-        // getPlayer().attack();
-        // }
-        // getPlayer().setCurrentState(Player.State.ATTACKING);
-        // getPlayer().attack();
         getPlayer().toggleIsAttacking();
-
     }
 
     @Override
@@ -165,16 +157,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         return getPlayer().getCurrentState();
     }
 
-    // TODO: move this to minecraftmap?
-    private Cell getCell(int tileX, int tileY) {
-        TiledMap tiledMap = getTiledMap();
-        TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        return mineableLayer.getCell(tileX, tileY);
-    }
-
     @Override
     public float getTileDamage(int tileX, int tileY) {
-        Cell cell = getCell(tileX, tileY);
+        Cell cell = map.getCell(tileX, tileY);
         if (cell != null) {
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
@@ -187,7 +172,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void removeBlock(int tileX, int tileY) {
-        Cell cell = getCell(tileX, tileY);
+        Cell cell = map.getCell(tileX, tileY);
         if (cell != null) {
 
             // Get the tile type based on the tile coordinates
@@ -211,6 +196,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         // needs to check if player is in the way (player is 2x1 tiles)
         int playerX = (int) getPlayer().getX() / Constants.TILE_SIZE;
         int playerY = (int) getPlayer().getY() / Constants.TILE_SIZE;
+        
         System.out.println("PlayerX: " + playerX + " PlayerY: " + playerY);
         System.out.println("Tilex: " + tileX + " Tiley: " + tileY);
         if (tileX == playerX && tileY == (playerY - 1) || tileX == playerX && tileY == playerY) {
@@ -218,7 +204,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         }
 
         // check if there is already a block at the coordinates
-        Cell cell = getCell(tileX, tileY);
+        Cell cell = map.getCell(tileX, tileY);
 
         if (cell == null) {
             // Get selected item from inventory
