@@ -20,8 +20,8 @@ public enum Item {
         {null, Item.STICK, null}
     }),
     GRASS(1, "grass", "A block of grass", "assets/inventoryItems/grass.png", 64, null),
-    DIRT(2, "Dirt", "A block of dirt", "assets/inventoryItems/dirt.png", 64, null),
-    STONE(3, "Stone", "A block of stone", "assets/inventoryItems/stone.png", 64, null),
+    DIRT(2, "dirt", "A block of dirt", "assets/inventoryItems/dirt.png", 64, null),
+    STONE(3, "stone", "A block of stone", "assets/inventoryItems/stone.png", 64, null),
     BEDROCK(6, "bedrock", "A block of bedrock", "assets/inventoryItems/bedrock.png", 64, null),
     DIAMOND_ORE(7, "diamond_ore", "A block of diamond ore", "assets/inventoryItems/diamond_ore.png", 64, null),
     IRON_ORE(8, "iron_ore", "A block of iron ore", "assets/inventoryItems/iron_ore.png", 64, null),

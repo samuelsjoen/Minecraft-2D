@@ -179,7 +179,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
             TileType tiletype = TileType.getTileTypeWithId(tileId);
-            float damage = tiletype.getDamage();
+            float damage = tiletype.getDamage();            
             return damage;
         }
         return 0;
@@ -200,7 +200,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                 // Add the item to the inventory
                 getInventory().addItem(item);
                 // Remove the block from the mineable layer
-                map.removeBlock(tileX, tileY, getTiledMap());
+                map.removeBlock(tileX, tileY);
             }
         }
     }
@@ -232,7 +232,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                     // Remove the item from the inventory
                     inventory.removeItem(item);
                     // Add the block to the mineable layer
-                    map.addBlock(tileX, tileY, tileType, getTiledMap());
+                    map.addBlock(tileX, tileY, tileType);
                 }
             }
         }
