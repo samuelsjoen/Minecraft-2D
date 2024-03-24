@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
-import com.minecraft.game.view.OverlayView;
 import com.minecraft.game.view.ViewableMinecraftModel;
+import com.minecraft.game.view.overlay.OverlayView;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
 
         // Disse er greie å ha i view - de handler om view
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getInventory()); 
-        this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(), viewableMinecraftModel.getCrafting(), camera); //viewableMinecraftModel.isCraftingOpen()
+        this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(), viewableMinecraftModel.getCrafting());
 
     }
 
@@ -67,7 +67,7 @@ public class GameScreen extends ScreenAdapter {
 
         spriteManager.update();
 
-        overlayView.update();
+        overlayView.update(getLowerLeftCorner());
         enemyManager.update(0.01f);
 
         Iterator<Projectile> iterator = projectiles.iterator();

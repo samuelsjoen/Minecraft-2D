@@ -32,6 +32,13 @@ public class MinecraftMap implements IMinecraftMap {
     }
 
     @Override
+    public Cell getCell(int tileX, int tileY) {
+        TiledMap tiledMap = getTiledMap();
+        TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        return mineableLayer.getCell(tileX, tileY);
+    }
+
+    @Override
     public OrthogonalTiledMapRenderer setupMap(String mapPath) {
         tiledMap = MapLoader.loadTileMap(mapPath);
         createMapObjectsForAllTiles();
@@ -221,12 +228,6 @@ public class MinecraftMap implements IMinecraftMap {
     private void removeTile(int x, int y) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         layer.setCell(x, y, null);
-    }
-
-    public Cell getCell(int tileX, int tileY) {
-        TiledMap tiledMap = getTiledMap();
-        TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        return mineableLayer.getCell(tileX, tileY);
     }
 
     // Setter method for tiledMap to be used for testing

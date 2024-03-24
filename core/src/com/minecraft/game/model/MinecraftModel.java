@@ -196,7 +196,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         // needs to check if player is in the way (player is 2x1 tiles)
         int playerX = (int) getPlayer().getX() / Constants.TILE_SIZE;
         int playerY = (int) getPlayer().getY() / Constants.TILE_SIZE;
-        
+
         System.out.println("PlayerX: " + playerX + " PlayerY: " + playerY);
         System.out.println("Tilex: " + tileX + " Tiley: " + tileY);
         if (tileX == playerX && tileY == (playerY - 1) || tileX == playerX && tileY == playerY) {

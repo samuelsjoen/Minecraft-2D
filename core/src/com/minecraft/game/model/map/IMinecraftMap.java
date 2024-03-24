@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 /**
  * This interface represents a Minecraft map.
@@ -55,4 +56,13 @@ public interface IMinecraftMap {
      * @return the tiled map
      */
     TiledMap getTiledMap();
+
+    /**
+     * Retrieves the cell at the specified tile coordinates.
+     *
+     * @param tileX the x-coordinate of the tile
+     * @param tileY the y-coordinate of the tile
+     * @return the cell at the specified tile coordinates
+     */
+    Cell getCell(int tileX, int tileY);
 }
