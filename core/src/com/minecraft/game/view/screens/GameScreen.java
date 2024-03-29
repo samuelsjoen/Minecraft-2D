@@ -2,6 +2,7 @@ package com.minecraft.game.view.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.minecraft.game.model.entities.Projectile;
+import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -36,10 +37,21 @@ public class GameScreen extends ScreenAdapter {
     private SpriteManager spriteManager;
     private ViewableMinecraftModel viewableMinecraftModel;
 
+    private DayNightCycle dayNightCycle;
+    private boolean isNightBackground;
+    private Texture backgroundNight;
+    private Texture backgroundDay;
+
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel) {
         this.camera = camera;
         this.batch = new SpriteBatch();
-        this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
+
+        this.isNightBackground = false;
+        this.backgroundNight = new Texture(Gdx.files.internal("assets/backgroundNight.png"));
+        this.backgroundDay = new Texture(Gdx.files.internal("assets/background.png"));
+        this.backgroundImage = backgroundDay;
+        //this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
+        
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
 
@@ -54,6 +66,7 @@ public class GameScreen extends ScreenAdapter {
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getInventory()); 
         this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(), viewableMinecraftModel.getCrafting());
 
+        this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
     }
 
     // TODO: world.step() should be called in model?
@@ -99,11 +112,32 @@ public class GameScreen extends ScreenAdapter {
         return new Vector2(cameraX, cameraY);
     }
 
+    public void setDay() {
+        System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
+        backgroundImage = backgroundDay;
+    }
+
+    public void setNight() {
+        System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
+        backgroundImage = backgroundNight;
+    }
+
+    private void updateBackground() {
+        boolean isNight = dayNightCycle.getIsNight();
+        if (isNight != isNightBackground) {
+            isNightBackground = isNight;
+            if (isNight) setNight();
+            else setDay();
+        }
+    }
+
     @Override
     public void render(float delta) {
         this.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        updateBackground();
 
         batch.begin();
         Vector2 lowerLeftCorner = getLowerLeftCorner();

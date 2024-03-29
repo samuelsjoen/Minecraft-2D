@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Timer;
+import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.view.MinecraftView;
@@ -17,6 +18,7 @@ public class MinecraftController implements InputProcessor {
     private Timer timer;
     private int lastTileX;
     private int lastTileY;
+    private DayNightCycle dayNightCycle;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
@@ -26,6 +28,11 @@ public class MinecraftController implements InputProcessor {
         // default value
         this.lastTileX = -1;
         this.lastTileY = -1;
+
+        // Get the day-night cycle from the model
+        this.dayNightCycle = controllableModel.getDayNightCycle();
+        // Start the day-night cycle with a # sec interval
+        this.dayNightCycle.startCycle(5f);
     }
 
     @Override

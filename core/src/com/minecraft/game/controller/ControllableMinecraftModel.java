@@ -1,5 +1,6 @@
 package com.minecraft.game.controller;
 
+import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player.State;
 
@@ -116,5 +117,11 @@ public interface ControllableMinecraftModel {
      * Opens or closes the crafting overlay.
      */
     void toggleCrafting();
+
+    /**
+     * Get the DayNightCycle object
+     * @return the DayNightCycle object
+     */
+    DayNightCycle getDayNightCycle();
 
 }

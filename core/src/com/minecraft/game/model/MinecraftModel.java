@@ -31,6 +31,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private float velX = 0;
     private Crafting crafting;
 
+    private DayNightCycle dayNightCycle;
+
     public MinecraftModel(MinecraftMap map, EntityFactory factory) {
         this.map = map;
         this.factory = factory;
@@ -42,6 +44,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
 
         this.crafting = new Crafting(getInventory());
+
+        this.dayNightCycle = new DayNightCycle();
 
     }
 
@@ -230,6 +234,11 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         factory = new EntityFactory();
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         gameState = GameState.WELCOME_SCREEN;
+    }
+
+    @Override
+    public DayNightCycle getDayNightCycle() {
+        return this.dayNightCycle;
     }
 
 }

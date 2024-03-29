@@ -1,5 +1,6 @@
 package com.minecraft.game.view;
 
+import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -63,5 +64,11 @@ public interface ViewableMinecraftModel {
      * such as retrieving the current crafting recipe.
      */
     Crafting getCrafting();
+
+    /**
+     * Get the DayNightCycle object
+     * @return the DayNightCycle object
+     */
+    DayNightCycle getDayNightCycle();
 
 }
