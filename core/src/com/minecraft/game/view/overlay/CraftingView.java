@@ -14,11 +14,13 @@ public class CraftingView {
 
     private float xCrafting;
     private float yCrafting;
+    private float xItem;
+    private float yItem;
 
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
-        this.jump = 50;
+        this.jump = 40;
     }
 
     public void render(SpriteBatch batch) {
@@ -39,7 +41,7 @@ public class CraftingView {
                 Item item = table[row][col];
                 if (item != null) {
                     Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
-                    batch.draw(itemTexture, xCrafting + (row * jump), yCrafting + (col * jump), 50, 50);
+                    batch.draw(itemTexture, xItem + (col * jump), yItem - (row * jump), 30, 30);
                 }
             }
         }
@@ -48,5 +50,7 @@ public class CraftingView {
     public void update(Vector2 lowerLeftCorner) {        
         xCrafting = lowerLeftCorner.x + 825;
         yCrafting = lowerLeftCorner.y + 480;
+        xItem = xCrafting + 60;
+        yItem = yCrafting + 103;
     }
 }

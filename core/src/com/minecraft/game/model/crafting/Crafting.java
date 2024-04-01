@@ -12,9 +12,9 @@ public class Crafting {
     public Crafting(Inventory inventory) {
         this.inventory = inventory;
         this.table = new Item[][] {
-            {null, null, null},
-            {null, null, null},
-            {null, null, null}
+            {Item.DIAMOND_ORE, Item.DIRT, Item.DIRT_SNOW},
+            {Item.LEAVES, Item.BEDROCK, Item.DIAMOND_ORE},
+            {Item.WOODEN_SWORD, Item.STONE, Item.STONE_SNOW}
         };
         this.recipeTable = Item.getRecipeMap();
         this.open = false;

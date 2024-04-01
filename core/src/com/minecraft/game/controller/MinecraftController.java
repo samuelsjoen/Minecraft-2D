@@ -119,6 +119,11 @@ public class MinecraftController implements InputProcessor {
                 }
                 // CRAFTING
                 if (keycode == Input.Keys.E) {
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.setGameState(GameState.GAME_ACTIVE);
+                    } else {
+                        controllableModel.setGameState(GameState.CRAFTING_SCREEN);
+                    }
                     controllableModel.toggleCrafting();
                 }
             }
@@ -208,6 +213,13 @@ public class MinecraftController implements InputProcessor {
                     controllableModel.addBlock(tileX, tileY);
                 }
             }
+        }
+
+        if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+            float touchX = Gdx.input.getX();
+            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+            
         }
         return false;
     }
