@@ -1,10 +1,6 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,23 +11,14 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.view.entities.PinkMonsterRenderer;
 import com.minecraft.game.view.screens.GameScreen;
 
 public class PinkMonster extends GameEntity {
-    // private Animation<TextureRegion> idleAnimation, runningAnimation,
-    // attackAnimation, attack2Animation, deadAnimation;
     private float stateTime;
     private State currentState;
     private boolean isFacingRight = true;
     private Player player;
     private float detectionRange = 10.0f; // range within which the enemy detects the player
-    // TextureRegion[] attackFrames = new TextureRegion[6];
-    // TextureRegion[] attack2Frames = new TextureRegion[4];
-    // TextureRegion[] deadFrames = new TextureRegion[8];
-    // TextureRegion[] idleFrames = new TextureRegion[4];
-    // TextureRegion[] runFrames = new TextureRegion[6];
-    // private float jumpForce = 5.0f; // Jump height
     private float jumpForce = 105;
     private float jumpThreshold = 1.5f; // Vertical distance threshold for jumping
     public Health health;
@@ -100,8 +87,8 @@ public class PinkMonster extends GameEntity {
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
 
-        fixtureDef.filter.categoryBits = categoryBits; // New stuff added
-        fixtureDef.filter.maskBits = maskBits; // New stuff added
+        fixtureDef.filter.categoryBits = categoryBits;
+        fixtureDef.filter.maskBits = maskBits;
 
         body.createFixture(fixtureDef);
         shape.dispose();
@@ -158,6 +145,7 @@ public class PinkMonster extends GameEntity {
                     // Create a new projectile
                     Projectile projectile = new Projectile(50, 50, world, startPosition, targetPosition);
                     GameScreen.addProjectile(projectile);
+                    System.out.println("reset");
                     hasThrownRock = true; // Mark that a rock has been thrown
                     timeSinceLastAttack = 0; // Reset the timer immediately after throwing a rock
                     attack2StateTime = 0f; // Reset the animation time for attack2
@@ -300,6 +288,10 @@ public class PinkMonster extends GameEntity {
 
     public float getDeadStateTime() {
         return deadStateTime;
+    }
+
+    public float getAttack2StateTime() {
+        return attack2StateTime;
     }
 
     public float getStateTime() {

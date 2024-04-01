@@ -1,10 +1,6 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,18 +11,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.view.entities.KnightRenderer;
 
 public class Knight extends GameEntity {
-    // private Animation<TextureRegion> idleAnimation, runningAnimation,
-    // attackAnimation, deadAnimation;
     private float stateTime;
     public State currentState;
     public boolean isFacingRight = true;
     private Player player;
     private float detectionRange = 6.0f; // range within which the enemy detects the player
-    // TextureRegion[] attackFrames = new TextureRegion[6];
-    // private float jumpForce = 5.0f; // Jump height
     private float jumpForce = 150;
     private float jumpThreshold = 0.9f; // Vertical distance threshold for jumping
     public Health health;
@@ -75,8 +66,8 @@ public class Knight extends GameEntity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
-        fixtureDef.filter.categoryBits = categoryBits; // New stuff added
-        fixtureDef.filter.maskBits = maskBits; // New stuff added
+        fixtureDef.filter.categoryBits = categoryBits;
+        fixtureDef.filter.maskBits = maskBits;
 
         body.createFixture(fixtureDef);
         shape.dispose();
@@ -257,12 +248,5 @@ public class Knight extends GameEntity {
     public void setAttackFrameFalse() {
         attackFrame = false;
     }
-
-    // public float getWidth() {
-    // return (body.getPosition().x * Constants.PPM - (width * 330)/2)+15;
-    // }
-    // public float getHeight() {
-    // return (body.getPosition().x * Constants.PPM - (width * 330)/2)+15;
-    // }
 
 }

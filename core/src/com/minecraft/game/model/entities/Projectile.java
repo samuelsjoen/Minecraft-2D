@@ -1,8 +1,6 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
-// import com.badlogic.gdx.graphics.Texture;
-// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Player;
@@ -17,7 +15,7 @@ public class Projectile extends GameEntity {
     private float lifeTime = 3.0f; // Time after which the projectile will be destroyed if it doesn't hit the
                                    // target
     private boolean toBeDestroyed = false;
-    private static boolean markForRemoval = false;
+    private boolean markForRemoval = false;
 
     public Projectile(float width, float height, World world, Vector2 startPosition, Vector2 target) {
         super(width, height,
@@ -64,17 +62,6 @@ public class Projectile extends GameEntity {
         }
     }
 
-    // @Override
-    // public void render(SpriteBatch batch) {
-    // if (texture != null && !markForRemoval) {
-    // batch.draw(texture,
-    // (body.getPosition().x * Constants.PPM) - 25,
-    // (body.getPosition().y * Constants.PPM) - 25,
-    // width,
-    // height);
-    // }
-    // }
-
     public void checkCollisionWithPlayer(Player player) {
         float distanceThreshold = 70f; // Distance required between player and coordinates
         Vector2 playerPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
@@ -91,7 +78,7 @@ public class Projectile extends GameEntity {
         this.toBeDestroyed = true;
     }
 
-    public static boolean isMarkedForRemoval() {
+    public boolean isMarkedForRemoval() {
         return markForRemoval;
     }
 

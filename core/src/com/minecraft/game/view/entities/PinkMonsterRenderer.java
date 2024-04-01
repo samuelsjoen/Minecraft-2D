@@ -3,16 +3,12 @@ package com.minecraft.game.view.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.minecraft.game.model.entities.PinkMonster;
 import com.minecraft.game.utils.Constants;
 
 public class PinkMonsterRenderer implements EntityRenderer<PinkMonster> {
-    private Animation<TextureRegion> idleAnimation, runningAnimation;
-    private Animation<TextureRegion> attackAnimation;
-    private Animation<TextureRegion> attack2Animation;
-    private Animation<TextureRegion> deadAnimation;
+    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, attack2Animation, deadAnimation;
     private Texture sheet;
     TextureRegion[] attackFrames = new TextureRegion[6];
     TextureRegion[] attack2Frames = new TextureRegion[4];
@@ -53,6 +49,9 @@ public class PinkMonsterRenderer implements EntityRenderer<PinkMonster> {
         TextureRegion currentFrame;
         if (currentAnimation == deadAnimation) {
             currentFrame = currentAnimation.getKeyFrame(pinkMonster.getDeadStateTime(), false);
+
+        } else if (currentAnimation == attack2Animation) {
+            currentFrame = currentAnimation.getKeyFrame(pinkMonster.getAttack2StateTime(), false);
 
         } else
             currentFrame = currentAnimation.getKeyFrame(pinkMonster.getStateTime(), true);
@@ -116,7 +115,7 @@ public class PinkMonsterRenderer implements EntityRenderer<PinkMonster> {
 
     private int getCurrentAtk2Index(PinkMonster pinkMonster) {
         float frameDuration = attack2Animation.getFrameDuration();
-        int currentFrameIndex = (int) (pinkMonster.getStateTime() / frameDuration) % 4;
+        int currentFrameIndex = (int) (pinkMonster.getAttack2StateTime() / frameDuration) % 4;
         return currentFrameIndex;
     }
 

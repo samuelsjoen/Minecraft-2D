@@ -4,14 +4,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
-import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.utils.Constants;
 
 public class SlimeRenderer implements EntityRenderer<Slime> {
-    private Animation<TextureRegion> idleAnimation, runningAnimation;
-    private Animation<TextureRegion> attackAnimation;
-    private Animation<TextureRegion> deadAnimation;
+    private Animation<TextureRegion> idleAnimation, attackAnimation, deadAnimation;
     private Texture sheet;
     TextureRegion[] attackFrames = new TextureRegion[8];
     TextureRegion[] deadFrames = new TextureRegion[5];
@@ -25,17 +22,15 @@ public class SlimeRenderer implements EntityRenderer<Slime> {
         for (int i = 0; i < 5; i++) {
             deadFrames[i] = splitFrames[2][i];
         }
-        idleAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
-        runningAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
-        attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
-        deadAnimation = new Animation<>(0.1f, deadFrames); // row 3 = ded
+        idleAnimation = new Animation<>(0.1f, splitFrames[0]);
+        attackAnimation = new Animation<>(0.1f, attackFrames);
+        deadAnimation = new Animation<>(0.1f, deadFrames);
 
     }
 
     @Override
     public void render(Slime slime, SpriteBatch batch) {
         Animation<TextureRegion> currentAnimation = getCurrentAnimation(slime);
-        // TextureRegion currentFrame = getCurrentFrame();
         TextureRegion currentFrame;
         if (currentAnimation == deadAnimation) {
             currentFrame = currentAnimation.getKeyFrame(slime.getDeadStateTime(), false);
@@ -54,16 +49,6 @@ public class SlimeRenderer implements EntityRenderer<Slime> {
             currentFrame.flip(true, false);
         }
 
-        // batch.draw(currentFrame, posX, posY, knight.getWidth(), knight.getHeight());
-        // if (slime.isFacingRight()) {
-
-        // batch.draw(currentFrame, (posX - 40), (posY - 35),
-        // spriteWidth / 4, spriteHeight / 4);
-        // } else {
-
-        // batch.draw(currentFrame, (posX - 40), (posY - 35),
-        // spriteWidth / 4, spriteHeight / 4);
-        // }
         batch.draw(currentFrame, (posX - 40), (posY - 35),
                 spriteWidth / 4, spriteHeight / 4);
 
@@ -84,7 +69,6 @@ public class SlimeRenderer implements EntityRenderer<Slime> {
             case DEAD:
                 if (deadAnimation.isAnimationFinished(slime.getDeadStateTime())) {
                     slime.setMarkedForRemoval();
-
                 }
                 return deadAnimation;
             default:

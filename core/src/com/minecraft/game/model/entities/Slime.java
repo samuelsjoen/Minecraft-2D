@@ -1,10 +1,6 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,19 +11,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.view.entities.SlimeRenderer;
 
 public class Slime extends GameEntity {
-    // private Animation<TextureRegion> idleAnimation, runningAnimation,
-    // attackAnimation, deadAnimation;
     private float stateTime;
     public State currentState;
     public boolean isFacingRight = true;
     private Player player;
     private float detectionRange = 10.0f; // range within which the enemy detects the player
-    // TextureRegion[] attackFrames = new TextureRegion[8];
-    // TextureRegion[] deadFrames = new TextureRegion[5];
-    // private float jumpForce = 5.0f; // Jump height
     private float jumpForce = 55;
     private float jumpThreshold = 1.5f; // Vertical distance threshold for jumping
     public Health health;
@@ -80,8 +70,8 @@ public class Slime extends GameEntity {
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
 
-        fixtureDef.filter.categoryBits = categoryBits; // New stuff added
-        fixtureDef.filter.maskBits = maskBits; // New stuff added
+        fixtureDef.filter.categoryBits = categoryBits;
+        fixtureDef.filter.maskBits = maskBits;
 
         body.createFixture(fixtureDef);
         shape.dispose();

@@ -40,11 +40,11 @@ public class Constants {
     // Tile size
     public static final int TILE_SIZE = 64;
 
-    // Enemy stuff
+    // Enemy Constants
     public static final float ENEMY_SPEED = 1.2f;
     public static final int ENEMY_MAX_HEALTH = 1;
 
-    // Collision stuff
+    // Collision Constants
     public static final short CATEGORY_PLAYER = 0x0001;
     public static final short CATEGORY_ENEMY = 0x0002;
     // public static final short CATEGORY_SLIME = 0x0003;
