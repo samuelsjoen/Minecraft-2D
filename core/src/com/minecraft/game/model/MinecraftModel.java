@@ -241,4 +241,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         return this.dayNightCycle;
     }
 
+    @Override
+    public void resolveCraftingTouch(float touchX, float touchY) {
+        HashMap<Float[], Item> itemXYTable = craftingView.getItemXYTable();
+        
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'resolveCraftingTouch'");
+    }
+
 }

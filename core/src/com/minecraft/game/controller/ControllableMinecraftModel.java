@@ -119,6 +119,13 @@ public interface ControllableMinecraftModel {
     void toggleCrafting();
 
     /**
+     * Resolves a touch event on the crafting overlay.
+     * @param touchX
+     * @param touchY
+     */
+    void resolveCraftingTouch(float touchX, float touchY);
+
+    /**
      * Get the DayNightCycle object
      * @return the DayNightCycle object
      */
