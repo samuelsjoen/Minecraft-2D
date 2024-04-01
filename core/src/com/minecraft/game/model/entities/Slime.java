@@ -15,24 +15,27 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.view.entities.SlimeRenderer;
 
 public class Slime extends GameEntity {
-    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, deadAnimation;
+    // private Animation<TextureRegion> idleAnimation, runningAnimation,
+    // attackAnimation, deadAnimation;
     private float stateTime;
-    private State currentState;
-    private boolean isFacingRight = true;
+    public State currentState;
+    public boolean isFacingRight = true;
     private Player player;
     private float detectionRange = 10.0f; // range within which the enemy detects the player
-    TextureRegion[] attackFrames = new TextureRegion[8];
-    TextureRegion[] deadFrames = new TextureRegion[5];
+    // TextureRegion[] attackFrames = new TextureRegion[8];
+    // TextureRegion[] deadFrames = new TextureRegion[5];
     // private float jumpForce = 5.0f; // Jump height
     private float jumpForce = 55;
     private float jumpThreshold = 1.5f; // Vertical distance threshold for jumping
     public Health health;
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
+    private boolean attackFrame = false;
 
-    private enum State {
+    public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
     }
 
@@ -42,21 +45,22 @@ public class Slime extends GameEntity {
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(1, 1);
 
-        // Load the texture and set up animations
-        Texture enemySheet = new Texture("assets/slime-Sheet.png");
-        TextureRegion[][] splitFrames = TextureRegion.split(enemySheet, enemySheet.getWidth() / 8,
-                enemySheet.getHeight() / 3);
-        for (int i = 0; i < 8; i++) {
-            attackFrames[i] = splitFrames[1][i];
-        }
-        for (int i = 0; i < 5; i++) {
-            deadFrames[i] = splitFrames[2][i];
-        }
-        idleAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
-        runningAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
-        attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
+        // // Load the texture and set up animations
+        // Texture enemySheet = new Texture("assets/slime-Sheet.png");
+        // TextureRegion[][] splitFrames = TextureRegion.split(enemySheet,
+        // enemySheet.getWidth() / 8,
+        // enemySheet.getHeight() / 3);
+        // for (int i = 0; i < 8; i++) {
+        // attackFrames[i] = splitFrames[1][i];
+        // }
+        // for (int i = 0; i < 5; i++) {
+        // deadFrames[i] = splitFrames[2][i];
+        // }
+        // idleAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
+        // runningAnimation = new Animation<>(0.1f, splitFrames[0]); // 1 row is running
+        // attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
         currentState = State.IDLE;
-        deadAnimation = new Animation<>(0.1f, deadFrames); // row 3 = ded
+        // deadAnimation = new Animation<>(0.1f, deadFrames); // row 3 = ded
 
         stateTime = 0f;
     }
@@ -99,8 +103,9 @@ public class Slime extends GameEntity {
         // vertical range within which the enemy can attack
         float verticalAttackRange = 1.5f;
 
-        float frameDuration = attackAnimation.getFrameDuration();
-        int currentFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
+        // float frameDuration = attackAnimation.getFrameDuration();
+        // int currentFrameIndex = (int) (stateTime / frameDuration) %
+        // attackFrames.length;
         if (currentState != State.DEAD) {
             // jump logic for enemy
             if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
@@ -116,7 +121,7 @@ public class Slime extends GameEntity {
                     && player.getCurrentState() != Player.State.DEAD) {
 
                 currentState = State.ATTACKING;
-                if (currentFrameIndex == 4) {
+                if (attackFrame == true) {
                     // player.getHealth().damage(1);
                     player.getHit();
 
@@ -154,8 +159,6 @@ public class Slime extends GameEntity {
         }
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
-            // deadStateTime = 0f; // It should reset animation state time for dead
-            // animation but its broken
 
         }
         if (currentState == State.DEAD) {
@@ -164,53 +167,55 @@ public class Slime extends GameEntity {
 
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        TextureRegion currentFrame = getCurrentFrame();
-        float posX = body.getPosition().x * Constants.PPM;
-        float posY = body.getPosition().y * Constants.PPM;
+    // @Override
+    // public void render(SpriteBatch batch) {
+    // TextureRegion currentFrame = getCurrentFrame();
+    // float posX = body.getPosition().x * Constants.PPM;
+    // float posY = body.getPosition().y * Constants.PPM;
 
-        float spriteWidth = width * 330;
-        float spriteHeight = height * 270;
+    // float spriteWidth = width * 330;
+    // float spriteHeight = height * 270;
 
-        if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
-            currentFrame.flip(true, false);
-        }
+    // if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight &&
+    // !currentFrame.isFlipX())) {
+    // currentFrame.flip(true, false);
+    // }
 
-        if (isFacingRight) {
+    // if (isFacingRight) {
 
-            batch.draw(currentFrame, (posX - 40), (posY - 35),
-                    spriteWidth / 4, spriteHeight / 4);
-        } else {
+    // batch.draw(currentFrame, (posX - 40), (posY - 35),
+    // spriteWidth / 4, spriteHeight / 4);
+    // } else {
 
-            batch.draw(currentFrame, (posX - 40), (posY - 35),
-                    spriteWidth / 4, spriteHeight / 4);
-        }
-    }
+    // batch.draw(currentFrame, (posX - 40), (posY - 35),
+    // spriteWidth / 4, spriteHeight / 4);
+    // }
+    // }
 
-    private TextureRegion getCurrentFrame() {
-        TextureRegion region;
-        switch (currentState) {
-            case DEAD:
-                region = deadAnimation.getKeyFrame(deadStateTime, false);
-                if (deadAnimation.isAnimationFinished(deadStateTime)) {
-                    markForRemoval = true; // This flag indicates that the enemy is ready to be removed
-                }
-                break;
+    // private TextureRegion getCurrentFrame() {
+    // TextureRegion region;
+    // switch (currentState) {
+    // case DEAD:
+    // region = deadAnimation.getKeyFrame(deadStateTime, false);
+    // if (deadAnimation.isAnimationFinished(deadStateTime)) {
+    // markForRemoval = true; // This flag indicates that the enemy is ready to be
+    // // removed
+    // }
+    // break;
 
-            case ATTACKING:
-                region = attackAnimation.getKeyFrame(stateTime, true);
-                break;
-            case RUNNING:
-                region = runningAnimation.getKeyFrame(stateTime, true);
-                break;
-            case IDLE:
-            default:
-                region = idleAnimation.getKeyFrame(stateTime, true);
-                break;
-        }
-        return region;
-    }
+    // case ATTACKING:
+    // region = attackAnimation.getKeyFrame(stateTime, true);
+    // break;
+    // case RUNNING:
+    // region = runningAnimation.getKeyFrame(stateTime, true);
+    // break;
+    // case IDLE:
+    // default:
+    // region = idleAnimation.getKeyFrame(stateTime, true);
+    // break;
+    // }
+    // return region;
+    // }
 
     public boolean isAlive() {
         return health.isAlive();
@@ -228,4 +233,31 @@ public class Slime extends GameEntity {
         return markForRemoval;
     }
 
+    public void setMarkedForRemoval() {
+        markForRemoval = !markForRemoval;
+    }
+
+    public float getDeadStateTime() {
+        return deadStateTime;
+    }
+
+    public float getStateTime() {
+        return stateTime;
+    }
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public boolean isFacingRight() {
+        return isFacingRight;
+    }
+
+    public void setAttackFrameTrue() {
+        attackFrame = true;
+    }
+
+    public void setAttackFrameFalse() {
+        attackFrame = false;
+    }
 }

@@ -2,7 +2,7 @@ package com.minecraft.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -80,17 +80,17 @@ public class EnemyManager {
         pinkMonsters.removeAll(deadPinkMonsters); // Remove all dead enemies from the list
     }
 
-    public void render(SpriteBatch batch) {
-        for (Knight enemy : enemies) {
-            enemy.render(batch);
-        }
-        for (Slime slime : slimes) {
-            slime.render(batch);
-        }
-        for (PinkMonster pinkMonster : pinkMonsters) {
-            pinkMonster.render(batch);
-        }
-    }
+    // public void render(SpriteBatch batch) {
+    // for (Knight enemy : enemies) {
+    // enemy.render(batch);
+    // }
+    // for (Slime slime : slimes) {
+    // slime.render(batch);
+    // }
+    // for (PinkMonster pinkMonster : pinkMonsters) {
+    // pinkMonster.render(batch);
+    // }
+    // }
 
     public boolean isSpawnLocationValid(float spawnPosX, float spawnPosY, boolean isTwoTilesHigh) {
         // Convert world coordinates to PPM
@@ -143,17 +143,17 @@ public class EnemyManager {
         if (validLocationFound) {
             if (enemies.size() < 2 && chooseEnemy == 0) {
                 Knight enemy = new Knight(1, 1, world, player, spawnPosX, spawnPosY,
-                new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
+                        new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
                 enemies.add(enemy);
             }
             if (slimes.size() < 3 && chooseEnemy == 1) {
                 Slime slime = new Slime(1, 1, world, player, spawnPosX, spawnPosY,
-                new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
+                        new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
                 slimes.add(slime);
             }
             if (pinkMonsters.size() < 1 && chooseEnemy == 2) {
                 PinkMonster pinkMonster = new PinkMonster(1, 1, world, player, spawnPosX, spawnPosY,
-                new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
+                        new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
                 pinkMonsters.add(pinkMonster);
             }
         } else {

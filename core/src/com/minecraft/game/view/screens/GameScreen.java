@@ -1,7 +1,10 @@
 package com.minecraft.game.view.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.PinkMonster;
 import com.minecraft.game.model.entities.Projectile;
+import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Player;
@@ -13,6 +16,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.view.ViewableMinecraftModel;
+import com.minecraft.game.view.entities.KnightRenderer;
+import com.minecraft.game.view.entities.PinkMonsterRenderer;
+import com.minecraft.game.view.entities.ProjectileRenderer;
+import com.minecraft.game.view.entities.SlimeRenderer;
 import com.minecraft.game.view.overlay.OverlayView;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -25,7 +32,7 @@ import java.util.ArrayList;
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private OverlayView overlayView;
-    private Texture backgroundImage; 
+    private Texture backgroundImage;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -42,6 +49,11 @@ public class GameScreen extends ScreenAdapter {
     private Texture backgroundNight;
     private Texture backgroundDay;
 
+    private KnightRenderer knightRenderer;
+    private SlimeRenderer slimeRenderer;
+    private PinkMonsterRenderer pinkMonsterRenderer;
+    private ProjectileRenderer projectileRenderer;
+
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel) {
         this.camera = camera;
         this.batch = new SpriteBatch();
@@ -50,8 +62,10 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundNight = new Texture(Gdx.files.internal("assets/backgroundNight.png"));
         this.backgroundDay = new Texture(Gdx.files.internal("assets/background.png"));
         this.backgroundImage = backgroundDay;
-        //this.backgroundImage = new Texture(Gdx.files.internal("assets/background.png")); // Loads the background img
-        
+        // this.backgroundImage = new
+        // Texture(Gdx.files.internal("assets/background.png")); // Loads the background
+        // img
+
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
 
@@ -59,20 +73,31 @@ public class GameScreen extends ScreenAdapter {
 
         this.orthogonalTiledMapRenderer = viewableMinecraftModel.getMapRenderer();
 
-        // TODO: Should not initialize EnemyManager here, should be initialized in model, and use getter for getViewableEnemies() or something?
-        enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getTiledMap());
+        // TODO: Should not initialize EnemyManager here, should be initialized in
+        // model, and use getter for getViewableEnemies() or something?
+        enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(),
+                viewableMinecraftModel.getTiledMap());
 
         // Disse er greie å ha i view - de handler om view
-        this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(), viewableMinecraftModel.getInventory()); 
-        this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(), viewableMinecraftModel.getCrafting());
+        this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),
+                viewableMinecraftModel.getInventory());
+        this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(),
+                viewableMinecraftModel.getCrafting());
 
         this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
+
+        // Initialize renderers
+        knightRenderer = new KnightRenderer();
+        slimeRenderer = new SlimeRenderer();
+        pinkMonsterRenderer = new PinkMonsterRenderer();
+        projectileRenderer = new ProjectileRenderer();
+
     }
 
     // TODO: world.step() should be called in model?
     private void update() {
         viewableMinecraftModel.getWorld().step(1 / 60f, 6, 2);
-        
+
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
@@ -99,8 +124,10 @@ public class GameScreen extends ScreenAdapter {
 
     private void cameraUpdate() {
         Vector3 position = camera.position;
-        position.x = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().x * Constants.PPM * 10) / 10f;
-        position.y = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().y * Constants.PPM * 10) / 10f;
+        position.x = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().x * Constants.PPM * 10)
+                / 10f;
+        position.y = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().y * Constants.PPM * 10)
+                / 10f;
 
         camera.position.set(position);
         camera.update();
@@ -126,8 +153,10 @@ public class GameScreen extends ScreenAdapter {
         boolean isNight = dayNightCycle.getIsNight();
         if (isNight != isNightBackground) {
             isNightBackground = isNight;
-            if (isNight) setNight();
-            else setDay();
+            if (isNight)
+                setNight();
+            else
+                setDay();
         }
     }
 
@@ -147,20 +176,32 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
 
-        enemyManager.render(batch);
+        // enemyManager.render(batch);
 
         if (viewableMinecraftModel.getPlayer() != null) {
-            viewableMinecraftModel.getPlayer().render(batch);
-            spriteManager.render(batch, viewableMinecraftModel.getPlayer().getX(), viewableMinecraftModel.getPlayer().getY());
+            // viewableMinecraftModel.getPlayer().render(batch);
+            spriteManager.render(batch, viewableMinecraftModel.getPlayer().getX(),
+                    viewableMinecraftModel.getPlayer().getY());
         }
 
         if (overlayView != null) {
-        overlayView.render(batch);
+            overlayView.render(batch);
         }
 
-        // TODO: Should be in model - if projectiles should be drawn use getVisibleProjectiles() or something
+        // TODO: Should be in model - if projectiles should be drawn use
+        // getVisibleProjectiles() or something
         for (Projectile projectile : projectiles) {
-            projectile.render(batch);
+            projectileRenderer.render(projectile, batch);
+        }
+
+        for (Knight knight : EnemyManager.getEnemies()) {
+            knightRenderer.render(knight, batch);
+        }
+        for (Slime slime : EnemyManager.getSlimes()) {
+            slimeRenderer.render(slime, batch);
+        }
+        for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
+            pinkMonsterRenderer.render(pinkMonster, batch);
         }
 
         batch.end();

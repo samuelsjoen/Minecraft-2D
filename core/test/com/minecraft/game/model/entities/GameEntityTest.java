@@ -29,9 +29,9 @@ class GameEntityTest {
         public void update() {
         }
 
-        @Override
-        public void render(SpriteBatch batch) {
-        }
+        // @Override
+        // public void render(SpriteBatch batch) {
+        // }
     }
 
     @BeforeEach
