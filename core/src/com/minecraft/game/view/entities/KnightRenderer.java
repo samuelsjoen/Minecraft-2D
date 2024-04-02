@@ -39,8 +39,8 @@ public class KnightRenderer implements EntityRenderer<Knight> {
 
         float posX = knight.getBody().getPosition().x * Constants.PPM;
         float posY = knight.getBody().getPosition().y * Constants.PPM;
-        float spriteWidth = knight.width * 330;
-        float spriteHeight = knight.height * 270;
+        float spriteWidth = knight.width / 2 / Constants.PPM * 330;
+        float spriteHeight = knight.height / 4 / Constants.PPM * 270;
 
         // Flip texture region based on knight direction
         if ((knight.isFacingRight() && currentFrame.isFlipX())

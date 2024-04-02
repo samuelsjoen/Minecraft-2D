@@ -2,12 +2,7 @@ package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.BodyHelperService;
@@ -31,49 +26,11 @@ public class Knight extends GameEntity {
     }
 
     public Knight(float width, float height, World world, Player player, float x, float y, Health health) {
-        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "enemy", false));
+        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "knight", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(1, 1);
-
-        // // Load the texture and set up animations
-        // Texture enemySheet = new Texture("assets/enemyKnight.png");
-        // TextureRegion[][] splitFrames = TextureRegion.split(enemySheet,
-        // enemySheet.getWidth() / 10,
-        // enemySheet.getHeight() / 4);
-        // for (int i = 0; i < 6; i++) {
-        // attackFrames[i] = splitFrames[0][i];
-        // }
-        // idleAnimation = new Animation<>(0.1f, splitFrames[2]); // 3 row is running
-        // runningAnimation = new Animation<>(0.1f, splitFrames[3]); // 4 row is running
-        // attackAnimation = new Animation<>(0.1f, attackFrames); // attacking
-        // currentState = State.IDLE;
-        // deadAnimation = new Animation<>(0.1f, splitFrames[1]); // row 2 = ded
-
         stateTime = 0f;
-    }
-
-    private static Body createBody(float width, float height, World world, float x, float y, short categoryBits,
-            short maskBits) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
-        bodyDef.fixedRotation = true; // Prevent the body from rotating
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 1, height / 0.5f);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.filter.categoryBits = categoryBits;
-        fixtureDef.filter.maskBits = maskBits;
-
-        body.createFixture(fixtureDef);
-        shape.dispose();
-
-        return body;
     }
 
     @Override
@@ -81,8 +38,6 @@ public class Knight extends GameEntity {
 
         stateTime += Gdx.graphics.getDeltaTime();
 
-        // float distanceToPlayer = Math.abs(player.getBody().getPosition().x -
-        // this.body.getPosition().x);
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
         float distanceToPlayerY = Math.abs(player.getBody().getPosition().y - this.body.getPosition().y);
         float distanceToPlayerYnotABS = player.getBody().getPosition().y - this.body.getPosition().y;
@@ -90,9 +45,6 @@ public class Knight extends GameEntity {
         // vertical range within which the enemy can attack
         float verticalAttackRange = 2.0f;
 
-        // float frameDuration = attackAnimation.getFrameDuration();
-        // int currentFrameIndex = (int) (stateTime / frameDuration) %
-        // attackFrames.length;
         if (currentState != State.DEAD) {
             // jump logic for enemy
             if (distanceToPlayerX < detectionRange && distanceToPlayerYnotABS > jumpThreshold
@@ -103,7 +55,6 @@ public class Knight extends GameEntity {
             }
 
             // Check if the enemy is close enough to attack but not currently attacking
-            // if (distanceToPlayer < 3.0f) {
             if (distanceToPlayerX < 3.0f && distanceToPlayerY <= verticalAttackRange
                     && player.getCurrentState() != Player.State.DEAD) {
 
@@ -153,58 +104,6 @@ public class Knight extends GameEntity {
         }
 
     }
-
-    // @Override
-    // public void render(SpriteBatch batch) {
-    // TextureRegion currentFrame = getCurrentFrame();
-    // float posX = body.getPosition().x * Constants.PPM;
-    // float posY = body.getPosition().y * Constants.PPM;
-
-    // float spriteWidth = width * 330;
-    // float spriteHeight = height * 270;
-
-    // if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight &&
-    // !currentFrame.isFlipX())) {
-    // currentFrame.flip(true, false);
-    // }
-
-    // if (isFacingRight) {
-
-    // batch.draw(currentFrame, (posX - spriteWidth / 2) + 15, (posY - spriteHeight
-    // / 4) + 4,
-    // spriteWidth, spriteHeight);
-    // } else {
-
-    // batch.draw(currentFrame, (posX - spriteWidth / 2) - 15, (posY - spriteHeight
-    // / 4) + 4,
-    // spriteWidth, spriteHeight);
-    // }
-    // }
-
-    // private TextureRegion getCurrentFrame() {
-    // TextureRegion region;
-    // switch (currentState) {
-    // case DEAD:
-    // region = deadAnimation.getKeyFrame(deadStateTime, false);
-    // if (deadAnimation.isAnimationFinished(deadStateTime)) {
-    // markForRemoval = true; // This flag indicates that the enemy is ready to be
-    // removed
-    // }
-    // break;
-
-    // case ATTACKING:
-    // region = attackAnimation.getKeyFrame(stateTime, true);
-    // break;
-    // case RUNNING:
-    // region = runningAnimation.getKeyFrame(stateTime, true);
-    // break;
-    // case IDLE:
-    // default:
-    // region = idleAnimation.getKeyFrame(stateTime, true);
-    // break;
-    // }
-    // return region;
-    // }
 
     public boolean isAlive() {
         return health.isAlive();

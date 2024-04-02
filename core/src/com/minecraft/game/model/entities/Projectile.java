@@ -9,7 +9,6 @@ import com.minecraft.game.utils.Constants;
 
 public class Projectile extends GameEntity {
 
-    // private Texture texture;
     @SuppressWarnings("unused")
     private Vector2 target;
     private float lifeTime = 3.0f; // Time after which the projectile will be destroyed if it doesn't hit the

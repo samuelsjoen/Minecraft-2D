@@ -40,8 +40,8 @@ public class SlimeRenderer implements EntityRenderer<Slime> {
 
         float posX = slime.getBody().getPosition().x * Constants.PPM;
         float posY = slime.getBody().getPosition().y * Constants.PPM;
-        float spriteWidth = slime.width * 330;
-        float spriteHeight = slime.height * 270;
+        float spriteWidth = slime.width / 2 / Constants.PPM * 330;
+        float spriteHeight = slime.height / 2 / Constants.PPM * 270;
 
         // Flip texture region based on knight direction
         if ((slime.isFacingRight() && currentFrame.isFlipX())

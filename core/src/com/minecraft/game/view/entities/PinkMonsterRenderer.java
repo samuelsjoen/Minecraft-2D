@@ -58,8 +58,8 @@ public class PinkMonsterRenderer implements EntityRenderer<PinkMonster> {
 
         float posX = pinkMonster.getBody().getPosition().x * Constants.PPM;
         float posY = pinkMonster.getBody().getPosition().y * Constants.PPM;
-        float spriteWidth = pinkMonster.width * 330;
-        float spriteHeight = pinkMonster.height * 270;
+        float spriteWidth = pinkMonster.width / 2 / Constants.PPM * 330;
+        float spriteHeight = pinkMonster.height / 4 / Constants.PPM * 270;
 
         // Flip texture region based on knight direction
         if ((pinkMonster.isFacingRight() && currentFrame.isFlipX())
