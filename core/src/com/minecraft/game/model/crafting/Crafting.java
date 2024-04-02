@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class Crafting {
 
+    private int selectedSlot;
     private Inventory inventory;
     private Item[][] table;
     private ArrayList<Item> craftableItems;
@@ -14,18 +15,20 @@ public class Crafting {
     public Crafting(Inventory inventory) {
         this.inventory = inventory;
         // this.table = new Item[][] {
-        //     {Item.DIAMOND_ORE, Item.DIRT, Item.DIRT_SNOW},
-        //     {Item.LEAVES, Item.BEDROCK, Item.DIAMOND_ORE},
-        //     {Item.WOODEN_SWORD, Item.STONE, Item.STONE_SNOW}
+        // {Item.DIAMOND_ORE, Item.DIRT, Item.DIRT_SNOW},
+        // {Item.LEAVES, Item.BEDROCK, Item.DIAMOND_ORE},
+        // {Item.WOODEN_SWORD, Item.STONE, Item.STONE_SNOW}
         // };
-        this.table = new Item[][] {
-            {null, null, null},
-            {null, null, null},
-            {null, null, null}
-        };
-        this.recipeTable = Item.getRecipeMap();
+        this.selectedSlot = 0;
         this.craftableItems = new ArrayList<Item>();
+        this.recipeTable = Item.getRecipeMap();
         updateCraftableItems();
+        this.table = new Item[][] {
+            { null, null, null },
+            { null, null, null },
+            { null, null, null }
+        };
+        updateCraftingTable();
         this.open = false;
     }
 
@@ -43,8 +46,8 @@ public class Crafting {
     }
 
     public void clearTable(boolean keepItem) {
-        for (int row = 0; row < 3; row ++ ) {
-            for (int col = 0; col < 3; col++ ) {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
                 removeBlock(row, col, keepItem);
             }
         }
@@ -62,6 +65,14 @@ public class Crafting {
 
     public Item[][] getTable() {
         return table;
+    }
+
+    public int getSelectedSlot() {
+        return selectedSlot;
+    }
+
+    public Item getSelectedItem() {
+        return craftableItems.get(selectedSlot);
     }
 
     public void open() {
@@ -88,25 +99,30 @@ public class Crafting {
                 if (recipe[row][col] != null) {
                     if (!tempInventory.contains(recipe[row][col])) {
                         return false;
+                    } else {
+                        tempInventory.removeItem(recipe[row][col]);
                     }
-                    else {
-                        tempInventory.removeItem(recipe[row][col]);}
                 }
             }
         }
         return true;
     }
 
-    public void selectCraftableItem(int index) {
-        Item item = craftableItems.get(index);
-        Item[][] recipe = item.getRecipe();
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                if (recipe[row][col] != null) {
-                    addBlock(item, row, col);
+    public void updateCraftingTable() {
+        Item item = craftableItems.get(selectedSlot);
+        if (item == null) {
+            return;
+        } else {
+            Item[][] recipe = item.getRecipe();
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    if (recipe[row][col] != null) {
+                        addBlock(item, row, col);
+                    }
                 }
             }
         }
+
     }
 
     public ArrayList<Item> getCraftableItems() {

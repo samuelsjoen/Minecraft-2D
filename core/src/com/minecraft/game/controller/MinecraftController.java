@@ -215,11 +215,6 @@ public class MinecraftController implements InputProcessor {
             }
         }
 
-        if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            controllableModel.resolveCraftingTouch(touchX, touchY);
-        }
         return false;
     }
 

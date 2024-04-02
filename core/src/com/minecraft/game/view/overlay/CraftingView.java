@@ -3,6 +3,7 @@ package com.minecraft.game.view.overlay;
 import com.badlogic.gdx.Gdx;
 import java.util.HashMap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.crafting.Crafting;
@@ -11,6 +12,7 @@ import com.minecraft.game.model.crafting.Item;
 public class CraftingView {
     private final Crafting crafting;
     private final Texture craftingSprite;
+    private final Texture selectedItem;
     private final int jump;
 
     private float xCrafting;
@@ -22,6 +24,7 @@ public class CraftingView {
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
         this.jump = 40;
     }
 
@@ -30,6 +33,8 @@ public class CraftingView {
             renderCraftingTable(batch);
             renderCraftingTableItems(batch);
             renderCraftableItems(batch);
+            renderSelectedSlot(batch);
+            renderPotentialItem(batch);
         }
     }
 
@@ -55,22 +60,33 @@ public class CraftingView {
         }
     }
 
+
     private void renderCraftableItems(SpriteBatch batch) {
         int i = 0;
         for (Item item : crafting.getCraftableItems()) {
-            float x = xCrafting + 10 + (i * jump);
-            float y = yCrafting - 50 + 10 + (i * jump);
+            float x = xCrafting + 22 + (i * jump);
+            float y = yCrafting + 182 + ((i%10) * jump);
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
             batch.draw(itemTexture, x, y, 30, 30);
             i++;
         }
     }
 
+    private void renderSelectedSlot(SpriteBatch batch) {
+        batch.draw(selectedItem, xCrafting + 17 + (crafting.getSelectedSlot()*jump), yCrafting + 176 + ((crafting.getSelectedSlot()%10) * jump));
+    }
+
+    private void renderPotentialItem(SpriteBatch batch) {
+        Item item = crafting.getSelectedItem();
+        Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+        batch.draw(itemTexture, xCrafting + 344, yCrafting + 302, 30, 30);
+    }
+
     public void update(Vector2 lowerLeftCorner) {        
         xCrafting = lowerLeftCorner.x + 820;
         yCrafting = lowerLeftCorner.y + 240;
-        xItem = xCrafting + 60;
-        yItem = yCrafting + 103;
+        xItem = xCrafting + 62;
+        yItem = yCrafting + 342;
     }
 
     public HashMap<Float[], Item> getItemXYTable() {
