@@ -1,10 +1,6 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -18,18 +14,11 @@ import com.minecraft.game.utils.Constants;
 import com.minecraft.game.view.screens.GameScreen;
 
 public class PinkMonster extends GameEntity {
-    private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, attack2Animation, deadAnimation;
     private float stateTime;
     private State currentState;
     private boolean isFacingRight = true;
     private Player player;
     private float detectionRange = 10.0f; // range within which the enemy detects the player
-    TextureRegion[] attackFrames = new TextureRegion[6];
-    TextureRegion[] attack2Frames = new TextureRegion[4];
-    TextureRegion[] deadFrames = new TextureRegion[8];
-    TextureRegion[] idleFrames = new TextureRegion[4];
-    TextureRegion[] runFrames = new TextureRegion[6];
-    // private float jumpForce = 5.0f; // Jump height
     private float jumpForce = 105;
     private float jumpThreshold = 1.5f; // Vertical distance threshold for jumping
     public Health health;
@@ -40,8 +29,9 @@ public class PinkMonster extends GameEntity {
     private float attackCooldown = 4.0f; // 5 seconds cooldown
     private float timeSinceLastAttack = 0; // Time since last attack
     private boolean hasThrownRock = false; // Flag to check if rock has been thrown in the current attack
+    private boolean attackFrame = false;
 
-    private enum State {
+    public enum State {
         IDLE, RUNNING, ATTACKING, ATTACKING2, DEAD
     }
 
@@ -53,29 +43,30 @@ public class PinkMonster extends GameEntity {
         this.world = world;
 
         // Load the texture and set up animations
-        Texture enemySheet = new Texture("assets/Pink_Monster.png");
-        TextureRegion[][] splitFrames = TextureRegion.split(enemySheet, enemySheet.getWidth() / 8,
-                enemySheet.getHeight() / 14);
-        for (int i = 0; i < 6; i++) {
-            attackFrames[i] = splitFrames[2][i];
-        }
-        for (int i = 0; i < 4; i++) {
-            attack2Frames[i] = splitFrames[10][i];
-        }
-        for (int i = 0; i < 8; i++) {
-            deadFrames[i] = splitFrames[4][i];
-        }
-        for (int i = 0; i < 4; i++) {
-            idleFrames[i] = splitFrames[6][i];
-        }
-        for (int i = 0; i < 6; i++) {
-            runFrames[i] = splitFrames[9][i];
-        }
-        idleAnimation = new Animation<>(0.1f, idleFrames);
-        runningAnimation = new Animation<>(0.1f, runFrames);
-        attackAnimation = new Animation<>(0.1f, attackFrames);
-        attack2Animation = new Animation<>(0.2f, attack2Frames);
-        deadAnimation = new Animation<>(0.1f, deadFrames);
+        // Texture enemySheet = new Texture("assets/Pink_Monster.png");
+        // TextureRegion[][] splitFrames = TextureRegion.split(enemySheet,
+        // enemySheet.getWidth() / 8,
+        // enemySheet.getHeight() / 14);
+        // for (int i = 0; i < 6; i++) {
+        // attackFrames[i] = splitFrames[2][i];
+        // }
+        // for (int i = 0; i < 4; i++) {
+        // attack2Frames[i] = splitFrames[10][i];
+        // }
+        // for (int i = 0; i < 8; i++) {
+        // deadFrames[i] = splitFrames[4][i];
+        // }
+        // for (int i = 0; i < 4; i++) {
+        // idleFrames[i] = splitFrames[6][i];
+        // }
+        // for (int i = 0; i < 6; i++) {
+        // runFrames[i] = splitFrames[9][i];
+        // }
+        // idleAnimation = new Animation<>(0.1f, idleFrames);
+        // runningAnimation = new Animation<>(0.1f, runFrames);
+        // attackAnimation = new Animation<>(0.1f, attackFrames);
+        // attack2Animation = new Animation<>(0.2f, attack2Frames);
+        // deadAnimation = new Animation<>(0.1f, deadFrames);
         currentState = State.IDLE;
 
         stateTime = 0f;
@@ -96,8 +87,8 @@ public class PinkMonster extends GameEntity {
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
 
-        fixtureDef.filter.categoryBits = categoryBits; // New stuff added
-        fixtureDef.filter.maskBits = maskBits; // New stuff added
+        fixtureDef.filter.categoryBits = categoryBits;
+        fixtureDef.filter.maskBits = maskBits;
 
         body.createFixture(fixtureDef);
         shape.dispose();
@@ -119,10 +110,12 @@ public class PinkMonster extends GameEntity {
         float verticalAttackRange = 1.5f;
 
         // Get the current frame index/number
-        float frameDuration = attackAnimation.getFrameDuration();
-        float frame2Duration = attack2Animation.getFrameDuration();
-        int currentAttackFrameIndex = (int) (stateTime / frameDuration) % attackFrames.length;
-        int currentAtack2FrameIndex = (int) (stateTime / frame2Duration) % attack2Frames.length;
+        // float frameDuration = attackAnimation.getFrameDuration();
+        // float frame2Duration = attack2Animation.getFrameDuration();
+        // int currentAttackFrameIndex = (int) (stateTime / frameDuration) %
+        // attackFrames.length;
+        // int currentAtack2FrameIndex = (int) (stateTime / frame2Duration) %
+        // attack2Frames.length;
 
         if (currentState != State.DEAD) {
 
@@ -144,7 +137,7 @@ public class PinkMonster extends GameEntity {
 
                 // Only create a projectile at a specific frame of the attack animation to
                 // simulate the throwing action
-                if (currentState == State.ATTACKING2 && currentAtack2FrameIndex == 3) {
+                if (currentState == State.ATTACKING2 && attackFrame == true) {
                     Vector2 startPosition = new Vector2(this.getBody().getPosition().x * Constants.PPM,
                             (this.getBody().getPosition().y * Constants.PPM) + 20);
                     Vector2 targetPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
@@ -152,6 +145,7 @@ public class PinkMonster extends GameEntity {
                     // Create a new projectile
                     Projectile projectile = new Projectile(50, 50, world, startPosition, targetPosition);
                     GameScreen.addProjectile(projectile);
+                    System.out.println("reset");
                     hasThrownRock = true; // Mark that a rock has been thrown
                     timeSinceLastAttack = 0; // Reset the timer immediately after throwing a rock
                     attack2StateTime = 0f; // Reset the animation time for attack2
@@ -162,7 +156,7 @@ public class PinkMonster extends GameEntity {
                     && player.getCurrentState() != Player.State.DEAD) {
 
                 currentState = State.ATTACKING;
-                if (currentAttackFrameIndex == 3 || currentAttackFrameIndex == 5) {
+                if (attackFrame == true) {
                     // player.getHealth().damage(1);
                     player.getHit();
 
@@ -204,9 +198,6 @@ public class PinkMonster extends GameEntity {
         // DEAD LOGIC
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             currentState = State.DEAD;
-            // deadStateTime = 0f; // It should reset animation state time for dead
-            // animation but its broken
-
         }
         if (currentState == State.DEAD) {
             deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
@@ -223,55 +214,57 @@ public class PinkMonster extends GameEntity {
 
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        TextureRegion currentFrame = getCurrentFrame();
-        float posX = body.getPosition().x * Constants.PPM;
-        float posY = body.getPosition().y * Constants.PPM;
+    // @Override
+    // public void render(SpriteBatch batch) {
+    // TextureRegion currentFrame = getCurrentFrame();
+    // float posX = body.getPosition().x * Constants.PPM;
+    // float posY = body.getPosition().y * Constants.PPM;
 
-        float spriteWidth = width * 330;
-        float spriteHeight = height * 270;
+    // float spriteWidth = width * 330;
+    // float spriteHeight = height * 270;
 
-        if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight && !currentFrame.isFlipX())) {
-            currentFrame.flip(true, false);
-        }
+    // if ((isFacingRight && currentFrame.isFlipX()) || (!isFacingRight &&
+    // !currentFrame.isFlipX())) {
+    // currentFrame.flip(true, false);
+    // }
 
-        if (isFacingRight) {
+    // if (isFacingRight) {
 
-            batch.draw(currentFrame, (posX - 55), (posY - 68),
-                    (spriteWidth / 4) + 20, (spriteHeight / 2) + 20);
-        } else {
+    // batch.draw(currentFrame, (posX - 55), (posY - 68),
+    // (spriteWidth / 4) + 20, (spriteHeight / 2) + 20);
+    // } else {
 
-            batch.draw(currentFrame, (posX - 50), (posY - 68),
-                    (spriteWidth / 4) + 20, (spriteHeight / 2) + 20);
-        }
-    }
+    // batch.draw(currentFrame, (posX - 50), (posY - 68),
+    // (spriteWidth / 4) + 20, (spriteHeight / 2) + 20);
+    // }
+    // }
 
-    private TextureRegion getCurrentFrame() {
-        TextureRegion region;
-        switch (currentState) {
-            case DEAD:
-                region = deadAnimation.getKeyFrame(deadStateTime, false);
-                if (deadAnimation.isAnimationFinished(deadStateTime)) {
-                    markForRemoval = true; // This flag indicates that the enemy is ready to be removed
-                }
-                break;
-            case ATTACKING:
-                region = attackAnimation.getKeyFrame(stateTime, true);
-                break;
-            case ATTACKING2:
-                region = attack2Animation.getKeyFrame(attack2StateTime, false);
-                break;
-            case RUNNING:
-                region = runningAnimation.getKeyFrame(stateTime, true);
-                break;
-            case IDLE:
-            default:
-                region = idleAnimation.getKeyFrame(stateTime, true);
-                break;
-        }
-        return region;
-    }
+    // private TextureRegion getCurrentFrame() {
+    // TextureRegion region;
+    // switch (currentState) {
+    // case DEAD:
+    // region = deadAnimation.getKeyFrame(deadStateTime, false);
+    // if (deadAnimation.isAnimationFinished(deadStateTime)) {
+    // markForRemoval = true; // This flag indicates that the enemy is ready to be
+    // removed
+    // }
+    // break;
+    // case ATTACKING:
+    // region = attackAnimation.getKeyFrame(stateTime, true);
+    // break;
+    // case ATTACKING2:
+    // region = attack2Animation.getKeyFrame(attack2StateTime, false);
+    // break;
+    // case RUNNING:
+    // region = runningAnimation.getKeyFrame(stateTime, true);
+    // break;
+    // case IDLE:
+    // default:
+    // region = idleAnimation.getKeyFrame(stateTime, true);
+    // break;
+    // }
+    // return region;
+    // }
 
     public boolean isAlive() {
         return health.isAlive();
@@ -287,6 +280,38 @@ public class PinkMonster extends GameEntity {
 
     public boolean isMarkedForRemoval() {
         return markForRemoval;
+    }
+
+    public void setMarkedForRemoval() {
+        markForRemoval = !markForRemoval;
+    }
+
+    public float getDeadStateTime() {
+        return deadStateTime;
+    }
+
+    public float getAttack2StateTime() {
+        return attack2StateTime;
+    }
+
+    public float getStateTime() {
+        return stateTime;
+    }
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public boolean isFacingRight() {
+        return isFacingRight;
+    }
+
+    public void setAttackFrameTrue() {
+        attackFrame = true;
+    }
+
+    public void setAttackFrameFalse() {
+        attackFrame = false;
     }
 
 }

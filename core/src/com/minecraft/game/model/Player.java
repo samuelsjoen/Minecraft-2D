@@ -1,7 +1,7 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
@@ -189,7 +189,7 @@ public class Player extends GameEntity {
         return y;
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
-    }
+    // @Override
+    // public void render(SpriteBatch batch) {
+    // }
 }
