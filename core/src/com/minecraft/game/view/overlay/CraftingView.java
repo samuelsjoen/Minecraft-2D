@@ -3,7 +3,6 @@ package com.minecraft.game.view.overlay;
 import com.badlogic.gdx.Gdx;
 import java.util.HashMap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.crafting.Crafting;
@@ -23,7 +22,7 @@ public class CraftingView {
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selected.png"));
         this.jump = 40;
     }
 
