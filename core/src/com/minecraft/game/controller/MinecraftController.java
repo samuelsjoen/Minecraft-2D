@@ -72,7 +72,7 @@ public class MinecraftController implements InputProcessor {
             return true;
         }
 
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE || controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
 
             // Pause the game
             if (keycode == Input.Keys.P) {

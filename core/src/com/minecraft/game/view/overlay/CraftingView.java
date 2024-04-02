@@ -29,6 +29,7 @@ public class CraftingView {
         if (crafting.isOpen()) {
             renderCraftingTable(batch);
             renderCraftingTableItems(batch);
+            renderCraftableItems(batch);
         }
     }
 
@@ -54,9 +55,20 @@ public class CraftingView {
         }
     }
 
+    private void renderCraftableItems(SpriteBatch batch) {
+        int i = 0;
+        for (Item item : crafting.getCraftableItems()) {
+            float x = xCrafting + 10 + (i * jump);
+            float y = yCrafting - 50 + 10 + (i * jump);
+            Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+            batch.draw(itemTexture, x, y, 30, 30);
+            i++;
+        }
+    }
+
     public void update(Vector2 lowerLeftCorner) {        
-        xCrafting = lowerLeftCorner.x + 825;
-        yCrafting = lowerLeftCorner.y + 480;
+        xCrafting = lowerLeftCorner.x + 820;
+        yCrafting = lowerLeftCorner.y + 240;
         xItem = xCrafting + 60;
         yItem = yCrafting + 103;
     }

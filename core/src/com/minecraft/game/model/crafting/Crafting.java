@@ -1,22 +1,31 @@
 package com.minecraft.game.model.crafting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Crafting {
 
     private Inventory inventory;
     private Item[][] table;
+    private ArrayList<Item> craftableItems;
     private HashMap<Item[][], Item> recipeTable;
     boolean open;
 
     public Crafting(Inventory inventory) {
         this.inventory = inventory;
+        // this.table = new Item[][] {
+        //     {Item.DIAMOND_ORE, Item.DIRT, Item.DIRT_SNOW},
+        //     {Item.LEAVES, Item.BEDROCK, Item.DIAMOND_ORE},
+        //     {Item.WOODEN_SWORD, Item.STONE, Item.STONE_SNOW}
+        // };
         this.table = new Item[][] {
-            {Item.DIAMOND_ORE, Item.DIRT, Item.DIRT_SNOW},
-            {Item.LEAVES, Item.BEDROCK, Item.DIAMOND_ORE},
-            {Item.WOODEN_SWORD, Item.STONE, Item.STONE_SNOW}
+            {null, null, null},
+            {null, null, null},
+            {null, null, null}
         };
         this.recipeTable = Item.getRecipeMap();
+        this.craftableItems = new ArrayList<Item>();
+        updateCraftableItems();
         this.open = false;
     }
 
@@ -61,5 +70,46 @@ public class Crafting {
 
     public boolean isOpen() {
         return open;
+    }
+
+    public void updateCraftableItems() {
+        for (Item[][] recipe : recipeTable.keySet()) {
+            Item item = recipeTable.get(recipe);
+            if (canCraft(recipe)) {
+                craftableItems.add(item);
+            }
+        }
+    }
+
+    private boolean canCraft(Item[][] recipe) {
+        Inventory tempInventory = inventory;
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (recipe[row][col] != null) {
+                    if (!tempInventory.contains(recipe[row][col])) {
+                        return false;
+                    }
+                    else {
+                        tempInventory.removeItem(recipe[row][col]);}
+                }
+            }
+        }
+        return true;
+    }
+
+    public void selectCraftableItem(int index) {
+        Item item = craftableItems.get(index);
+        Item[][] recipe = item.getRecipe();
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (recipe[row][col] != null) {
+                    addBlock(item, row, col);
+                }
+            }
+        }
+    }
+
+    public ArrayList<Item> getCraftableItems() {
+        return craftableItems;
     }
 }
