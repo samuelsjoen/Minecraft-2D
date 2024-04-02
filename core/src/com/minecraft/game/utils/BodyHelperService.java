@@ -14,7 +14,14 @@ public class BodyHelperService {
 
         // if the body is dynamic, position and rotation will be set
         if (!isStatic) {
-            bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+            //bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+            if (userData == "enemy") {
+                bodyDef.position.set(x, y);
+            } else if (userData == "slime") {
+                bodyDef.position.set(x, y);
+            } else {
+                bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
+            }
             bodyDef.fixedRotation = true;
             bodyDef.angle = 0f; // Set the initial angle to 0 radians
         }
@@ -22,9 +29,15 @@ public class BodyHelperService {
         Body body = world.createBody(bodyDef);
 
         // if no shape is provided, it will be created based on width and height
-        if (shape == null) {
+        if (userData == "player" || userData == "projectile") {
             shape = new PolygonShape();
             ((PolygonShape) shape).setAsBox(width / 2 / Constants.PPM, height / 2 / Constants.PPM);
+        } else if (userData == "enemy") {
+            shape = new PolygonShape();
+            ((PolygonShape) shape).setAsBox(width / 1, height / 0.5f);
+        } else if (userData == "slime") {
+            shape = new PolygonShape();
+            ((PolygonShape) shape).setAsBox(width / 1, height / 1);
         }
 
         FixtureDef fixtureDef = createFixtureDef(shape, isSensor, categoryBits, maskBits);

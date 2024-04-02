@@ -184,10 +184,6 @@ public class GameScreen extends ScreenAdapter {
                     viewableMinecraftModel.getPlayer().getY());
         }
 
-        if (overlayView != null) {
-            overlayView.render(batch);
-        }
-
         // TODO: Should be in model - if projectiles should be drawn use
         // getVisibleProjectiles() or something
         for (Projectile projectile : projectiles) {
@@ -202,6 +198,10 @@ public class GameScreen extends ScreenAdapter {
         }
         for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
             pinkMonsterRenderer.render(pinkMonster, batch);
+        }
+
+        if (overlayView != null) {
+            overlayView.render(batch);
         }
 
         batch.end();

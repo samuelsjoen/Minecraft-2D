@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
+import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.view.screens.GameScreen;
 
@@ -36,7 +37,7 @@ public class PinkMonster extends GameEntity {
     }
 
     public PinkMonster(float width, float height, World world, Player player, float x, float y, Health health) {
-        super(width, height, createBody(width, height, world, x, y, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY));
+        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "enemy", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(1, 1);
