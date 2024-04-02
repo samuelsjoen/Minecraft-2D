@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
+import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
@@ -242,11 +242,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public void resolveCraftingTouch(float touchX, float touchY) {
-        HashMap<Float[], Item> itemXYTable = craftingView.getItemXYTable();
-        
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resolveCraftingTouch'");
+    public void moveCraftableTableSelection(int row, int col) {
+        crafting.moveCraftableTableSelection(row, col);
+    }
+
+    @Override
+    public void craftItem() {
+        crafting.craft();
     }
 
 }

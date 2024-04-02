@@ -72,7 +72,8 @@ public class MinecraftController implements InputProcessor {
             return true;
         }
 
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE
+                || controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
 
             // Pause the game
             if (keycode == Input.Keys.P) {
@@ -107,16 +108,19 @@ public class MinecraftController implements InputProcessor {
                 }
 
                 // CONTROLLING INVENTORY
-                if (keycode == Input.Keys.LEFT) {
-                    controllableModel.changeInventorySlot(-1);
-                    return true;
-                } else if (keycode == Input.Keys.RIGHT) {
-                    controllableModel.changeInventorySlot(+1);
-                    return true;
-                } else if (keycode == Input.Keys.Q) {
-                    controllableModel.dropInventoryItem();
-                    return true;
+                if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+                    if (keycode == Input.Keys.LEFT) {
+                        controllableModel.changeInventorySlot(-1);
+                        return true;
+                    } else if (keycode == Input.Keys.RIGHT) {
+                        controllableModel.changeInventorySlot(+1);
+                        return true;
+                    } else if (keycode == Input.Keys.Q) {
+                        controllableModel.dropInventoryItem();
+                        return true;
+                    }
                 }
+
                 // CRAFTING
                 if (keycode == Input.Keys.E) {
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
@@ -125,6 +129,24 @@ public class MinecraftController implements InputProcessor {
                         controllableModel.setGameState(GameState.CRAFTING_SCREEN);
                     }
                     controllableModel.toggleCrafting();
+                }
+
+                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                    if (keycode == Input.Keys.ENTER) {
+                        controllableModel.craftItem();
+                    }
+                    if (keycode == Input.Keys.UP) {
+                        controllableModel.moveCraftableTableSelection(-1, 0);
+                    }
+                    if (keycode == Input.Keys.DOWN) {
+                        controllableModel.moveCraftableTableSelection(1, 0);
+                    }
+                    if (keycode == Input.Keys.LEFT) {
+                        controllableModel.moveCraftableTableSelection(0, -1);
+                    }
+                    if (keycode == Input.Keys.RIGHT) {
+                        controllableModel.moveCraftableTableSelection(0, 1);
+                    }
                 }
             }
         }
@@ -215,11 +237,6 @@ public class MinecraftController implements InputProcessor {
             }
         }
 
-        if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            controllableModel.resolveCraftingTouch(touchX, touchY);
-        }
         return false;
     }
 
