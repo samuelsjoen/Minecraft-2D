@@ -1,0 +1,50 @@
+Referat for møte [22.03.2024]
+
+Formål:
+
+- Merge brancher
+- Diskutere hva vi har fått gjort
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+
+Sammendrag:
+
+Hva vi har fått til siden sist møte:
+- fikset mining (det tar nå ulik tid å mine basert på en damage variabel)
+- fikset crafting UI
+- laget større map og fikk fjernet vann og lava
+- lagt til timer for dag/natt sykel
+- fått forbedret MVC
+
+Fikk til å merge etter litt vanskeligheter, men er litt som må fikses på.
+
+Ting som må gjøres:
+- Et til map?; lage en minecraftportal, bossmap (hvis vi får tid)
+- Crafte nøkkel?
+- Monstre skal dukke opp om natten / at det dukker opp flere monstre
+- Enten miste alt/eller ingenting når du dør
+- Alle public methods må kommenteres (javadoc)
+- 75% coverage for tester 
+- Implementere interfaces/forbedre på all kode. Passe på å ikke gjenbruke kode
+- Må ha minst én lyd (f.eks. bakgrunnsmusikken endres basert på om det er natt/dag)
+
+Aksjoner og Ansvar:
+- Finpusse kode (implementere interfaces/abstract classes, 
+- Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
+
+Tenker å parprogrammere for å fikse MVC for enteties (interface/abstract)
+Få fikset på småting etter mergen vi foretok i dag slik at alt fungerer igjen
+Alle kan ta litt ansvar om å implementere litt tester?
+Implementere lyd?
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - lage/få lagd noen tester
+    - Gjøre prosjektet mer MVC
+    - diskutere hva vi skal gjøre fremover
+    

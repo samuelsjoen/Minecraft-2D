@@ -32,7 +32,9 @@ public class MinecraftController implements InputProcessor {
         // Get the day-night cycle from the model
         this.dayNightCycle = controllableModel.getDayNightCycle();
         // Start the day-night cycle with a # sec interval
-        this.dayNightCycle.startCycle(5f);
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+            this.dayNightCycle.startCycle(5f);
+        }
     }
 
     @Override
