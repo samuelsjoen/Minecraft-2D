@@ -1,56 +1,77 @@
 # INF112 Prosjekt - Minecraft 2D (light versjon)
 
-- **Gruppenavn:** Team 6 (Gruppe 2)
-- **Teammedlemmer:** Magnus Yadi Halvorsen, Martine Naustdal Larsen, Nini Øyane Bjørnstad, Samuel Alois Starck Sjøen
-- **Prosjekt:** Minecraft 2D (light versjon)
-- **Lenke til asana:** https://app.asana.com/0/1206585808458619/1206585820662301
-- **Lenke til git:** https://git.app.uib.no/samuel.sjoen/team6
+**Gruppenavn:** Team 6 (Gruppe 2)
+**Teammedlemmer:** Magnus Yadi Halvorsen, Martine Naustdal Larsen, Nini Øyane Bjørnstad, Samuel Alois Starck Sjøen
+
+**Prosjekt:** Minecraft 2D (light versjon)
+**Lenke til project board:** https://app.asana.com/0/1206585808458619/1206585820662301
+**Lenke til git:** https://git.app.uib.no/samuel.sjoen/team6
 
 ## Om spillet
 "Minecraft 2D light" er en todimensjonal versjon inspirert av det ikoniske Minecraft-universet. Målet er å utforske, bygge og mine ved å bevege seg rundt i en todimensjonell verden. 
 
-- skal kunne hakke blokker, for så å kunne plassere dem ut
-- lyd på hakke
-- inventory
-- bevege seg til høyre, venstre, hoppe
-- (kanskje: kunne hakke seg nedover/klatre oppover)
+## Målet med spillet
 
-## Bruk av spillet
-- **Tastetrykk:**
-  - A: Beveg player til venstre
-  - D: Beveg player til høyre
-  - Pil venstre: Bevege seg til venstre i menyen
-  - Pil høyre: Bevege seg til høyre i menyen
-  - Tab: Sverd for å slå ned enemies
+Målet med "Minecraft 2D" er å overleve et visst antall netter. Spilleren må håndtere utfordringer som fiender som angriper. For å overleve må spillerne utvikle strategier for å bekjempe fiender, samle nødvendige ressurser for å bygge beskyttende strukturer og utforske miljøet for å finne verdifulle skatter og hemmeligheter.
+
+Gjennom utforskning og kreativitet kan spillerne tilpasse sin opplevelse ved å bygge sitt eget hjem, lage våpen og verktøy for å opprettholde spillerens helse.
+
+Utforskning av den todimensjonale verdenen åpner opp for nye muligheter og utfordringer, og gir spilleren en spennende opplevelse som utfordrer deres evne til å tilpasse seg og overvinne hindringer i et pikselert landskap.
+
+## Brukerveiledning
+
+**Museklikk**
+  - Venstreklikk: Fjerner blokker der musepekeren er
+  - Høyreklikk: Plasserer ut blokken som er markert i inventory der musen er
+  - Hold inne venstreklikk/høyreklikk for å fjerne/plassere flere blokker av gangen
+
+**Tastetrykk:**
+- Bevege spilleren
+  - A: Beveg spilleren til venstre
+  - D: Beveg spilleren til høyre
+  - Tab: Angripe 
   - Spacebar: Hopp
-  - (ikke implementert enda) Esc: Åpne pausemeny
 
-- **Museklikk**
-  - Venstreklikk for å fjerne blokker
-  - Høyreklikk for å plassere ut blokker
-  - Hold inne venstreklikk/høyreklikk for å fjerne/plassere flere blokker av gangen.
-  - Ønsker å legge inn funksjonalitet for å highlighte blokker når man tar musen over (ikke implementert enda). 
+- Inventory-funksjoner
+  - E: Åpne/lukke crafting table
+  - Q: Dropper inventory item som er markert
+  - Pil venstre: Bevege seg til venstre i inventory
+  - Pil høyre: Bevege seg til høyre i inventory
+
+- Generelle funksjoner
+  - F: Skru av/på fullskjerm modus
+  - P: Åpne pausemeny
+  - S: Starter spillet når man er inne på hjelpmenyen
+  - Esc: Avslutte spillet
 
 ## Hvordan kjøre koden?
 For å kjøre koden, følg disse trinnene:
+1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
+2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
+3. Kompilér og kjør hovedklassen DesktopLauncher.java.
 
-1. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
-2. Kompilér og kjør hovedklassen DesktopLauncher.java.
+## Hvor ressurser er hentet fra
 
-## Hvor grafikk og lyd-ressurser er hentet fra
+#### HUSK: "For ting dere lager selv må dere legge ved lisens som klargjør hvordan ting (evt) kan gjenbrukes."
 
+### Grafikk
+
+**Grafikk for blokker**
 Blokkene i verden er hentet fra: https://piiixl.itch.io/textures
-Blokkene brukt i inventory er hentet fra: https://admurin.itch.io/mega-admurins-freebies (BlockyLife.zip)
-Brukt denne siden til tekst for tittel og knapper på mainscreen: https://textcraft.net/
-Slime(enemy) er hentet fra: https://rvros.itch.io/pixel-art-animated-slime
-Pink monster er hentet fra: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
-Portal er hentet fra: https://elthen.itch.io/2d-pixel-art-portal-sprites
+Blokkene brukt som inventory er hentet fra: https://admurin.itch.io/mega-admurins-freebies (BlockyLife.zip)
 
-Vi har tenkt å bytte disse ut da kilde er ukjent.
-Player er hentet fra: ukjent at the moment, skal finne kilde
-Knight er hentet fra: ukjent at the moment, skal finne kilde
+**Grafikk for spiller og fiender**
+Player: https://admurin.itch.io/mega-admurins-freebie (Monster_Pack_Free_Character.zip)
+Slime: https://rvros.itch.io/pixel-art-animated-slime
+Pink monster: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
 
-Player vi tenker å bruke fremover er fra: https://admurin.itch.io/mega-admurins-freebies (Monster_Pack_Free_Character.zip)
+**Annet**
+For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: https://textcraft.net/
 
+### Lyd
 
-Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og TiledMapHelper.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD
+**Lyd brukt når man fjerner blokker**
+- Lyd på hakke er hentet fra: 
+
+### Kode
+Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD
