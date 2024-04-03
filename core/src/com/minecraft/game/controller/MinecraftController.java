@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Timer;
-import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.view.MinecraftView;
@@ -18,23 +17,15 @@ public class MinecraftController implements InputProcessor {
     private Timer timer;
     private int lastTileX;
     private int lastTileY;
-    private DayNightCycle dayNightCycle;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
-        this.timer = new Timer();
+        this.timer = new Timer(); // timer used for mining blocks
 
         // default value
         this.lastTileX = -1;
         this.lastTileY = -1;
-
-        // Get the day-night cycle from the model
-        this.dayNightCycle = controllableModel.getDayNightCycle();
-        // Start the day-night cycle with a # sec interval
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            this.dayNightCycle.startCycle(5f);
-        }
     }
 
     @Override
@@ -62,16 +53,35 @@ public class MinecraftController implements InputProcessor {
             return true;
         }
 
-        // TODO: fix so that it is drawn instantly and not after a button is pressed,
-        // should maybe move some of this to model
+        if (controllableModel.getGameState() == GameState.HELP_SCREEN) {
+            if (keycode == Input.Keys.S) {
+                controllableModel.setGameState(GameState.GAME_ACTIVE);
+                view.updateScreen();
+            }
+            return true;
+        }
 
-        if (controllableModel.getGameState() == GameState.GAME_OVER) {
-            if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+        if (controllableModel.getGameState() == GameState.GAME_WON) {
+            if (keycode == Input.Keys.ANY_KEY) {
                 controllableModel.restartGame();
                 view.newGameScreen();
                 view.updateScreen();
             }
             return true;
+        }
+
+        if (controllableModel.getGameState() == GameState.GAME_OVER) {
+            if (keycode == Input.Keys.R) {
+                controllableModel.revivePlayer();
+                controllableModel.setGameState(GameState.GAME_ACTIVE);
+                view.updateScreen();
+                return true;
+            } else {
+                controllableModel.restartGame();
+                view.newGameScreen();
+                view.updateScreen();
+                return true;
+            }
         }
 
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
@@ -80,20 +90,6 @@ public class MinecraftController implements InputProcessor {
             if (keycode == Input.Keys.P) {
                 controllableModel.setGameState(GameState.GAME_PAUSED);
                 view.updateScreen();
-            }
-
-            // TODO: move parts of this game over into model or some to view (like the
-            // updatescreen?)
-            // Game Over
-            if (controllableModel.getPlayerState() == State.DEAD) {
-                controllableModel.setGameState(GameState.GAME_OVER);
-                view.updateScreen();
-            }
-
-            if (controllableModel.getPlayerState() == State.DEAD) {
-                if (keycode == Input.Keys.R) {
-                    controllableModel.revivePlayer();
-                }
             }
 
             // CONTROLLING PLAYER
@@ -122,7 +118,9 @@ public class MinecraftController implements InputProcessor {
                 // CRAFTING
                 if (keycode == Input.Keys.E) {
                     controllableModel.toggleCrafting();
+                    return true;
                 }
+                return true;
             }
         }
         return false;
@@ -153,8 +151,8 @@ public class MinecraftController implements InputProcessor {
             if (view.isStartButtonClicked(touchX, touchY)) {
                 controllableModel.setGameState(GameState.GAME_ACTIVE);
                 view.updateScreen();
-            } else if (view.isOptionsButtonClicked(touchX, touchY)) {
-                controllableModel.setGameState(GameState.OPTIONS_SCREEN);
+            } else if (view.isHelpButtonClicked(touchX, touchY)) {
+                controllableModel.setGameState(GameState.HELP_SCREEN);
                 view.updateScreen();
             } else if (view.isQuitButtonClicked(touchX, touchY)) {
                 Gdx.app.exit();

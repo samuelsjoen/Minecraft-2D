@@ -37,7 +37,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
         this.factory = factory;
 
-        // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
@@ -57,6 +56,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void setGameState(GameState state) {
         gameState = state;
+
+        handleGameStateChange();
+    }
+
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
+        }
+        else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
     }
 
     @Override
@@ -229,16 +239,32 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public void restartGame() {
-        map = new MinecraftMap();
-        factory = new EntityFactory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
-        gameState = GameState.WELCOME_SCREEN;
+    public void checkAndUpdateGameState() {
+        if (getPlayerState() == State.DEAD) {
+            setGameState(GameState.GAME_OVER);
+        }
+        /*else if (something) {
+            setGameState(GameState.GAME_WON);
+        }*/
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return gameState == GameState.GAME_OVER;
     }
 
     @Override
     public DayNightCycle getDayNightCycle() {
         return this.dayNightCycle;
+    }
+
+    @Override
+    public void restartGame() {
+        map = new MinecraftMap();
+        factory = new EntityFactory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        dayNightCycle = new DayNightCycle();
+        gameState = GameState.WELCOME_SCREEN;
     }
 
 }

@@ -19,7 +19,7 @@ public class DayNightCycle extends Timer.Task {
             isNight = true;
         }
 
-        System.out.println("DayNightCycle run, it is now " + (isNight ? "night" : "day"));
+        //System.out.println("DayNightCycle run, it is now " + (isNight ? "night" : "day"));
     }
 
     /**
@@ -38,6 +38,14 @@ public class DayNightCycle extends Timer.Task {
         // Stop any existing cycles
         Timer.instance().clear();
         Timer.schedule(this, interval, interval);
+    }
+
+    /**
+     * Pause the day-night cycle.
+     * This method stops the current cycle until it is started again with the {@link #startCycle(float)} method.
+     */
+    public void pauseCycle() {
+        Timer.instance().clear();   
     }
 
 }
