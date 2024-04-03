@@ -12,7 +12,7 @@ public class MenuScreen extends ScreenAdapter {
     private Texture backgroundTexture;
     private Texture titleTexture;
     private Texture startButtonTexture;
-    private Texture optionsButtonTexture;
+    private Texture helpButtonTexture;
     private Texture quitButtonTexture;
     private final float buttonSpacing = 5;
 
@@ -26,7 +26,7 @@ public class MenuScreen extends ScreenAdapter {
         titleTexture = new Texture(Gdx.files.internal("assets/home/minecraft_logo.png"));
 
         startButtonTexture = new Texture(Gdx.files.internal("assets/home/start_button.png"));
-        optionsButtonTexture = new Texture(Gdx.files.internal("assets/home/options_button.png"));
+        helpButtonTexture = new Texture(Gdx.files.internal("assets/home/help_button.png"));
         quitButtonTexture = new Texture(Gdx.files.internal("assets/home/quit_button.png"));
     }
 
@@ -54,7 +54,6 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void drawTitle() {
-        // TODO: fix so that it is drawn based on screen size and not hardcoded
         int titleWidth = (int) (titleTexture.getWidth() * 0.6f);
         int titleHeight = (int) (titleTexture.getHeight() * 0.6f);
         int titleX = (Gdx.graphics.getWidth() - titleWidth) / 2;
@@ -63,12 +62,10 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void drawButtons() {
-        // TODO: fix so that it is drawn based on screen size and not hardcoded
-
         float buttonY = 300;
         buttonY = drawButton(startButtonTexture, buttonY);
         buttonY -= buttonSpacing;
-        buttonY = drawButton(optionsButtonTexture, buttonY);
+        buttonY = drawButton(helpButtonTexture, buttonY);
         buttonY -= buttonSpacing;
         drawButton(quitButtonTexture, buttonY);
     }
@@ -87,7 +84,7 @@ public class MenuScreen extends ScreenAdapter {
         backgroundTexture.dispose();
         titleTexture.dispose();
         startButtonTexture.dispose();
-        optionsButtonTexture.dispose();
+        helpButtonTexture.dispose();
         quitButtonTexture.dispose();
     }
 
@@ -96,8 +93,8 @@ public class MenuScreen extends ScreenAdapter {
         return isButtonClicked(startButtonTexture, touchX, touchY);
     }
 
-    public boolean isOptionsButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(optionsButtonTexture, touchX, touchY);
+    public boolean isHelpButtonClicked(float touchX, float touchY) {
+        return isButtonClicked(helpButtonTexture, touchX, touchY);
     }
 
     public boolean isQuitButtonClicked(float touchX, float touchY) {
@@ -113,7 +110,7 @@ public class MenuScreen extends ScreenAdapter {
         // Determine the Y position based on the button texture being checked
         if (buttonTexture == startButtonTexture) {
             buttonY = 300;
-        } else if (buttonTexture == optionsButtonTexture) {
+        } else if (buttonTexture == helpButtonTexture) {
             buttonY = 300 - buttonHeight - buttonSpacing;
         } else { // quitButtonTexture
             buttonY = 300 - 2 * (buttonHeight + buttonSpacing);

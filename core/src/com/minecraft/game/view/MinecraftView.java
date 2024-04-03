@@ -5,8 +5,8 @@ import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.screens.GameOverScreen;
 import com.minecraft.game.view.screens.GameScreen;
+import com.minecraft.game.view.screens.HelpScreen;
 import com.minecraft.game.view.screens.MenuScreen;
-import com.minecraft.game.view.screens.OptionsScreen;
 import com.minecraft.game.view.screens.PausedScreen;
 
 public class MinecraftView {
@@ -15,7 +15,7 @@ public class MinecraftView {
     private ViewableMinecraftModel viewableMinecraftModel;
 
     private MenuScreen menuScreen;
-    private OptionsScreen optionsScreen;
+    private HelpScreen helpScreen;
     private PausedScreen pausedScreen;
     private GameScreen gameScreen;
     private GameOverScreen gameOverScreen;
@@ -26,8 +26,8 @@ public class MinecraftView {
         this.viewableMinecraftModel = viewableMinecraftModel;
 
         this.menuScreen = new MenuScreen(game);
-        this.optionsScreen = new OptionsScreen(game);
-        this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel);
+        this.helpScreen = new HelpScreen(game);
+        this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
         this.pausedScreen = new PausedScreen(game);
         this.gameOverScreen = new GameOverScreen(game);
 
@@ -36,14 +36,14 @@ public class MinecraftView {
     }
 
     public void newGameScreen() {
-        gameScreen = new GameScreen(game.camera, viewableMinecraftModel);
+        gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
     }
 
     public void updateScreen() {
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             game.setScreen(menuScreen);
-        } else if (viewableMinecraftModel.getGameState() == GameState.OPTIONS_SCREEN){
-            game.setScreen(optionsScreen);
+        } else if (viewableMinecraftModel.getGameState() == GameState.HELP_SCREEN){
+            game.setScreen(helpScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_ACTIVE){
             game.setScreen(gameScreen);        
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_PAUSED){
@@ -66,13 +66,12 @@ public class MinecraftView {
         return menuScreen.isStartButtonClicked(touchX, touchY);
     }
 
-    public boolean isOptionsButtonClicked(float touchX, float touchY) {
-        return menuScreen.isOptionsButtonClicked(touchX, touchY);
+    public boolean isHelpButtonClicked(float touchX, float touchY) {
+        return menuScreen.isHelpButtonClicked(touchX, touchY);
     }
 
     public boolean isQuitButtonClicked(float touchX, float touchY) {
         return menuScreen.isQuitButtonClicked(touchX, touchY);
     }
     
-
 }

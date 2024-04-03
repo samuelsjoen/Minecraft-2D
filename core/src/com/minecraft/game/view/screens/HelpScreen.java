@@ -7,18 +7,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
 
-public class OptionsScreen extends ScreenAdapter {
-    // TODO: find out what should be displayed on this screen?
+public class HelpScreen extends ScreenAdapter {
 
     @SuppressWarnings("unused")
     private final Minecraft game;
     private final SpriteBatch batch;
     private Texture backgroundTexture;
 
-    public OptionsScreen(Minecraft game) {
+    public HelpScreen(Minecraft game) {
         this.game = game;
         this.batch = new SpriteBatch();
-        backgroundTexture = new Texture(Gdx.files.internal("assets/home/menu_background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("assets/helpScreen/help_background.png"));
     }
 
     @Override
@@ -33,6 +32,11 @@ public class OptionsScreen extends ScreenAdapter {
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
     }
 
     @Override
