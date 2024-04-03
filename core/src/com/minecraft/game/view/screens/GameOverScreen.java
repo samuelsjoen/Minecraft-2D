@@ -26,7 +26,7 @@ public class GameOverScreen extends ScreenAdapter {
     public void render(float delta) {
         clearScreen();    
         batch.begin();
-        String message = "Game Over\nPress any button to restart";
+        String message = "Game Over\nPress 'R' to revive player and continue playing. \nPress any other button to restart.";
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();
     }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
+import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.view.ViewableMinecraftModel;
 import com.minecraft.game.view.entities.KnightRenderer;
 import com.minecraft.game.view.entities.PinkMonsterRenderer;
@@ -53,8 +54,9 @@ public class GameScreen extends ScreenAdapter {
     private SlimeRenderer slimeRenderer;
     private PinkMonsterRenderer pinkMonsterRenderer;
     private ProjectileRenderer projectileRenderer;
+    private MinecraftView minecraftView;
 
-    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel) {
+    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel, MinecraftView minecraftView) {
         this.camera = camera;
         this.batch = new SpriteBatch();
 
@@ -62,14 +64,12 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundNight = new Texture(Gdx.files.internal("assets/backgroundNight.png"));
         this.backgroundDay = new Texture(Gdx.files.internal("assets/background.png"));
         this.backgroundImage = backgroundDay;
-        // this.backgroundImage = new
-        // Texture(Gdx.files.internal("assets/background.png")); // Loads the background
-        // img
 
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
-
+        
         this.viewableMinecraftModel = viewableMinecraftModel;
+        this.minecraftView = minecraftView;
 
         this.orthogonalTiledMapRenderer = viewableMinecraftModel.getMapRenderer();
 
@@ -94,8 +94,16 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    // TODO: world.step() should be called in model?
     private void update() {
+
+        viewableMinecraftModel.checkAndUpdateGameState();
+
+        if (viewableMinecraftModel.isGameOver()) {
+            // If the game is over, call the method in MinecraftView to update the screen
+            minecraftView.updateScreen();
+        }
+
+        // TODO: world.step() should be called in model?
         viewableMinecraftModel.getWorld().step(1 / 60f, 6, 2);
 
         cameraUpdate();
@@ -140,12 +148,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setDay() {
-        System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
+        //System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
         backgroundImage = backgroundDay;
     }
 
     public void setNight() {
-        System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
+        //System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
         backgroundImage = backgroundNight;
     }
 
@@ -176,10 +184,7 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
 
-        // enemyManager.render(batch);
-
         if (viewableMinecraftModel.getPlayer() != null) {
-            // viewableMinecraftModel.getPlayer().render(batch);
             spriteManager.render(batch, viewableMinecraftModel.getPlayer().getX(),
                     viewableMinecraftModel.getPlayer().getY());
         }
@@ -209,7 +214,7 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.render(viewableMinecraftModel.getWorld(), camera.combined.scl(Constants.PPM));
     }
 
-    // TODO: Should definitely be in model
+    // TODO: Should be in model
     public static void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
     }
