@@ -162,7 +162,6 @@ Følgende skal med i team/prosjekt-rapporten, enten ved at det går frem fra ref
 
 - [ ] For siste innlevering (Oblig 4): Gjør et retrospektiv hvor dere vurderer hvordan hele prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt?
 
-
 #### Krav og spesifikasjon
 (Leveres i doc/obligX.md.)
 

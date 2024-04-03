@@ -52,7 +52,7 @@ For å kjøre koden, følg disse trinnene:
 
 ## Hvor ressurser er hentet fra
 
-#### HUSK: "For ting dere lager selv må dere legge ved lisens som klargjør hvordan ting (evt) kan gjenbrukes."
+=="For ting dere lager selv må dere legge ved lisens som klargjør hvordan ting (evt) kan gjenbrukes."==
 
 ### Grafikk
 
@@ -71,7 +71,7 @@ For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet:
 ### Lyd
 
 **Lyd brukt når man fjerner blokker**
-- Lyd på hakke er hentet fra: 
+- Lyd på hakke er hentet fra: ==husk å sett inn lenke her==
 
 ### Kode
 Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD
