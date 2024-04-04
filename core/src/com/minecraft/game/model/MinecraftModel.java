@@ -241,4 +241,18 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         return this.dayNightCycle;
     }
 
+    @Override
+    public boolean isBlockMineable(int tileX, int tileY) {
+        Cell cell = map.getCell(tileX, tileY);
+        if (cell != null) {
+            // Get the tile type based on the tile coordinates
+            int tileId = cell.getTile().getId();
+            TileType tiletype = TileType.getTileTypeWithId(tileId);
+            if (tiletype.getDamage() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

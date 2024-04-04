@@ -168,9 +168,9 @@ public class MinecraftController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (controllableModel.getPlayerState() != State.DEAD) {
 
-                if (timer.isEmpty()) {
-                    timer.start();
-                }
+                // if (timer.isEmpty()) {
+                // timer.start();
+                // }
 
                 PixelToTilePositionConverter converter = new PixelToTilePositionConverter(view.getCamera());
 
@@ -186,20 +186,25 @@ public class MinecraftController implements InputProcessor {
                         return true;
                     }
 
-                    if (tileX != lastTileX || tileY != lastTileY) {
-
+                    if ((tileX != lastTileX || tileY != lastTileY) && controllableModel.isBlockMineable(tileX, tileY)) {
+                        // Stop and clear the timer before starting a new one
+                        timer.stop();
                         timer.clear();
-                        timer.start();
+                        
                         Timer.Task blockRemovalTask = new Timer.Task() {
                             @Override
                             public void run() {
                                 // Code to remove the block
                                 controllableModel.removeBlock(tileX, tileY);
+                                // Stop the mine block sound right when the block is removed
+                                view.stopMineBlockSound();
                             }
                         };
 
                         float delay = controllableModel.getTileDamage(tileX, tileY);
                         timer.scheduleTask(blockRemovalTask, delay);
+                        timer.start();
+                        view.playMineBlockSound();
                     }
 
                     // Store the previous tile coordinates
@@ -229,8 +234,10 @@ public class MinecraftController implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        timer.stop();
-        timer.clear();
+            timer.stop();
+            timer.clear();
+            view.stopMineBlockSound();
+       
         return true;
     }
 
