@@ -169,6 +169,10 @@ public class Player extends GameEntity {
         isAttacking = !isAttacking;
     }
 
+    public boolean isAttacking() {
+        return isAttacking;
+    }
+
     public float invincibilityTimer() {
         return invincibilityTimer;
     }

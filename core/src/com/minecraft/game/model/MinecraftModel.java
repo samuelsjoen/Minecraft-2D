@@ -123,6 +123,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
+        if (getPlayer().isAttacking()) {
+            getPlayer().toggleIsAttacking();
+        }
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
@@ -246,11 +249,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         /*else if (something) {
             setGameState(GameState.GAME_WON);
         }*/
-    }
-
-    @Override
-    public boolean isGameOver() {
-        return gameState == GameState.GAME_OVER;
     }
 
     @Override
