@@ -1,7 +1,7 @@
 package com.minecraft.game.model.crafting;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.*;
 
 public class Crafting {
 
@@ -15,106 +15,116 @@ public class Crafting {
 
     public Crafting(Inventory inventory) {
         this.inventory = inventory;
-        // this.table = new Item[][] {
-        // {Item.DIAMOND_ORE, Item.DIRT, Item.DIRT_SNOW},
-        // {Item.LEAVES, Item.BEDROCK, Item.DIAMOND_ORE},
-        // {Item.WOODEN_SWORD, Item.STONE, Item.STONE_SNOW}
-        // };
         this.selectedRow = 0;
         this.selectedCol = 0;
-        this.craftableItems = new Item[5][10];
+        clearCraftableItems();
         this.recipeTable = Item.getRecipeMap();
         updateCraftableItems();
         this.table = new Item[][] {
-            { null, null, null },
-            { null, null, null },
-            { null, null, null }
+                { null, null, null },
+                { null, null, null },
+                { null, null, null }
         };
         updateCraftingTable();
         this.open = false;
     }
 
-    public void addBlock(Item item, int row, int col) {
+    private void addBlock(Item item, int row, int col) {
         table[row][col] = item;
-        inventory.removeItem(item);
     }
 
-    public void removeBlock(int row, int col, boolean keepItem) {
-        Item item = table[row][col];
-        addBlock(null, row, col);
-        if (keepItem == true && item != null) {
-            inventory.addItem(item);
-        }
+    private void clearCraftableItems() {
+        this.craftableItems = new Item[5][10];
     }
 
-    public void clearTable(boolean keepItem) {
+    private void clearTable(boolean craft) {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                removeBlock(row, col, keepItem);
+                if (craft) {
+                    inventory.removeItem(table[row][col]);
+                }
+                addBlock(null, row, col);
             }
         }
     }
 
-    public boolean isValidRecipe() {
-        Item item = recipeTable.getOrDefault(table, null);
-        return item != null;
-    }
-
+    /** Crafts the currently selected item in the craftable items section */
     public void craft() {
-        clearTable(false);
+        System.out.println(inventory.getItems());
+        clearTable(true);
         inventory.addItem(getSelectedItem());
         updateCraftableItems();
+        System.out.println(inventory.getItems());
     }
 
-    public Item[][] getTable() {
-        return table;
-    }
-
-    public int getSelectedRow() {
-        return selectedRow;
-    }
-    
-    public int getSelectedCol() {
-        return selectedCol;
-    }
-
+    /** Returms the currently selected item in the craftable items section */
     public Item getSelectedItem() {
         return craftableItems[selectedRow][selectedCol];
     }
 
-    public void open() {
-        open = !open;
+    /** Returns the currently selected row in the craftable items section */
+    public int getSelectedRow() {
+        return selectedRow;
     }
 
+    /** Returns the currently selected col in the craftable items section */
+    public int getSelectedCol() {
+        return selectedCol;
+    }
+
+    /** Returns the table of craftable items */
+    public Item[][] getCraftableItems() {
+        return craftableItems;
+    }
+
+    /** Returns the crafting table */
+    public Item[][] getTable() {
+        return table;
+    }
+
+    /** Checks if the crafting section is currently open */
     public boolean isOpen() {
         return open;
     }
 
-    public void updateCraftableItems() {
+    public void open() {
+        open = !open;
+        updateCraftableItems();
+    }
+
+    private void updateCraftableItems() {
+        clearCraftableItems();
         int freeRow = 0;
         int freeCol = 0;
         for (Item[][] recipe : recipeTable.keySet()) {
             Item item = recipeTable.get(recipe);
             if (canCraft(recipe)) {
-                craftableItems[freeRow][freeCol] = item;
-                freeCol++;
-                if (freeCol == 10) {
-                    freeCol = 0;
-                    freeRow++;
+                if (inventory.getAmount(item) != item.getMaxAmount()) {
+                    craftableItems[freeRow][freeCol] = item;
+                    freeCol++;
+                    if (freeCol == 10) {
+                        freeCol = 0;
+                        freeRow++;
+                    }
                 }
             }
         }
     }
 
     private boolean canCraft(Item[][] recipe) {
-        Inventory tempInventory = inventory;
+        HashMap<Item, Integer> itemCount = new HashMap<>();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                if (recipe[row][col] != null) {
-                    if (!tempInventory.contains(recipe[row][col])) {
+                Item item = recipe[row][col];
+                if (item != null) {
+                    System.out.println(inventory.getItems());
+                    if (!inventory.contains(item)) {
                         return false;
                     } else {
-                        tempInventory.removeItem(recipe[row][col]);
+                        addOrUpdateKey(itemCount, item);
+                        if (inventory.getAmount(item) < itemCount.get(item)) {
+                            return false;
+                        }
                     }
                 }
             }
@@ -122,11 +132,19 @@ public class Crafting {
         return true;
     }
 
-    public void updateCraftingTable() {
-        Item item = craftableItems[selectedRow][selectedCol];
-        if (item == null) {
-            clearTable(true);
+    private static void addOrUpdateKey(HashMap<Item, Integer> hashMap, Item key) {
+        if (hashMap.containsKey(key)) {
+            hashMap.put(key, hashMap.get(key) + 1);
         } else {
+            hashMap.put(key, 1);
+        }
+    }
+
+    private void updateCraftingTable() {
+        if (craftableItems[selectedRow][selectedCol] != null) {
+            Item item = craftableItems[selectedRow][selectedCol];
+            clearTable(false);
+
             Item[][] recipe = item.getRecipe();
             for (int row = 0; row < 3; row++) {
                 for (int col = 0; col < 3; col++) {
@@ -139,10 +157,10 @@ public class Crafting {
 
     }
 
-    public Item[][] getCraftableItems() {
-        return craftableItems;
-    }
-
+    /** Moves the selector in the craftable items table
+     * @param row the amount of rows to move
+     * @param col the amount of cols to move
+     */
     public void moveCraftableTableSelection(int row, int col) {
         if (selectedRow + row >= 0 && selectedRow + row < 5 && selectedCol + col >= 0 && selectedCol + col < 10) {
             selectedRow += row;
@@ -150,4 +168,5 @@ public class Crafting {
             updateCraftingTable();
         }
     }
+
 }

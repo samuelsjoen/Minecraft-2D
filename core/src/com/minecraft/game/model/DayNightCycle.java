@@ -19,7 +19,7 @@ public class DayNightCycle extends Timer.Task {
             isNight = true;
         }
 
-        System.out.println("DayNightCycle run, it is now " + (isNight ? "night" : "day"));
+        // System.out.println("DayNightCycle run, it is now " + (isNight ? "night" : "day"));
     }
 
     /**

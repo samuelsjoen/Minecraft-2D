@@ -22,7 +22,7 @@ public class CraftingView {
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selected.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
         this.jump = 40;
     }
 
