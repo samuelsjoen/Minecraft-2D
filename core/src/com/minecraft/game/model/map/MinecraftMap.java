@@ -82,6 +82,11 @@ public class MinecraftMap implements IMinecraftMap {
         return tiledMap;
     }
 
+    public boolean isTileMineable(int tileX, int tileY) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
+        return layer.getCell(tileX, tileY) != null;
+    }
+
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
         Body body = BodyHelperService.createBody(
                 createPolygonShape(polygonMapObject),

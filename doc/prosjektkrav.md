@@ -88,7 +88,7 @@ Se forøvrig krav til innlevering i hver oppgave. Det kan være vi endrer litt p
 (Vi går gjennom disse tingene i løpet av semesteret – og det går helt fint å starte uten, og heller refaktorere når man blir kjent med systemet. Kravene er til sluttproduktet, ikke milepælene.)
 
 **Lyd**
-- [ ] Det skal være minst én lyd som er koblet til en hendelse i spillet (f.eks. tyggelyder når noen spiser). Koden som håndterer lyd må også være adskilt.
+- [x] Det skal være minst én lyd som er koblet til en hendelse i spillet (f.eks. tyggelyder når noen spiser). Koden som håndterer lyd må også være adskilt.
 
 **Objektfabrikker**
 - [ ] Det skal være mulig å opprette enheter i spillet ved hjelp av objektfabrikker – f.eks. å tegne kart basert på en streng (# er vegg, | er en søyle, o er et hull i bakken, e.l.)

@@ -17,6 +17,7 @@ public class MinecraftController implements InputProcessor {
     private Timer timer;
     private int lastTileX;
     private int lastTileY;
+    private MiningSong miningSong;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
@@ -26,6 +27,7 @@ public class MinecraftController implements InputProcessor {
         // Default value
         this.lastTileX = -1;
         this.lastTileY = -1;
+        this.miningSong = new MiningSong();
     }
 
     @Override
@@ -162,6 +164,7 @@ public class MinecraftController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             timer.stop();
             timer.clear();
+            miningSong.stop();
             return true;
         }
         return false;
@@ -207,12 +210,17 @@ public class MinecraftController implements InputProcessor {
     
             if (tileX != lastTileX || tileY != lastTileY) { // Check if the player is still mining the same block
     
+                if (controllableModel.isBlockMineable(tileX, tileY)) {
+                    miningSong.run();
+                }
+
                 timer.clear();
                 timer.start();
                 Timer.Task blockRemovalTask = new Timer.Task() {
                     @Override
                     public void run() {
                         controllableModel.removeBlock(tileX, tileY); // When the task is excuted the block is removed
+                        miningSong.stop();
                     }
                 };
     

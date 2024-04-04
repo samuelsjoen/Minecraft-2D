@@ -265,4 +265,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         gameState = GameState.WELCOME_SCREEN;
     }
 
+    @Override
+    public boolean isBlockMineable(int tileX, int tileY) {
+        return map.isTileMineable(tileX, tileY);
+    }
+
 }

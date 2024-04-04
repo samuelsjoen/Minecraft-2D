@@ -9,7 +9,7 @@ Følgende skal med i team/prosjekt-rapporten, enten ved at det går frem fra ref
 - [x] Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
 - [x] Trenger dere andre roller? Skriv ned noen linjer om hva de ulike rollene faktisk innebærer for dere.
 
-Rollene i teamet fungerer nå bra! vi føler ikke på noe behov for å gjøre endringer i rollefordelingen. 
+Rollene i teamet fungerer nå bra! Vi føler ikke på noe behov for å gjøre endringer i rollefordelingen. 
 
 ### Prosjektmetodikk & referat
 - [x] Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?
@@ -29,7 +29,6 @@ Gruppedynamikken vår er god og vi er alle samarbeidsorienterte. Vi ønsker alle
 - [ ] Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
 
 Nå har vi endelig oppnådd alle kravene vi hadde satt for MVP. 
-
 
 - [ ] Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
 
@@ -206,14 +205,14 @@ Som spiller ønsker jeg å kunne bruke musen, ved å klikke på blokker for å s
 
 ###### Akseptansekriterier:
 - [x] Spilleren kan klikke på blokker på spillebrettet med musen - og det skjer da en interaksjon slik at blokken blir lagt til i inventory.
-- [ ] Ved klikking på blokker spilles det av en lyd.
+- [x] Ved klikking på blokker spilles det av en lyd, slik at spiller vet at man miner.
 - [x] Spillbrettet blir endret når man fjerner/plasserer blokker i spillverdenen.
 
 ###### Arbeidsoppgaver:
 - [x] Implementere en muselytter i kontroller slik at man har mulighet til å få inn input fra spiller.
 - [x] Implementer interaksjon med miljøet ved å klikke på blokker med musen.
 - [x] Sørge for at blokker som blir ødelagt blir lagt til spillerens inventory og at blokker som blir plassert fjernes fra inventory. 
-- [ ] Ved klikking på blokker så blir blokken fjernet fra spillbrettet + legg til lyd når man klikker på blokker
+- [x] Ved klikking på blokker så blir blokken fjernet fra spillbrettet + legg til lyd når man klikker på blokker
 
 ##### 5: Vise fiender/monstre
 
