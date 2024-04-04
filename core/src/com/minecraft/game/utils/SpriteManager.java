@@ -46,25 +46,46 @@ public class SpriteManager implements Disposable {
         }
 
         // Iron Gear for attacking
-        loadAnimation("Character_Attack_Boots.png", 6, 4, 0.1f, "Character_Boots_Attack");
-        loadAnimation("Character_Attack_Chestplate.png", 6, 4, 0.1f, "Character_Chestplate_Attack");
-        loadAnimation("Character_Attack_Gloves.png", 6, 4, 0.1f, "Character_Gloves_Attack");
-        loadAnimation("Character_Attack_Hat.png", 6, 4, 0.1f, "Character_Hat_Attack");
-        loadAnimation("Character_Attack_Leggings.png", 6, 4, 0.1f, "Character_Leggings_Attack");
+        loadAnimation("iron/Character_Attack_Boots.png", 6, 4, 0.1f, "Character_ironBoots_Attack");
+        loadAnimation("iron/Character_Attack_Chestplate.png", 6, 4, 0.1f, "Character_ironChestplate_Attack");
+        loadAnimation("iron/Character_Attack_Gloves.png", 6, 4, 0.1f, "Character_ironGloves_Attack");
+        loadAnimation("iron/Character_Attack_Hat.png", 6, 4, 0.1f, "Character_ironHat_Attack");
+        loadAnimation("iron/Character_Attack_Leggings.png", 6, 4, 0.1f, "Character_ironLeggings_Attack");
 
         // Iron Gear for idle
-        loadAnimation("Character_Idle_Boots.png", 4, 4, 0.1f, "Character_Boots_Idle");
-        loadAnimation("Character_Idle_Chestplate.png", 4, 4, 0.1f, "Character_Chestplate_Idle");
-        loadAnimation("Character_Idle_Gloves.png", 4, 4, 0.1f, "Character_Gloves_Idle");
-        loadAnimation("Character_Idle_Hat.png", 4, 4, 0.1f, "Character_Hat_Idle");
-        loadAnimation("Character_Idle_Leggings.png", 4, 4, 0.1f, "Character_Leggings_Idle");
+        loadAnimation("iron/Character_Idle_Boots.png", 4, 4, 0.1f, "Character_ironBoots_Idle");
+        loadAnimation("iron/Character_Idle_Chestplate.png", 4, 4, 0.1f, "Character_ironChestplate_Idle");
+        loadAnimation("iron/Character_Idle_Gloves.png", 4, 4, 0.1f, "Character_ironGloves_Idle");
+        loadAnimation("iron/Character_Idle_Hat.png", 4, 4, 0.1f, "Character_ironHat_Idle");
+        loadAnimation("iron/Character_Idle_Leggings.png", 4, 4, 0.1f, "Character_ironLeggings_Idle");
 
         // Iron Gear for moving
-        loadAnimation("Character_Move_Boots.png", 6, 4, 0.1f, "Character_Boots_Move");
-        loadAnimation("Character_Move_Chestplate.png", 6, 4, 0.1f, "Character_Chestplate_Move");
-        loadAnimation("Character_Move_Gloves.png", 6, 4, 0.1f, "Character_Gloves_Move");
-        loadAnimation("Character_Move_Hat.png", 6, 4, 0.1f, "Character_Hat_Move");
-        loadAnimation("Character_Move_Leggings.png", 6, 4, 0.1f, "Character_Leggings_Move");
+        loadAnimation("iron/Character_Move_Boots.png", 6, 4, 0.1f, "Character_ironBoots_Move");
+        loadAnimation("iron/Character_Move_Chestplate.png", 6, 4, 0.1f, "Character_ironChestplate_Move");
+        loadAnimation("iron/Character_Move_Gloves.png", 6, 4, 0.1f, "Character_ironGloves_Move");
+        loadAnimation("iron/Character_Move_Hat.png", 6, 4, 0.1f, "Character_ironHat_Move");
+        loadAnimation("iron/Character_Move_Leggings.png", 6, 4, 0.1f, "Character_ironLeggings_Move");
+
+        // Diamond Gear for attacking
+        loadAnimation("diamond/Diamond_attack_boots.png", 6, 4, 0.1f, "Character_diamondBoots_Attack");
+        loadAnimation("diamond/Diamond_attack_chestplate.png", 6, 4, 0.1f, "Character_diamondChestplate_Attack");
+        loadAnimation("diamond/Diamond_attack_gloves.png", 6, 4, 0.1f, "Character_diamondGloves_Attack");
+        loadAnimation("diamond/Diamond_attack_hat.png", 6, 4, 0.1f, "Character_diamondHat_Attack");
+        loadAnimation("diamond/Diamond_attack_leggings.png", 6, 4, 0.1f, "Character_diamondLeggings_Attack");
+
+        // Diamond Gear for idle
+        loadAnimation("diamond/Diamond_idle_boots.png", 4, 4, 0.1f, "Character_diamondBoots_Idle");
+        loadAnimation("diamond/Diamond_idle_chestplate.png", 4, 4, 0.1f, "Character_diamondChestplate_Idle");
+        loadAnimation("diamond/Diamond_idle_gloves.png", 4, 4, 0.1f, "Character_diamondGloves_Idle");
+        loadAnimation("diamond/Diamond_idle_hat.png", 4, 4, 0.1f, "Character_diamondHat_Idle");
+        loadAnimation("diamond/Diamond_idle_leggings.png", 4, 4, 0.1f, "Character_diamondLeggings_Idle");
+
+        // Diamond Gear for moving
+        loadAnimation("diamond/Diamond_move_boots.png", 6, 4, 0.1f, "Character_diamondBoots_Move");
+        loadAnimation("diamond/Diamond_move_chestplate.png", 6, 4, 0.1f, "Character_diamondChestplate_Move");
+        loadAnimation("diamond/Diamond_move_gloves.png", 6, 4, 0.1f, "Character_diamondGloves_Move");
+        loadAnimation("diamond/Diamond_move_hat.png", 6, 4, 0.1f, "Character_diamondHat_Move");
+        loadAnimation("diamond/Diamond_move_leggings.png", 6, 4, 0.1f, "Character_diamondLeggings_Move");
 
         // Some cosmetics and FX
         loadAnimation("Character_Attack_Beard.png", 6, 4, 0.1f, "Character_Beard_Attack");
@@ -75,15 +96,20 @@ public class SpriteManager implements Disposable {
         loadAnimation("Character_Move_Beard.png", 6, 4, 0.1f, "Character_Beard_Move");
         loadAnimation("Character_Move_Hair.png", 6, 4, 0.1f, "Character_Hair_Move");
 
-        // Iron Sword
-        loadAnimation("Character_Attack_Sword_2.png", 6, 4, 0.1f, "Character_Sword_2_Attack");
-        loadAnimation("Character_Idle_Sword_2.png", 4, 4, 0.1f, "Character_Sword_2_Idle");
-        loadAnimation("Character_Move_Sword_2.png", 6, 4, 0.1f, "Character_Sword_2_Move");
-
         // Wooden Sword
-        loadAnimation("Character_Attack_Sword.png", 6, 4, 0.1f, "Character_Sword_Attack");
-        loadAnimation("Character_Idle_Sword.png", 4, 4, 0.1f, "Character_Sword_Idle");
-        loadAnimation("Character_Move_Sword.png", 6, 4, 0.1f, "Character_Sword_Move");
+        loadAnimation("wood/Character_Attack_Sword.png", 6, 4, 0.1f, "Character_Sword_Attack");
+        loadAnimation("wood/Character_Idle_Sword.png", 4, 4, 0.1f, "Character_Sword_Idle");
+        loadAnimation("wood/Character_Move_Sword.png", 6, 4, 0.1f, "Character_Sword_Move");
+
+        // Iron Sword
+        loadAnimation("iron/Character_Attack_Sword_2.png", 6, 4, 0.1f, "Character_Sword_2_Attack");
+        loadAnimation("iron/Character_Idle_Sword_2.png", 4, 4, 0.1f, "Character_Sword_2_Idle");
+        loadAnimation("iron/Character_Move_Sword_2.png", 6, 4, 0.1f, "Character_Sword_2_Move");
+
+        // Diamond Sword
+        loadAnimation("diamond/Diamond_attack_sword.png", 6, 4, 0.1f, "Character_Sword_3_Attack");
+        loadAnimation("diamond/Diamond_idle_sword.png", 4, 4, 0.1f, "Character_Sword_3_Idle");
+        loadAnimation("diamond/Diamond_move_sword.png", 6, 4, 0.1f, "Character_Sword_3_Move");
     }
 
     private void loadAnimation(String filePath, int cols, int rows, float frameDuration, String key) {
@@ -141,12 +167,22 @@ public class SpriteManager implements Disposable {
     }
 
     private void initializeItemToSpriteMapping() {
+        itemToSpriteMapping.put(Item.LEAVES,
+                new String[] { "Character_diamondBoots",
+                        "Character_diamondChestplate",
+                        "Character_diamondGloves",
+                        "Character_diamondHat",
+                        "Character_diamondLeggings" });
         itemToSpriteMapping.put(Item.DIRT,
-                new String[] { "Character_Leggings", "Character_Chestplate", "Character_Hat", "Character_Boots",
-                        "Character_Gloves" });
+                new String[] { "Character_ironBoots",
+                        "Character_ironChestplate",
+                        "Character_ironGloves",
+                        "Character_ironHat",
+                        "Character_ironLeggings" });
         itemToSpriteMapping.put(Item.WOOD, new String[] { "Character_Sword", "Character_FX" });
 
         itemToSpriteMapping.put(Item.STONE, new String[] { "Character_Sword_2", "Character_FX" });
+        itemToSpriteMapping.put(Item.GRASS, new String[] { "Character_Sword_3", "Character_FX" });
     }
 
     public void update() {
