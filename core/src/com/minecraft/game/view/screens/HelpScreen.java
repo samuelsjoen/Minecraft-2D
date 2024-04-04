@@ -11,12 +11,12 @@ public class HelpScreen extends ScreenAdapter {
 
     @SuppressWarnings("unused")
     private final Minecraft game;
-    private final SpriteBatch batch;
-    private Texture backgroundTexture;
+    final SpriteBatch batch;
+    Texture backgroundTexture;
 
-    public HelpScreen(Minecraft game) {
+    public HelpScreen(Minecraft game, SpriteBatch batch) {
         this.game = game;
-        this.batch = new SpriteBatch();
+        this.batch = batch;
         backgroundTexture = new Texture(Gdx.files.internal("assets/helpScreen/help_background.png"));
     }
 
@@ -24,7 +24,6 @@ public class HelpScreen extends ScreenAdapter {
     public void render(float delta) {
         clearScreen();
         batch.begin();
-        // Draw background
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }

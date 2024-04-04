@@ -12,14 +12,14 @@ public class GameOverScreen extends ScreenAdapter {
 
     @SuppressWarnings("unused")
     private final Minecraft game;
-    private BitmapFont font;
-    private SpriteBatch batch;
+    final BitmapFont font;
+    final SpriteBatch batch;
 
-    public GameOverScreen(Minecraft game) {
+    public GameOverScreen(Minecraft game, SpriteBatch batch, BitmapFont font) {
         this.game = game;
-        this.font = new BitmapFont();
+        this.batch = batch;
+        this.font = font;
         this.font.getData().setScale(2); // increasing font size
-        this.batch = new SpriteBatch();
     }
 
     @Override

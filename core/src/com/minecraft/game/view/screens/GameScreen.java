@@ -7,6 +7,7 @@ import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.EnemyManager;
+import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -98,7 +99,7 @@ public class GameScreen extends ScreenAdapter {
 
         viewableMinecraftModel.checkAndUpdateGameState();
 
-        if (viewableMinecraftModel.isGameOver()) {
+        if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER) {
             // If the game is over, call the method in MinecraftView to update the screen
             minecraftView.updateScreen();
         }

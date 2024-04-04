@@ -1,8 +1,12 @@
 package com.minecraft.game.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
+import com.minecraft.game.utils.Constants;
 import com.minecraft.game.view.screens.GameOverScreen;
 import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.view.screens.HelpScreen;
@@ -19,17 +23,23 @@ public class MinecraftView {
     private PausedScreen pausedScreen;
     private GameScreen gameScreen;
     private GameOverScreen gameOverScreen;
+    
+    private SpriteBatch spriteBatch;
+    private BitmapFont font;
 
     public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel) {
 
         this.game = game;
         this.viewableMinecraftModel = viewableMinecraftModel;
 
+        this.spriteBatch = new SpriteBatch();
+        this.font = new BitmapFont();
+
         this.menuScreen = new MenuScreen(game);
-        this.helpScreen = new HelpScreen(game);
+        this.helpScreen = new HelpScreen(game, spriteBatch);
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
-        this.pausedScreen = new PausedScreen(game);
-        this.gameOverScreen = new GameOverScreen(game);
+        this.pausedScreen = new PausedScreen(game, spriteBatch, font);
+        this.gameOverScreen = new GameOverScreen(game, spriteBatch, font);
 
         updateScreen();
 
@@ -37,6 +47,7 @@ public class MinecraftView {
 
     public void newGameScreen() {
         gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
+        updateScreen();
     }
 
     public void updateScreen() {
@@ -50,6 +61,14 @@ public class MinecraftView {
                 game.setScreen(pausedScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER){
             game.setScreen(gameOverScreen);
+        }
+    }
+
+    public void toggleFullscreen() {
+        if (Gdx.graphics.isFullscreen()) {
+            Gdx.graphics.setWindowedMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+        } else {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
     }
 

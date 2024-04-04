@@ -76,10 +76,4 @@ public interface ViewableMinecraftModel {
      */
     void checkAndUpdateGameState(); 
 
-    /**
-     * Check if the game is over.
-     * @return true if the game is over, false otherwise
-     */
-    boolean isGameOver();
-
 }
