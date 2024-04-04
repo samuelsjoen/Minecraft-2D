@@ -9,13 +9,18 @@ build:
     - echo "Building the project..."
     - gradle build
   only:
-    - main
+    - martine14
 
 test:
   stage: test
   image: gradle:8.6-jdk21
+  coverage: '/Code coverage: /Total.*?([0-9]{1,3})%/'
   script:
     - echo "Testing the project..."
-    - gradle test
+    #- gradle test
+    - gradle test jacocoTestReport
+  artifacts:
+    paths:
+      - build/reports/
   only:
-    - main
+    - martine14
