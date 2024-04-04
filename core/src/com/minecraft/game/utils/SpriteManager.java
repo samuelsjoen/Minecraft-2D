@@ -180,7 +180,6 @@ public class SpriteManager implements Disposable {
                         "Character_ironHat",
                         "Character_ironLeggings" });
         itemToSpriteMapping.put(Item.WOOD, new String[] { "Character_Sword", "Character_FX" });
-
         itemToSpriteMapping.put(Item.STONE, new String[] { "Character_Sword_2", "Character_FX" });
         itemToSpriteMapping.put(Item.GRASS, new String[] { "Character_Sword_3", "Character_FX" });
     }
