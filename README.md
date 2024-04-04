@@ -7,6 +7,8 @@
 **Lenke til project board:** https://app.asana.com/0/1206585808458619/1206585820662301
 **Lenke til git:** https://git.app.uib.no/samuel.sjoen/team6
 
+==Krav til Readme: Dere må dokumentere hvordan prosjektet bygger, testes og kjøres, slik at det er lett for gruppelederne å bygge, teste og kjøre koden deres. Under vurdering kommer koden også til å brukertestes.==
+
 ## Om spillet
 "Minecraft 2D light" er en todimensjonal versjon inspirert av det ikoniske Minecraft-universet. Målet er å utforske, bygge og mine ved å bevege seg rundt i en todimensjonell verden. 
 
@@ -50,6 +52,16 @@ For å kjøre koden, følg disse trinnene:
 2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
 3. Kompilér og kjør hovedklassen DesktopLauncher.java.
 
+Man kan også bruke `gradle build` og `gradle run` i terminalen.
+
+## Hvordan teste koden?
+
+For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-objekter. Følg disse trinnene for å kjøre testene:
+
+1. Åpne prosjektet i din foretrukne kodeeditor.
+2. Naviger til test-fanen i din kodeeditor og kjør testene
+3. Eventuelt i terminalen skriv inn kommandoen `gradle test`
+
 ## Hvor ressurser er hentet fra
 
 =="For ting dere lager selv må dere legge ved lisens som klargjør hvordan ting (evt) kan gjenbrukes."==
@@ -71,7 +83,7 @@ For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet:
 ### Lyd
 
 **Lyd brukt når man fjerner blokker**
-- Lyd på hakke er hentet fra: ==husk å sett inn lenke her==
+Lyd på hakke er hentet fra: ==husk å sett inn lenke her==
 
 ### Kode
 Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD

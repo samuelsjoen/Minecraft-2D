@@ -14,7 +14,7 @@ Hovedvekten av vurderingen på sluttproduktet ligger på spillmekanikken, måten
 #### Formalia
 - [x] Prosjektets git-repositorium ligger under teamets gitlab-gruppe og har et relevant navn
 - [x] README.md-fil, med navn på team-medlemmer, teamet og prosjektet, kort beskrivelse og brukerveiledning for spillet, teknisk info om hvordan koden kjøres, og informasjon om hvor grafikk/lyd er hentet fra (kilde/opphavsrett)
-- [ ] doc/obligX.md-fil med oversiktlig svar på oppgaver
+- [x] doc/obligX.md-fil med oversiktlig svar på oppgaver
 - [ ] Alt er oversiktlig og riktig format
 
 #### Team
@@ -37,7 +37,7 @@ Hovedvekten av vurderingen på sluttproduktet ligger på spillmekanikken, måten
 ### Programvare, produkt og kvalitet (20%)
 
 #### Spesifikasjon
-- [ ] Overordnet beskrivelse av konsept, etc.
+- [x] Overordnet beskrivelse av konsept, etc.
 - [ ] Brukerhistorier
 - [ ] Akseptansekriterier og arbeidsoppgaver (kort beskrivelse)
 - [ ] Hva inngår i MVP? Hva er evt. stretch goal?
@@ -116,7 +116,7 @@ Alle i teamet må…
 - [x] bidra i programmerings-, skrive- og testearbeidet og committe ting til Git (evt. nevne om man har parprogrammert) – vi sjekker at Git-loggen er rimelig balansert,
 - [ ] ha tilstrekkelig oversikt til å kunne forklare arkitektur og slikt – men det er ikke nødvendig å kjenne alle implementasjonsdetaljer,
 - [ ] kunne forklare hva som skjer i kode man har skrevet selv, og i minst én pakke/klasse/etc som noen andre har skrevet,
-- [ ] ha skrevet minst én test,
+- [x] ha skrevet minst én test,
 - [x] ha skrevet noe kode som interagerer med noen andres kode (mer enn bare å kalle doit()).
 - [x] følge opp arbeidsoppgaver man avtaler i teamet,
 - [x] bidra til, følge opp og ta ansvar for at alle i teamet (+gruppelederne!) har et trygt og godt arbeidsmiljø, uavhengig av bakgrunn/kjønn/legning/livssyn/funksjonsnedsettelse/etc.
@@ -137,7 +137,6 @@ Dere kommer til å lære om disse tingene i løpet av kurset, så ikke få panik
 - [ ] Decoupling:  Sørg for at forskjellige enheter i programmet er mest mulig uavhengig av hverandre – spesielt med tanke på model (intern representasjon av spillet) og view (grafisk representasjon beregnet på brukeren) – se Model-View-Controller.
 - [ ] Koden bør følge vanlige, moderne objektorienterte designprinsipper (SOLID, etc.)
 - [ ] Det må være enkelt for oss å følge med på hva dere har gjort, hva som endrer seg, og hvordan vi bruker/tester spillet.
-
 
 ## Krav til de ulike delene:
 
