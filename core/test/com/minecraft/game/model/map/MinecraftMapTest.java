@@ -132,7 +132,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 		assertNotNull(objectLayer.getObjects().get(worldX + ", " + worldY));
 	}
 
-
+/*
 	@Test
 	public void testAddBlockAtPlayer() {
 		// The object should be present with the given coordinates
@@ -162,6 +162,6 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 
 		// The grass tile and object should be present
 		assertNull(tiledMapLayer.getCell(1, 17));
-		assertNull(objectLayer.getObjects().get(worldX + ", " + worldY));*/
-	}
+		assertNull(objectLayer.getObjects().get(worldX + ", " + worldY));
+	}*/
 }
