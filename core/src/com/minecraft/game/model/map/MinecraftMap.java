@@ -23,7 +23,7 @@ import com.minecraft.game.utils.Constants;
 
 public class MinecraftMap implements IMinecraftMap {
 
-    private TiledMap tiledMap;
+    protected TiledMap tiledMap;
     private World world;
     private Player player;
 
@@ -102,7 +102,7 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
-    private void createMapObjectsForAllTiles () {
+    protected void createMapObjectsForAllTiles () {
         for (MapLayer layer : tiledMap.getLayers()) {
             if (layer instanceof TiledMapTileLayer) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
@@ -122,7 +122,7 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
-    private void parseMapObjects(MapObjects mapObjects) {
+    protected void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
             if (mapObject instanceof PolygonMapObject) {
                 createStaticBody((PolygonMapObject) mapObject,
