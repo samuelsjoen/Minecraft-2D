@@ -50,11 +50,9 @@ public class Crafting {
 
     /** Crafts the currently selected item in the craftable items section */
     public void craft() {
-        System.out.println(inventory.getItems());
         clearTable(true);
         inventory.addItem(getSelectedItem());
         updateCraftableItems();
-        System.out.println(inventory.getItems());
     }
 
     /** Returms the currently selected item in the craftable items section */
@@ -117,7 +115,6 @@ public class Crafting {
             for (int col = 0; col < 3; col++) {
                 Item item = recipe[row][col];
                 if (item != null) {
-                    System.out.println(inventory.getItems());
                     if (!inventory.contains(item)) {
                         return false;
                     } else {
