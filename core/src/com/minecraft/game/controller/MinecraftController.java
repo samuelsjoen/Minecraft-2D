@@ -145,6 +145,7 @@ public class MinecraftController implements InputProcessor {
             handleGameActiveTouch(screenX, screenY, button);
             return true;
         }
+
         return false;
     }
 

@@ -149,12 +149,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setDay() {
-        //System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
+        // System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
         backgroundImage = backgroundDay;
     }
 
     public void setNight() {
-        //System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
+        // System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
         backgroundImage = backgroundNight;
     }
 

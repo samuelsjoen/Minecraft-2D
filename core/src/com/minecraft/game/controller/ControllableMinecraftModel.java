@@ -109,6 +109,15 @@ public interface ControllableMinecraftModel {
     float getTileDamage(int tileX, int tileY);
 
     /**
+     * Checks if a block at the specified tile coordinates is mineable.
+     *
+     * @param tileX The x-coordinate of the tile.
+     * @param tileY The y-coordinate of the tile.
+     * @return true if the block is mineable, false otherwise.
+     */
+    boolean isBlockMineable(int tileX, int tileY);
+
+    /**
      * Restarts the game.
      */
     void restartGame();
@@ -117,6 +126,19 @@ public interface ControllableMinecraftModel {
      * Opens or closes the crafting overlay.
      */
     void toggleCrafting();
+
+    /**
+     * Moves the selection in the crafting overlay.
+     * 
+     * @param row how many rows to move
+     * @param col how many cols to move
+     */
+    void moveCraftableTableSelection(int row, int col);
+
+    /**
+     * Crafts the selected item in the crafting overlay.
+     */
+    void craftItem();
 
     /**
      * Get the DayNightCycle object

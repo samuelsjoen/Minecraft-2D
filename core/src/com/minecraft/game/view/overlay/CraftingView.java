@@ -1,6 +1,7 @@
 package com.minecraft.game.view.overlay;
 
 import com.badlogic.gdx.Gdx;
+import java.util.HashMap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -10,21 +11,28 @@ import com.minecraft.game.model.crafting.Item;
 public class CraftingView {
     private final Crafting crafting;
     private final Texture craftingSprite;
+    private final Texture selectedItem;
     private final int jump;
 
     private float xCrafting;
     private float yCrafting;
+    private float xItem;
+    private float yItem;
 
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
-        this.jump = 50;
+        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
+        this.jump = 40;
     }
 
     public void render(SpriteBatch batch) {
         if (crafting.isOpen()) {
             renderCraftingTable(batch);
             renderCraftingTableItems(batch);
+            renderCraftableItems(batch);
+            renderSelectedSlot(batch);
+            renderPotentialItem(batch);
         }
     }
 
@@ -38,15 +46,50 @@ public class CraftingView {
             for (int col = 0; col < 3; col++) {
                 Item item = table[row][col];
                 if (item != null) {
+                    float x = xItem + (col * jump);
+                    float y = yItem - (row * jump);
                     Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
-                    batch.draw(itemTexture, xCrafting + (row * jump), yCrafting + (col * jump), 50, 50);
+                    batch.draw(itemTexture, x, y, 30, 30);
                 }
             }
         }
     }
 
+
+    private void renderCraftableItems(SpriteBatch batch) {
+        Item[][] craftableItems = crafting.getCraftableItems();
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 10; col++) {
+                Item item = craftableItems[row][col];
+                if (item != null) {
+                    float x = xCrafting + 22 + (col * jump);
+                    float y = yCrafting + 182 + (row * jump);
+                    Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+                    batch.draw(itemTexture, x, y, 30, 30);
+                }
+            }
+        }
+    }
+
+    private void renderSelectedSlot(SpriteBatch batch) {
+        int selectedRow = crafting.getSelectedRow();
+        int selectedCol = crafting.getSelectedCol();
+        float x = xCrafting + 17 + (selectedCol * jump);
+        float y = yCrafting + 176 - (selectedRow * jump);
+        batch.draw(selectedItem, x, y);}
+
+    private void renderPotentialItem(SpriteBatch batch) {
+        Item item = crafting.getSelectedItem();
+        if (item != null) {
+            Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+            batch.draw(itemTexture, xCrafting + 344, yCrafting + 302, 30, 30);
+        }
+    }
+
     public void update(Vector2 lowerLeftCorner) {        
-        xCrafting = lowerLeftCorner.x + 825;
-        yCrafting = lowerLeftCorner.y + 480;
+        xCrafting = lowerLeftCorner.x + 820;
+        yCrafting = lowerLeftCorner.y + 240;
+        xItem = xCrafting + 62;
+        yItem = yCrafting + 342;
     }
 }

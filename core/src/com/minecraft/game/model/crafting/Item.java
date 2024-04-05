@@ -3,19 +3,19 @@ package com.minecraft.game.model.crafting;
 import java.util.HashMap;
 
 public enum Item {
-    PLANK(125, "plank", "A wooden plank", "assets/inventoryItems/plank.png", 64, null),
+    WOOD(14, "wood", "A block of wood", "assets/inventoryItems/wood.png", 64, null),
     STICK(124, "stick", "A wooden stick", "assets/inventoryItems/stick.png", 64, new Item[][] {
-        {null, Item.PLANK, null},
-        {null, Item.PLANK, null},
+        {null, WOOD, null},
+        {null, WOOD, null},
         {null, null, null}
     }),
     WOODEN_SWORD(89, "Sword", "A sharp sword for fighting", "assets/inventoryItems/sword.png", 1, new Item[][] {
-        {null, PLANK, null},
-        {null, PLANK, null},
+        {null, WOOD, null},
+        {null, WOOD, null},
         {null, STICK, null}
     }),
     WOODEN_PICKAXE(38, "Pickaxe", "A pickaxe for mining", "assets/inventoryItems/pickaxe.png", 1, new Item[][] {
-        {Item.PLANK, Item.PLANK, Item.PLANK},
+        {WOOD, WOOD, WOOD},
         {null, Item.STICK, null},
         {null, Item.STICK, null}
     }),
@@ -27,8 +27,7 @@ public enum Item {
     IRON_ORE(8, "iron_ore", "A block of iron ore", "assets/inventoryItems/iron_ore.png", 64, null),
     STONE_SNOW(11, "stone_snow", "A block of stone with snow", "assets/inventoryItems/stone_snow.png", 64, null),
     DIRT_SNOW(12, "dirt_snow", "A block of dirt with snow", "assets/inventoryItems/dirt_snow.png", 64, null),
-    LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null),
-    WOOD(14, "wood", "A block of wood", "assets/inventoryItems/wood.png", 64, null);
+    LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null);
 
     private final int id;
     private final String name;

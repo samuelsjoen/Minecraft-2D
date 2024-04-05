@@ -12,6 +12,8 @@ import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.view.screens.HelpScreen;
 import com.minecraft.game.view.screens.MenuScreen;
 import com.minecraft.game.view.screens.PausedScreen;
+import com.minecraft.game.view.sound.MineBlockSoundManager;
+import com.minecraft.game.view.sound.SoundManager;
 
 public class MinecraftView {
 
@@ -26,6 +28,8 @@ public class MinecraftView {
     
     private SpriteBatch spriteBatch;
     private BitmapFont font;
+
+    private SoundManager mineBlockSoundManager;
 
     public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel) {
 
