@@ -27,17 +27,17 @@ public class Inventory {
         return currentSlot;
     }
 
-    public void addItem(Item name, int quantity) {
-        if (items.containsKey(name)) {
-            if ((items.get(name) + quantity) >= name.getMaxAmount()) {
-                items.put(name, name.getMaxAmount());
+    public void addItem(Item item, int quantity) {
+        if (items.containsKey(item)) {
+            if ((items.get(item) + quantity) >= item.getMaxAmount()) {
+                items.put(item, item.getMaxAmount());
             } else {
-                items.put(name, items.get(name) + quantity);
+                items.put(item, items.get(item) + quantity);
             }
         } else {
             if (!isFull()) {
-                items.put(name, 0);
-                addItem(name, quantity);
+                items.put(item, 0);
+                addItem(item, quantity);
             }
         }
     }
