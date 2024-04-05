@@ -12,27 +12,37 @@ public class Constants {
     public static final float PLAYER_MOVE_SPEED = 15f;
     public static final float PLAYER_JUMP_VELOCITY = 15;
     public static final int PLAYER_MAX_HEALTH = 5;
-    // Animation frame durations and counts for the player character
 
     // Input key constants
+    public static final int ESCAPE_KEY = Keys.ESCAPE;
+    public static final int TOGGLE_PAUSE_KEY = Keys.P;
+    public static final int TOGGLE_FULLSCREEN_KEY = Keys.F;
+    public static final int START_KEY = Keys.S;
+    public static final int ANY_KEY = Keys.ANY_KEY;
+
+    // Key to toggle debug mode if needed dynamically
+    public static final int TOGGLE_DEBUG_KEY = Keys.F1;
+
+
+    // Movement & player keys
     public static final int MOVE_LEFT_KEY = Keys.A;
     public static final int MOVE_RIGHT_KEY = Keys.D;
-    public static final int MOVE_UP_KEY = Keys.W;
-    public static final int MOVE_DOWN_KEY = Keys.S;
     public static final int JUMP_KEY = Keys.SPACE;
-    public static final int INVENTORY_LEFT = Keys.LEFT;
-    public static final int INVENTORY_RIGHT = Keys.RIGHT;
-    public static final int INVENTORY_DROP = Keys.Q;
-    public static final int CRAFTING_OPEN = Keys.E;
+    public static final int ATTACK_KEY = Keys.TAB;
+
+    public static final int REVIVE_KEY = Keys.R;
+
+    // Crafting & inventory keys
+    public static final int CHANGE_INVENTORY_LEFT_KEY = Keys.LEFT;
+    public static final int CHANGE_INVENTORY_RIGHT_KEY = Keys.RIGHT;
+    public static final int DROP_INVENTORY_ITEM_KEY = Keys.Q;
+    public static final int TOGGLE_CRAFTING_KEY = Keys.E;
 
     // Character scale (1.0f for original size, adjust as needed)
     public static final float CHARACTER_SCALE = 2.5f; // Example scale to make character bigger
 
     // Debug mode for drawing hitbox around the character
     public static final boolean DEBUG_MODE = false; // Set to true or false to show or hide the world tiles !
-
-    // Key to toggle debug mode if needed dynamically
-    public static final int TOGGLE_DEBUG_KEY = Keys.F1;
 
     // PPM (pixels per meter) for Box2D
     public static final float PPM = 32.0f;

@@ -71,4 +71,9 @@ public interface ViewableMinecraftModel {
      */
     DayNightCycle getDayNightCycle();
 
+    /**
+     * Check if the game is over and update the game state accordingly.
+     */
+    void checkAndUpdateGameState(); 
+
 }

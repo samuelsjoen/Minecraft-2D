@@ -146,4 +146,12 @@ public interface ControllableMinecraftModel {
      */
     DayNightCycle getDayNightCycle();
 
+    /**
+     * Check if the block at the specified tile coordinates is mineable.
+     * @param tileX
+     * @param tileY
+     * @return true if the block is mineable, false otherwise
+     */
+    boolean isBlockMineable(int tileX, int tileY);
+
 }

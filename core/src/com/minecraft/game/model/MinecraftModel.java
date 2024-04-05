@@ -37,7 +37,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
         this.factory = factory;
 
-        // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
@@ -57,6 +56,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void setGameState(GameState state) {
         gameState = state;
+
+        handleGameStateChange();
+    }
+
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
+        }
+        else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
     }
 
     @Override
@@ -113,6 +123,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
+        if (getPlayer().isAttacking()) {
+            getPlayer().toggleIsAttacking();
+        }
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
@@ -229,11 +242,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public void restartGame() {
-        map = new MinecraftMap();
-        factory = new EntityFactory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
-        gameState = GameState.WELCOME_SCREEN;
+    public void checkAndUpdateGameState() {
+        if (getPlayerState() == State.DEAD) {
+            setGameState(GameState.GAME_OVER);
+        }
+        /*else if (something) {
+            setGameState(GameState.GAME_WON);
+        }*/
     }
 
     @Override
@@ -242,27 +257,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
+    public void restartGame() {
+        map = new MinecraftMap();
+        factory = new EntityFactory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        dayNightCycle = new DayNightCycle();
+        gameState = GameState.WELCOME_SCREEN;
+    }
+
+    @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        Cell cell = map.getCell(tileX, tileY);
-        if (cell != null) {
-            // Get the tile type based on the tile coordinates
-            int tileId = cell.getTile().getId();
-            TileType tiletype = TileType.getTileTypeWithId(tileId);
-            if (tiletype.getDamage() > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void moveCraftableTableSelection(int row, int col) {
-        crafting.moveCraftableTableSelection(row, col);
-    }
-
-    @Override
-    public void craftItem() {
-        crafting.craft();
+        return map.isTileMineable(tileX, tileY);
     }
 
 }

@@ -12,14 +12,14 @@ public class PausedScreen extends ScreenAdapter {
 
     @SuppressWarnings("unused")
     private final Minecraft game;
-    private BitmapFont font;
-    private SpriteBatch batch;
+    BitmapFont font;
+    SpriteBatch batch;
 
-    public PausedScreen(Minecraft game) {
+    public PausedScreen(Minecraft game, SpriteBatch batch, BitmapFont font) {
         this.game = game;
-        this.font = new BitmapFont();
+        this.batch = batch;
+        this.font = font;
         this.font.getData().setScale(2); // increasing font size
-        this.batch = new SpriteBatch();
     }
 
     @Override
@@ -45,7 +45,6 @@ public class PausedScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        // Update the projection matrix
         batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
     }
 }
