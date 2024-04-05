@@ -35,6 +35,6 @@ test-coverage:
     reports: 
       coverage_report:
         coverage_format: cobertura
-          path: build/cobertura.xml
+        path: core/build/cobertura.xml
   only:
   - martine14
