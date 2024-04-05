@@ -65,6 +65,18 @@ public class Constants {
             Item.STICK,
             Item.STICK,
             Item.STICK,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
+            Item.IRON_ORE,
             // Item.PICKAXE,
     };
 }

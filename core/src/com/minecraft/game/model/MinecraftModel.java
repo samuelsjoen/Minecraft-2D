@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -26,6 +27,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @SuppressWarnings("unused")
     private Player player;
     private Inventory inventory;
+    private ArmorInventory armorInventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
@@ -42,8 +44,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.player = map.getPlayer();
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.armorInventory = new ArmorInventory();
 
-        this.crafting = new Crafting(getInventory());
+        this.crafting = new Crafting(getInventory(), getArmorInventory());
 
         this.dayNightCycle = new DayNightCycle();
 
@@ -263,6 +266,11 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void craftItem() {
         crafting.craft();
+    }
+
+    @Override
+    public ArmorInventory getArmorInventory() {
+        return armorInventory;
     }
 
 }

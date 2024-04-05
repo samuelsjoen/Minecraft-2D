@@ -3,46 +3,75 @@ package com.minecraft.game.model.crafting;
 import java.util.HashMap;
 
 public enum Item {
-    WOOD(14, "wood", "A block of wood", "assets/inventoryItems/wood.png", 64, null),
-    STICK(124, "stick", "A wooden stick", "assets/inventoryItems/stick.png", 64, new Item[][] {
+    // Core blocks
+    WOOD("wood", "A block of wood", "assets/inventoryItems/wood.png", 64, null, ItemType.BLOCK),
+    GRASS("grass", "A block of grass", "assets/inventoryItems/grass.png", 64, null, ItemType.BLOCK),
+    DIRT("dirt", "A block of dirt", "assets/inventoryItems/dirt.png", 64, null, ItemType.BLOCK),
+    STONE("stone", "A block of stone", "assets/inventoryItems/stone.png", 64, null, ItemType.BLOCK),
+    BEDROCK("bedrock", "A block of bedrock", "assets/inventoryItems/bedrock.png", 64, null, ItemType.BLOCK),
+    DIAMOND_ORE("diamond_ore", "A block of diamond ore", "assets/inventoryItems/diamond_ore.png", 64, null, ItemType.BLOCK),
+    IRON_ORE("iron_ore", "A block of iron ore", "assets/inventoryItems/iron_ore.png", 64, null, ItemType.BLOCK),
+    STONE_SNOW("stone_snow", "A block of stone with snow", "assets/inventoryItems/stone_snow.png", 64, null, ItemType.BLOCK),
+    DIRT_SNOW("dirt_snow", "A block of dirt with snow", "assets/inventoryItems/dirt_snow.png", 64, null, ItemType.BLOCK),
+    LEAVES("leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null, ItemType.BLOCK),
+
+    // Crafting items
+    STICK("stick", "A wooden stick", "assets/inventoryItems/stick.png", 64, new Item[][] {
         {null, WOOD, null},
         {null, WOOD, null},
         {null, null, null}
-    }),
-    WOODEN_SWORD(89, "Sword", "A sharp sword for fighting", "assets/inventoryItems/sword.png", 1, new Item[][] {
+    }, ItemType.MISC),
+    WOODEN_SWORD("Sword", "A sharp sword for fighting", "assets/inventoryItems/sword.png", 1, new Item[][] {
         {null, WOOD, null},
         {null, WOOD, null},
         {null, STICK, null}
-    }),
-    WOODEN_PICKAXE(38, "Pickaxe", "A pickaxe for mining", "assets/inventoryItems/pickaxe.png", 1, new Item[][] {
+    }, ItemType.WEAPON),
+    WOODEN_PICKAXE("Pickaxe", "A pickaxe for mining", "assets/inventoryItems/pickaxe.png", 1, new Item[][] {
         {WOOD, WOOD, WOOD},
         {null, Item.STICK, null},
         {null, Item.STICK, null}
-    }),
-    GRASS(1, "grass", "A block of grass", "assets/inventoryItems/grass.png", 64, null),
-    DIRT(2, "dirt", "A block of dirt", "assets/inventoryItems/dirt.png", 64, null),
-    STONE(3, "stone", "A block of stone", "assets/inventoryItems/stone.png", 64, null),
-    BEDROCK(6, "bedrock", "A block of bedrock", "assets/inventoryItems/bedrock.png", 64, null),
-    DIAMOND_ORE(7, "diamond_ore", "A block of diamond ore", "assets/inventoryItems/diamond_ore.png", 64, null),
-    IRON_ORE(8, "iron_ore", "A block of iron ore", "assets/inventoryItems/iron_ore.png", 64, null),
-    STONE_SNOW(11, "stone_snow", "A block of stone with snow", "assets/inventoryItems/stone_snow.png", 64, null),
-    DIRT_SNOW(12, "dirt_snow", "A block of dirt with snow", "assets/inventoryItems/dirt_snow.png", 64, null),
-    LEAVES(13, "leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null);
+    }, ItemType.TOOL),
+    IRON_HELMET("iron helmet", "A helmet made of iron", "assets/inventoryItems/iron_helmet.png", 1, new Item[][] {
+        {IRON_ORE, IRON_ORE, IRON_ORE},
+        {IRON_ORE, null, IRON_ORE},
+        {null, null, null}
+    }, ItemType.HELMET),
+    IRON_CHESTPLATE("iron chestplate", "A chestplate made of iron", "assets/inventoryItems/iron_chestplate.png", 1, new Item[][] {
+        {IRON_ORE, null, IRON_ORE},
+        {IRON_ORE, IRON_ORE, IRON_ORE},
+        {IRON_ORE, IRON_ORE, IRON_ORE}
+    }, ItemType.CHESTPLATE),
+    IRON_GLOVES("iron gloves", "Gloves made of iron", "assets/inventoryItems/iron_gloves.png", 1, new Item[][] {
+        {IRON_ORE, null, IRON_ORE},
+        {null, null, null},
+        {null, null, null}
+    }, ItemType.GLOVES),
+    IRON_LEGGINGS("iron leggings", "Leggings made of iron", "assets/inventoryItems/iron_leggings.png", 1, new Item[][] {
+        {IRON_ORE, IRON_ORE, IRON_ORE},
+        {IRON_ORE, null, IRON_ORE},
+        {IRON_ORE, null, IRON_ORE}
+    }, ItemType.LEGGINGS),
+    IRON_BOOTS("iron boots", "Boots made of iron", "assets/inventoryItems/iron_boots.png", 1, new Item[][] {
+        {null, null, null},
+        {IRON_ORE, null, IRON_ORE},
+        {IRON_ORE, null, IRON_ORE}
+    }, ItemType.BOOTS),
+    ;
 
-    private final int id;
     private final String name;
     private final String description;
     private final String texture;
     private final int maxAmount;
     private final Item[][] recipe;
+    private final ItemType type;
 
-    Item(int id, String name, String description, String texture, int maxAmount, Item[][] recipe) {
+    Item(String name, String description, String texture, int maxAmount, Item[][] recipe, ItemType type) {
         this.name = name;
         this.description = description;
         this.texture = texture;
         this.maxAmount = maxAmount;
         this.recipe = recipe;
-        this.id = id;
+        this.type = type;
     }
 
     // Storing the items with name as key
@@ -65,18 +94,6 @@ public enum Item {
         }
     }
 
-    private static HashMap<Integer, Item> itemMap;
-    static {
-        itemMap = new HashMap<Integer, Item>();
-        for (Item item : Item.values()) {
-            itemMap.put(item.getId(), item);
-        }
-    }
-
-    // get the item with id
-    public static Item getItemWithId(int id) {
-        return itemMap.get(id);
-    }
 
     // get the item with name
     public static Item getItemWithName(String name) {
@@ -85,10 +102,6 @@ public enum Item {
 
     public static HashMap<Item[][], Item> getRecipeMap() {
         return recipeMap;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -109,6 +122,10 @@ public enum Item {
     
     public Item[][] getRecipe() {
         return recipe;
+    }
+
+    public ItemType getType() {
+        return type;
     }
 
 }

@@ -6,6 +6,7 @@ import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 
@@ -57,6 +58,12 @@ public interface ViewableMinecraftModel {
      * @return the player's inventory
      */
     Inventory getInventory();
+
+    /**
+     * Returns the armor inventory.
+     * @return the player's armor inventory
+     */
+    ArmorInventory getArmorInventory();
 
     /**
      * Represents the crafting system in the Minecraft game.

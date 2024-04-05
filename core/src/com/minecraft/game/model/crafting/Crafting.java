@@ -8,13 +8,15 @@ public class Crafting {
     private int selectedRow;
     private int selectedCol;
     private Inventory inventory;
+    private ArmorInventory armorInventory;
     private Item[][] table;
     private Item[][] craftableItems;
     private HashMap<Item[][], Item> recipeTable;
     boolean open;
 
-    public Crafting(Inventory inventory) {
+    public Crafting(Inventory inventory, ArmorInventory armorInventory) {
         this.inventory = inventory;
+        this.armorInventory = armorInventory;
         this.selectedRow = 0;
         this.selectedCol = 0;
         clearCraftableItems();
@@ -29,7 +31,7 @@ public class Crafting {
         this.open = false;
     }
 
-    private void addBlock(Item item, int row, int col) {
+    private void addBlockToTable(Item item, int row, int col) {
         table[row][col] = item;
     }
 
@@ -43,7 +45,7 @@ public class Crafting {
                 if (craft) {
                     inventory.removeItem(table[row][col]);
                 }
-                addBlock(null, row, col);
+                addBlockToTable(null, row, col);
             }
         }
     }
@@ -51,8 +53,17 @@ public class Crafting {
     /** Crafts the currently selected item in the craftable items section */
     public void craft() {
         clearTable(true);
+        if (!isArmor(getSelectedItem())) {
+            inventory.addItem(getSelectedItem());
+        } else {
+            armorInventory.addOrUpgradeArmor(getSelectedItem());
+        }
         inventory.addItem(getSelectedItem());
         updateCraftableItems();
+    }
+
+    private boolean isArmor(Item item) {
+        return item.getType() == ItemType.HELMET || item.getType() == ItemType.CHESTPLATE || item.getType() == ItemType.GLOVES || item.getType() == ItemType.LEGGINGS || item.getType() == ItemType.BOOTS;
     }
 
     /** Returms the currently selected item in the craftable items section */
@@ -146,7 +157,7 @@ public class Crafting {
             for (int row = 0; row < 3; row++) {
                 for (int col = 0; col < 3; col++) {
                     if (recipe[row][col] != null) {
-                        addBlock(recipe[row][col], row, col);
+                        addBlockToTable(recipe[row][col], row, col);
                     }
                 }
             }
