@@ -43,10 +43,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.armorInventory = new ArmorInventory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory(), player.getHealth());
 
-        this.crafting = new Crafting(getInventory(), getArmorInventory());
+        this.crafting = new Crafting(getInventory());
 
         this.dayNightCycle = new DayNightCycle();
 
@@ -235,7 +235,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public void restartGame() {
         map = new MinecraftMap();
         factory = new EntityFactory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.armorInventory = new ArmorInventory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory(), Player.getHealth());
         gameState = GameState.WELCOME_SCREEN;
     }
 

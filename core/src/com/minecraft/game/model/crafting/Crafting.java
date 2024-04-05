@@ -1,6 +1,9 @@
 package com.minecraft.game.model.crafting;
 
 import java.util.HashMap;
+
+import com.minecraft.game.model.Health;
+
 import java.io.*;
 
 public class Crafting {
@@ -8,15 +11,13 @@ public class Crafting {
     private int selectedRow;
     private int selectedCol;
     private Inventory inventory;
-    private ArmorInventory armorInventory;
     private Item[][] table;
     private Item[][] craftableItems;
     private HashMap<Item[][], Item> recipeTable;
     boolean open;
 
-    public Crafting(Inventory inventory, ArmorInventory armorInventory) {
+    public Crafting(Inventory inventory) {
         this.inventory = inventory;
-        this.armorInventory = armorInventory;
         this.selectedRow = 0;
         this.selectedCol = 0;
         clearCraftableItems();
@@ -53,18 +54,10 @@ public class Crafting {
     /** Crafts the currently selected item in the craftable items section */
     public void craft() {
         clearTable(true);
-        if (!isArmor(getSelectedItem())) {
-            inventory.addItem(getSelectedItem());
-        } else {
-            armorInventory.addOrUpgradeArmor(getSelectedItem());
-        }
         inventory.addItem(getSelectedItem());
         updateCraftableItems();
     }
 
-    private boolean isArmor(Item item) {
-        return item.getType() == ItemType.HELMET || item.getType() == ItemType.CHESTPLATE || item.getType() == ItemType.GLOVES || item.getType() == ItemType.LEGGINGS || item.getType() == ItemType.BOOTS;
-    }
 
     /** Returms the currently selected item in the craftable items section */
     public Item getSelectedItem() {
@@ -165,7 +158,9 @@ public class Crafting {
 
     }
 
-    /** Moves the selector in the craftable items table
+    /**
+     * Moves the selector in the craftable items table
+     * 
      * @param row the amount of rows to move
      * @param col the amount of cols to move
      */

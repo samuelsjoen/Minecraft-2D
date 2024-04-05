@@ -8,7 +8,7 @@ public class Health {
     private boolean alive;
 
     public Health(int currentHealth, int maxHealth) {
-        this.armorHealth = 10;
+        this.armorHealth = 0;
         this.maxArmorHealth = 10;
         this.maxHealth = maxHealth;
         this.currentHealth = currentHealth;

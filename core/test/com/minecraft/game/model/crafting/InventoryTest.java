@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import com.minecraft.game.model.Health;
+
 public class InventoryTest {
 
-    Inventory inventory = new Inventory(new Item[]{});
+    Inventory inventory = new Inventory(new Item[]{}, new ArmorInventory(), new Health(0, 0));
     @Test
     void testAddItem() {
         int prevSize = inventory.getSize();
