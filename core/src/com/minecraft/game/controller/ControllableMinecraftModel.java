@@ -109,6 +109,15 @@ public interface ControllableMinecraftModel {
     float getTileDamage(int tileX, int tileY);
 
     /**
+     * Checks if a block at the specified tile coordinates is mineable.
+     *
+     * @param tileX The x-coordinate of the tile.
+     * @param tileY The y-coordinate of the tile.
+     * @return true if the block is mineable, false otherwise.
+     */
+    boolean isBlockMineable(int tileX, int tileY);
+
+    /**
      * Restarts the game.
      */
     void restartGame();

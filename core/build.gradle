@@ -1,10 +1,4 @@
-/*sourceCompatibility = 1.8
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-sourceSets.main.java.srcDirs = [ "src/" ]
-
-eclipse.project.name = appName + "-core"
-*/
+import org.gradle.internal.os.OperatingSystem
 
 apply plugin: 'java'
 
@@ -18,17 +12,15 @@ dependencies {
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-lwjgl3-glfw-awt-macos:$gdxVersion"
 }
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "test/" ]
 sourceSets.main.resources.srcDirs = ["assets"]
 
-// Legg til konfigurasjonene fra desktop-modulen her
 project.ext.mainClassName = "com.minecraft.game.DesktopLauncher"
 project.ext.assetsDir = new File("assets")
-
-import org.gradle.internal.os.OperatingSystem
 
 task run(type: JavaExec) {
     dependsOn classes
@@ -39,7 +31,7 @@ task run(type: JavaExec) {
     ignoreExitValue = true
 
     if (OperatingSystem.current().isMacOsX()) {
-        jvmArgs += "-XstartOnFirstThread"
+        jvmArgs = ['-XstartOnFirstThread']
     }
 }
 

@@ -8,6 +8,8 @@ import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.view.screens.MenuScreen;
 import com.minecraft.game.view.screens.OptionsScreen;
 import com.minecraft.game.view.screens.PausedScreen;
+import com.minecraft.game.view.sound.MineBlockSoundManager;
+import com.minecraft.game.view.sound.SoundManager;
 
 public class MinecraftView {
 
@@ -20,10 +22,15 @@ public class MinecraftView {
     private GameScreen gameScreen;
     private GameOverScreen gameOverScreen;
 
+    private SoundManager mineBlockSoundManager;
+
     public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel) {
 
         this.game = game;
         this.viewableMinecraftModel = viewableMinecraftModel;
+
+        // Create the sound manager for the mine block sound
+        this.mineBlockSoundManager = new MineBlockSoundManager();
 
         this.menuScreen = new MenuScreen(game);
         this.optionsScreen = new OptionsScreen(game);
@@ -74,5 +81,20 @@ public class MinecraftView {
         return menuScreen.isQuitButtonClicked(touchX, touchY);
     }
     
+    /**
+     * Plays the mine block sound
+     */
+    public void playMineBlockSound() {
+        mineBlockSoundManager.playSound();
+    }
+
+    /**
+     * Stops the mine block sound
+     */
+    public void stopMineBlockSound() {
+        mineBlockSoundManager.stopSound();
+    }
+
+    // a general dispose class for all view elements that needs to get disposed??
 
 }
