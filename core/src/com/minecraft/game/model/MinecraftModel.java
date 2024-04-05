@@ -270,4 +270,14 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         return map.isTileMineable(tileX, tileY);
     }
 
+    @Override
+    public void moveCraftableTableSelection(int row, int col) {
+        crafting.moveCraftableTableSelection(row, col);
+    }
+
+    @Override
+    public void craftItem() {
+        crafting.craft();
+    }
+
 }

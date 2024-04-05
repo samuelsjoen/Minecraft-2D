@@ -17,7 +17,6 @@ public class MinecraftController implements InputProcessor {
     private Timer timer;
     private int lastTileX;
     private int lastTileY;
-    private MiningSong miningSong;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
@@ -27,7 +26,6 @@ public class MinecraftController implements InputProcessor {
         // Default value
         this.lastTileX = -1;
         this.lastTileY = -1;
-        this.miningSong = new MiningSong();
     }
 
     @Override
@@ -78,7 +76,10 @@ public class MinecraftController implements InputProcessor {
                     view.newGameScreen();
                     return true;
                 }
-            default:
+            case CRAFTING_SCREEN:
+                if (handleActiveGameInput(keycode))
+                    return true;
+            case WELCOME_SCREEN:
                 break;
         }
         return false;
@@ -86,6 +87,7 @@ public class MinecraftController implements InputProcessor {
 
     private boolean handleActiveGameInput(int keycode) {
         if (controllableModel.getPlayerState() != State.DEAD) {
+
             switch (keycode) {
                 case Constants.TOGGLE_PAUSE_KEY: // Pause the game
                     setGameStateAndUpdateScreen(GameState.GAME_PAUSED);
@@ -103,18 +105,46 @@ public class MinecraftController implements InputProcessor {
                     controllableModel.playerAttack();
                     return true;
                 case Constants.CHANGE_INVENTORY_LEFT_KEY:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(0, -1);
+                    } else {
                     controllableModel.changeInventorySlot(-1); // Change inventory slot to the left
+                    }
                     return true;
                 case Constants.CHANGE_INVENTORY_RIGHT_KEY:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(0, 1);
+                    } else {
                     controllableModel.changeInventorySlot(+1); // Change inventory slot to the right
+                    }
                     return true;
                 case Constants.DROP_INVENTORY_ITEM_KEY:
                     controllableModel.dropInventoryItem();
                     return true;
+                case Input.Keys.ENTER:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.craftItem();
+                    }    
+                case Input.Keys.UP:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(-1, 0);
+                    }
+                    return true;
+                case Input.Keys.DOWN:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(1, 0);
+                    }
+                    return true;
                 case Constants.TOGGLE_CRAFTING_KEY:
-                    controllableModel.toggleCrafting(); // Open or closes crafting table
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.setGameState(GameState.GAME_ACTIVE);
+                    } else {
+                        controllableModel.setGameState(GameState.CRAFTING_SCREEN);
+                    }
+                    controllableModel.toggleCrafting();
                     return true;
             }
+        return false;
         }
         return false;
     }
@@ -165,7 +195,7 @@ public class MinecraftController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             timer.stop();
             timer.clear();
-            miningSong.stop();
+            view.stopMineBlockSound();
             return true;
         }
         return false;
@@ -212,7 +242,7 @@ public class MinecraftController implements InputProcessor {
             if (tileX != lastTileX || tileY != lastTileY) { // Check if the player is still mining the same block
     
                 if (controllableModel.isBlockMineable(tileX, tileY)) {
-                    miningSong.run();
+                    view.playMineBlockSound();
                 }
 
                 timer.clear();
@@ -221,7 +251,7 @@ public class MinecraftController implements InputProcessor {
                     @Override
                     public void run() {
                         controllableModel.removeBlock(tileX, tileY); // When the task is excuted the block is removed
-                        miningSong.stop();
+                        view.stopMineBlockSound();
                     }
                 };
     

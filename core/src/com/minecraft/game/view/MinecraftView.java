@@ -39,6 +39,9 @@ public class MinecraftView {
         this.spriteBatch = new SpriteBatch();
         this.font = new BitmapFont();
 
+        // Create the sound manager for the mine block sound
+        this.mineBlockSoundManager = new MineBlockSoundManager();
+
         this.menuScreen = new MenuScreen(game);
         this.helpScreen = new HelpScreen(game, spriteBatch);
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
@@ -78,6 +81,7 @@ public class MinecraftView {
 
     public void dispose() {
         // Dispose of resources when the game is closing
+        mineBlockSoundManager.dispose();
     }
 
     public OrthographicCamera getCamera() {
@@ -95,6 +99,20 @@ public class MinecraftView {
 
     public boolean isQuitButtonClicked(float touchX, float touchY) {
         return menuScreen.isQuitButtonClicked(touchX, touchY);
+    }
+
+     /**
+     * Plays the mine block sound
+     */
+    public void playMineBlockSound() {
+        mineBlockSoundManager.playSound();
+    }
+
+    /**
+     * Stops the mine block sound
+     */
+    public void stopMineBlockSound() {
+        mineBlockSoundManager.stopSound();
     }
     
 }
