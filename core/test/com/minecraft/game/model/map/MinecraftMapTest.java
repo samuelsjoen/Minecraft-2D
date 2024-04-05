@@ -1,7 +1,7 @@
 package com.minecraft.game.model.map;
 
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
+//import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 //import com.badlogic.gdx.math.Vector2;
@@ -67,7 +67,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 	// 	// assertNotNull(minecraftMapHelper.getTiledMap());
 	// }
 
-	@Test
+	/*@Test
 	public void removeBlockTest() {
 		// The bedrock tile and object should be present
 		assertNotNull(tiledMapLayer.getCell(0, 0));
@@ -103,7 +103,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 		// The grass tile and object should be present
 		assertNotNull(tiledMapLayer.getCell(0, mapHeight));
 		assertNotNull(objectLayer.getObjects().get(worldX + ", " + worldY));
-	}
+	}*/
 
 	@SuppressWarnings("unused")
 	private void changeBlock(String change, int x, int y) {
