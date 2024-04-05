@@ -10,7 +10,7 @@ build:
     - echo "Building the project..."
     - gradle build
   only:
-    - martine14
+    - main
 
 test:
   stage: test
@@ -22,7 +22,7 @@ test:
     paths:
       - core/build/reports/jacoco/test/jacocoTestReport.xml
   only:
-    - martine14
+    - main
 
 test-coverage: 
   stage: visualize 
@@ -37,4 +37,4 @@ test-coverage:
         coverage_format: cobertura
         path: core/build/cobertura.xml
   only:
-  - martine14
+  - main
