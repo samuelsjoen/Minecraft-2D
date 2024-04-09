@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.utils.Constants;
@@ -15,7 +16,7 @@ import com.minecraft.game.view.screens.PausedScreen;
 import com.minecraft.game.view.sound.MineBlockSoundManager;
 import com.minecraft.game.view.sound.SoundManager;
 
-public class MinecraftView {
+public class MinecraftView implements Disposable {
 
     private Minecraft game;
     private ViewableMinecraftModel viewableMinecraftModel;
@@ -79,11 +80,6 @@ public class MinecraftView {
         }
     }
 
-    public void dispose() {
-        // Dispose of resources when the game is closing
-        mineBlockSoundManager.dispose();
-    }
-
     public OrthographicCamera getCamera() {
         return game.camera;
     }
@@ -113,6 +109,18 @@ public class MinecraftView {
      */
     public void stopMineBlockSound() {
         mineBlockSoundManager.stopSound();
+    }
+
+    @Override
+    public void dispose() {
+        spriteBatch.dispose();
+        font.dispose();
+        mineBlockSoundManager.dispose();
+        menuScreen.dispose();
+        helpScreen.dispose();
+        pausedScreen.dispose();
+        gameScreen.dispose();
+        gameOverScreen.dispose();
     }
     
 }
