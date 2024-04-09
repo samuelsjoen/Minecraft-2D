@@ -18,6 +18,8 @@ public class InventoryView {
     private float yInventory;
     private float xItem;
     private float yItem;
+    private float xDescription;
+    private float yDescription;
 
     private final float invJump;
     
@@ -33,6 +35,7 @@ public class InventoryView {
         batch.draw(inventorySprite, xInventory, yInventory);
         renderCurrentInventorySlot(batch);
         renderItems(batch);
+        renderSelectedItemText(batch);
     }
 
     private void renderItems(SpriteBatch batch) {
@@ -49,11 +52,20 @@ public class InventoryView {
         batch.draw(selectedItem, xInventory + (inventory.getCurrentSlot() * invJump), yInventory);
     }
 
+    private void renderSelectedItemText(SpriteBatch batch) {
+        Item item = inventory.getSelectedItem();
+        if (item != null) {
+        font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }
+    }
+
     public void update(Vector2 lowerLeftCorner) {        
         xInventory = lowerLeftCorner.x + 840;
         yInventory = lowerLeftCorner.y + 660;
 
         xItem = xInventory + 7;
-        yItem = yInventory + 7;    
+        yItem = yInventory + 7;
+        
+        xDescription = xInventory;
+        yDescription = yInventory - 10;
     }
 }
