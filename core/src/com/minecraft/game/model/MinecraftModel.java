@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -26,6 +27,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @SuppressWarnings("unused")
     private Player player;
     private Inventory inventory;
+    private ArmorInventory armorInventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
@@ -37,10 +39,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
         this.factory = factory;
 
+        // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.armorInventory = new ArmorInventory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory(), player.getHealth());
 
         this.crafting = new Crafting(getInventory());
 
@@ -56,17 +60,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void setGameState(GameState state) {
         gameState = state;
-
-        handleGameStateChange();
-    }
-
-    private void handleGameStateChange() {
-        if (gameState == GameState.GAME_ACTIVE) {
-            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
-        }
-        else if (gameState == GameState.GAME_PAUSED) {
-            dayNightCycle.pauseCycle();
-        }
     }
 
     @Override
@@ -123,9 +116,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
-        if (getPlayer().isAttacking()) {
-            getPlayer().toggleIsAttacking();
-        }
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
@@ -242,6 +232,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
+    public void restartGame() {
+        map = new MinecraftMap();
+        factory = new EntityFactory();
+        this.armorInventory = new ArmorInventory();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory(), Player.getHealth());
+        gameState = GameState.WELCOME_SCREEN; }
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
@@ -257,17 +253,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public void restartGame() {
-        map = new MinecraftMap();
-        factory = new EntityFactory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
-        dayNightCycle = new DayNightCycle();
-        gameState = GameState.WELCOME_SCREEN;
-    }
-
-    @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        return map.isTileMineable(tileX, tileY);
+        Cell cell = map.getCell(tileX, tileY);
+        if (cell != null) {
+            // Get the tile type based on the tile coordinates
+            int tileId = cell.getTile().getId();
+            TileType tiletype = TileType.getTileTypeWithId(tileId);
+            if (tiletype.getDamage() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -278,6 +274,11 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void craftItem() {
         crafting.craft();
+    }
+
+    @Override
+    public ArmorInventory getArmorInventory() {
+        return armorInventory;
     }
 
 }

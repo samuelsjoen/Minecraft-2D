@@ -1,6 +1,9 @@
 package com.minecraft.game.model.crafting;
 
 import java.util.HashMap;
+
+import com.minecraft.game.model.Health;
+
 import java.io.*;
 
 public class Crafting {
@@ -29,7 +32,7 @@ public class Crafting {
         this.open = false;
     }
 
-    private void addBlock(Item item, int row, int col) {
+    private void addBlockToTable(Item item, int row, int col) {
         table[row][col] = item;
     }
 
@@ -43,7 +46,7 @@ public class Crafting {
                 if (craft) {
                     inventory.removeItem(table[row][col]);
                 }
-                addBlock(null, row, col);
+                addBlockToTable(null, row, col);
             }
         }
     }
@@ -54,6 +57,7 @@ public class Crafting {
         inventory.addItem(getSelectedItem());
         updateCraftableItems();
     }
+
 
     /** Returms the currently selected item in the craftable items section */
     public Item getSelectedItem() {
@@ -146,7 +150,7 @@ public class Crafting {
             for (int row = 0; row < 3; row++) {
                 for (int col = 0; col < 3; col++) {
                     if (recipe[row][col] != null) {
-                        addBlock(recipe[row][col], row, col);
+                        addBlockToTable(recipe[row][col], row, col);
                     }
                 }
             }
@@ -154,7 +158,9 @@ public class Crafting {
 
     }
 
-    /** Moves the selector in the craftable items table
+    /**
+     * Moves the selector in the craftable items table
+     * 
      * @param row the amount of rows to move
      * @param col the amount of cols to move
      */

@@ -2,14 +2,20 @@ package com.minecraft.game.model.crafting;
 
 import java.util.HashMap;
 
+import com.minecraft.game.model.Health;
+
 public class Inventory {
     private HashMap<Item, Integer> items;
+    private ArmorInventory armorInventory;
+    private Health health;
     private int maxItemSlots;
     private int currentItems;
     private int currentSlot;
 
-    public Inventory(Item[] defaultItems) {
+    public Inventory(Item[] defaultItems, ArmorInventory armorInventory, Health health) {
         this.items = new HashMap<Item, Integer>();
+        this.armorInventory = armorInventory;
+        this.health = health;
         this.maxItemSlots = 9;
         this.currentItems = items.size();
         this.currentSlot = 0;
@@ -28,6 +34,16 @@ public class Inventory {
     }
 
     public void addItem(Item item, int quantity) {
+        if (!isFull()) {
+            if (isArmor(item)) {
+                addArmor(item);
+            } else {
+                addItemToInventory(item, quantity);
+            } 
+        }
+    }
+
+    private void addItemToInventory(Item item, int quantity) {
         if (items.containsKey(item)) {
             if ((items.get(item) + quantity) >= item.getMaxAmount()) {
                 items.put(item, item.getMaxAmount());
@@ -35,11 +51,25 @@ public class Inventory {
                 items.put(item, items.get(item) + quantity);
             }
         } else {
-            if (!isFull()) {
-                items.put(item, 0);
-                addItem(item, quantity);
-            }
+            items.put(item, 0);
+            addItem(item, quantity);
         }
+    }
+
+    private void addArmor(Item item) {
+        armorInventory.addOrUpgradeArmor(getSelectedItem());
+        int armorHealth = health.getArmorHealth();
+        if (getSelectedItem().getMaterial() == ItemMaterial.IRON) {
+            health.setArmorHealth(armorHealth + 1);
+        } else if (getSelectedItem().getMaterial() == ItemMaterial.DIAMOND) {
+            health.setArmorHealth(armorHealth + 2);
+        }
+    }
+
+    private boolean isArmor(Item item) {
+        return item.getType() == ItemType.HELMET || item.getType() == ItemType.CHESTPLATE
+                || item.getType() == ItemType.GLOVES || item.getType() == ItemType.LEGGINGS
+                || item.getType() == ItemType.BOOTS;
     }
 
     public void addItem(Item name) {
@@ -105,5 +135,5 @@ public class Inventory {
     public int getAmount(Item item) {
         return items.getOrDefault(item, 0);
     }
-    
+
 }

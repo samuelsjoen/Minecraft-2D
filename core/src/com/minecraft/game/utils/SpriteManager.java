@@ -10,6 +10,7 @@ import com.minecraft.game.model.Player;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ArmorInventory;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ public class SpriteManager implements Disposable {
     private ArrayList<String> currentSprites = new ArrayList<>();
     private HashMap<Item, String[]> itemToSpriteMapping = new HashMap<>();
     private Inventory inventory;
+    private ArmorInventory armorInventory;
     private static Animation<TextureRegion> currentAnimation;
     private boolean deathAnimationStarted = false;
 
-    public SpriteManager(Player player, Inventory inventory) {
+    public SpriteManager(Player player, Inventory inventory, ArmorInventory armorInventory) {
         this.player = player;
         this.inventory = inventory;
+        this.armorInventory = armorInventory;
 
         loadSprites();
         initializeItemToSpriteMapping();
@@ -222,7 +225,7 @@ public class SpriteManager implements Disposable {
     private void updateSpritesBasedOnInventory() {
         currentSprites.clear();
         for (Item item : itemToSpriteMapping.keySet()) {
-            if (inventory.contains(item)) {
+            if (inventory.contains(item) || armorInventory.contains(item)) {
                 Collections.addAll(currentSprites, itemToSpriteMapping.get(item));
             }
         }
