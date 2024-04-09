@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Timer;
-import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player.State;
-import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.view.MinecraftView;
 import java.util.LinkedList;
 
 public class MinecraftController implements InputProcessor {
@@ -18,243 +17,174 @@ public class MinecraftController implements InputProcessor {
     private Timer timer;
     private int lastTileX;
     private int lastTileY;
-    private DayNightCycle dayNightCycle;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
-        this.timer = new Timer();
+        this.timer = new Timer(); // Timer used for mining blocks
 
-        // default value
+        // Default value
         this.lastTileX = -1;
         this.lastTileY = -1;
-
-        // Get the day-night cycle from the model
-        this.dayNightCycle = controllableModel.getDayNightCycle();
-        // Start the day-night cycle with a # sec interval
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            this.dayNightCycle.startCycle(5f);
-        }
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.ESCAPE) {
-            Gdx.app.exit();
-            return true;
+
+        switch (keycode) {
+            case Constants.ESCAPE_KEY:
+                Gdx.app.exit();
+                return true;
+            case Constants.TOGGLE_FULLSCREEN_KEY:
+                view.toggleFullscreen();
+                return true;
         }
 
-        if (keycode == Input.Keys.F) {
-            // turn fullscreen on or off
-            if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-            } else {
-                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-            }
-            return true;
-        }
+        GameState gameState = controllableModel.getGameState();
 
-        if (controllableModel.getGameState() == GameState.GAME_PAUSED) {
-            if (keycode == Input.Keys.P) {
-                controllableModel.setGameState(GameState.GAME_ACTIVE);
-                view.updateScreen();
-            }
-            return true;
-        }
-
-        // TODO: fix so that it is drawn instantly and not after a button is pressed,
-        // should maybe move some of this to model
-
-        if (controllableModel.getGameState() == GameState.GAME_OVER) {
-            if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-                controllableModel.restartGame();
-                view.newGameScreen();
-                view.updateScreen();
-            }
-            return true;
-        }
-
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE
-                || controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-
-            // Pause the game
-            if (keycode == Input.Keys.P) {
-                controllableModel.setGameState(GameState.GAME_PAUSED);
-                view.updateScreen();
-            }
-
-            // TODO: move parts of this game over into model or some to view (like the
-            // updatescreen?)
-            // Game Over
-            if (controllableModel.getPlayerState() == State.DEAD) {
-                controllableModel.setGameState(GameState.GAME_OVER);
-                view.updateScreen();
-            }
-
-            if (controllableModel.getPlayerState() == State.DEAD) {
-                if (keycode == Input.Keys.R) {
+        switch (gameState) {
+            case HELP_SCREEN:
+                if (keycode == Constants.START_KEY) {
+                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+                    return true;
+                }
+                break;
+            case GAME_ACTIVE:
+                if (handleActiveGameInput(keycode))
+                    return true;
+                break;
+            case GAME_PAUSED:
+                if (keycode == Constants.TOGGLE_PAUSE_KEY) {
+                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+                    return true;
+                }
+                break;
+            case GAME_WON:
+                if (keycode == Constants.ANY_KEY) {
+                    controllableModel.restartGame();
+                    view.newGameScreen();
+                    return true;
+                }
+                break;
+            case GAME_OVER:
+                if (keycode == Constants.REVIVE_KEY) {
                     controllableModel.revivePlayer();
+                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+                    return true;
+                } else {
+                    controllableModel.restartGame();
+                    view.newGameScreen();
+                    return true;
                 }
-            }
+            case CRAFTING_SCREEN:
+                if (handleActiveGameInput(keycode))
+                    return true;
+            case WELCOME_SCREEN:
+                break;
+        }
+        return false;
+    }
 
-            // CONTROLLING PLAYER
-            if (controllableModel.getPlayerState() != State.DEAD) {
-                if (keycode == Input.Keys.A) {
-                    controllableModel.movePlayer(-1);
-                } else if (keycode == Input.Keys.D) {
-                    controllableModel.movePlayer(+1);
-                } else if (keycode == Input.Keys.SPACE) {
+    private boolean handleActiveGameInput(int keycode) {
+        if (controllableModel.getPlayerState() != State.DEAD) {
+
+            switch (keycode) {
+                case Constants.TOGGLE_PAUSE_KEY: // Pause the game
+                    setGameStateAndUpdateScreen(GameState.GAME_PAUSED);
+                    return true;
+                case Constants.MOVE_LEFT_KEY:
+                    controllableModel.movePlayer(-1); // Move left
+                    return true;
+                case Constants.MOVE_RIGHT_KEY:
+                    controllableModel.movePlayer(+1); // Move right
+                    return true;
+                case Constants.JUMP_KEY:
                     controllableModel.playerJump();
-                } else if (keycode == Input.Keys.TAB) {
+                    return true;
+                case Constants.ATTACK_KEY:
                     controllableModel.playerAttack();
-                }
-
-                // CONTROLLING INVENTORY
-                if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-                    if (keycode == Input.Keys.LEFT) {
-                        controllableModel.changeInventorySlot(-1);
-                        return true;
-                    } else if (keycode == Input.Keys.RIGHT) {
-                        controllableModel.changeInventorySlot(+1);
-                        return true;
-                    } else if (keycode == Input.Keys.Q) {
-                        controllableModel.dropInventoryItem();
-                        return true;
+                    return true;
+                case Constants.CHANGE_INVENTORY_LEFT_KEY:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(0, -1);
+                    } else {
+                    controllableModel.changeInventorySlot(-1); // Change inventory slot to the left
                     }
-                }
-
-                // CRAFTING
-                if (keycode == Input.Keys.E) {
+                    return true;
+                case Constants.CHANGE_INVENTORY_RIGHT_KEY:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(0, 1);
+                    } else {
+                    controllableModel.changeInventorySlot(+1); // Change inventory slot to the right
+                    }
+                    return true;
+                case Constants.DROP_INVENTORY_ITEM_KEY:
+                    controllableModel.dropInventoryItem();
+                    return true;
+                case Input.Keys.ENTER:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.craftItem();
+                    }    
+                case Input.Keys.UP:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(-1, 0);
+                    }
+                    return true;
+                case Input.Keys.DOWN:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(1, 0);
+                    }
+                    return true;
+                case Constants.TOGGLE_CRAFTING_KEY:
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
                         controllableModel.setGameState(GameState.GAME_ACTIVE);
                     } else {
                         controllableModel.setGameState(GameState.CRAFTING_SCREEN);
                     }
                     controllableModel.toggleCrafting();
-                }
-
-                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-                    if (keycode == Input.Keys.ENTER) {
-                        controllableModel.craftItem();
-                    }
-                    if (keycode == Input.Keys.UP) {
-                        controllableModel.moveCraftableTableSelection(-1, 0);
-                    }
-                    if (keycode == Input.Keys.DOWN) {
-                        controllableModel.moveCraftableTableSelection(1, 0);
-                    }
-                    if (keycode == Input.Keys.LEFT) {
-                        controllableModel.moveCraftableTableSelection(0, -1);
-                    }
-                    if (keycode == Input.Keys.RIGHT) {
-                        controllableModel.moveCraftableTableSelection(0, 1);
-                    }
-                }
+                    return true;
             }
+        return false;
         }
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.TAB) {
-            controllableModel.playerAttack();
-        } else if (keycode == Input.Keys.A) {
-            controllableModel.stopPlayer();
-        } else if (keycode == Input.Keys.D) {
-            controllableModel.stopPlayer();
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
+            if (keycode == Constants.ATTACK_KEY) {
+                controllableModel.playerAttack();
+            } else if (keycode == Constants.MOVE_LEFT_KEY || keycode == Constants.MOVE_RIGHT_KEY) {
+                controllableModel.stopPlayer();
+            }
+            return true;
         }
-
         return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        // Controlling the buttons on menuScreen
-        if (controllableModel.getGameState() == GameState.WELCOME_SCREEN) {
+        GameState gameState = controllableModel.getGameState();
 
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
-            if (view.isStartButtonClicked(touchX, touchY)) {
-                controllableModel.setGameState(GameState.GAME_ACTIVE);
-                view.updateScreen();
-            } else if (view.isOptionsButtonClicked(touchX, touchY)) {
-                controllableModel.setGameState(GameState.OPTIONS_SCREEN);
-                view.updateScreen();
-            } else if (view.isQuitButtonClicked(touchX, touchY)) {
-                Gdx.app.exit();
-            }
+        if (gameState == GameState.WELCOME_SCREEN) {
+            handleWelcomeScreenTouch(screenX, screenY);
             return true;
         }
-
-        // REMOVING/PLACING TILES LOGIC
-        // for removing/placing tiles/blocks
-
-        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-            if (controllableModel.getPlayerState() != State.DEAD) {
-
-                // if (timer.isEmpty()) {
-                // timer.start();
-                // }
-
-                PixelToTilePositionConverter converter = new PixelToTilePositionConverter(view.getCamera());
-
-                // Calculate tile coordinates
-                LinkedList<Integer> tileXAndY = converter.calculateTileXAndY(screenX, screenY);
-                int tileX = tileXAndY.remove();
-                int tileY = tileXAndY.pop();
-
-                if (button == Input.Buttons.LEFT) {
-
-                    // Invalid tile coordinates
-                    if (tileX < 0 || tileY < 0) {
-                        return true;
-                    }
-
-                    if ((tileX != lastTileX || tileY != lastTileY) && controllableModel.isBlockMineable(tileX, tileY)) {
-                        // Stop and clear the timer before starting a new one
-                        timer.stop();
-                        timer.clear();
-                        
-                        Timer.Task blockRemovalTask = new Timer.Task() {
-                            @Override
-                            public void run() {
-                                // Code to remove the block
-                                controllableModel.removeBlock(tileX, tileY);
-                                // Stop the mine block sound right when the block is removed
-                                view.stopMineBlockSound();
-                            }
-                        };
-
-                        float delay = controllableModel.getTileDamage(tileX, tileY);
-                        timer.scheduleTask(blockRemovalTask, delay);
-                        timer.start();
-                        view.playMineBlockSound();
-                    }
-
-                    // Store the previous tile coordinates
-                    lastTileX = tileX;
-                    lastTileY = tileY;
-
-                } else if (button == Input.Buttons.RIGHT) {
-                    controllableModel.addBlock(tileX, tileY);
-                }
-            }
+        if (gameState == GameState.GAME_ACTIVE) {
+            handleGameActiveTouch(screenX, screenY, button);
+            return true;
         }
 
         return false;
     }
 
-    // For placing/removing multiple tiles/blocks at a time
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
-
+            // For placing/removing multiple tiles/blocks at a time
             int button = Gdx.input.isButtonPressed(Input.Buttons.RIGHT) ? Input.Buttons.RIGHT : Input.Buttons.LEFT;
             touchDown(screenX, screenY, pointer, button); // Call touchDown method with the specified button
-
             return true;
         }
         return false;
@@ -262,11 +192,79 @@ public class MinecraftController implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             timer.stop();
             timer.clear();
             view.stopMineBlockSound();
-       
-        return true;
+            return true;
+        }
+        return false;
+    }
+
+    private void setGameStateAndUpdateScreen(GameState gameState) {
+        controllableModel.setGameState(gameState);
+        view.updateScreen();
+    }
+
+    private void handleWelcomeScreenTouch(int screenX, int screenY) {
+        float touchX = Gdx.input.getX();
+        float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+    
+        if (view.isStartButtonClicked(touchX, touchY)) {
+            setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+        } else if (view.isHelpButtonClicked(touchX, touchY)) {
+            setGameStateAndUpdateScreen(GameState.HELP_SCREEN);
+        } else if (view.isQuitButtonClicked(touchX, touchY)) {
+            Gdx.app.exit();
+        }
+    }
+
+    private void handleGameActiveTouch(int screenX, int screenY, int button) {
+        if (controllableModel.getPlayerState() == State.DEAD) { // If player is dead it cannot do anything
+            return;
+        }
+
+        if (timer.isEmpty()) {
+            timer.start();
+        }
+
+        PixelToTilePositionConverter converter = new PixelToTilePositionConverter(view.getCamera());
+        // Calculate tile coordinates
+        LinkedList<Integer> tileXAndY = converter.calculateTileXAndY(screenX, screenY);
+        int tileX = tileXAndY.remove();
+        int tileY = tileXAndY.pop();
+
+        if (button == Input.Buttons.LEFT) {
+            if (tileX < 0 || tileY < 0) { // Invalid tile coordinates
+                return;
+            }
+    
+            if (tileX != lastTileX || tileY != lastTileY) { // Check if the player is still mining the same block
+    
+                if (controllableModel.isBlockMineable(tileX, tileY)) {
+                    view.playMineBlockSound();
+                }
+
+                timer.clear();
+                timer.start();
+                Timer.Task blockRemovalTask = new Timer.Task() {
+                    @Override
+                    public void run() {
+                        controllableModel.removeBlock(tileX, tileY); // When the task is excuted the block is removed
+                        view.stopMineBlockSound();
+                    }
+                };
+    
+                float delay = controllableModel.getTileDamage(tileX, tileY);
+                timer.scheduleTask(blockRemovalTask, delay);
+            }
+    
+            // Store the previous tile coordinates
+            lastTileX = tileX;
+            lastTileY = tileY;
+        } else if (button == Input.Buttons.RIGHT) {
+            controllableModel.addBlock(tileX, tileY);
+        }
     }
 
     // Unused methods - but part of the interface for InputProcessor

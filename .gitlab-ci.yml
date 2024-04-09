@@ -16,6 +16,12 @@ test:
   image: gradle:8.6-jdk21
   script:
     - echo "Testing the project..."
-    - gradle test
+    - gradle test jacocoTestReport
+    - cat core/build/reports/jacoco/test/html/index.html | grep -o '<tfoot>.*</tfoot>'
+  coverage: '/Total.*?([0-9]{1,3})%/'
+  artifacts:
+    when: always
+    paths:
+      - core/build/reports/jacoco/test/html/index.html
   only:
     - main

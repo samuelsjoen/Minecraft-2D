@@ -1,0 +1,55 @@
+Referat for møte [05.04.2024]
+
+Formål:
+
+- Merge brancher
+- Diskutere hva vi må gjøre frem til release
+- Skrive på Oblig3
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+    Samuel Sjøen
+
+Sammendrag:
+Hva vi har fått til siden sist møte:
+- Blitt ferdig med crafting UI
+- Prosjektet har en bedre MVC struktur
+- Fikset slik at vi har oversikt over test-coverage
+- Lagt til noen tester
+- Fikset minstekravet for lyd
+- Vi er for det meste blitt ferdig med MVP 
+
+Ting som må gjøres:
+- Legge til sprite i inventory
+- Monstre skal dukke opp om natten
+- Bli ferdig med "powerups" => Man skal få flere liv når man tar på seg armour
+- Dø når man faller av kanten
+- Enten miste alt/eller ingenting når du dør
+- Alle public methods må kommenteres (javadoc)
+- 75% coverage for tester 
+- Implementere interfaces/forbedre på all kode. Passe på å ikke gjenbruke kode (forbedring av MVC)
+- Må gjøre noen småendringer, fikse noen bugs, optimalisere kode, osv.
+- Implementere objektfabrikker
+- Se om vi trenger en til abstraktklasse?
+- Implementere "powerup" for verktøy: slik at det går raskere å mine blokker når du har bedre verktøy
+
+
+Aksjoner og Ansvar:
+- Finpusse kode (implementere interfaces/abstract classes, 
+- Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
+- Testing
+[ Fikse armour, legge til sprites, testing av crafting - Samuel]
+[ Fikse bugs med spawning og tester - Magnus]
+[ Testing - Martine]
+[ Implementere "powerup" for bedre pickaxe, legge til tester - Nini]
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - lage/få lagd flere tester
+    - Få jobbet på våres aksjoner
+    - diskutere hva vi skal gjøre fremover
+    

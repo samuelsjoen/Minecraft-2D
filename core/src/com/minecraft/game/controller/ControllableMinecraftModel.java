@@ -145,5 +145,4 @@ public interface ControllableMinecraftModel {
      * @return the DayNightCycle object
      */
     DayNightCycle getDayNightCycle();
-
 }

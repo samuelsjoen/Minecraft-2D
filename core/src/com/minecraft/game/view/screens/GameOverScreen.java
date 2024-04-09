@@ -12,21 +12,21 @@ public class GameOverScreen extends ScreenAdapter {
 
     @SuppressWarnings("unused")
     private final Minecraft game;
-    private BitmapFont font;
-    private SpriteBatch batch;
+    final BitmapFont font;
+    final SpriteBatch batch;
 
-    public GameOverScreen(Minecraft game) {
+    public GameOverScreen(Minecraft game, SpriteBatch batch, BitmapFont font) {
         this.game = game;
-        this.font = new BitmapFont();
+        this.batch = batch;
+        this.font = font;
         this.font.getData().setScale(2); // increasing font size
-        this.batch = new SpriteBatch();
     }
 
     @Override
     public void render(float delta) {
         clearScreen();    
         batch.begin();
-        String message = "Game Over\nPress any button to restart";
+        String message = "Game Over\nPress 'R' to revive player and continue playing. \nPress any other button to restart.";
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();
     }
