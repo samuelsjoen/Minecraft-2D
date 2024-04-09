@@ -44,7 +44,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.player = map.getPlayer();
         this.armorInventory = new ArmorInventory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory(), player.getHealth());
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory());
 
         this.crafting = new Crafting(getInventory());
 
@@ -236,7 +236,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         map = new MinecraftMap();
         factory = new EntityFactory();
         this.armorInventory = new ArmorInventory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory(), Player.getHealth());
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory());
         gameState = GameState.WELCOME_SCREEN; }
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
@@ -273,7 +273,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void craftItem() {
-        crafting.craft();
+        crafting.craft(player.getHealth());
     }
 
     @Override

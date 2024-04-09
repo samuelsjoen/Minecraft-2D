@@ -7,15 +7,13 @@ import com.minecraft.game.model.Health;
 public class Inventory {
     private HashMap<Item, Integer> items;
     private ArmorInventory armorInventory;
-    private Health health;
     private int maxItemSlots;
     private int currentItems;
     private int currentSlot;
 
-    public Inventory(Item[] defaultItems, ArmorInventory armorInventory, Health health) {
+    public Inventory(Item[] defaultItems, ArmorInventory armorInventory) {
         this.items = new HashMap<Item, Integer>();
         this.armorInventory = armorInventory;
-        this.health = health;
         this.maxItemSlots = 9;
         this.currentItems = items.size();
         this.currentSlot = 0;
@@ -35,12 +33,8 @@ public class Inventory {
 
     public void addItem(Item item, int quantity) {
         if (!isFull()) {
-            if (isArmor(item)) {
-                addArmor(item);
-            } else {
-                addItemToInventory(item, quantity);
-            } 
-        }
+            addItemToInventory(item, quantity);
+        } 
     }
 
     private void addItemToInventory(Item item, int quantity) {
@@ -56,7 +50,7 @@ public class Inventory {
         }
     }
 
-    private void addArmor(Item item) {
+    public void addArmorItem(Item item, Health health) {
         armorInventory.addOrUpgradeArmor(getSelectedItem());
         int armorHealth = health.getArmorHealth();
         if (getSelectedItem().getMaterial() == ItemMaterial.IRON) {
@@ -66,7 +60,7 @@ public class Inventory {
         }
     }
 
-    private boolean isArmor(Item item) {
+    public boolean isArmor(Item item) {
         return item.getType() == ItemType.HELMET || item.getType() == ItemType.CHESTPLATE
                 || item.getType() == ItemType.GLOVES || item.getType() == ItemType.LEGGINGS
                 || item.getType() == ItemType.BOOTS;
