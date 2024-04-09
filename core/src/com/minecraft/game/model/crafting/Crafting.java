@@ -52,9 +52,13 @@ public class Crafting {
     }
 
     /** Crafts the currently selected item in the craftable items section */
-    public void craft() {
+    public void craft(Health health) {
         clearTable(true);
-        inventory.addItem(getSelectedItem());
+        if (inventory.isArmor(getSelectedItem())) {
+            inventory.addArmorItem(getSelectedItem(), health);
+        } else {
+            inventory.addItem(getSelectedItem());
+        }
         updateCraftableItems();
     }
 

@@ -9,7 +9,7 @@ import com.minecraft.game.model.Health;
 
 public class InventoryTest {
 
-    Inventory inventory = new Inventory(new Item[]{}, new ArmorInventory(), new Health(0, 0));
+    Inventory inventory = new Inventory(new Item[]{}, new ArmorInventory());
     @Test
     void testAddItem() {
         int prevSize = inventory.getSize();
