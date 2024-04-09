@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Player;
+import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
@@ -26,8 +27,10 @@ public class MinecraftMap implements IMinecraftMap {
     protected TiledMap tiledMap;
     private World world;
     private Player player;
+    private Inventory inventory;
 
-    public MinecraftMap() {
+    public MinecraftMap(Inventory inventory) {
+        this.inventory = inventory;
         this.world = new World(new Vector2(0, -25f), false);
     }
 
@@ -152,7 +155,7 @@ public class MinecraftMap implements IMinecraftMap {
                             "player",
                             false);
                     // TODO: player should probably be initialized in minecraftmodel?
-                    this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body);
+                    this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);
                 }
             }
         }

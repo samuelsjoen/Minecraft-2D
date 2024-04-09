@@ -27,10 +27,7 @@ public class Minecraft extends Game {
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen, heightScreen);
-
-		EntityFactory factory = new EntityFactory();
-		MinecraftMap map = new MinecraftMap();
-		MinecraftModel model = new MinecraftModel(map, factory);
+		MinecraftModel model = new MinecraftModel();
 		MinecraftView view = new MinecraftView(this, model);
 		MinecraftController controller = new MinecraftController(model, view);
 

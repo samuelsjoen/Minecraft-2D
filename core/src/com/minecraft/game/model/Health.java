@@ -1,18 +1,23 @@
 package com.minecraft.game.model;
 
+import com.minecraft.game.model.crafting.Inventory;
+import com.minecraft.game.model.crafting.Item;
+
 public class Health {
     private int currentHealth;
     private int maxHealth;
     private int armorHealth;
     private int maxArmorHealth;
     private boolean alive;
+    private Inventory inventory;
 
-    public Health(int currentHealth, int maxHealth) {
+    public Health(int currentHealth, int maxHealth, Inventory inventory) {
         this.armorHealth = 0;
         this.maxArmorHealth = 10;
         this.maxHealth = maxHealth;
         this.currentHealth = currentHealth;
         this.alive = true;
+        this.inventory = inventory;
     }
 
     public int getHealth() {
@@ -27,22 +32,43 @@ public class Health {
         }
     }
 
+    // public void damage(int damage) {
+    //     if (armorHealth > 0) {
+    //         int damageRemaining = damage - armorHealth;
+    //         if (armorHealth - damage <= 0) {
+    //             setArmorHealth(0);
+    //             damage(damageRemaining);
+    //         } else {
+    //             setArmorHealth(armorHealth - damage);
+    //         }
+    //     } else {
+    //         if (currentHealth - damage <= 0) {
+    //             setHealth(0);
+    //             alive = false;
+    //         } else {
+    //             setHealth(currentHealth - damage);
+    //         }
+    //     }
+    // }
+
     public void damage(int damage) {
         if (armorHealth > 0) {
-            int damageRemaining = damage - armorHealth;
-            if (armorHealth - damage <= 0) {
-                setArmorHealth(0);
-                damage(damageRemaining);
+            Item armorPiece = inventory.getNextBreakableArmorItem();
+            int armorPieceHealth = inventory.getArmorPieceHealth(armorPiece);
+            if (damage < armorPieceHealth) {
+                inventory.damageArmor(damage);
+                armorHealth -= damage;
             } else {
-                setArmorHealth(armorHealth - damage);
+                int remainingDamage = damage - armorPieceHealth;
+                inventory.breakArmor();
+                armorHealth -= damage;
+                damage(remainingDamage);
             }
+        } else if (currentHealth - damage <= 0) {
+            setHealth(0);
+            alive = false;
         } else {
-            if (currentHealth - damage <= 0) {
-                setHealth(0);
-                alive = false;
-            } else {
-                setHealth(currentHealth - damage);
-            }
+            setHealth(currentHealth-damage);
         }
     }
 

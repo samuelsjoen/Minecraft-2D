@@ -3,12 +3,15 @@ package com.minecraft.game.view;
 import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
+
+import java.util.LinkedHashMap;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
+import com.minecraft.game.model.crafting.Item;
 
 /**
  * The ViewableMinecraftModel interface represents a viewable Minecraft model.
@@ -58,12 +61,6 @@ public interface ViewableMinecraftModel {
      * @return the player's inventory
      */
     Inventory getInventory();
-
-    /**
-     * Returns the armor inventory.
-     * @return the player's armor inventory
-     */
-    ArmorInventory getArmorInventory();
 
     /**
      * Represents the crafting system in the Minecraft game.

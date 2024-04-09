@@ -27,7 +27,7 @@ public class PlayerTest {
         // constants for width and height
         final float testWidth = 10.0f;
         final float testHeight = 10.0f;
-        player = new Player(testWidth, testHeight, mockBody);
+        player = new Player(testWidth, testHeight, mockBody, null);
     }
 
     @Test

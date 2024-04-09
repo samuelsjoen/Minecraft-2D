@@ -9,7 +9,7 @@ public class HealthTest {
 
     @Test
     void testDamage() {
-        Health health = new Health(5, 5);
+        Health health = new Health(5, 5, null);
         assertTrue(health.isAlive());
         health.damage(3);
         assertTrue(health.getHealth() == 2);
@@ -21,7 +21,7 @@ public class HealthTest {
 
     @Test
     void testHeal() {
-        Health health = new Health(2, 5);
+        Health health = new Health(2, 5, null);
         assertTrue(health.getHealth() == 2);
         health.heal(2);
         assertTrue(health.getHealth() == 4);
@@ -36,7 +36,7 @@ public class HealthTest {
 
     @Test
     void testRevive() {
-        Health health = new Health(5, 5);
+        Health health = new Health(5, 5, null);
         health.damage(5);
         assertTrue(!health.isAlive());
         health.revive();

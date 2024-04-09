@@ -63,7 +63,7 @@ public class CraftingView {
                 Item item = craftableItems[row][col];
                 if (item != null) {
                     float x = xCrafting + 22 + (col * jump);
-                    float y = yCrafting + 182 + (row * jump);
+                    float y = yCrafting + 182 - (row * jump);
                     Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
                     batch.draw(itemTexture, x, y, 30, 30);
                 }
