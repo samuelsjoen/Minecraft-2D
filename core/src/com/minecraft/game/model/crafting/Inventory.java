@@ -51,11 +51,13 @@ public class Inventory {
     }
 
     public void addArmorItem(Item item, Health health) {
-        armorInventory.addOrUpgradeArmor(getSelectedItem());
+        armorInventory.addOrUpgradeArmor(item);
         int armorHealth = health.getArmorHealth();
-        if (getSelectedItem().getMaterial() == ItemMaterial.IRON) {
+        System.out.println(armorHealth);
+        if (item.getMaterial() == ItemMaterial.IRON) {
             health.setArmorHealth(armorHealth + 1);
-        } else if (getSelectedItem().getMaterial() == ItemMaterial.DIAMOND) {
+            System.out.println(armorHealth);
+        } else if (item.getMaterial() == ItemMaterial.DIAMOND) {
             health.setArmorHealth(armorHealth + 2);
         }
     }
