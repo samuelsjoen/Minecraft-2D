@@ -81,7 +81,7 @@ public class GameScreen extends ScreenAdapter {
 
         // Disse er greie å ha i view - de handler om view
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),
-                viewableMinecraftModel.getInventory(), viewableMinecraftModel.getArmorInventory());
+                viewableMinecraftModel.getInventory());
         this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(),
                 viewableMinecraftModel.getCrafting());
 

@@ -1,5 +1,7 @@
 package com.minecraft.game.model;
 
+import java.util.LinkedHashMap;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -8,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -27,7 +28,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @SuppressWarnings("unused")
     private Player player;
     private Inventory inventory;
-    private ArmorInventory armorInventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
@@ -35,16 +35,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private DayNightCycle dayNightCycle;
 
-    public MinecraftModel(MinecraftMap map, EntityFactory factory) {
-        this.map = map;
-        this.factory = factory;
+    public MinecraftModel() {
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.factory = new EntityFactory();
+		this.map = new MinecraftMap(inventory);
 
         // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
-        this.armorInventory = new ArmorInventory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory());
+
+        
 
         this.crafting = new Crafting(getInventory());
 
@@ -233,10 +234,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void restartGame() {
-        map = new MinecraftMap();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        map = new MinecraftMap(inventory);
         factory = new EntityFactory();
-        this.armorInventory = new ArmorInventory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory());
         gameState = GameState.WELCOME_SCREEN; }
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
@@ -275,10 +275,4 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public void craftItem() {
         crafting.craft(player.getHealth());
     }
-
-    @Override
-    public ArmorInventory getArmorInventory() {
-        return armorInventory;
-    }
-
 }

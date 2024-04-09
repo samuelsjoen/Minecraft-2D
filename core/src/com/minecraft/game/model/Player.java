@@ -3,6 +3,7 @@ package com.minecraft.game.model;
 import com.badlogic.gdx.physics.box2d.Body;
 // import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
+import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
@@ -31,11 +32,11 @@ public class Player extends GameEntity {
 
     public static State currentState;
 
-    public Player(float width, float height, Body body) {
+    public Player(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
-        Player.health = new Health(5, 5);
+        Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
     }
 

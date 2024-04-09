@@ -3,6 +3,7 @@ package com.minecraft.game.view.overlay;
 import com.badlogic.gdx.Gdx;
 import java.util.HashMap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.crafting.Crafting;
@@ -12,17 +13,21 @@ public class CraftingView {
     private final Crafting crafting;
     private final Texture craftingSprite;
     private final Texture selectedItem;
+    private final BitmapFont font;
     private final int jump;
 
     private float xCrafting;
     private float yCrafting;
     private float xItem;
     private float yItem;
+    private float xDescription;
+    private float yDescription;
 
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
         this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
+        this.font = new BitmapFont();
         this.jump = 40;
     }
 
@@ -33,6 +38,7 @@ public class CraftingView {
             renderCraftableItems(batch);
             renderSelectedSlot(batch);
             renderPotentialItem(batch);
+            renderSelectedItemText(batch);
         }
     }
 
@@ -63,7 +69,7 @@ public class CraftingView {
                 Item item = craftableItems[row][col];
                 if (item != null) {
                     float x = xCrafting + 22 + (col * jump);
-                    float y = yCrafting + 182 + (row * jump);
+                    float y = yCrafting + 182 - (row * jump);
                     Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
                     batch.draw(itemTexture, x, y, 30, 30);
                 }
@@ -91,5 +97,13 @@ public class CraftingView {
         yCrafting = lowerLeftCorner.y + 240;
         xItem = xCrafting + 62;
         yItem = yCrafting + 342;
+        xDescription = xCrafting + 20;
+        yDescription = yCrafting + 240;
+    }
+
+    private void renderSelectedItemText(SpriteBatch batch) {
+        Item item = crafting.getSelectedItem();
+        if (item != null) {
+        font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }
     }
 }

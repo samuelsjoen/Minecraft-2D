@@ -29,7 +29,7 @@ public class Slime extends GameEntity {
         super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "slime", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(1, 1);
+        this.health = new Health(1, 1, null);
         currentState = State.IDLE;
 
         stateTime = 0f;
