@@ -1,7 +1,6 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -16,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyManager {
-    public static List<Knight> enemies;
-    public static List<Slime> slimes;
-    public static List<PinkMonster> pinkMonsters;
+    public static List<Knight> enemies = new ArrayList<>();
+    public static List<Slime> slimes = new ArrayList<>();
+    public static List<PinkMonster> pinkMonsters = new ArrayList<>();
     private World world;
     private Player player;
     private float spawnTimer;
@@ -30,9 +29,6 @@ public class EnemyManager {
     public EnemyManager(World world, Player player, TiledMap tiledMap) {
         this.world = world;
         this.player = player;
-        EnemyManager.enemies = new ArrayList<>();
-        EnemyManager.slimes = new ArrayList<>();
-        EnemyManager.pinkMonsters = new ArrayList<>();
         this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
     }
@@ -43,33 +39,31 @@ public class EnemyManager {
             spawnEnemy();
             spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         }
-        // Y-coordinate threshold below which enemies should die
         float deathThreshold = -10.0f;
+        removeDeadEnemies(deathThreshold);
+    }
 
-        // Update all enemies
+    private void removeDeadEnemies(float deathThreshold) {
         ArrayList<Knight> deadEnemies = new ArrayList<>();
         ArrayList<Slime> deadSlimes = new ArrayList<>();
         ArrayList<PinkMonster> deadPinkMonsters = new ArrayList<>();
         for (Knight enemy : enemies) {
             enemy.update(Gdx.graphics.getDeltaTime());
-            if (enemy.getBody().getPosition().y < deathThreshold || enemy.isMarkedForRemoval()
-                    || Gdx.input.isKeyJustPressed(Keys.N)) {
+            if (enemy.getBody().getPosition().y < deathThreshold || enemy.isMarkedForRemoval()) {
                 world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
                 deadEnemies.add(enemy); // Add dead enemies to the list
             }
         }
         for (Slime slime : slimes) {
             slime.update(Gdx.graphics.getDeltaTime());
-            if (slime.getBody().getPosition().y < deathThreshold || slime.isMarkedForRemoval()
-                    || Gdx.input.isKeyJustPressed(Keys.N)) {
+            if (slime.getBody().getPosition().y < deathThreshold || slime.isMarkedForRemoval()) {
                 world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
                 deadSlimes.add(slime); // Add dead enemies to the list
             }
         }
         for (PinkMonster pinkMonster : pinkMonsters) {
             pinkMonster.update(Gdx.graphics.getDeltaTime());
-            if (pinkMonster.getBody().getPosition().y < deathThreshold || pinkMonster.isMarkedForRemoval()
-                    || Gdx.input.isKeyJustPressed(Keys.N)) {
+            if (pinkMonster.getBody().getPosition().y < deathThreshold || pinkMonster.isMarkedForRemoval()) {
                 world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
                 deadPinkMonsters.add(pinkMonster); // Add dead enemies to the list
             }
@@ -79,100 +73,69 @@ public class EnemyManager {
         pinkMonsters.removeAll(deadPinkMonsters); // Remove all dead enemies from the list
     }
 
-    public boolean isSpawnLocationValid(float spawnPosX, float spawnPosY, boolean isTwoTilesHigh) {
-        // Convert world coordinates to PPM
-        int bottomTileX = (int) ((spawnPosX * Constants.PPM) / Constants.TILE_SIZE);
-        int bottomTileY = (int) ((spawnPosY * Constants.PPM) / Constants.TILE_SIZE);
+    public boolean isSpawnLocationValid(float spawnPosX, float spawnPosY) {
+        int tileX = (int) ((spawnPosX * Constants.PPM) / Constants.TILE_SIZE);
+        int tileY = (int) ((spawnPosY * Constants.PPM) / Constants.TILE_SIZE);
 
-        // Check the bottom tile
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        Cell bottomCell = mineableLayer.getCell(bottomTileX, bottomTileY);
-        if (bottomCell != null) {
-            return false; // The bottom part is on a "mineable" tile, not a valid location
-        }
+        Cell cell = mineableLayer.getCell(tileX, tileY);
+        Cell aboveCell1 = mineableLayer.getCell(tileX, tileY + 1);
+        Cell aboveCell2 = mineableLayer.getCell(tileX, tileY + 2);
 
-        // If the enemy is two tiles high, also check the tile above
-        if (isTwoTilesHigh) {
-            Cell topCell = mineableLayer.getCell(bottomTileX, bottomTileY + 1);
-            if (topCell != null) {
-                return false; // The top part is on a "mineable" tile, also not a valid location
-            }
-        }
+        boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null) &&
+                (aboveCell2 == null || aboveCell2.getTile() == null);
 
-        return true; // Both parts (or just the bottom part for one-tile-high enemies) are not on
-                     // "mineable" tiles
+        if (cell != null && isAboveEmpty) {
+            float playerPosX = player.getBody().getPosition().x;
+            float playerPosY = player.getBody().getPosition().y;
+
+            boolean isWithinSpawnRangeX = Math.abs(playerPosX - spawnPosX) > 6 && Math.abs(playerPosX - spawnPosX) < 20;
+            boolean isWithinSpawnRangeY = Math.abs(playerPosY - spawnPosY) >= 0
+                    && Math.abs(playerPosY - spawnPosY) < 20;
+
+            return isWithinSpawnRangeX && isWithinSpawnRangeY;
+        }
+        return false;
     }
 
-    private void spawnEnemy() {
-        chooseEnemy = MathUtils.random(0, 2); // chosing a random enemy
-        // chooseEnemy = 2;
-        // float spawnPosX, spawnPosY;
-        int attempts = 0;
+    public void spawnEnemy() {
+        chooseEnemy = MathUtils.random(0, 2); // Choosing a random enemy
         boolean validLocationFound = false;
         float spawnPosX = 0, spawnPosY = 0;
-        boolean isTwoTilesHigh = chooseEnemy == 0 || chooseEnemy == 2;
 
-        while (attempts < 100 && !validLocationFound) {
+        for (int attempts = 0; attempts < 100 && !validLocationFound; attempts++) {
+            spawnPosX = MathUtils.random(player.getBody().getPosition().x - 20, player.getBody().getPosition().x + 20);
+            spawnPosY = MathUtils.random(player.getBody().getPosition().y - 20, player.getBody().getPosition().y + 20);
 
-            float offsetX = getRandomSpawnOffset(-20, 20, 3);
-            float offsetY = getRandomSpawnOffset(-20, 20, 5);
-            // Calculate spawn position based on the player position and offsets
-            spawnPosX = player.getBody().getPosition().x + offsetX;
-            spawnPosY = player.getBody().getPosition().y + offsetY;
-
-            if (isSpawnLocationValid(spawnPosX, spawnPosY, isTwoTilesHigh)) {
+            if (isSpawnLocationValid(spawnPosX, spawnPosY)) {
                 validLocationFound = true;
             }
-
-            attempts++;
         }
 
         if (validLocationFound) {
-            if (enemies.size() < 2 && chooseEnemy == 0) {
-                Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player,
-                        spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
-                        new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-                enemies.add(enemy);
-            }
-            if (slimes.size() < 3 && chooseEnemy == 1) {
-                Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM,
-                        spawnPosY * Constants.PPM,
-                        new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-                slimes.add(slime);
-            }
-            if (pinkMonsters.size() < 1 && chooseEnemy == 2) {
-                PinkMonster pinkMonster = new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, world, player,
-                        spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
-                        new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-                pinkMonsters.add(pinkMonster);
-            }
+            spawnEntityBasedOnChoice(spawnPosX, spawnPosY);
         } else {
-            // Print out the case where no valid location was found after x attempts
-            Gdx.app.log("EnemySpawn", "Failed to find valid spawn location after " + attempts + " attempts.");
+            Gdx.app.log("EnemySpawn", "Failed to find valid spawn location after 100 attempts.");
         }
-
     }
 
-    /**
-     * Generates a random spawn offset ensuring it's not within the specified
-     * exclusion range.
-     * 
-     * @param min            The minimum offset value.
-     * @param max            The maximum offset value.
-     * @param exclusionRange The range around zero to exclude.
-     * @return A random offset value within the specified constraints.
-     */
-    private float getRandomSpawnOffset(float min, float max, float exclusionRange) {
-        float offset = MathUtils.random(min, max);
-        // Adjust the offset if it's within the exclusion range
-        if (offset > -exclusionRange && offset < exclusionRange) {
-            if (MathUtils.randomBoolean()) {
-                offset = exclusionRange + (offset % exclusionRange);
-            } else {
-                offset = -exclusionRange - (offset % exclusionRange);
-            }
+    private void spawnEntityBasedOnChoice(float spawnPosX, float spawnPosY) {
+        if (chooseEnemy == 0 && enemies.size() < 2) {
+            Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player,
+                    spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+            enemies.add(enemy);
+        } else if (chooseEnemy == 1 && slimes.size() < 3) {
+            Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM,
+                    (spawnPosY + 2) * Constants.PPM,
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+            slimes.add(slime);
+        } else if (chooseEnemy == 2 && pinkMonsters.size() < 1) {
+            PinkMonster pinkMonster = new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, world, player,
+                    spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+            pinkMonsters.add(pinkMonster);
         }
-        return offset;
     }
 
     public static List<Knight> getEnemies() {
@@ -185,6 +148,14 @@ public class EnemyManager {
 
     public static List<PinkMonster> getPinkMonsters() {
         return pinkMonsters;
+    }
+
+    public float getChooseEnemy() {
+        return chooseEnemy;
+    }
+
+    public float getSpawnTimer() {
+        return spawnTimer;
     }
 
 }

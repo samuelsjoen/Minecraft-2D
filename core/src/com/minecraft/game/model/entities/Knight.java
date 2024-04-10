@@ -39,7 +39,6 @@ public class Knight extends GameEntity {
 
     @Override
     public void update(float deltaTime) {
-
         stateTime += deltaTime;
 
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
@@ -166,4 +165,11 @@ public class Knight extends GameEntity {
         attackFrame = false;
     }
 
+    public boolean AttackFrame() {
+        return attackFrame;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
 }

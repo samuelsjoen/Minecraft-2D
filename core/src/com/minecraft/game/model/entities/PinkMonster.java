@@ -216,4 +216,15 @@ public class PinkMonster extends GameEntity {
         attackFrame = false;
     }
 
+    public boolean AttackFrame() {
+        return attackFrame;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public boolean hasThrownRock() {
+        return hasThrownRock;
+    }
 }

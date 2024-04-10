@@ -167,4 +167,12 @@ public class Slime extends GameEntity {
     public void setAttackFrameFalse() {
         attackFrame = false;
     }
+
+    public boolean AttackFrame() {
+        return attackFrame;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
 }
