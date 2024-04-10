@@ -26,6 +26,9 @@ public class PinkMonster extends GameEntity {
     private float timeSinceLastAttack = 0; // Time since last attack
     private boolean hasThrownRock = false; // Flag to check if rock has been thrown in the current attack
     private boolean attackFrame = false;
+    private boolean isInvincible;
+    private float invincibilityTimer;
+    private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
 
     public enum State {
         IDLE, RUNNING, ATTACKING, ATTACKING2, DEAD
@@ -35,7 +38,7 @@ public class PinkMonster extends GameEntity {
         super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "pinkMonster", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(1, 1, null);
+        this.health = new Health(3, 3, null);
         this.world = world;
 
         currentState = State.IDLE;
@@ -53,6 +56,15 @@ public class PinkMonster extends GameEntity {
 
         // vertical range within which the enemy can attack
         float verticalAttackRange = 1.5f;
+
+        if (isInvincible) {
+            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            if (invincibilityTimer <= 0) {
+                isInvincible = false;
+                // Ensure the player is visible after invincibility ends
+            }
+            // Optional: Add blinking logic/Sound/Cool effect here
+        }
 
         if (currentState != State.DEAD) {
 
@@ -159,8 +171,12 @@ public class PinkMonster extends GameEntity {
         return health;
     }
 
-    public void getHit() {
-        health.damage(1); // call damage method and reduces health
+    public void getHit(int damage) {
+        if (!isInvincible) {
+            health.damage(damage); // call damage method and reduces health
+            isInvincible = true;
+            invincibilityTimer = INVINCIBILITY_DURATION;
+        }
     }
 
     public boolean isMarkedForRemoval() {

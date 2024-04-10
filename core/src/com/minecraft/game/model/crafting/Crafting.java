@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import com.minecraft.game.model.Health;
 
-import java.io.*;
-
 public class Crafting {
 
     private int selectedRow;
@@ -53,13 +51,16 @@ public class Crafting {
 
     /** Crafts the currently selected item in the craftable items section */
     public void craft(Health health) {
-        clearTable(true);
-        if (inventory.isArmor(getSelectedItem())) {
-            inventory.addArmorItem(getSelectedItem(), health);
-        } else {
-            inventory.addItem(getSelectedItem());
+        if (getSelectedItem() != null) {
+            clearTable(true);
+            if (inventory.isArmor(getSelectedItem())) {
+                inventory.addArmorItem(getSelectedItem(), health);
+            } else {
+                inventory.addItem(getSelectedItem());
+            }
+            updateCraftableItems();
+            updateCraftingTable();
         }
-        updateCraftableItems();
     }
 
     /** Returms the currently selected item in the craftable items section */
