@@ -32,25 +32,6 @@ public class Health {
         }
     }
 
-    // public void damage(int damage) {
-    //     if (armorHealth > 0) {
-    //         int damageRemaining = damage - armorHealth;
-    //         if (armorHealth - damage <= 0) {
-    //             setArmorHealth(0);
-    //             damage(damageRemaining);
-    //         } else {
-    //             setArmorHealth(armorHealth - damage);
-    //         }
-    //     } else {
-    //         if (currentHealth - damage <= 0) {
-    //             setHealth(0);
-    //             alive = false;
-    //         } else {
-    //             setHealth(currentHealth - damage);
-    //         }
-    //     }
-    // }
-
     public void damage(int damage) {
         if (armorHealth > 0) {
             Item armorPiece = inventory.getNextBreakableArmorItem();

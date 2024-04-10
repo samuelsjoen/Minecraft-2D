@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import com.minecraft.game.model.Health;
 
-import java.io.*;
-
 public class Crafting {
 
     private int selectedRow;
@@ -60,6 +58,7 @@ public class Crafting {
             inventory.addItem(getSelectedItem());
         }
         updateCraftableItems();
+        updateCraftingTable();
     }
 
     /** Returms the currently selected item in the craftable items section */

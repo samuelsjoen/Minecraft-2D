@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 // import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.minecraft.game.model.crafting.Inventory;
+import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
@@ -19,6 +20,7 @@ public class Player extends GameEntity {
 
     private boolean isFacingRight = true;
     private static Health health;
+    private static Inventory inventory;
 
     private boolean isInvincible;
     private boolean isAttacking = false;
@@ -36,6 +38,7 @@ public class Player extends GameEntity {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
+        this.inventory = inventory;
         Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
     }
@@ -111,7 +114,7 @@ public class Player extends GameEntity {
                     && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
                             || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
-                enemy.getHit(); // Applies damage to the targeted enemy
+                enemy.getHit(calculateDamage()); // Applies damage to the targeted enemy
             }
         }
         for (Slime slime : EnemyManager.getSlimes()) {
@@ -124,7 +127,7 @@ public class Player extends GameEntity {
                     && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
                             || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
-                slime.getHit(); // Applies damage to the targeted enemy
+                slime.getHit(calculateDamage()); // Applies damage to the targeted enemy
             }
         }
         for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
@@ -137,8 +140,20 @@ public class Player extends GameEntity {
                     && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
                             || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
-                pinkMonster.getHit(); // Applies damage to the targeted enemy
+                pinkMonster.getHit(calculateDamage()); // Applies damage to the targeted enemy
             }
+        }
+    }
+
+    private int calculateDamage() {
+        if (inventory.getSelectedItem() == null) {
+            return 1;
+        }
+        switch(inventory.getSelectedItem()) {
+            case WOODEN_SWORD: return 2;
+            case IRON_SWORD: return 3;
+            case DIAMOND_SWORD: return 4;
+            default: return 1;
         }
     }
 

@@ -20,6 +20,9 @@ public class Slime extends GameEntity {
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
     private boolean attackFrame = false;
+    private boolean isInvincible;
+    private float invincibilityTimer;
+    private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -29,7 +32,7 @@ public class Slime extends GameEntity {
         super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "slime", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(1, 1, null);
+        this.health = new Health(2, 2, null);
         currentState = State.IDLE;
 
         stateTime = 0f;
@@ -46,6 +49,16 @@ public class Slime extends GameEntity {
 
         // vertical range within which the enemy can attack
         float verticalAttackRange = 1.5f;
+
+        if (isInvincible) {
+            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            if (invincibilityTimer <= 0) {
+                isInvincible = false;
+                // Ensure the player is visible after invincibility ends
+            }
+            // Optional: Add blinking logic/Sound/Cool effect here
+        }
+
 
         if (currentState != State.DEAD) {
             // jump logic for enemy
@@ -115,10 +128,13 @@ public class Slime extends GameEntity {
         return health;
     }
 
-    public void getHit() {
-        health.damage(1); // call damage method and reduces health
+    public void getHit(int damage) {
+        if (!isInvincible) {
+            health.damage(damage); // call damage method and reduces health
+            isInvincible = true;
+            invincibilityTimer = INVINCIBILITY_DURATION;
+        }
     }
-
     public boolean isMarkedForRemoval() {
         return markForRemoval;
     }

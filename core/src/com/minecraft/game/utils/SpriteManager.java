@@ -167,18 +167,12 @@ public class SpriteManager implements Disposable {
     }
 
     private void initializeItemToSpriteMapping() {
-        itemToSpriteMapping.put(Item.LEAVES,
-                new String[] { "Character_diamondBoots",
-                        "Character_diamondChestplate",
-                        "Character_diamondGloves",
-                        "Character_diamondHat",
-                        "Character_diamondLeggings" });
-        itemToSpriteMapping.put(Item.DIRT,
-                new String[] { "Character_ironBoots",
-                        "Character_ironChestplate",
-                        "Character_ironGloves",
-                        "Character_ironHat",
-                        "Character_ironLeggings" });
+        itemToSpriteMapping.put(Item.IRON_BOOTS, new String[] {"Character_ironBoots"});
+        itemToSpriteMapping.put(Item.IRON_CHESTPLATE, new String[] {"Character_ironChestplate"});
+        itemToSpriteMapping.put(Item.IRON_GLOVES, new String[] {"Character_ironGloves"});
+        itemToSpriteMapping.put(Item.IRON_HELMET, new String[] {"Character_ironHelmet"});
+        itemToSpriteMapping.put(Item.IRON_LEGGINGS, new String[] {"Character_ironLeggings"});
+        
         itemToSpriteMapping.put(Item.WOOD, new String[] { "Character_Sword", "Character_FX" });
         itemToSpriteMapping.put(Item.STONE, new String[] { "Character_Sword_2", "Character_FX" });
         itemToSpriteMapping.put(Item.GRASS, new String[] { "Character_Sword_3", "Character_FX" });
