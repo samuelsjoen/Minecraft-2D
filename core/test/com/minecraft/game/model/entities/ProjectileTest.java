@@ -35,7 +35,7 @@ public class ProjectileTest {
         assertTrue(projectile.isMarkedForRemoval(), "Projectile should be marked for removal after lifetime expires");
     }
 
-    @Test
+    @Test // (s)
     void projectileShouldBeMarkedForRemovalWhenCollisionWithPlayerOccurs() {
         // Mock player position close to projectile position
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(0.5f, 0.5f));
