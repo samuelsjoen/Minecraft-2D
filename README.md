@@ -84,6 +84,7 @@ For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet:
 
 **Lyd brukt når man fjerner blokker**
 Lyd på hakke er hentet fra: https://www.youtube.com/watch?v=MXibe4aNdGg
+"mineSound.wav": https://freesound.org/people/ryanconway/sounds/240801/
 
 ### Kode
 Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD

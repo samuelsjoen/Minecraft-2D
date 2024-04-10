@@ -41,7 +41,7 @@ public class MinecraftView implements Disposable {
         this.font = new BitmapFont();
 
         // Create the sound manager for the mine block sound
-        this.mineBlockSoundManager = new MineBlockSoundManager();
+        this.mineBlockSoundManager = new MineBlockSoundManager("assets/sound/mineSound.wav");
 
         this.menuScreen = new MenuScreen(game);
         this.helpScreen = new HelpScreen(game, spriteBatch);
