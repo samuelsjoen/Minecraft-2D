@@ -26,7 +26,7 @@ public class Player extends GameEntity {
     private boolean isAttacking = false;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
-    public static float deadStateTime = 0f; // Timer for the dead animation
+    // public static float deadStateTime = 0f; // Timer for the dead animation
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -44,7 +44,7 @@ public class Player extends GameEntity {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         x = body.getPosition().x * Constants.PPM;
         y = body.getPosition().y * Constants.PPM;
         if (Math.abs(body.getLinearVelocity().x) > 0) {
@@ -71,7 +71,7 @@ public class Player extends GameEntity {
         }
 
         if (isInvincible) {
-            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            invincibilityTimer -= deltaTime;
             if (invincibilityTimer <= 0) {
                 isInvincible = false;
                 // Ensure the player is visible after invincibility ends
@@ -87,9 +87,9 @@ public class Player extends GameEntity {
             currentState = State.DEAD;
         }
 
-        if (currentState == State.DEAD) {
-            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
-        }
+        // if (currentState == State.DEAD) {
+        // deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+        // }
 
     }
 
@@ -147,13 +147,19 @@ public class Player extends GameEntity {
 
     private int calculateDamage() {
         if (inventory.getSelectedItem() == null) {
-            return 1;
+            // return 1;
+            return 4;
         }
-        switch(inventory.getSelectedItem()) {
-            case WOODEN_SWORD: return 2;
-            case IRON_SWORD: return 3;
-            case DIAMOND_SWORD: return 4;
-            default: return 1;
+        switch (inventory.getSelectedItem()) {
+            case WOODEN_SWORD:
+                return 2;
+            case IRON_SWORD:
+                return 3;
+            case DIAMOND_SWORD:
+                return 4;
+            default:
+                return 4;
+            // return 1;
         }
     }
 

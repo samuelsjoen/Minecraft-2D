@@ -57,7 +57,8 @@ public class GameScreen extends ScreenAdapter {
     private ProjectileRenderer projectileRenderer;
     private MinecraftView minecraftView;
 
-    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel, MinecraftView minecraftView) {
+    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
+            MinecraftView minecraftView) {
         this.camera = camera;
         this.batch = new SpriteBatch();
 
@@ -68,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
 
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
-        
+
         this.viewableMinecraftModel = viewableMinecraftModel;
         this.minecraftView = minecraftView;
 
@@ -110,7 +111,7 @@ public class GameScreen extends ScreenAdapter {
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
-        viewableMinecraftModel.getPlayer().update();
+        viewableMinecraftModel.getPlayer().update(Gdx.graphics.getDeltaTime());
 
         spriteManager.update();
 
@@ -120,7 +121,7 @@ public class GameScreen extends ScreenAdapter {
         Iterator<Projectile> iterator = projectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
-            projectile.update();
+            projectile.update(Gdx.graphics.getDeltaTime());
             projectile.checkCollisionWithPlayer(viewableMinecraftModel.getPlayer());
 
             if (projectile.isMarkedForRemoval()) {
@@ -149,12 +150,14 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setDay() {
-        // System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
+        // System.out.println("setDay() gets called from " + this.getClass().getName() +
+        // " class");
         backgroundImage = backgroundDay;
     }
 
     public void setNight() {
-        // System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
+        // System.out.println("setNight() gets called from " + this.getClass().getName()
+        // + " class");
         backgroundImage = backgroundNight;
     }
 

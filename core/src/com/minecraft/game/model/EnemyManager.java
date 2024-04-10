@@ -51,7 +51,7 @@ public class EnemyManager {
         ArrayList<Slime> deadSlimes = new ArrayList<>();
         ArrayList<PinkMonster> deadPinkMonsters = new ArrayList<>();
         for (Knight enemy : enemies) {
-            enemy.update();
+            enemy.update(Gdx.graphics.getDeltaTime());
             if (enemy.getBody().getPosition().y < deathThreshold || enemy.isMarkedForRemoval()
                     || Gdx.input.isKeyJustPressed(Keys.N)) {
                 world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
@@ -59,7 +59,7 @@ public class EnemyManager {
             }
         }
         for (Slime slime : slimes) {
-            slime.update();
+            slime.update(Gdx.graphics.getDeltaTime());
             if (slime.getBody().getPosition().y < deathThreshold || slime.isMarkedForRemoval()
                     || Gdx.input.isKeyJustPressed(Keys.N)) {
                 world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
@@ -67,7 +67,7 @@ public class EnemyManager {
             }
         }
         for (PinkMonster pinkMonster : pinkMonsters) {
-            pinkMonster.update();
+            pinkMonster.update(Gdx.graphics.getDeltaTime());
             if (pinkMonster.getBody().getPosition().y < deathThreshold || pinkMonster.isMarkedForRemoval()
                     || Gdx.input.isKeyJustPressed(Keys.N)) {
                 world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
@@ -129,17 +129,20 @@ public class EnemyManager {
 
         if (validLocationFound) {
             if (enemies.size() < 2 && chooseEnemy == 0) {
-                Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player, spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
+                Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player,
+                        spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
                         new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
                 enemies.add(enemy);
             }
             if (slimes.size() < 3 && chooseEnemy == 1) {
-                Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
+                Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM,
+                        spawnPosY * Constants.PPM,
                         new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
                 slimes.add(slime);
             }
             if (pinkMonsters.size() < 1 && chooseEnemy == 2) {
-                PinkMonster pinkMonster = new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, world, player, spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
+                PinkMonster pinkMonster = new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, world, player,
+                        spawnPosX * Constants.PPM, spawnPosY * Constants.PPM,
                         new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
                 pinkMonsters.add(pinkMonster);
             }

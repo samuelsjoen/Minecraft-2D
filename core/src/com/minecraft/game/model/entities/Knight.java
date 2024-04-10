@@ -1,6 +1,6 @@
 package com.minecraft.game.model.entities;
 
-import com.badlogic.gdx.Gdx;
+// import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Health;
@@ -29,7 +29,8 @@ public class Knight extends GameEntity {
     }
 
     public Knight(float width, float height, World world, Player player, float x, float y, Health health) {
-        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "knight", false));
+        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world,
+                Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "knight", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(4, 4, null);
@@ -37,9 +38,9 @@ public class Knight extends GameEntity {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
 
-        stateTime += Gdx.graphics.getDeltaTime();
+        stateTime += deltaTime;
 
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
         float distanceToPlayerY = Math.abs(player.getBody().getPosition().y - this.body.getPosition().y);
@@ -49,14 +50,13 @@ public class Knight extends GameEntity {
         float verticalAttackRange = 2.0f;
 
         if (isInvincible) {
-            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            invincibilityTimer -= deltaTime;
             if (invincibilityTimer <= 0) {
                 isInvincible = false;
                 // Ensure the player is visible after invincibility ends
             }
             // Optional: Add blinking logic/Sound/Cool effect here
         }
-
 
         if (currentState != State.DEAD) {
             // jump logic for enemy
@@ -113,7 +113,7 @@ public class Knight extends GameEntity {
 
         }
         if (currentState == State.DEAD) {
-            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+            deadStateTime += deltaTime; // Update dead animation time
         }
 
     }
