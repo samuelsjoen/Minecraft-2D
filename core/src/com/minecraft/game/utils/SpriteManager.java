@@ -10,6 +10,7 @@ import com.minecraft.game.model.Player;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ItemType;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -172,10 +173,10 @@ public class SpriteManager implements Disposable {
         itemToSpriteMapping.put(Item.IRON_GLOVES, new String[] {"Character_ironGloves"});
         itemToSpriteMapping.put(Item.IRON_HELMET, new String[] {"Character_ironHelmet"});
         itemToSpriteMapping.put(Item.IRON_LEGGINGS, new String[] {"Character_ironLeggings"});
-        
-        itemToSpriteMapping.put(Item.WOOD, new String[] { "Character_Sword", "Character_FX" });
-        itemToSpriteMapping.put(Item.STONE, new String[] { "Character_Sword_2", "Character_FX" });
-        itemToSpriteMapping.put(Item.GRASS, new String[] { "Character_Sword_3", "Character_FX" });
+
+        itemToSpriteMapping.put(Item.WOODEN_SWORD, new String[] { "Character_Sword", "Character_FX" });
+        itemToSpriteMapping.put(Item.IRON_SWORD, new String[] { "Character_Sword_2", "Character_FX" });
+        itemToSpriteMapping.put(Item.DIAMOND_SWORD, new String[] { "Character_Sword_3", "Character_FX" });
     }
 
     public void update() {
@@ -216,8 +217,12 @@ public class SpriteManager implements Disposable {
     private void updateSpritesBasedOnInventory() {
         currentSprites.clear();
         for (Item item : itemToSpriteMapping.keySet()) {
-            if (inventory.contains(item) || inventory.armorInventoryContains(item)) {
+            if (inventory.armorInventoryContains(item)) {
                 Collections.addAll(currentSprites, itemToSpriteMapping.get(item));
+            } else if (inventory.getSelectedItem() == item) {
+                if (item.getType() == ItemType.SWORD || item.getType() == ItemType.PICKAXE) {
+                    Collections.addAll(currentSprites, itemToSpriteMapping.get(item));
+                }
             }
         }
     }
