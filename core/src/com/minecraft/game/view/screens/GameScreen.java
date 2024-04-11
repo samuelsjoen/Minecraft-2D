@@ -12,9 +12,11 @@ import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.view.ViewableMinecraftModel;
@@ -96,6 +98,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void update() {
+
+        String selectedPickaxe = viewableMinecraftModel.getSelectedPickaxe();
+        CursorUtils.setCursorPixmap(selectedPickaxe);
 
         viewableMinecraftModel.checkAndUpdateGameState();
 

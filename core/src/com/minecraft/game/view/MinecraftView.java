@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.view.screens.GameOverScreen;
 import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.view.screens.HelpScreen;
@@ -58,6 +59,7 @@ public class MinecraftView {
     }
 
     public void updateScreen() {
+        CursorUtils.setCursorPixmap("assets/default_cursor.png");
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             game.setScreen(menuScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.HELP_SCREEN){

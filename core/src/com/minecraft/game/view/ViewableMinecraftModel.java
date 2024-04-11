@@ -80,4 +80,9 @@ public interface ViewableMinecraftModel {
      */
     void checkAndUpdateGameState(); 
 
+    /**
+     * Get the selected pickaxe from the inventory.
+     * @return the selected pickaxe-texture filepath
+     */
+    String getSelectedPickaxe();
 }

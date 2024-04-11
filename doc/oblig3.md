@@ -26,17 +26,18 @@ Referatene fra alle møtene våre er å finne i referat-mappen vår som ligger h
 Gruppedynamikken vår er god og vi er alle samarbeidsorienterte. Vi ønsker alle å nå vårt felles mål: oppnå et minimum viable product og et bra semesterprosjekt. Vi har god kommunikasjon innad i gruppen gjennom Discord - som er nok noe av grunnen til at vi ikke har noen uenigheter som må løses. På Discord har vi muligheten til å holde kontakten gjennom uken, dele informasjon og diskutere ideer på en effektiv måte. Vi er flinke til å lytte til hverandre, og eventuelle spørsmål gruppemedlemmer har blir raskt besvart. Alt i alt, kommunikasjonen i gruppen vår er en styrke.
 
 ### Retrospektiv 
-- [ ] Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
+- [x] Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
 
-Nå har vi endelig oppnådd alle kravene vi hadde satt for MVP. 
+Nå har vi endelig oppnådd alle kravene vi hadde satt for MVP. Vi har funnet ut at vi skulle hatt mer fokus på MVC i starten. Før prøvde vi å implementere ting for å bli kjent med libgdx - men tenkte ikke på strukturen. Nå når vi har fått på plass noen interfaces - så er vi mer konsekvente når vi implementere metoder. Nå er vi "tvunget" til å jobbe med MVC - siden vi har lagt opp koden til at vi må hente det via interfacet. Til en annen gang så ønsker vi å starte med et funksjonelt MVC-oppsett - slik at vi er pålagt til å jobbe MVC-struktur. Vi har ikke full kontroll på libgdx når det kommer til update, render og dispose-metodene - derfor hadde vi fokus på mvc. Kanskje vi skulle valgt Java Swing istedenfor libgdx. 
 
-- [ ] Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
+Vi har funnet ut at det er viktig med beskrivende commit-meldinger i git - slik at det er lettere å få oversikt over hva andre har gjort. Dette skal vi ha mer fokus på fremover. Etter tilbakemelding fra oblig 2 har vi funnet ut at vi skal starte å skrive alle commits på engelsk - slik at det blir mer oversiktlig slik at  man ikke blir språkforvirret.
+
+- [x] Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
 
 Vi har funnet ut at det er noen punkt vi skal ha ekstra fokus på frem mot siste innlevering, de er listet opp her: 
 
-1. punkt1
-2. punkt2
-3. punkt3
+1. Vi har erfart at hvis man ikke sier ifra at man skal implementere noe - så kan det hende at en annen person fra gruppen gjør det. 
+2. Noen ganger kunne det vært lurt å parprogrammert - når man jobber med å implementere kode som avhenger av kode noen andre har skrevet.
 
 ### Fordeling av bidrag til kodebasen
 - [x] Under vurdering vil det vektlegges at alle bidrar til kodebasen. Hvis det er stor forskjell i hvem som committer, må dere legge ved en kort forklaring for hvorfor det er sånn. Husk å committe alt. (Også designfiler)
@@ -49,7 +50,7 @@ Vi bidrar alle likt til kodebasen, selv om antall commits ikke alltid er helt fo
 
 ### MVP-Krav
 - [ ] Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang. Er dere kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
-- [ ] Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
+- [x] Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 
 ##### Krav til Minimum Viable Product:
 - [x] 1. Vise et spillebrett
@@ -290,12 +291,14 @@ Som spiller ønsker jeg å kunne starte et nytt spill fra en startskjerm, samt s
 - [x] Implementer game over-skjerm med informasjon om utfallet og valgmuligheter.
 
 #### Bugs
-- [ ] Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
+- [x] Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
 
 Vi har noen bugs i koden vår som vi ønsker å utbedre frem mot siste innlevering. Vi tenker at ved flere tester så kan vi lettere finne ut hva som er galt for å så rette opp i det. 
 
 - Blant annet så sitter spilleren "fast" noen ganger når man går mot høyre/venstre
-- andre bugs
+- Når man møter på enemies og blir angrepet så skifter player retning og starter å løpe i den retningen. 
+- Tidligere var fiendene mer opptatt av å angripe på player - men nå står de oftere i ro. det virker som at radiusen til enemiesene har blitt mindre - og derfor at de ikke "oppdager" player. 
+- Programmet ofte "sliter" etter at man har spilt en stund. Vi tror dette kan komme av at vi ikke disposer alt - slik at mye akkumuleres. 
 
 ### Produkt og kode
 (Evt. tekst / kommentarer til koden kan dere putte i en egen ## Kode-seksjon)
@@ -309,14 +312,23 @@ For instrukser ift. bygging, testing og kjøring av kode [se README.md.](../READ
 Vi har testet at prosjektet fungerer på Windows og OS X - men vi har ikke sjekket om det fungerer på Linux enda. Det er noe vi selvsagt skal gjøre før siste innlevering. 
 
 #### Utbedring av feil & testing
-- [ ] Utbedring av feil: hvis dere har rettet / forbedret noe som er påpekt tidligere, lag en liste med «Dette har vi fikset siden sist», så det er lett for gruppelederne å få oversikt.
+- [x] Utbedring av feil: hvis dere har rettet / forbedret noe som er påpekt tidligere, lag en liste med «Dette har vi fikset siden sist», så det er lett for gruppelederne å få oversikt.
 - [ ] Statiske analyseverktøy som SpotBugs eller SonarQube kan hjelpe med å finne feil dere ikke tenker på. Hvis dere prøver det, skriv en kort oppsummering av hva dere fant / om det var nyttig.
 - [ ] Automatiske tester skal dekke forretningslogikken i systemet (unit-tester). Coverage kan hjepe med å se hvor mye av koden som dekkes av testene – i Eclipse kan dette gjøres ved å installere EclEmma gjennom Eclipse Marketplace.
 - [ ] Kodekvalitet og testdekning vektlegges. Dersom dere ikke har automatiske tester for GUI-et, lager dere manuelle tester som gruppelederne kan kjøre basert på akseptansekriteriene.
 
+##### Testing
+- Vi har laget flere tester siden sist - nå har vi ca. 20% coverage på koden vår. Fortsatt en lang vei å gå, men det er bedre enn ved sist innleveringer. 
+
 ##### Dette har vi fikset siden sist:
-- punkt
-- punkt
+- Vi har fått til at det er mulig å lage nye item-objekter basert på forskjellige blokker i inventory.
+- Lagt til power-up - hvis man valgt pickaxe i inventory så hakker man raskere - og hastigheten baseres på materiale til pickaxen.
+- Vi har lagt til power-up for rustning også - man får flere hjerter når man har rustning.
+- Vi har prøvd å få mer MVC-strukturert kode - og fått til minimumskravet. vi har også forbedret kodekvalitet feks. hadde vi en "createbody"-metode til hver enemy - nå bruker vi én og samme fra bodyhelperservice.
+- Har fikset noen bugs, før så ble ikke noen Box2D-bokser fjernet når man fjernet blokken - men vi har fikset det nå.  
+- Vi har lagt til lyd når man hakker blokker.
+- Lagt til helpscreen - der man kan se hvilke knapper man bruker for hva. Pausedscreen og gameoverscreen er også lagt til. 
+- Vi har og lagt til flere tester.
 
 #### Klassediagram
 - [ ] Lag og lever et klassediagram. (Hvis det er veldig mange klasser, lager dere for de viktigste.) Det er ikke nødvendig å ta med alle metoder og feltvariabler med mindre dere anser dem som viktige for helheten. (Eclipse har forskjellige verktøy for dette.)

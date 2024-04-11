@@ -1,7 +1,5 @@
 package com.minecraft.game.model;
 
-import java.util.LinkedHashMap;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -10,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ItemMaterial;
+import com.minecraft.game.model.crafting.ItemType;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -273,6 +273,22 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void craftItem() {
-        crafting.craft(player.getHealth());
+        crafting.craft(Player.getHealth());
+    }
+
+    @Override
+    public String getSelectedPickaxe() {
+
+        Item itemSelected = inventory.getSelectedItem();
+        if (itemSelected == null) {
+            return "assets/default_cursor.png";
+        }
+
+        ItemType itemType = itemSelected.getType();
+        
+        if (itemType == ItemType.PICKAXE) {
+            return itemSelected.getTexture();
+        }
+        return "assets/default_cursor.png";
     }
 }

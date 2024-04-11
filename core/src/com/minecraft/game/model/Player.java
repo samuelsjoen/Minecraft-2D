@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 // import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
@@ -38,7 +37,7 @@ public class Player extends GameEntity {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
-        this.inventory = inventory;
+        Player.inventory = inventory;
         Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
     }
@@ -61,6 +60,7 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
+        // TODO: fix that player dies here instead
         // Teleport the player back to the middle if he falls too low
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
