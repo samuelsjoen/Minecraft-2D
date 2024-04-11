@@ -60,10 +60,13 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
-        // TODO: fix that player dies here instead
-        // Teleport the player back to the middle if he falls too low
+        // TODO: fix that player is teleported to a "good" location 
+        // Player dies if he falls out of the map
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
+            currentState = State.DEAD;
+            
+            // Teleport the player back to the middle of the screen
             float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
             float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // A lil more above the middle of the
                                                                              // screen on Y-axis
@@ -74,7 +77,7 @@ public class Player extends GameEntity {
             invincibilityTimer -= Gdx.graphics.getDeltaTime();
             if (invincibilityTimer <= 0) {
                 isInvincible = false;
-                // Ensure the player is visible after invincibility ends
+                // Ensure the plbayer is visible after invincibility ends
             }
             // Optional: Add blinking logic/Sound/Cool effect here
         }

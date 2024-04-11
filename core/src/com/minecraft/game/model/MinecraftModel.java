@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.crafting.ItemMaterial;
 import com.minecraft.game.model.crafting.ItemType;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
@@ -61,6 +60,16 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void setGameState(GameState state) {
         gameState = state;
+        handleGameStateChange();
+    }
+
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
+        }
+        else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
     }
 
     @Override
@@ -117,6 +126,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
+
+        if (getPlayer().isAttacking()) {
+            getPlayer().toggleIsAttacking();
+        }
+
+        dayNightCycle.resetNumberOfNights();
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
@@ -237,14 +252,20 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         map = new MinecraftMap(inventory);
         factory = new EntityFactory();
-        gameState = GameState.WELCOME_SCREEN; }
+        dayNightCycle = new DayNightCycle();
+        gameState = GameState.WELCOME_SCREEN; 
+    }
+
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
         }
-        /*else if (something) {
-            setGameState(GameState.GAME_WON);
-        }*/
+        else {
+            int nightsSurvived = dayNightCycle.getNumberOfNights();
+            if (nightsSurvived >= 3) {
+                setGameState(GameState.GAME_WON);        
+            }
+        }
     }
 
     @Override
@@ -254,16 +275,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        Cell cell = map.getCell(tileX, tileY);
-        if (cell != null) {
-            // Get the tile type based on the tile coordinates
-            int tileId = cell.getTile().getId();
-            TileType tiletype = TileType.getTileTypeWithId(tileId);
-            if (tiletype.getDamage() > 0) {
-                return true;
-            }
-        }
-        return false;
+        return map.isTileMineable(tileX, tileY);    
     }
 
     @Override
@@ -279,16 +291,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public String getSelectedPickaxe() {
 
-        Item itemSelected = inventory.getSelectedItem();
-        if (itemSelected == null) {
+        Item selectedItem = inventory.getSelectedItem();
+    
+        if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
             return "assets/default_cursor.png";
         }
-
-        ItemType itemType = itemSelected.getType();
         
-        if (itemType == ItemType.PICKAXE) {
-            return itemSelected.getTexture();
-        }
-        return "assets/default_cursor.png";
+        return selectedItem.getTexture();
     }
 }
