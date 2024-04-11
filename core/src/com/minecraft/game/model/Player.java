@@ -1,8 +1,6 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
-// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Gdx;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.GameEntity;
@@ -61,14 +59,8 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
-        // Teleport the player back to the middle if he falls too low
-        float yfall = -10f;
-        if (body.getPosition().y < yfall) {
-            float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
-            float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // A lil more above the middle of the
-                                                                             // screen on Y-axis
-            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player
-        }
+        // Teleport the player back on the map if he falls too low
+        playerOutOfbounds(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
         if (isInvincible) {
             invincibilityTimer -= deltaTime;
@@ -91,6 +83,15 @@ public class Player extends GameEntity {
         // deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         // }
 
+    }
+
+    public void playerOutOfbounds(float screenWidth, float screenHeight) {
+        float yfall = -10f;
+        if (body.getPosition().y < yfall) {
+            float middleX = screenWidth / 2 / Constants.PPM;
+            float middleY = screenHeight / 0.15f / Constants.PPM;
+            body.setTransform(middleX, middleY, body.getAngle());
+        }
     }
 
     public void getHit() {
@@ -145,10 +146,9 @@ public class Player extends GameEntity {
         }
     }
 
-    private int calculateDamage() {
+    public int calculateDamage() {
         if (inventory.getSelectedItem() == null) {
-            // return 1;
-            return 4;
+            return 1;
         }
         switch (inventory.getSelectedItem()) {
             case WOODEN_SWORD:
@@ -158,8 +158,7 @@ public class Player extends GameEntity {
             case DIAMOND_SWORD:
                 return 4;
             default:
-                return 4;
-            // return 1;
+                return 1;
         }
     }
 
