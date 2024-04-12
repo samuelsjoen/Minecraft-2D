@@ -15,7 +15,7 @@ Rollene i teamet fungerer nå bra! Vi føler ikke på noe behov for å gjøre en
 - [x] Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?
 - [x] Referat fra møter siden forrige leveranse skal legges ved (mange av punktene over er typisk ting som havner i referat).
 
-Vi synes at prosjektmetodikken vår fungerer bra så langt. Vi benytter oss av et project board gjennom Asana hvor vi lister opp oppgavene og om vi er underveis, ferdig med oppgaven etc. (Kanban). Kanban-metoden går ut på å organisere oppgaver etter status på oppgavene - dvs. man kan dele oppgavene inn i ulike grupper som "startet", "påbegynt" og "ferdig" - ut ifra hvor langt man har komt. Ved hjelp av denne metoden så blir man begrenset til antall pågående oppgaver. Dette gjør at man må bli ferdig med  I tillegg har vi alltid en ukentlig gjennomgang gruppetimen - da går vi gjennom hva som må prioriteres den neste uken. På denne måten fordeler vi oppgavene som må gjøres på en god måte.
+Vi synes at prosjektmetodikken vår fungerer bra så langt. Vi benytter oss av et project board gjennom Asana hvor vi lister opp oppgavene og om vi er underveis, ferdig med oppgaven etc. (Kanban). Kanban-metoden går ut på å organisere oppgaver etter status på oppgavene - dvs. man kan dele oppgavene inn i ulike grupper som "startet", "påbegynt" og "ferdig" - ut ifra hvor langt man har kommet. Ved hjelp av denne metoden så blir man begrenset til antall pågående oppgaver. Dette gjør at man må bli ferdig med påbegynte oppgaver. I tillegg har vi alltid en ukentlig gjennomgang gruppetimen - da går vi gjennom hva som må prioriteres den neste uken. På denne måten fordeler vi oppgavene som må gjøres på en god måte.
 
 Vi tror at en av grunnene til at gruppearbeidet går bra for oss - er at vi alle møter opp på de ukentlige gruppetimene. Dette gjør at vi får snakket om hva vi trenger å gjøre fremover og kan fordele oppgaver. Vi funnet ut at referatene fra møtene er viktige slik at vi får oversikt over oppgaver og kan se fremgang fra møte til møte. Oppgavene vi fordeler i disse møtene som er i referatene fungerer som et supplement til projectboardet.
 
@@ -245,7 +245,7 @@ Som spiller ønsker jeg å oppleve konsekvenser av å miste alle helsepoengene m
 
 ###### Akseptansekriterier:
 - [x] Når spilleren kolliderer med en fiende, mister spilleren liv og kan til slutt dø når alle liv er brukt.
-- [ ] Når spilleren faller utenfor skjermen mister den et liv og kan dø.
+- [x] Når spilleren faller utenfor skjermen mister den et liv og kan dø.
 
 ###### Arbeidsoppgaver:
 - [x] Implementer kollisjonssjekker mellom spilleren og fiender.
@@ -363,17 +363,17 @@ Disse manuelle testene vil bidra til å sikre at spillet fungerer som forventet.
 Vi har per nå ikke benyttet oss av statiske analyseverktøy som SpotBugs eller SonarQube - men det er noe vi kan ha behov for frem mot siste innlevering. Vi har tatt i bruk Jacoco for å få testcoverage - og oversikt over metoder vi tester og ikke.
 
 #### Klassediagram
-- [ ] Lag og lever et klassediagram. (Hvis det er veldig mange klasser, lager dere for de viktigste.) Det er ikke nødvendig å ta med alle metoder og feltvariabler med mindre dere anser dem som viktige for helheten. (Eclipse har forskjellige verktøy for dette.)
+- [x] Lag og lever et klassediagram. (Hvis det er veldig mange klasser, lager dere for de viktigste.) Det er ikke nødvendig å ta med alle metoder og feltvariabler med mindre dere anser dem som viktige for helheten. (Eclipse har forskjellige verktøy for dette.)
 
 Se nedenfor for klassediagram av koden vår:
 
 Klassediagramsoversikt:
-![Klassediagramsoversikt](klassediagram/classdiagram_overview.png)
+![Klassediagramsoversikt](klassediagram/oblig3/classdiagram_overview.png)
 Klassediagram for kontroller:
-![Klassediagram for kontroller](klassediagram/classdiagram_controller.png)
+![Klassediagram for kontroller](klassediagram/oblig3/classdiagram_controller.png)
 Klassediagram for modell:
-![Klassediagram for modell](klassediagram/classdiagram_model.png)
+![Klassediagram for modell](klassediagram/oblig3/classdiagram_model.png)
 Klassediagram for view:
-![Klassediagram for visning](klassediagram/classdiagram_view.png)
+![Klassediagram for visning](klassediagram/oblig3/classdiagram_view.png)
 Klassediagram for utils:
-![Klassediagram for utils](klassediagram/classdiagram_utils.png)
+![Klassediagram for utils](klassediagram/oblig3/classdiagram_utils.png)

@@ -2,7 +2,6 @@ package com.minecraft.game.model.crafting;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.ArrayList;
 

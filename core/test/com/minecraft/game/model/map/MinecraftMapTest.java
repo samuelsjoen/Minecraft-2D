@@ -8,22 +8,22 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 //import com.badlogic.gdx.physics.box2d.World;
 //import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.model.Player;
+//import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
 //import com.minecraft.game.model.map.TileType;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.*;
+//import static org.mockito.Mockito.*;
 
 public class MinecraftMapTest extends LibgdxUnitTest {
 
 	private MinecraftMapHelper minecraftMapHelper;
 	private TiledMap tiledMap;
-	private Player playerMock;
+	//private Player playerMock;
 	private TiledMapTileLayer tiledMapLayer;
 	private MapLayer objectLayer;
 	private String mapPath;
@@ -38,7 +38,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 
 		minecraftMapHelper = new MinecraftMapHelper();
 
-		playerMock = mock(Player.class);
+		//playerMock = mock(Player.class);
 		// stubbing
 		//when(gameScreenMock.getPlayer()).thenReturn(playerMock);
 

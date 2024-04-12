@@ -12,12 +12,14 @@ public class SoundLoader {
      */
     public static Sound loadSoundFile(String filePath) {
         try {
+            if (!Gdx.files.internal(filePath).exists()) {
+                String fullPath = Gdx.files.internal(filePath).file().getAbsolutePath();
+                throw new RuntimeException("Failed to load sound: " + fullPath);
+            }
             return Gdx.audio.newSound(Gdx.files.internal(filePath));
         } catch (Exception e) {
             String fullPath = Gdx.files.internal(filePath).file().getAbsolutePath();
-            throw new RuntimeException("Failed to load sound: " + fullPath);
+            throw new RuntimeException("Failed to load sound: " + fullPath, e);
         }
     }
 }
-
-

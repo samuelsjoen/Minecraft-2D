@@ -92,8 +92,8 @@ public class EnemyManagerTest {
     void testGetEnemies() {
         Knight testKnight = new Knight(0, 0, mockWorld, mockPlayer, 0, 0, null);
         EnemyManager.enemies.add(testKnight);
-        assertEquals(1, enemyManager.getEnemies().size(), "Should return a list containing 1 enemy.");
-        assertEquals(testKnight, enemyManager.getEnemies().get(0),
+        assertEquals(1, EnemyManager.getEnemies().size(), "Should return a list containing 1 enemy.");
+        assertEquals(testKnight, EnemyManager.getEnemies().get(0),
                 "The returned list should contain the added knight.");
     }
 
@@ -102,8 +102,8 @@ public class EnemyManagerTest {
         Slime testSlime = new Slime(0, 0, mockWorld, mockPlayer, 0, 0, null);
         EnemyManager.slimes.add(testSlime);
         EnemyManager.slimes.add(testSlime);
-        assertEquals(2, enemyManager.getSlimes().size(), "Should return a list containing 1 slime.");
-        assertEquals(testSlime, enemyManager.getSlimes().get(0), "The returned list should contain the added slime.");
+        assertEquals(2, EnemyManager.getSlimes().size(), "Should return a list containing 1 slime.");
+        assertEquals(testSlime, EnemyManager.getSlimes().get(0), "The returned list should contain the added slime.");
     }
 
     @Test
@@ -114,8 +114,8 @@ public class EnemyManagerTest {
         EnemyManager.pinkMonsters.add(testPinkMonster);
         EnemyManager.pinkMonsters.add(testPinkMonster);
         EnemyManager.pinkMonsters.add(testPinkMonster);
-        assertEquals(5, enemyManager.getPinkMonsters().size(), "Should return a list containing 1 pink monster.");
-        assertEquals(testPinkMonster, enemyManager.getPinkMonsters().get(0),
+        assertEquals(5, EnemyManager.getPinkMonsters().size(), "Should return a list containing 1 pink monster.");
+        assertEquals(testPinkMonster, EnemyManager.getPinkMonsters().get(0),
                 "The returned list should contain the added pink monster.");
     }
 
