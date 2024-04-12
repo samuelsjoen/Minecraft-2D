@@ -60,7 +60,7 @@ Vi bidrar alle likt til kodebasen, selv om antall commits ikke alltid er helt fo
 - [x] 3. Flytte spiller med pil-taster, spesifisert mer i readme
 - [x] 4. Spiller interagerer med terreng (vha. mus for å klikke på blokker)
 - [x] 5. Vise fiender/monstre; de skal interagere med terreng og spiller
-- [x] 6. Spiller kan dø (ved kontakt med fiender ==og ved å falle utfor skjermen==)
+- [x] 6. Spiller kan dø (ved kontakt med fiender og ved å falle utfor skjermen)
 - [x] 7. Mål for spill: overleve x-antall netter.
 - [x] 8. Nytt spillbrett når forrige er ferdig
 - [x] 9. Start-skjerm ved oppstart / game over, samt en skjerm som viser ulike tastetrykk etc man kan bruke i spillet

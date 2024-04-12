@@ -15,31 +15,31 @@ Hovedvekten av vurderingen på sluttproduktet ligger på spillmekanikken, måten
 - [x] Prosjektets git-repositorium ligger under teamets gitlab-gruppe og har et relevant navn
 - [x] README.md-fil, med navn på team-medlemmer, teamet og prosjektet, kort beskrivelse og brukerveiledning for spillet, teknisk info om hvordan koden kjøres, og informasjon om hvor grafikk/lyd er hentet fra (kilde/opphavsrett)
 - [x] doc/obligX.md-fil med oversiktlig svar på oppgaver
-- [ ] Alt er oversiktlig og riktig format
+- [x] Alt er oversiktlig og riktig format
 
 #### Team
 - [x] Møtereferater (i, eller lenket til fra oblig-filen)
 - [x] Teambeskrivelse og rollefordeling
-- [ ] Beskrivelse av prosjektmetodikk
+- [x] Beskrivelse av prosjektmetodikk
 - [ ] Retrospektiv – hva var planlagt (av metodikk, etc), hva gjorde dere faktisk og hvorfor, hva vil dere evt. gjøre annerledes
-- [ ] Project board, issues etc. er oppdatert
+- [x] Project board, issues etc. er oppdatert
 - [x] Gruppedynamikk og kommunikasjon: alle meninger bli hørt, alle bidrar jevnt, tonen er god
 - [x] Alle bidrar til normalt, godt arbeidsmiljø
 
 #### Git / versjonskontroll
-- [ ] Commits er ryddige
+- [x] Commits er ryddige
 - [x] Ingen filer mangler
 - [x] Innlevering er tagget riktig
-- [ ] Commit-meldinger er meningsfulle
-- [ ] doc/obligX.md har oversikt over evt. større endringer, eller forbedringer dere har blitt bedt om å gjøre
+- [x] Commit-meldinger er meningsfulle
+- [x] doc/obligX.md har oversikt over evt. større endringer, eller forbedringer dere har blitt bedt om å gjøre
 - [x] Jevn fordeling av commits mellom teammedlemmer
 
 ### Programvare, produkt og kvalitet (20%)
 
 #### Spesifikasjon
 - [x] Overordnet beskrivelse av konsept, etc.
-- [ ] Brukerhistorier
-- [ ] Akseptansekriterier og arbeidsoppgaver (kort beskrivelse)
+- [x] Brukerhistorier
+- [x] Akseptansekriterier og arbeidsoppgaver (kort beskrivelse)
 - [ ] Hva inngår i MVP? Hva er evt. stretch goal?
 
 #### Produktleveranse
@@ -73,11 +73,11 @@ God kodestil (formattering, meningsfulle variabelnavn, unngå code smells), kode
 
 #### Konkrete krav
 - [x] Spillet har forside/hjelpeside
-- [ ] MVC-design
-- [ ] Lyd koblet til hendelse
+- [x] MVC-design
+- [x] Lyd koblet til hendelse
 - [ ] Objektfabrikker
 - [ ] Abstrakte objektfabrikker
-- [ ] Objekter som modifiserer oppførsel (powerups, etc)
+- [x] Objekter som modifiserer oppførsel (powerups, etc)
 
 (Andre konkrete krav (se Krav til prosjektet) er fordelt under de andre punktene)
 
@@ -99,7 +99,7 @@ Se forøvrig krav til innlevering i hver oppgave. Det kan være vi endrer litt p
 - [ ] Automatiske tester skal kunne kjøres uten å kreve interaksjon med brukeren eller bruk av grafikk/lyd.
 
 **Annet**
-- [ ] Det skal være mulig å ha ting i spillet som endrer oppførselen til spiller (eller andre) – f.eks. power-ups (spis en sopp, bli kjempestor / plukk en blomst, skyt flammer) eller klær (putt på støvler, gå lange skritt / ta på kappe, bli usynlig). Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket).
+- [x] Det skal være mulig å ha ting i spillet som endrer oppførselen til spiller (eller andre) – f.eks. power-ups (spis en sopp, bli kjempestor / plukk en blomst, skyt flammer) eller klær (putt på støvler, gå lange skritt / ta på kappe, bli usynlig). Det bør være mulig å legge til nye power-ups uten å endre koden til spilleren (eller andre som blir påvirket).
 - [ ] Public metoder må være dokumentert (som minimum: metoder som brukes på tvers av pakker)
 - [x] Spillet skal ha en forside, og en hjelpeside som viser hvordan kontrollene funker (det kan være samme siden).
 - [x] Kilder må oppgis for all grafikk og lyd, og dere må ha rett til å bruke det (f.eks. ting som er dekket av Creative Commons-lisens eller andre open source lisenser (minimum «fri ikke-kommersiell bruk»)). For ting dere lager selv må dere legge ved lisens som klargjør hvordan ting (evt) kan gjenbrukes.
