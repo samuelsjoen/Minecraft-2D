@@ -1,0 +1,23 @@
+package com.minecraft.game.model.crafting;
+
+import java.util.Arrays;
+
+import org.junit.jupiter.api.Test;
+
+public class ItemTest {
+    @Test
+    void testItem() {
+        Item item = Item.DIAMOND_LEGGINGS;
+        assert item.getName().equals("Diamond leggings");
+        assert item.getType() == ItemType.LEGGINGS;
+        assert item.getMaterial() == ItemMaterial.DIAMOND;
+        assert item.getDescription() == "A strong pair of leggings for protection";
+        assert item.getMaxAmount() == 1;
+        assert Arrays.deepEquals(item.getRecipe(), new Item[][] {
+            {Item.DIAMOND_ORE, Item.DIAMOND_ORE, Item.DIAMOND_ORE},
+            {Item.DIAMOND_ORE, null, Item.DIAMOND_ORE},
+            {Item.DIAMOND_ORE, null, Item.DIAMOND_ORE}
+        });
+        assert item.getTexture() == "assets/inventoryItems/diamond_leggings.png";
+    }
+}
