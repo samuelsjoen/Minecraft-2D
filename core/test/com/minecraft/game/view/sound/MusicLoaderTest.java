@@ -17,12 +17,13 @@ import com.minecraft.game.LibgdxUnitTest;
 public class MusicLoaderTest extends LibgdxUnitTest {
 
     private static String filePath;
+    private static String invalidFilePath;
     private static Sound testLoadingFile;
 
     @BeforeAll
     public static void setUp() {
         filePath = "assets/sound/mineSound.wav";
-        //invalidFilePath = "assets/sound/invalidSound.wav";
+        invalidFilePath = "assets/sound/invalidSound.wav";
     }
     
     @Test
@@ -34,7 +35,8 @@ public class MusicLoaderTest extends LibgdxUnitTest {
     // Goes through even though it should not...
     @Test
     public void testLoadInvalidMusic() {
-        testLoadingFile = SoundLoader.loadSoundFile("assets/sound/invalidSound.wav");
+        testLoadingFile = SoundLoader.loadSoundFile(invalidFilePath);
+        // assertNull(invalidFilePath);
         // check if there was thrown a runtimeexception when loading an invalid file
         // assertThrows(RuntimeException.class, () -> {
         //     SoundLoader.loadSoundFile("assets/sound/invalidSound.wav");

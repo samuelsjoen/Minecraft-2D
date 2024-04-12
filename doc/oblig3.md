@@ -88,7 +88,7 @@ Istedenfor å strekke oss forbi MVP har vi fokusert på å oppnå et solid MVP-n
 - [x] Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
 
 Nå er vi ferdig med alle MVP-krevene. Vi har prioritert oppgavene i rekkefølge. Nå som vi er ferdig med MVP-kravene - vil vi videre prioritere å forbedre kodekvalitet og testdekning - før vi implementerer andre funksjoner. 
-
+For hvert MVP-krav vi har jobbet med, har vi hatt brukerhistoriene i bakhodet. Vi har bevisst jobbet ut ifra disse kravene. Nå som vi er ferdig med MVP-kravene, vet vi at brukeren har en god brukeropplevelse. 
 #### Brukerhistorier fra oblig 1
 
 ###### Historie 1:
@@ -148,8 +148,6 @@ Arbeidsoppgaver:
 - [x] Designe og animere fiendetyper.
 - [x] Implementere AI for fiender og hvordan de angriper spilleren/oppfører seg.
 - [x] Utvikle mekanikk for spilleren og hvordan den bruker våpen for å bekjempe zombier etc.
-
-> Per nå kan fiender også angripe på dagen - vi ønsker kanskje å implementere at man har *flere* fiender om natten.
 
 #### Brukerhistorier basert på MVP-krav
 

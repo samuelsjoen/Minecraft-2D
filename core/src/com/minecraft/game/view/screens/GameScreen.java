@@ -79,7 +79,7 @@ public class GameScreen extends ScreenAdapter {
         // TODO: Should not initialize EnemyManager here, should be initialized in
         // model, and use getter for getViewableEnemies() or something?
         enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(),
-                viewableMinecraftModel.getTiledMap());
+                viewableMinecraftModel.getTiledMap(), viewableMinecraftModel.getDayNightCycle());
 
         // Disse er greie å ha i view - de handler om view
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),

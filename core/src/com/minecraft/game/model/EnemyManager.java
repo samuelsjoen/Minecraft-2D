@@ -25,17 +25,19 @@ public class EnemyManager {
     private final float spawnIntervalMin = 1.0f; // Minimum time between spawns
     private final float spawnIntervalMax = 1.0f; // Maximum time between spawns
     private TiledMap tiledMap;
+    private DayNightCycle dayNightCycle;
 
-    public EnemyManager(World world, Player player, TiledMap tiledMap) {
+    public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle) {
         this.world = world;
         this.player = player;
         this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
+        this.dayNightCycle = dayNightCycle;
     }
 
     public void update(float delta) {
         spawnTimer -= delta;
-        if (spawnTimer <= 0) {
+        if (spawnTimer <= 0 && dayNightCycle.getIsNight()) {
             spawnEnemy();
             spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         }

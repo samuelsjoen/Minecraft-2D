@@ -48,6 +48,8 @@ public class EnemyManagerTest {
     private Slime mockSlime;
     @Mock
     private PinkMonster mockPinkMonster;
+    @Mock
+    private DayNightCycle mockDayNightCycle;
 
     @BeforeEach
     void setUp() {
@@ -57,6 +59,7 @@ public class EnemyManagerTest {
         mockPlayer = mock(Player.class);
         mockTiledMap = mock(TiledMap.class);
         mockMineableLayer = mock(TiledMapTileLayer.class);
+        mockDayNightCycle = mock(DayNightCycle.class);
 
         Body mockBody = mock(Body.class);
         when(mockWorld.createBody(any(BodyDef.class))).thenReturn(mockBody);
@@ -71,8 +74,9 @@ public class EnemyManagerTest {
         when(mockTiledMap.getLayers()).thenReturn(mockMapLayers);
 
         when(mockMapLayers.get(anyString())).thenReturn(mockMineableLayer);
+        when(mockDayNightCycle.getIsNight()).thenReturn(true);
 
-        enemyManager = new EnemyManager(mockWorld, mockPlayer, mockTiledMap);
+        enemyManager = new EnemyManager(mockWorld, mockPlayer, mockTiledMap, mockDayNightCycle);
         EnemyManager.enemies.clear();
         EnemyManager.slimes.clear();
         EnemyManager.pinkMonsters.clear();
