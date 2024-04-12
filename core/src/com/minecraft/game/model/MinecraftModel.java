@@ -117,6 +117,15 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
+
+        if (getPlayer().isAttacking()) {
+            getPlayer().toggleIsAttacking();
+        }
+        if (crafting.isOpen()) {
+            crafting.open();
+        }
+
+        dayNightCycle.resetNumberOfNights();
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
