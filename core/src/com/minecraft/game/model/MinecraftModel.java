@@ -131,6 +131,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         if (getPlayer().isAttacking()) {
             getPlayer().toggleIsAttacking();
         }
+        if (crafting.isOpen()) {
+            crafting.open();
+        }
 
         dayNightCycle.resetNumberOfNights();
         getPlayer().setCurrentState(Player.State.IDLE);

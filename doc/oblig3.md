@@ -307,6 +307,8 @@ Vi har noen bugs i koden vår som vi ønsker å utbedre frem mot siste innleveri
 - Når man møter på enemies og blir angrepet så skifter player retning og starter å løpe i den retningen. 
 - Tidligere var fiendene mer opptatt av å angripe på player - men nå står de oftere i ro. det virker som at radiusen til enemiesene har blitt mindre - og derfor at de ikke "oppdager" player. 
 - Programmet ofte "sliter" etter at man har spilt en stund. Vi tror dette kan komme av at vi ikke disposer alt - slik at mye akkumuleres. 
+- Jo lengre høyre man går på kartet, jo vanskeligere blir for spilleren å bevege seg skikkelig.
+- Cursoren får spillet til å krasje enkelte ganger.
 
 ### Produkt og kode
 (Evt. tekst / kommentarer til koden kan dere putte i en egen ## Kode-seksjon)
