@@ -18,7 +18,7 @@ dependencies {
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "test/" ]
-sourceSets.main.resources.srcDirs = ["assets"]
+sourceSets.main.resources.srcDirs = ["team6"]
 
 project.ext.mainClassName = "com.minecraft.game.DesktopLauncher"
 project.ext.assetsDir = new File("assets")
@@ -69,6 +69,8 @@ test {
         }
 
         finalizedBy jacocoTestReport
+
+        workingDir = rootProject.projectDir
     }
 
 jacocoTestReport {
