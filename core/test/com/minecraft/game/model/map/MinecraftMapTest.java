@@ -22,9 +22,7 @@ import static org.mockito.Mockito.*;
 public class MinecraftMapTest extends LibgdxUnitTest {
 
 	private MinecraftMapHelper minecraftMapHelper;
-	// private GameScreen gameScreenMock;
 	private TiledMap tiledMap;
-	// private World world;
 	private Player playerMock;
 	private TiledMapTileLayer tiledMapLayer;
 	private MapLayer objectLayer;

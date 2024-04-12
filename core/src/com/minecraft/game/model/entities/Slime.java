@@ -1,6 +1,6 @@
 package com.minecraft.game.model.entities;
 
-import com.badlogic.gdx.Gdx;
+// import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Health;
@@ -29,7 +29,8 @@ public class Slime extends GameEntity {
     }
 
     public Slime(float width, float height, World world, Player player, float x, float y, Health health) {
-        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "slime", false));
+        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world,
+                Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "slime", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
         this.health = new Health(2, 2, null);
@@ -39,9 +40,9 @@ public class Slime extends GameEntity {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
 
-        stateTime += Gdx.graphics.getDeltaTime();
+        stateTime += deltaTime;
 
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
         float distanceToPlayerY = Math.abs(player.getBody().getPosition().y - this.body.getPosition().y);
@@ -51,14 +52,13 @@ public class Slime extends GameEntity {
         float verticalAttackRange = 1.5f;
 
         if (isInvincible) {
-            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            invincibilityTimer -= deltaTime;
             if (invincibilityTimer <= 0) {
                 isInvincible = false;
                 // Ensure the player is visible after invincibility ends
             }
             // Optional: Add blinking logic/Sound/Cool effect here
         }
-
 
         if (currentState != State.DEAD) {
             // jump logic for enemy
@@ -115,7 +115,7 @@ public class Slime extends GameEntity {
 
         }
         if (currentState == State.DEAD) {
-            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+            deadStateTime += deltaTime; // Update dead animation time
         }
 
     }
@@ -135,6 +135,7 @@ public class Slime extends GameEntity {
             invincibilityTimer = INVINCIBILITY_DURATION;
         }
     }
+
     public boolean isMarkedForRemoval() {
         return markForRemoval;
     }
@@ -165,5 +166,13 @@ public class Slime extends GameEntity {
 
     public void setAttackFrameFalse() {
         attackFrame = false;
+    }
+
+    public boolean AttackFrame() {
+        return attackFrame;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
     }
 }

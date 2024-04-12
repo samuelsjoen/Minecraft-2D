@@ -52,7 +52,7 @@ For å kjøre koden, følg disse trinnene:
 2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
 3. Kompilér og kjør hovedklassen DesktopLauncher.java.
 
-Man kan også bruke `gradle build` og `gradle run` i terminalen.
+Man kan også bruke `gradle build` og `gradle run` i terminalen. ==Per nå er det noen problemer med 'gradle run' pga. file path, men det er noe vi tenker å få oppdatert==
 
 ## Hvordan teste koden?
 
@@ -77,6 +77,8 @@ Player: https://admurin.itch.io/mega-admurins-freebie (Monster_Pack_Free_Charact
 Slime: https://rvros.itch.io/pixel-art-animated-slime
 Pink monster: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
 
+Vi har hentet bilde til musepekeren fra denne siden: https://astropulse.itch.io/familiar-pixel-cursors
+
 **Annet**
 For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: https://textcraft.net/
 
@@ -84,6 +86,7 @@ For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet:
 
 **Lyd brukt når man fjerner blokker**
 Lyd på hakke er hentet fra: https://www.youtube.com/watch?v=MXibe4aNdGg
+"mineSound.wav": https://freesound.org/people/ryanconway/sounds/240801/
 
 ### Kode
 Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD

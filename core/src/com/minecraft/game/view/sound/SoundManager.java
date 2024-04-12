@@ -15,4 +15,11 @@ public interface SoundManager {
      * Disposes of the sound resources.
      */
     void dispose();
+
+    /**
+     * Returns whether the sound is currently playing.
+     * 
+     * @return true if the sound is playing, false otherwise
+     */
+    boolean isPlaying();
 }

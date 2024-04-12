@@ -1,7 +1,5 @@
 package com.minecraft.game.model;
 
-import java.util.LinkedHashMap;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -10,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ItemType;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -61,6 +61,16 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void setGameState(GameState state) {
         gameState = state;
+        handleGameStateChange();
+    }
+
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
+        }
+        else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
     }
 
     @Override
@@ -176,12 +186,19 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public float getTileDamage(int tileX, int tileY) {
+        float damage = 0;
         Cell cell = map.getCell(tileX, tileY);
         if (cell != null) {
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
+            Item itemSelected = inventory.getSelectedItem();
+            ItemType itemType = itemSelected.getType();
             TileType tiletype = TileType.getTileTypeWithId(tileId);
-            float damage = tiletype.getDamage();            
+            if (itemType == ItemType.PICKAXE) {
+                damage = tiletype.getDamage(itemSelected);
+            } else {
+                damage = tiletype.getBaseDamage();
+            }
             return damage;
         }
         return 0;
@@ -246,14 +263,20 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         map = new MinecraftMap(inventory);
         factory = new EntityFactory();
-        gameState = GameState.WELCOME_SCREEN; }
+        dayNightCycle = new DayNightCycle();
+        gameState = GameState.WELCOME_SCREEN; 
+    }
+
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
         }
-        /*else if (something) {
-            setGameState(GameState.GAME_WON);
-        }*/
+        else {
+            int nightsSurvived = dayNightCycle.getNumberOfNights();
+            if (nightsSurvived >= 3) {
+                setGameState(GameState.GAME_WON);        
+            }
+        }
     }
 
     @Override
@@ -263,16 +286,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        Cell cell = map.getCell(tileX, tileY);
-        if (cell != null) {
-            // Get the tile type based on the tile coordinates
-            int tileId = cell.getTile().getId();
-            TileType tiletype = TileType.getTileTypeWithId(tileId);
-            if (tiletype.getDamage() > 0) {
-                return true;
-            }
-        }
-        return false;
+        return map.isTileMineable(tileX, tileY);    
     }
 
     @Override
@@ -282,6 +296,18 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void craftItem() {
-        crafting.craft(player.getHealth());
+        crafting.craft(Player.getHealth());
+    }
+
+    @Override
+    public String getSelectedPickaxe() {
+
+        Item selectedItem = inventory.getSelectedItem();
+    
+        if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
+            return "assets/default_cursor.png";
+        }
+        
+        return selectedItem.getTexture();
     }
 }
