@@ -60,12 +60,15 @@ public class MinecraftController implements InputProcessor {
                 }
                 break;
             case GAME_WON:
-                if (keycode == Constants.ANY_KEY) {
+                if (keycode == Constants.REVIVE_KEY) {
+                    controllableModel.revivePlayer();
+                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+                    return true;
+                } else {
                     controllableModel.restartGame();
                     view.newGameScreen();
                     return true;
                 }
-                break;
             case GAME_OVER:
                 if (keycode == Constants.REVIVE_KEY) {
                     controllableModel.revivePlayer();

@@ -52,7 +52,7 @@ For å kjøre koden, følg disse trinnene:
 2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
 3. Kompilér og kjør hovedklassen DesktopLauncher.java.
 
-Man kan også bruke `gradle build` og `gradle run` i terminalen.
+Man kan også bruke `gradle build` og `gradle run` i terminalen. ==Per nå er det noen problemer med 'gradle run' pga. file path, men det er noe vi tenker å få oppdatert==
 
 ## Hvordan teste koden?
 
@@ -76,6 +76,8 @@ Blokkene brukt som inventory er hentet fra: https://admurin.itch.io/mega-admurin
 Player: https://admurin.itch.io/mega-admurins-freebie (Monster_Pack_Free_Character.zip)
 Slime: https://rvros.itch.io/pixel-art-animated-slime
 Pink monster: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
+
+Vi har hentet bilde til musepekeren fra denne siden: https://astropulse.itch.io/familiar-pixel-cursors
 
 **Annet**
 For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: https://textcraft.net/

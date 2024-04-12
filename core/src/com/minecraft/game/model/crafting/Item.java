@@ -12,7 +12,7 @@ public enum Item {
     DIAMOND_ORE("Diamond ore", "A block of diamond ore", "assets/inventoryItems/diamond_ore.png", 64, null, ItemType.BLOCK, null),
     IRON_ORE("Iron ore", "A block of iron ore", "assets/inventoryItems/iron_ore.png", 64, null, ItemType.BLOCK, null),
     STONE_SNOW("Snow covered stone", "A block of stone covered with snow", "assets/inventoryItems/stone_snow.png", 64, null, ItemType.BLOCK, null),
-    DIRT_SNOW("Dirt covered stone", "A block of dirt covered with dirt", "assets/inventoryItems/dirt_snow.png", 64, null, ItemType.BLOCK, null),
+    DIRT_SNOW("Snow covered dirt", "A block of dirt covered with dirt", "assets/inventoryItems/dirt_snow.png", 64, null, ItemType.BLOCK, null),
     LEAVES("Leaves", "A block of leaves", "assets/inventoryItems/leaves.png", 64, null, ItemType.BLOCK, null),
 
     // 2. Crafting items

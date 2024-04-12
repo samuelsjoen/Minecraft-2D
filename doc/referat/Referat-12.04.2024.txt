@@ -1,0 +1,46 @@
+Referat for møte [12.04.2024]
+
+Formål:
+
+- Merge brancher
+- Diskutere hva vi må gjøre frem ...
+- Skrive ferdig Oblig3
+
+Deltakere:
+
+    Nini Bjørnstad
+    Magnus Halvorsen
+    Martine Larsen
+    Samuel Sjøen
+
+Sammendrag:
+Hva vi har fått til siden sist møte:
+- 
+
+Ting som må gjøres:
+- Monstre skal dukke opp om natten
+- Dø når man faller av kanten
+- Alle public methods må kommenteres (javadoc)
+- 75% coverage for tester 
+- Implementere interfaces/forbedre på all kode. Passe på å ikke gjenbruke kode (forbedring av MVC)
+- Må gjøre noen småendringer, fikse noen bugs, optimalisere kode, osv.
+- Implementere objektfabrikker
+- Se om vi trenger en til abstraktklasse?
+- Implementere "powerup" for verktøy: slik at det går raskere å mine blokker når du har bedre verktøy
+
+Aksjoner og Ansvar:
+- Finpusse kode (implementere interfaces/abstract classes) 
+- Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
+- Testing
+[  - Samuel]
+[  - Magnus]
+[  - Martine]
+[  - Nini]
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - Lage/få lagd flere tester
+    - Få jobbet på våres aksjoner
+    - Diskutere hva vi skal gjøre fremover
+    

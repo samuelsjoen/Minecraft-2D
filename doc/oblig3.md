@@ -15,28 +15,33 @@ Rollene i teamet fungerer nå bra! Vi føler ikke på noe behov for å gjøre en
 - [x] Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?
 - [x] Referat fra møter siden forrige leveranse skal legges ved (mange av punktene over er typisk ting som havner i referat).
 
-Vi synes at prosjektmetodikken vår fungerer bra så langt. Vi benytter oss av et project board gjennom Asana hvor vi lister opp oppgavene og om vi er underveis, ferdig med oppgaven etc. I tillegg har vi alltid en ukentlig gjennomgang under ukens gruppetime - da går vi gjennom hva som må prioriteres den neste uken. På denne måten fordeler vi oppgavene som må gjøres på en god måte.
+Vi synes at prosjektmetodikken vår fungerer bra så langt. Vi benytter oss av et project board gjennom Asana hvor vi lister opp oppgavene og om vi er underveis, ferdig med oppgaven etc. (Kanban). I tillegg har vi alltid en ukentlig gjennomgang gruppetimen - da går vi gjennom hva som må prioriteres den neste uken. På denne måten fordeler vi oppgavene som må gjøres på en god måte.
 
-Referatene fra alle møtene våre er å finne i referat-mappen vår som ligger her: `/doc/referat`. [Klikk her for å se siste referat.](referat/Referat-15.03.2024.txt)
+Vi tror at en av grunnene til at gruppearbeidet går bra for oss - er at vi alle møter opp på de ukentlige gruppetimene. Dette gjør at vi får snakket om hva vi trenger å gjøre fremover og kan fordele oppgaver. Vi funnet ut at referatene fra møtene er viktige slik at vi får oversikt over oppgaver og kan se fremgang fra møte til møte. Oppgavene vi fordeler i disse møtene som er i referatene fungerer som et supplement til projectboardet.
+
+Noen av gruppemedlemmene bruker også parprogrammering som en utviklingsmetodikk. Dette har vist seg å være effektivt for å løse problemer raskere og dele kunnskap internt i teamet. Vi har funnet ut at noe bruk av parprogrammering har mulighet til å forbedre produktiviteten og kvaliteten på vårt arbeid.
+
+Referatene fra alle møtene våre er å finne i referat-mappen vår som ligger her: `/doc/referat`. [Klikk her for å se siste referat.](referat/Referat-12.04.2024.txt)
 
 ### Gruppedynamikk
 - [x] Hvordan er gruppedynamikken? Er det uenigheter som bør løses?
 - [x] Hvordan fungerer kommunikasjonen for dere?
 
-Gruppedynamikken vår er god og vi er alle samarbeidsorienterte. Vi ønsker alle å nå vårt felles mål: oppnå et minimum viable product og et bra semesterprosjekt. Vi har god kommunikasjon innad i gruppen gjennom Discord - som er nok noe av grunnen til at vi ikke har noen uenigheter som må løses. På Discord har vi muligheten til å holde kontakten gjennom uken, dele informasjon og diskutere ideer på en effektiv måte. Vi er flinke til å lytte til hverandre, og eventuelle spørsmål gruppemedlemmer har blir raskt besvart. Alt i alt, kommunikasjonen i gruppen vår er en styrke.
+Gruppedynamikken vår er god og vi er alle samarbeidsorienterte. Vi ønsker alle å nå vårt felles mål: oppnå et minimum viable product og et bra semesterprosjekt. Vi har god kommunikasjon innad i gruppen gjennom Discord - som er nok noe av grunnen til at vi ikke har noen uenigheter som må løses. På Discord har vi muligheten til å holde kontakten gjennom uken, dele informasjon og diskutere ideer på en effektiv måte. Vi er flinke til å lytte til hverandre, og eventuelle spørsmål gruppemedlemmer har blir raskt besvart. 
 
 ### Retrospektiv 
-- [ ] Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
+- [x] Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
 
-Nå har vi endelig oppnådd alle kravene vi hadde satt for MVP. 
+Nå har vi endelig oppnådd alle kravene vi hadde satt for MVP. Vi har funnet ut at vi skulle hatt mer fokus på MVC i starten. Før prøvde vi å implementere ting for å bli kjent med libgdx - men tenkte ikke på strukturen. Nå når vi har fått på plass noen interfaces - så er vi mer konsekvente når vi implementere metoder. Nå er vi "tvunget" til å jobbe med MVC - siden vi har lagt opp koden til at vi må hente det via interfacet. Til en annen gang så ønsker vi å starte med et funksjonelt MVC-oppsett - slik at vi er pålagt til å jobbe MVC-struktur. Vi har ikke full kontroll på libgdx når det kommer til update, render og dispose-metodene - derfor hadde vi fokus på mvc. Kanskje vi skulle valgt Java Swing istedenfor libgdx. 
 
-- [ ] Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
+Vi har funnet ut at det er viktig med beskrivende commit-meldinger i git - slik at det er lettere å få oversikt over hva andre har gjort. Dette skal vi ha mer fokus på fremover. Etter tilbakemelding fra oblig 2 har vi funnet ut at vi skal starte å skrive alle commits på engelsk - slik at det blir mer oversiktlig slik at  man ikke blir språkforvirret.
+
+- [x] Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
 
 Vi har funnet ut at det er noen punkt vi skal ha ekstra fokus på frem mot siste innlevering, de er listet opp her: 
 
-1. punkt1
-2. punkt2
-3. punkt3
+1. Vi har erfart at hvis man ikke sier ifra at man skal implementere noe - så kan det hende at en annen person fra gruppen gjør det. 
+2. Noen ganger kunne det vært lurt å parprogrammert - når man jobber med å implementere kode som avhenger av kode noen andre har skrevet.
 
 ### Fordeling av bidrag til kodebasen
 - [x] Under vurdering vil det vektlegges at alle bidrar til kodebasen. Hvis det er stor forskjell i hvem som committer, må dere legge ved en kort forklaring for hvorfor det er sånn. Husk å committe alt. (Også designfiler)
@@ -45,11 +50,9 @@ Vi bidrar alle likt til kodebasen, selv om antall commits ikke alltid er helt fo
 
 ## Krav og spesifikasjon
 
-- [ ] Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
-
 ### MVP-Krav
-- [ ] Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang. Er dere kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
-- [ ] Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
+- [x] Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang. Er dere kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
+- [x] Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 
 ##### Krav til Minimum Viable Product:
 - [x] 1. Vise et spillebrett
@@ -58,7 +61,7 @@ Vi bidrar alle likt til kodebasen, selv om antall commits ikke alltid er helt fo
 - [x] 4. Spiller interagerer med terreng (vha. mus for å klikke på blokker)
 - [x] 5. Vise fiender/monstre; de skal interagere med terreng og spiller
 - [x] 6. Spiller kan dø (ved kontakt med fiender ==og ved å falle utfor skjermen==)
-- [ ] 7. Mål for spill: overleve x-antall netter.
+- [x] 7. Mål for spill: overleve x-antall netter.
 - [x] 8. Nytt spillbrett når forrige er ferdig
 - [x] 9. Start-skjerm ved oppstart / game over, samt en skjerm som viser ulike tastetrykk etc man kan bruke i spillet
 
@@ -76,13 +79,15 @@ Istedenfor å strekke oss forbi MVP har vi fokusert på å oppnå et solid MVP-n
 Å øke testdekning, restrukturere koden til MVC-struktur og mer bruk av interfaces har involvert en betydelig mengde arbeid - og vi har enda en lang vei å gå. Nå i ettertid er vi glade for at vi gjorde endring i MVP-kravene - slik at vi fikk mulighet til å fokusere på å forbedre kodekvalitet og testdekning.
 
 ### Brukerhistorier, akseptansekriterier & prioritering av arbeidsoppgaver
-- [ ] For hvert krav dere jobber med, må dere lage: 
+- [x] For hvert krav dere jobber med, må dere lage: 
     1) ordentlige brukerhistorier
     2) akseptansekriterier (husk at akseptansekriterier ofte skrives mer eller mindre som tester)
     3) arbeidsoppgaver
-- [ ] Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
-- [ ] Forklar kort hvordan dere har prioritert oppgavene fremover
-- [ ] Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
+- [x] Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
+- [x] Forklar kort hvordan dere har prioritert oppgavene fremover
+- [x] Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
+
+Nå er vi ferdig med alle MVP-krevene. Vi har prioritert oppgavene i rekkefølge. Nå som vi er ferdig med MVP-kravene - vil vi videre prioritere å forbedre kodekvalitet og testdekning - før vi implementerer andre funksjoner. 
 
 #### Brukerhistorier fra oblig 1
 
@@ -92,7 +97,7 @@ Som spiller trenger jeg å kunne samle ressurser som tre, stein, og mineraler, s
 Akseptansekriterier
    - [x] Spilleren kan samle tre, stein og mineraler ved å klikke på dem i spillet.
    - [x] Ressursene vises i spillerens inventar etter å ha blitt samlet inn.
-   - [ ] Spilleren kan bruke de innsamlede ressursene til å bygge og oppgradere verktøy, våpen og strukturer.
+   - [x] Spilleren kan bruke de innsamlede ressursene til å bygge og oppgradere verktøy, våpen og strukturer.
 
 Arbeidsoppgaver
    - [x] Implementere klikkfunksjonalitet for å samle ressurser.
@@ -104,12 +109,12 @@ Som spiller trenger jeg å kunne skille stein-blokker, jord-blokker etc. fra bak
 
 Akseptansekriterier:
    - [x] Spilleren kan skille mellom ulike typer blokker som stein, jord osv. visuelt.
-   - [ ] Muligheten til å ha en form form mus over blokker slik at spiller kan se hva hen knuser/samler inn av blokker.
+   - [x] Muligheten til å ha en mus over blokker slik at spiller kan se hva hen knuser/samler inn av blokker.
 
 Arbeidsoppgaver:
    - [x] Implementere forskjellige blokktyper som ser ulike ut visuelt.
    - [x] Utvikle mekanisme for å knuse og samle inn blokker.
-   - [ ] Opprette grensesnitt der spilleren kan velge ønsket blokk å knuse, feks. en musehånd som er synlig på skjermen.
+   - [x] Opprette grensesnitt der spilleren kan velge ønsket blokk å knuse, feks. en musehånd som er synlig på skjermen.
 
 ###### Historie 3:
 Som programmør trenger jeg å kunne skille bakgrunnselementer og spill-blokker fra hverandre, slik at jeg kan avgjøre hvor spillfiguren kan bevege seg.
@@ -119,7 +124,7 @@ Arbeidsoppgaver:
    - [x] Implementere kollisjonsdeteksjon mellom spillfiguren og bakgrunnselementene.
    - [x] Utvikle bevegelsesmekanismer for spilleren basert på skillet mellom spillfigur og bakgrunnen.
 
-###### Historie 4:
+###### Historie 4: 
 Som spiller trenger jeg å kunne utforske forskjellige steder, som skoger, ørkener og fjellområder, slik at jeg kan finne sjeldne ressurser og oppleve et variert spill.
 
 Akseptansekriterier:
@@ -128,19 +133,23 @@ Akseptansekriterier:
 
 Arbeidsoppgaver:
    - [x] Designe ulike spill-miljøer som har sjeldne ressurser
-   - [ ] Lage et system som generer terreng og plasserer sjeldne ressurser tilfeldig, samtidig som plassering av objekter gir mening feks. ikke et tre i ørkenen. 
+   - [ ] (Lage et system som generer terreng og plasserer sjeldne ressurser tilfeldig, samtidig som plassering av objekter gir mening feks. ikke et tre i ørkenen.)
+
+> Vi har undersøkt og funnet ut at det er vanskelig med procedural map generation - og vi har derfor bestemt oss for å gå bort fra at vi skal ha system som genererer terreng automatisk.
 
 ###### Historie 5:
 Som spiller trenger jeg å kunne bekjempe fiender og monstre som angriper om natten og mørke steder som f.eks. huler, slik at jeg kan beskytte meg selv og mine byggverk.
 
 Akseptansekriterier:
-   - [ ] Fiender angriper om natten og i mørke områder.
+   - [x] Fiender angriper om natten og i mørke områder.
    - [x] Spilleren må kunne bekjempe fiender ved bruk av våpen.
 
 Arbeidsoppgaver:
 - [x] Designe og animere fiendetyper.
 - [x] Implementere AI for fiender og hvordan de angriper spilleren/oppfører seg.
 - [x] Utvikle mekanikk for spilleren og hvordan den bruker våpen for å bekjempe zombier etc.
+
+> Per nå kan fiender også angripe på dagen - vi ønsker kanskje å implementere at man har *flere* fiender om natten.
 
 #### Brukerhistorier basert på MVP-krav
 
@@ -252,13 +261,13 @@ Som spiller ønsker jeg å oppleve konsekvenser av å miste alle helsepoengene m
 Som spiller ønsker jeg å ha et mål i spillet, for eksempel å overleve et visst antall netter, slik at jeg har noe å jobbe mot og oppleve progresjon i spillet.
 
 ###### Akseptansekriterier:
-- [ ] Spilleren har et visst antall liv, og spillet har et definert mål for å overleve et visst antall netter.
-- [ ] Spilleren mottar tilbakemelding når målet er oppnådd.
+- [x] Spilleren har et visst antall liv, og spillet har et definert mål for å overleve et visst antall netter.
+- [x] Spilleren mottar tilbakemelding når målet er oppnådd.
 
 ###### Arbeidsoppgaver:
-- [ ] Implementer telling av netter i spillet.
-- [ ] Definer et klart mål for antall netter spilleren må overleve.
-- [ ] Gi tilbakemelding til spilleren når målet er oppnådd.
+- [x] Implementer telling av netter i spillet.
+- [x] Definer et klart mål for antall netter spilleren må overleve.
+- [x] Gi tilbakemelding til spilleren når målet er oppnådd.
 
 ##### 8: Nytt spillbrett når forrige er ferdig
 
@@ -290,12 +299,14 @@ Som spiller ønsker jeg å kunne starte et nytt spill fra en startskjerm, samt s
 - [x] Implementer game over-skjerm med informasjon om utfallet og valgmuligheter.
 
 #### Bugs
-- [ ] Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
+- [x] Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
 
 Vi har noen bugs i koden vår som vi ønsker å utbedre frem mot siste innlevering. Vi tenker at ved flere tester så kan vi lettere finne ut hva som er galt for å så rette opp i det. 
 
 - Blant annet så sitter spilleren "fast" noen ganger når man går mot høyre/venstre
-- andre bugs
+- Når man møter på enemies og blir angrepet så skifter player retning og starter å løpe i den retningen. 
+- Tidligere var fiendene mer opptatt av å angripe på player - men nå står de oftere i ro. det virker som at radiusen til enemiesene har blitt mindre - og derfor at de ikke "oppdager" player. 
+- Programmet ofte "sliter" etter at man har spilt en stund. Vi tror dette kan komme av at vi ikke disposer alt - slik at mye akkumuleres. 
 
 ### Produkt og kode
 (Evt. tekst / kommentarer til koden kan dere putte i en egen ## Kode-seksjon)
@@ -309,14 +320,47 @@ For instrukser ift. bygging, testing og kjøring av kode [se README.md.](../READ
 Vi har testet at prosjektet fungerer på Windows og OS X - men vi har ikke sjekket om det fungerer på Linux enda. Det er noe vi selvsagt skal gjøre før siste innlevering. 
 
 #### Utbedring av feil & testing
-- [ ] Utbedring av feil: hvis dere har rettet / forbedret noe som er påpekt tidligere, lag en liste med «Dette har vi fikset siden sist», så det er lett for gruppelederne å få oversikt.
-- [ ] Statiske analyseverktøy som SpotBugs eller SonarQube kan hjelpe med å finne feil dere ikke tenker på. Hvis dere prøver det, skriv en kort oppsummering av hva dere fant / om det var nyttig.
-- [ ] Automatiske tester skal dekke forretningslogikken i systemet (unit-tester). Coverage kan hjepe med å se hvor mye av koden som dekkes av testene – i Eclipse kan dette gjøres ved å installere EclEmma gjennom Eclipse Marketplace.
-- [ ] Kodekvalitet og testdekning vektlegges. Dersom dere ikke har automatiske tester for GUI-et, lager dere manuelle tester som gruppelederne kan kjøre basert på akseptansekriteriene.
+- [x] Utbedring av feil: hvis dere har rettet / forbedret noe som er påpekt tidligere, lag en liste med «Dette har vi fikset siden sist», så det er lett for gruppelederne å få oversikt.
+- [x] Statiske analyseverktøy som SpotBugs eller SonarQube kan hjelpe med å finne feil dere ikke tenker på. Hvis dere prøver det, skriv en kort oppsummering av hva dere fant / om det var nyttig.
+- [x] Automatiske tester skal dekke forretningslogikken i systemet (unit-tester). Coverage kan hjepe med å se hvor mye av koden som dekkes av testene – i Eclipse kan dette gjøres ved å installere EclEmma gjennom Eclipse Marketplace.
+- [x] Kodekvalitet og testdekning vektlegges. Dersom dere ikke har automatiske tester for GUI-et, lager dere manuelle tester som gruppelederne kan kjøre basert på akseptansekriteriene.
 
 ##### Dette har vi fikset siden sist:
-- punkt
-- punkt
+- Vi har fått til at det er mulig å lage nye item-objekter basert på forskjellige blokker i inventory.
+- Lagt til power-up - hvis man valgt pickaxe i inventory så hakker man raskere - og hastigheten baseres på materiale til pickaxen.
+- Vi har lagt til power-up for rustning også - man får flere hjerter når man har rustning.
+- Vi har prøvd å få mer MVC-strukturert kode - og fått til minimumskravet. vi har også forbedret kodekvalitet feks. hadde vi en "createbody"-metode til hver enemy - nå bruker vi én og samme fra bodyhelperservice.
+- Har fikset noen bugs, før så ble ikke noen Box2D-bokser fjernet når man fjernet blokken - men vi har fikset det nå.  
+- Vi har lagt til lyd når man hakker blokker.
+- Lagt til helpscreen - der man kan se hvilke knapper man bruker for hva. Pausedscreen og gameoverscreen er også lagt til. 
+- Vi har og lagt til flere tester.
+
+##### Testing
+Vi har laget flere tester siden sist - nå har vi ca. 20% coverage på koden vår. Fortsatt en lang vei å gå, men det er bedre enn ved sist innleveringer. Vi har for det meste fokusert på ulike unit-tester
+
+##### Manuelle tester:
+
+1. **Spillerbevegelse og interaksjon**:
+   - Test at spilleren kan bevege seg (venstre, høyre).
+   - Test at spilleren kan hoppe og angripe fiender.
+   - Test at spilleren kan samhandle med miljøet (ved å hakke inn blokker eller plassere blokker).
+
+2. **Fiender**:
+   - Test at fiender beveger seg på en forutsigbar måte og angriper spilleren når de er i nærheten.
+   - Test at fiender kan bli drept eller skadet av spilleren ved bruk av våpen eller andre midler.
+
+3. **Inventar**:
+   - Test at spilleren kan legge til, fjerne og bruke gjenstander fra inventaret.
+
+4. **Crafting**:
+   - Test at spilleren kan åpne crafting-vinduet ved å trykke 'E'.
+   - Test at crafting-oppskrifter vises riktig.
+   - Test at spilleren kan bruke crafting til å lage nye gjenstander ved å trykke på enter.
+
+Disse manuelle testene vil bidra til å sikre at spillet fungerer som forventet.
+
+##### Analyseverktøy
+Vi har per nå ikke benyttet oss av statiske analyseverktøy som SpotBugs eller SonarQube - men det er noe vi kan ha behov for frem mot siste innlevering. Vi har tatt i bruk Jacoco for å få testcoverage - og oversikt over metoder vi tester og ikke.
 
 #### Klassediagram
 - [ ] Lag og lever et klassediagram. (Hvis det er veldig mange klasser, lager dere for de viktigste.) Det er ikke nødvendig å ta med alle metoder og feltvariabler med mindre dere anser dem som viktige for helheten. (Eclipse har forskjellige verktøy for dette.)

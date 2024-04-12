@@ -68,6 +68,9 @@ public class Constants {
 
     // Inventory
     public static final Item[] DEFAULT_ITEMS = new Item[] {
+        Item.DIRT,
+        Item.DIAMOND_PICKAXE,
+        Item.WOODEN_PICKAXE
         // Item.WOODEN_SWORD,
         // Item.IRON_SWORD,
         // Item.DIAMOND_SWORD,

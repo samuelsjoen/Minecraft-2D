@@ -7,20 +7,20 @@ import java.util.HashMap;
  */
 public enum TileType {
 
-    GRASS(1, true, "grass", 0.5f),
-    DIRT(2, true, "dirt", 1),
-    STONE(3, true, "stone", 2),
+    GRASS(1, true, "Grass", 0.5f),
+    DIRT(2, true, "Dirt", 1),
+    STONE(3, true, "Stone", 2),
     //WATER(4, false, "water", 0),
     //LAVA(5, false, "lava", 0),
-    BEDROCK(6, true, "bedrock", 100),
-    DIAMOND_ORE(7, true, "diamond_ore", 5),
-    IRON_ORE(8, true, "iron_ore", 5),
+    BEDROCK(6, true, "Bedrock", 100),
+    DIAMOND_ORE(7, true, "Diamond ore", 5),
+    IRON_ORE(8, true, "Iron ore", 5),
     //SKY(9, false, "sky", 0),
     //BLACK(10, false, "black", 0),
-    STONE_SNOW(11, true, "stone_snow", 3),
-    DIRT_SNOW(12, true, "dirt_snow", 2),
-    LEAVES(13, false, "leaves", 0.5f),
-    WOOD(14, false, "wood", 1);
+    STONE_SNOW(11, true, "Snow covered stone", 3),
+    DIRT_SNOW(12, true, "Snow covered dirt", 2),
+    LEAVES(13, false, "Leaves", 0.5f),
+    WOOD(14, false, "Wood", 1);
 
     private final int id;
     private final boolean collidable;

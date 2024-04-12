@@ -2,7 +2,6 @@ package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
@@ -36,7 +35,7 @@ public class Player extends GameEntity {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
-        this.inventory = inventory;
+        Player.inventory = inventory;
         Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
     }
@@ -66,7 +65,7 @@ public class Player extends GameEntity {
             invincibilityTimer -= deltaTime;
             if (invincibilityTimer <= 0) {
                 isInvincible = false;
-                // Ensure the player is visible after invincibility ends
+                // Ensure the plbayer is visible after invincibility ends
             }
             // Optional: Add blinking logic/Sound/Cool effect here
         }

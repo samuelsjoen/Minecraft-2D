@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.view.screens.GameOverScreen;
 import com.minecraft.game.view.screens.GameScreen;
+import com.minecraft.game.view.screens.GameWonScreen;
 import com.minecraft.game.view.screens.HelpScreen;
 import com.minecraft.game.view.screens.MenuScreen;
 import com.minecraft.game.view.screens.PausedScreen;
@@ -25,6 +27,7 @@ public class MinecraftView {
     private PausedScreen pausedScreen;
     private GameScreen gameScreen;
     private GameOverScreen gameOverScreen;
+    private GameWonScreen gameWonScreen;
     
     private SpriteBatch spriteBatch;
     private BitmapFont font;
@@ -47,6 +50,7 @@ public class MinecraftView {
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
         this.pausedScreen = new PausedScreen(game, spriteBatch, font);
         this.gameOverScreen = new GameOverScreen(game, spriteBatch, font);
+        this.gameWonScreen = new GameWonScreen(game, spriteBatch, font);
 
         updateScreen();
 
@@ -58,6 +62,7 @@ public class MinecraftView {
     }
 
     public void updateScreen() {
+        CursorUtils.setCursorPixmap("assets/default_cursor.png");
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             game.setScreen(menuScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.HELP_SCREEN){
@@ -68,6 +73,8 @@ public class MinecraftView {
                 game.setScreen(pausedScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER){
             game.setScreen(gameOverScreen);
+        } else if (viewableMinecraftModel.getGameState() == GameState.GAME_WON){
+            game.setScreen(gameWonScreen);        
         }
     }
 
