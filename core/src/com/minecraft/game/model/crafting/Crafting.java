@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import com.minecraft.game.model.Health;
 
-import java.io.*;
-
 public class Crafting {
 
     private int selectedRow;
@@ -53,15 +51,17 @@ public class Crafting {
 
     /** Crafts the currently selected item in the craftable items section */
     public void craft(Health health) {
-        clearTable(true);
-        if (inventory.isArmor(getSelectedItem())) {
-            inventory.addArmorItem(getSelectedItem(), health);
-        } else {
-            inventory.addItem(getSelectedItem());
+        if (getSelectedItem() != null) {
+            clearTable(true);
+            if (inventory.isArmor(getSelectedItem())) {
+                inventory.addArmorItem(getSelectedItem(), health);
+            } else {
+                inventory.addItem(getSelectedItem());
+            }
+            updateCraftableItems();
+            updateCraftingTable();
         }
-        updateCraftableItems();
     }
-
 
     /** Returms the currently selected item in the craftable items section */
     public Item getSelectedItem() {
@@ -104,7 +104,7 @@ public class Crafting {
         int freeCol = 0;
         for (Item[][] recipe : recipeTable.keySet()) {
             Item item = recipeTable.get(recipe);
-            if (canCraft(recipe)) {
+            if (canCraft(recipe, item)) {
                 if (inventory.getAmount(item) != item.getMaxAmount()) {
                     craftableItems[freeRow][freeCol] = item;
                     freeCol++;
@@ -117,22 +117,28 @@ public class Crafting {
         }
     }
 
-    private boolean canCraft(Item[][] recipe) {
+    private boolean canCraft(Item[][] recipe, Item item) {
+        if (inventory.isArmor(item)) {
+            if (inventory.armorInventoryContains(item)) {
+                return false;
+            }
+        }
         HashMap<Item, Integer> itemCount = new HashMap<>();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                Item item = recipe[row][col];
-                if (item != null) {
-                    if (!inventory.contains(item)) {
+                Item recipeItem = recipe[row][col];
+                if (recipeItem != null) {
+                    if (!inventory.contains(recipeItem)) {
                         return false;
                     } else {
-                        addOrUpdateKey(itemCount, item);
-                        if (inventory.getAmount(item) < itemCount.get(item)) {
+                        addOrUpdateKey(itemCount, recipeItem);
+                        if (inventory.getAmount(recipeItem) < itemCount.get(recipeItem)) {
                             return false;
                         }
                     }
                 }
             }
+
         }
         return true;
     }

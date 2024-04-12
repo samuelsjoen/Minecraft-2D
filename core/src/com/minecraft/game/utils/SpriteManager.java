@@ -10,7 +10,7 @@ import com.minecraft.game.model.Player;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.crafting.ArmorInventory;
+import com.minecraft.game.model.crafting.ItemType;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -23,14 +23,12 @@ public class SpriteManager implements Disposable {
     private ArrayList<String> currentSprites = new ArrayList<>();
     private HashMap<Item, String[]> itemToSpriteMapping = new HashMap<>();
     private Inventory inventory;
-    private ArmorInventory armorInventory;
     private static Animation<TextureRegion> currentAnimation;
     private boolean deathAnimationStarted = false;
 
-    public SpriteManager(Player player, Inventory inventory, ArmorInventory armorInventory) {
+    public SpriteManager(Player player, Inventory inventory) {
         this.player = player;
         this.inventory = inventory;
-        this.armorInventory = armorInventory;
 
         loadSprites();
         initializeItemToSpriteMapping();
@@ -170,21 +168,24 @@ public class SpriteManager implements Disposable {
     }
 
     private void initializeItemToSpriteMapping() {
-        itemToSpriteMapping.put(Item.LEAVES,
-                new String[] { "Character_diamondBoots",
-                        "Character_diamondChestplate",
-                        "Character_diamondGloves",
-                        "Character_diamondHat",
-                        "Character_diamondLeggings" });
-        itemToSpriteMapping.put(Item.DIRT,
-                new String[] { "Character_ironBoots",
-                        "Character_ironChestplate",
-                        "Character_ironGloves",
-                        "Character_ironHat",
-                        "Character_ironLeggings" });
-        itemToSpriteMapping.put(Item.WOOD, new String[] { "Character_Sword", "Character_FX" });
-        itemToSpriteMapping.put(Item.STONE, new String[] { "Character_Sword_2", "Character_FX" });
-        itemToSpriteMapping.put(Item.GRASS, new String[] { "Character_Sword_3", "Character_FX" });
+        // Iron armor
+        itemToSpriteMapping.put(Item.IRON_BOOTS, new String[] { "Character_ironBoots" });
+        itemToSpriteMapping.put(Item.IRON_CHESTPLATE, new String[] { "Character_ironChestplate" });
+        itemToSpriteMapping.put(Item.IRON_GLOVES, new String[] { "Character_ironGloves" });
+        itemToSpriteMapping.put(Item.IRON_HELMET, new String[] { "Character_ironHat" });
+        itemToSpriteMapping.put(Item.IRON_LEGGINGS, new String[] { "Character_ironLeggings" });
+        // Diamond armor
+        itemToSpriteMapping.put(Item.DIAMOND_BOOTS, new String[] { "Character_diamondBoots" });
+        itemToSpriteMapping.put(Item.DIAMOND_CHESTPLATE, new String[] { "Character_diamondChestplate" });
+        itemToSpriteMapping.put(Item.DIAMOND_GLOVES, new String[] { "Character_diamondGloves" });
+        itemToSpriteMapping.put(Item.DIAMOND_HELMET, new String[] { "Character_diamondHat" });
+        itemToSpriteMapping.put(Item.DIAMOND_LEGGINGS, new String[] { "Character_diamondLeggings" });
+        // Swords
+        itemToSpriteMapping.put(Item.WOODEN_SWORD, new String[] { "Character_Sword", "Character_FX" });
+        itemToSpriteMapping.put(Item.IRON_SWORD, new String[] { "Character_Sword_2", "Character_FX" });
+        itemToSpriteMapping.put(Item.DIAMOND_SWORD, new String[] { "Character_Sword_3", "Character_FX" });
+        // Pickaxes
+        // TO DO: add pickaxe sprites
     }
 
     public void update() {
@@ -225,8 +226,12 @@ public class SpriteManager implements Disposable {
     private void updateSpritesBasedOnInventory() {
         currentSprites.clear();
         for (Item item : itemToSpriteMapping.keySet()) {
-            if (inventory.contains(item) || armorInventory.contains(item)) {
+            if (inventory.armorInventoryContains(item)) {
                 Collections.addAll(currentSprites, itemToSpriteMapping.get(item));
+            } else if (inventory.getSelectedItem() == item) {
+                if (item.getType() == ItemType.SWORD || item.getType() == ItemType.PICKAXE) {
+                    Collections.addAll(currentSprites, itemToSpriteMapping.get(item));
+                }
             }
         }
     }

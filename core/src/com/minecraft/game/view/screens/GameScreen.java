@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.view.ViewableMinecraftModel;
@@ -57,7 +58,8 @@ public class GameScreen extends ScreenAdapter {
     private ProjectileRenderer projectileRenderer;
     private MinecraftView minecraftView;
 
-    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel, MinecraftView minecraftView) {
+    public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
+            MinecraftView minecraftView) {
         this.camera = camera;
         this.batch = new SpriteBatch();
 
@@ -68,7 +70,7 @@ public class GameScreen extends ScreenAdapter {
 
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(Constants.DEBUG_MODE);
-        
+
         this.viewableMinecraftModel = viewableMinecraftModel;
         this.minecraftView = minecraftView;
 
@@ -81,7 +83,7 @@ public class GameScreen extends ScreenAdapter {
 
         // Disse er greie å ha i view - de handler om view
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),
-                viewableMinecraftModel.getInventory(), viewableMinecraftModel.getArmorInventory());
+                viewableMinecraftModel.getInventory());
         this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(),
                 viewableMinecraftModel.getCrafting());
 
@@ -97,9 +99,12 @@ public class GameScreen extends ScreenAdapter {
 
     private void update() {
 
+        String selectedPickaxe = viewableMinecraftModel.getSelectedPickaxe();
+        CursorUtils.setCursorPixmap(selectedPickaxe);
+
         viewableMinecraftModel.checkAndUpdateGameState();
 
-        if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER) {
+        if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER || viewableMinecraftModel.getGameState() == GameState.GAME_WON) {
             // If the game is over, call the method in MinecraftView to update the screen
             minecraftView.updateScreen();
         }
@@ -110,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
-        viewableMinecraftModel.getPlayer().update();
+        viewableMinecraftModel.getPlayer().update(Gdx.graphics.getDeltaTime());
 
         spriteManager.update();
 
@@ -120,7 +125,7 @@ public class GameScreen extends ScreenAdapter {
         Iterator<Projectile> iterator = projectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
-            projectile.update();
+            projectile.update(Gdx.graphics.getDeltaTime());
             projectile.checkCollisionWithPlayer(viewableMinecraftModel.getPlayer());
 
             if (projectile.isMarkedForRemoval()) {
@@ -149,12 +154,14 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setDay() {
-        // System.out.println("setDay() gets called from " + this.getClass().getName() + " class");
+        // System.out.println("setDay() gets called from " + this.getClass().getName() +
+        // " class");
         backgroundImage = backgroundDay;
     }
 
     public void setNight() {
-        // System.out.println("setNight() gets called from " + this.getClass().getName() + " class");
+        // System.out.println("setNight() gets called from " + this.getClass().getName()
+        // + " class");
         backgroundImage = backgroundNight;
     }
 

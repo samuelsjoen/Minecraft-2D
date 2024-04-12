@@ -3,9 +3,7 @@ package com.minecraft.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-
-import com.minecraft.game.model.entities.EntityFactory;
-import com.minecraft.game.model.map.MinecraftMap;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.minecraft.game.model.MinecraftModel;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.controller.MinecraftController;
@@ -27,14 +25,16 @@ public class Minecraft extends Game {
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen, heightScreen);
-
-		EntityFactory factory = new EntityFactory();
-		MinecraftMap map = new MinecraftMap();
-		MinecraftModel model = new MinecraftModel(map, factory);
+		MinecraftModel model = new MinecraftModel();
 		MinecraftView view = new MinecraftView(this, model);
 		MinecraftController controller = new MinecraftController(model, view);
 
 		Gdx.input.setInputProcessor(controller);
+
+		Pixmap pm = new Pixmap(Gdx.files.internal("assets/default_cursor.png"));
+		
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		pm.dispose();
 
 	}
 

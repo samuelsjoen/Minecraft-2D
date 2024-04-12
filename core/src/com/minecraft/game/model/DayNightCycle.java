@@ -5,9 +5,11 @@ import com.badlogic.gdx.utils.Timer;
 public class DayNightCycle extends Timer.Task {
 
     private boolean isNight;
+    private int numberOfNights;
 
     public DayNightCycle() {
         isNight = false;
+        numberOfNights = 0;
     }
 
     @Override
@@ -15,6 +17,8 @@ public class DayNightCycle extends Timer.Task {
         // Change the time of day
         if (isNight) {
             isNight = false;
+            numberOfNights++; // Increment the number when it becomes day
+            //System.out.println("It is now day, number of survived nights: " + numberOfNights);
         } else {
             isNight = true;
         }
@@ -46,6 +50,21 @@ public class DayNightCycle extends Timer.Task {
      */
     public void pauseCycle() {
         Timer.instance().clear();   
+    }
+
+    /**
+     * Get the number of nights that have passed
+     * @return The number of nights that have passed
+     */
+    public int getNumberOfNights() {
+        return numberOfNights; 
+    }
+
+    /**
+     * Reset the number of nights that have passed
+     */
+    public void resetNumberOfNights() {
+        numberOfNights = 0;
     }
 
 }

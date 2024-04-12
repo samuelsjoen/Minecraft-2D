@@ -1,6 +1,6 @@
 package com.minecraft.game.model.entities;
 
-import com.badlogic.gdx.Gdx;
+// import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Health;
@@ -20,23 +20,26 @@ public class Knight extends GameEntity {
     private boolean markForRemoval = false;
     private float deadStateTime = 0f; // Timer for the dead animation
     private boolean attackFrame = false;
+    private boolean isInvincible;
+    private float invincibilityTimer;
+    private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
     }
 
     public Knight(float width, float height, World world, Player player, float x, float y, Health health) {
-        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world, Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "knight", false));
+        super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world,
+                Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "knight", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(1, 1);
+        this.health = new Health(4, 4, null);
         stateTime = 0f;
     }
 
     @Override
-    public void update() {
-
-        stateTime += Gdx.graphics.getDeltaTime();
+    public void update(float deltaTime) {
+        stateTime += deltaTime;
 
         float distanceToPlayerX = Math.abs(player.getBody().getPosition().x - this.body.getPosition().x);
         float distanceToPlayerY = Math.abs(player.getBody().getPosition().y - this.body.getPosition().y);
@@ -44,6 +47,15 @@ public class Knight extends GameEntity {
 
         // vertical range within which the enemy can attack
         float verticalAttackRange = 2.0f;
+
+        if (isInvincible) {
+            invincibilityTimer -= deltaTime;
+            if (invincibilityTimer <= 0) {
+                isInvincible = false;
+                // Ensure the player is visible after invincibility ends
+            }
+            // Optional: Add blinking logic/Sound/Cool effect here
+        }
 
         if (currentState != State.DEAD) {
             // jump logic for enemy
@@ -100,7 +112,7 @@ public class Knight extends GameEntity {
 
         }
         if (currentState == State.DEAD) {
-            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+            deadStateTime += deltaTime; // Update dead animation time
         }
 
     }
@@ -113,8 +125,12 @@ public class Knight extends GameEntity {
         return health;
     }
 
-    public void getHit() {
-        health.damage(1); // call damage method and reduces health
+    public void getHit(int damage) {
+        if (!isInvincible) {
+            health.damage(damage); // call damage method and reduces health
+            isInvincible = true;
+            invincibilityTimer = INVINCIBILITY_DURATION;
+        }
     }
 
     public boolean isMarkedForRemoval() {
@@ -149,4 +165,11 @@ public class Knight extends GameEntity {
         attackFrame = false;
     }
 
+    public boolean AttackFrame() {
+        return attackFrame;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
 }

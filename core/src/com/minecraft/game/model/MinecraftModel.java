@@ -28,7 +28,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @SuppressWarnings("unused")
     private Player player;
     private Inventory inventory;
-    private ArmorInventory armorInventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
@@ -36,16 +35,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private DayNightCycle dayNightCycle;
 
-    public MinecraftModel(MinecraftMap map, EntityFactory factory) {
-        this.map = map;
-        this.factory = factory;
+    public MinecraftModel() {
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.factory = new EntityFactory();
+		this.map = new MinecraftMap(inventory);
 
         // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.player = map.getPlayer();
-        this.armorInventory = new ArmorInventory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory());
+
+        
 
         this.crafting = new Crafting(getInventory());
 
@@ -61,6 +61,16 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void setGameState(GameState state) {
         gameState = state;
+        handleGameStateChange();
+    }
+
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
+        }
+        else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
     }
 
     @Override
@@ -117,6 +127,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void revivePlayer() {
         Player.getHealth().revive();
+
+        if (getPlayer().isAttacking()) {
+            getPlayer().toggleIsAttacking();
+        }
+
+        dayNightCycle.resetNumberOfNights();
         getPlayer().setCurrentState(Player.State.IDLE);
     }
 
@@ -241,18 +257,23 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void restartGame() {
-        map = new MinecraftMap();
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        map = new MinecraftMap(inventory);
         factory = new EntityFactory();
-        this.armorInventory = new ArmorInventory();
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS, getArmorInventory());
-        gameState = GameState.WELCOME_SCREEN; }
+        dayNightCycle = new DayNightCycle();
+        gameState = GameState.WELCOME_SCREEN; 
+    }
+
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
         }
-        /*else if (something) {
-            setGameState(GameState.GAME_WON);
-        }*/
+        else {
+            int nightsSurvived = dayNightCycle.getNumberOfNights();
+            if (nightsSurvived >= 3) {
+                setGameState(GameState.GAME_WON);        
+            }
+        }
     }
 
     @Override
@@ -262,16 +283,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        Cell cell = map.getCell(tileX, tileY);
-        if (cell != null) {
-            // Get the tile type based on the tile coordinates
-            int tileId = cell.getTile().getId();
-            TileType tiletype = TileType.getTileTypeWithId(tileId);
-            if (tiletype.getBaseDamage() > 0) {
-                return true;
-            }
-        }
-        return false;
+        return map.isTileMineable(tileX, tileY);    
     }
 
     @Override
@@ -281,12 +293,18 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void craftItem() {
-        crafting.craft(player.getHealth());
+        crafting.craft(Player.getHealth());
     }
 
     @Override
-    public ArmorInventory getArmorInventory() {
-        return armorInventory;
-    }
+    public String getSelectedPickaxe() {
 
+        Item selectedItem = inventory.getSelectedItem();
+    
+        if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
+            return "assets/default_cursor.png";
+        }
+        
+        return selectedItem.getTexture();
+    }
 }

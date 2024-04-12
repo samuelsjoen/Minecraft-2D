@@ -1,19 +1,21 @@
 package com.minecraft.game.model.crafting;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.minecraft.game.model.Health;
 
 public class Inventory {
     private HashMap<Item, Integer> items;
-    private ArmorInventory armorInventory;
+    private LinkedHashMap<Item, Integer> armorInventory;
     private int maxItemSlots;
     private int currentItems;
     private int currentSlot;
 
-    public Inventory(Item[] defaultItems, ArmorInventory armorInventory) {
+    public Inventory(Item[] defaultItems) {
         this.items = new HashMap<Item, Integer>();
-        this.armorInventory = armorInventory;
+        this.armorInventory = new LinkedHashMap<>();
         this.maxItemSlots = 9;
         this.currentItems = items.size();
         this.currentSlot = 0;
@@ -51,11 +53,11 @@ public class Inventory {
     }
 
     public void addArmorItem(Item item, Health health) {
-        armorInventory.addOrUpgradeArmor(getSelectedItem());
+        addOrUpgradeArmor(item);
         int armorHealth = health.getArmorHealth();
-        if (getSelectedItem().getMaterial() == ItemMaterial.IRON) {
+        if (item.getMaterial() == ItemMaterial.IRON) {
             health.setArmorHealth(armorHealth + 1);
-        } else if (getSelectedItem().getMaterial() == ItemMaterial.DIAMOND) {
+        } else if (item.getMaterial() == ItemMaterial.DIAMOND) {
             health.setArmorHealth(armorHealth + 2);
         }
     }
@@ -130,4 +132,57 @@ public class Inventory {
         return items.getOrDefault(item, 0);
     }
 
+    public void addOrUpgradeArmor(Item item) {
+        for (Item oldItem: armorInventory.keySet()) {
+            if (oldItem.getType() == item.getType()) {
+                armorInventory.remove(oldItem);
+                break;
+            }
+        }
+        armorInventory.put(item, getArmorPieceMaxHealth(item));
+    }
+
+    public boolean armorInventoryContains(Item item) {
+        return armorInventory.containsKey(item);
+    }
+
+    public int getArmorPieceHealth(Item item) {
+        return armorInventory.get(item);
+    }
+
+    public Item getNextBreakableArmorItem() {
+        for (Entry<Item, Integer> entry : armorInventory.entrySet()) {
+            return entry.getKey();
+        }
+        return null;
+    }
+
+    private int getArmorPieceMaxHealth(Item item) {
+        int health;
+        switch(item.getMaterial()) {
+            case IRON:
+                health = 1;
+                break;
+            case DIAMOND:
+                health = 2;
+                break;
+            default:
+                health = 0;
+                break;
+        }
+        return health;
+    }
+
+    public void breakArmor() {
+        armorInventory.remove(getNextBreakableArmorItem());
+    }
+
+    public void damageArmor(int damage) {
+        Item item = getNextBreakableArmorItem();
+        armorInventory.put(item, getArmorPieceHealth(item)-damage);
+    }
+
+    public LinkedHashMap<Item, Integer> getArmorInventory() {
+        return armorInventory;
+    }
 }

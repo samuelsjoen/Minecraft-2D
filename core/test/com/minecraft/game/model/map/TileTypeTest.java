@@ -16,14 +16,14 @@ public class TileTypeTest {
 
     @Test
     public void testGetTileTypeWithName() {
-        TileType dirt = TileType.getTileTypeWithName("dirt");
+        TileType dirt = TileType.getTileTypeWithName("Dirt");
         assertNotNull(dirt);
         assertEquals(TileType.DIRT, dirt);
     }
 
     @Test
     public void testGetDamage() {
-        TileType dirt = TileType.getTileTypeWithName("dirt");
+        TileType dirt = TileType.getTileTypeWithName("Dirt");
         assertNotNull(dirt);
         assertEquals(1, dirt.getBaseDamage());
     }

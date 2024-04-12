@@ -1,8 +1,7 @@
 package com.minecraft.game.model;
 
 import com.badlogic.gdx.physics.box2d.Body;
-// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Gdx;
+import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
@@ -18,12 +17,13 @@ public class Player extends GameEntity {
 
     private boolean isFacingRight = true;
     private static Health health;
+    private static Inventory inventory;
 
     private boolean isInvincible;
     private boolean isAttacking = false;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
-    public static float deadStateTime = 0f; // Timer for the dead animation
+    // public static float deadStateTime = 0f; // Timer for the dead animation
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -31,16 +31,17 @@ public class Player extends GameEntity {
 
     public static State currentState;
 
-    public Player(float width, float height, Body body) {
+    public Player(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
-        Player.health = new Health(5, 5);
+        Player.inventory = inventory;
+        Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         x = body.getPosition().x * Constants.PPM;
         y = body.getPosition().y * Constants.PPM;
         if (Math.abs(body.getLinearVelocity().x) > 0) {
@@ -57,20 +58,14 @@ public class Player extends GameEntity {
             isFacingRight = true;
         }
 
-        // Teleport the player back to the middle if he falls too low
-        float yfall = -10f;
-        if (body.getPosition().y < yfall) {
-            float middleX = Gdx.graphics.getWidth() / 2 / Constants.PPM; // Middle of the screen on X-axis
-            float middleY = Gdx.graphics.getHeight() / 0.5f / Constants.PPM; // A lil more above the middle of the
-                                                                             // screen on Y-axis
-            body.setTransform(middleX, middleY, body.getAngle()); // Teleport the player
-        }
+        // Teleport the player back on the map if he falls too low
+        playerOutOfbounds(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
         if (isInvincible) {
-            invincibilityTimer -= Gdx.graphics.getDeltaTime();
+            invincibilityTimer -= deltaTime;
             if (invincibilityTimer <= 0) {
                 isInvincible = false;
-                // Ensure the player is visible after invincibility ends
+                // Ensure the plbayer is visible after invincibility ends
             }
             // Optional: Add blinking logic/Sound/Cool effect here
         }
@@ -83,10 +78,19 @@ public class Player extends GameEntity {
             currentState = State.DEAD;
         }
 
-        if (currentState == State.DEAD) {
-            deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
-        }
+        // if (currentState == State.DEAD) {
+        // deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
+        // }
 
+    }
+
+    public void playerOutOfbounds(float screenWidth, float screenHeight) {
+        float yfall = -10f;
+        if (body.getPosition().y < yfall) {
+            float middleX = screenWidth / 2 / Constants.PPM;
+            float middleY = screenHeight / 0.15f / Constants.PPM;
+            body.setTransform(middleX, middleY, body.getAngle());
+        }
     }
 
     public void getHit() {
@@ -110,7 +114,7 @@ public class Player extends GameEntity {
                     && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
                             || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
-                enemy.getHit(); // Applies damage to the targeted enemy
+                enemy.getHit(calculateDamage()); // Applies damage to the targeted enemy
             }
         }
         for (Slime slime : EnemyManager.getSlimes()) {
@@ -123,7 +127,7 @@ public class Player extends GameEntity {
                     && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
                             || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
-                slime.getHit(); // Applies damage to the targeted enemy
+                slime.getHit(calculateDamage()); // Applies damage to the targeted enemy
             }
         }
         for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
@@ -136,8 +140,24 @@ public class Player extends GameEntity {
                     && Player.currentState == State.ATTACKING && (SpriteManager.getCurrentFrameIndex() == 2
                             || SpriteManager.getCurrentFrameIndex() == 3)
                     && isEnemyInFront) {
-                pinkMonster.getHit(); // Applies damage to the targeted enemy
+                pinkMonster.getHit(calculateDamage()); // Applies damage to the targeted enemy
             }
+        }
+    }
+
+    public int calculateDamage() {
+        if (inventory.getSelectedItem() == null) {
+            return 1;
+        }
+        switch (inventory.getSelectedItem()) {
+            case WOODEN_SWORD:
+                return 2;
+            case IRON_SWORD:
+                return 3;
+            case DIAMOND_SWORD:
+                return 4;
+            default:
+                return 1;
         }
     }
 

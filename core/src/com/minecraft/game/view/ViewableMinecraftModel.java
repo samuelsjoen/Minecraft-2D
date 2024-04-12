@@ -3,10 +3,10 @@ package com.minecraft.game.view;
 import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 
@@ -60,12 +60,6 @@ public interface ViewableMinecraftModel {
     Inventory getInventory();
 
     /**
-     * Returns the armor inventory.
-     * @return the player's armor inventory
-     */
-    ArmorInventory getArmorInventory();
-
-    /**
      * Represents the crafting system in the Minecraft game.
      * This class provides methods to interact with the crafting system,
      * such as retrieving the current crafting recipe.
@@ -83,4 +77,9 @@ public interface ViewableMinecraftModel {
      */
     void checkAndUpdateGameState(); 
 
+    /**
+     * Get the selected pickaxe from the inventory.
+     * @return the selected pickaxe-texture filepath
+     */
+    String getSelectedPickaxe();
 }
