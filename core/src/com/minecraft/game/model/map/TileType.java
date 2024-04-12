@@ -2,6 +2,9 @@ package com.minecraft.game.model.map;
 
 import java.util.HashMap;
 
+import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.crafting.ItemMaterial;
+
 /**
  * Represents the types of tiles in the game.
  */
@@ -25,7 +28,7 @@ public enum TileType {
     private final int id;
     private final boolean collidable;
     private final String textureName;
-    private final float damage;
+    private final float baseDamage;
 
     /**
      * Constructs a TileType with the specified parameters.
@@ -35,11 +38,11 @@ public enum TileType {
      * @param textureName  the name of the texture associated with the tile
      * @param damage       the damage value of the tile
      */
-    TileType(int id, boolean collidable, String textureName, float damage) {
+    TileType(int id, boolean collidable, String textureName, float baseDamage) {
         this.id = id;
         this.collidable = collidable;
         this.textureName = textureName;
-        this.damage = damage;
+        this.baseDamage = baseDamage;
     }
 
     /**
@@ -115,19 +118,40 @@ public enum TileType {
     /**
      * Returns the name of the texture associated with the tile.
      *
-     * @return the name of the texture associated with the tile
+     * @return String of the texture name
      */
     public String getTextureName() {
         return textureName;
     }
 
     /**
+     * Returns the base damage value of the tile.
+     *
+     * @return float value of the base damage
+     */
+    public float getBaseDamage() {
+        return baseDamage;
+    }
+
+    /**
      * Returns the damage value of the tile.
      *
-     * @return the damage value of the tile
+     * @return float value of the damage
      */
-    public float getDamage() {
-        return damage;
+    public float getDamage(Item pickaxe) {
+        ItemMaterial pickaxeMaterial = pickaxe.getMaterial();
+        switch (pickaxeMaterial) {
+            case WOOD:
+                return baseDamage / 1.5f;
+            case STONE:
+                return baseDamage / 2.0f;
+            case IRON:
+                return baseDamage / 3.0f;
+            case DIAMOND:
+                return baseDamage / 4.0f;
+            default:
+                return baseDamage;
+        }
     }
 
 }

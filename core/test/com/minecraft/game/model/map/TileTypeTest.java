@@ -25,7 +25,7 @@ public class TileTypeTest {
     public void testGetDamage() {
         TileType dirt = TileType.getTileTypeWithName("Dirt");
         assertNotNull(dirt);
-        assertEquals(1, dirt.getDamage());
+        assertEquals(1, dirt.getBaseDamage());
     }
 
 }

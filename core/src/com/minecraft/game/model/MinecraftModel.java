@@ -9,6 +9,7 @@ import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.crafting.ItemType;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -182,12 +183,19 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public float getTileDamage(int tileX, int tileY) {
+        float damage = 0;
         Cell cell = map.getCell(tileX, tileY);
         if (cell != null) {
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
+            Item itemSelected = inventory.getSelectedItem();
+            ItemType itemType = itemSelected.getType();
             TileType tiletype = TileType.getTileTypeWithId(tileId);
-            float damage = tiletype.getDamage();            
+            if (itemType == ItemType.PICKAXE) {
+                damage = tiletype.getDamage(itemSelected);
+            } else {
+                damage = tiletype.getBaseDamage();
+            }
             return damage;
         }
         return 0;
