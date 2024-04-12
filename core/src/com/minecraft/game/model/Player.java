@@ -11,10 +11,6 @@ import com.minecraft.game.utils.SpriteManager;
 
 public class Player extends GameEntity {
 
-    // count amount of jumps (only want double, not triple/friple... etc.)
-    @SuppressWarnings("unused")
-    private int jumpCounter;
-
     private boolean isFacingRight = true;
     private static Health health;
     private static Inventory inventory;
@@ -34,7 +30,6 @@ public class Player extends GameEntity {
     public Player(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
         this.speed = 10f;
-        this.jumpCounter = 0;
         Player.inventory = inventory;
         Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
@@ -87,6 +82,7 @@ public class Player extends GameEntity {
     public void playerOutOfbounds(float screenWidth, float screenHeight) {
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
+            currentState = State.DEAD;
             float middleX = screenWidth / 2 / Constants.PPM;
             float middleY = screenHeight / 0.15f / Constants.PPM;
             body.setTransform(middleX, middleY, body.getAngle());
