@@ -15,10 +15,14 @@ Deltakere:
 
 Sammendrag:
 Hva vi har fått til siden sist møte:
-- 
+- Vi har nå fått til alle MVP-kravene - siden sist har vi fått mål med spillet, power-up og forbedret hvordan enemies dukker opp.
+- Lagt til sprite i inventory
+- Monstre skal bare dukke opp om natten
+- Implementere powerup for pickaxe: slik at det går raskere å mine blokker når du har bedre verktøy
+- Coverage har gått om med 34% siden sist - nå har vi code coverage på 47%
+- Lagt til cursor ut fra hvilket pickaxe man har valgt.
 
 Ting som må gjøres:
-- Monstre skal dukke opp om natten
 - Dø når man faller av kanten
 - Alle public methods må kommenteres (javadoc)
 - 75% coverage for tester 
@@ -27,6 +31,7 @@ Ting som må gjøres:
 - Implementere objektfabrikker
 - Se om vi trenger en til abstraktklasse?
 - Implementere "powerup" for verktøy: slik at det går raskere å mine blokker når du har bedre verktøy
+- Forbedre implementasjon av cursor - slik at det kun oppdateres når selected item er pickaxe.
 
 Aksjoner og Ansvar:
 - Finpusse kode (implementere interfaces/abstract classes) 
