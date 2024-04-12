@@ -24,7 +24,7 @@ public abstract class GameEntity {
         this.speed = 0;
     }
 
-    public abstract void update();
+    public abstract void update(float deltaTime);
 
     public Body getBody() {
         return body;

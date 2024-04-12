@@ -1,6 +1,6 @@
 package com.minecraft.game.model.entities;
 
-import com.badlogic.gdx.Gdx;
+// import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Player;
@@ -54,8 +54,8 @@ public class Projectile extends GameEntity {
     }
 
     @Override
-    public void update() {
-        lifeTime -= Gdx.graphics.getDeltaTime();
+    public void update(float deltaTime) {
+        lifeTime -= deltaTime;
         if (lifeTime <= 0 || toBeDestroyed) {
             markForRemoval = true;
         }

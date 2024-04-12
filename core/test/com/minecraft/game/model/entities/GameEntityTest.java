@@ -25,7 +25,7 @@ class GameEntityTest {
         }
 
         @Override
-        public void update() {
+        public void update(float deltaTime) {
         }
 
         // @Override
