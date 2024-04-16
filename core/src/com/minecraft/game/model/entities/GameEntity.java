@@ -1,8 +1,9 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Disposable;
 
-public abstract class GameEntity {
+public abstract class GameEntity implements Disposable {
 
     public float x;
     public float y;
@@ -29,4 +30,10 @@ public abstract class GameEntity {
     public Body getBody() {
         return body;
     }
+
+    @Override
+    public void dispose () {
+        body.getWorld().destroyBody(body);
+    }
+
 }

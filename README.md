@@ -69,11 +69,11 @@ For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-
 ### Grafikk
 
 **Grafikk for blokker**
-Blokkene i verden er hentet fra: https://piiixl.itch.io/textures
-Blokkene brukt som inventory er hentet fra: https://admurin.itch.io/mega-admurins-freebies (BlockyLife.zip)
+Blokkene i verden er hentet fra: PiiXL (2023). Textures-16. [Png fil]. itch.io. https://piiixl.itch.io/textures
+Blokkene brukt som inventory er hentet fra: Admurin. (2022). BlockyLife [Sprite pack]. itch.io.https://admurin.itch.io/mega-admurins-freebies
 
 **Grafikk for spiller og fiender**
-Player: https://admurin.itch.io/mega-admurins-freebie (Monster_Pack_Free_Character.zip)
+Player: Admurin. (2023). Monster_Pack_Free_Character [Sprite pack]. itch.io. https://admurin.itch.io/mega-admurins-freebies 
 Slime: https://rvros.itch.io/pixel-art-animated-slime
 Pink monster: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
 
@@ -85,8 +85,7 @@ For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet:
 ### Lyd
 
 **Lyd brukt når man fjerner blokker**
-Lyd på hakke er hentet fra: https://www.youtube.com/watch?v=MXibe4aNdGg
-"mineSound.wav": https://freesound.org/people/ryanconway/sounds/240801/
+"mineSound.wav":ryanconway. (2014). Pickaxe mining stone [Lydklipp]. Freesound.org.  https://freesound.org/s/240801/. Lisens: Creative Commons Attribution 4.0
 
 ### Kode
-Brukt denne videoen som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java: https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD
+Brukt denne spillelisten som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java:  Small Pixel Games. (2021). 2D platformer [Spilleliste]. YouTube. https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD

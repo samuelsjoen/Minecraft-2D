@@ -3,7 +3,9 @@ package com.minecraft.game.model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
@@ -14,7 +16,9 @@ import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
+import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.view.ViewableMinecraftModel;
 
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
@@ -24,7 +28,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private EntityFactory factory;
 
     private GameState gameState;
-    @SuppressWarnings("unused")
     private Player player;
     private Inventory inventory;
 
@@ -33,22 +36,26 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private Crafting crafting;
 
     private DayNightCycle dayNightCycle;
+    private Boolean isLastItemPickaxe;
+    private OrthogonalTiledMapRenderer mapRenderer;
 
     public MinecraftModel() {
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.factory = new EntityFactory();
-		this.map = new MinecraftMap(inventory);
+		this.map = new MinecraftMap();
 
         // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
-        this.player = map.getPlayer();
-
-        
+        this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.player = initializePlayer();
 
         this.crafting = new Crafting(getInventory());
 
         this.dayNightCycle = new DayNightCycle();
+
+        // We are never going to start with a pickaxe in inventory - so this can be false
+        this.isLastItemPickaxe = false;
 
     }
 
@@ -65,7 +72,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private void handleGameStateChange() {
         if (gameState == GameState.GAME_ACTIVE) {
-            dayNightCycle.startCycle(5f); // Start the day-night cycle with a # sec interval
+            dayNightCycle.startCycle(300f); // Start the day-night cycle with a # sec interval 5 minutes
         }
         else if (gameState == GameState.GAME_PAUSED) {
             dayNightCycle.pauseCycle();
@@ -77,9 +84,32 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         return map.getWorld();
     }
 
+    private Rectangle getPlayerRectangle() {
+        return map.getPlayerRectangle();
+    }
+
+    private Player initializePlayer() {
+
+        Rectangle rectangle =  getPlayerRectangle();
+
+        Body body = BodyHelperService.createBody(
+            rectangle.getX() + rectangle.getWidth() / 2,
+            rectangle.getY() + rectangle.getHeight() / 2,
+            rectangle.getWidth(),
+            rectangle.getHeight(),
+            null,
+            false,
+            getWorld(),
+            Constants.CATEGORY_PLAYER,
+            Constants.MASK_PLAYER,
+            "player",
+            false);
+        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);
+    }
+
     @Override
     public OrthogonalTiledMapRenderer getMapRenderer() {
-        return map.setupMap("assets/map/mapExample3-64.tmx");
+        return this.mapRenderer;
     }
 
     @Override
@@ -89,7 +119,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public Player getPlayer() {
-        return map.getPlayer();
+        return this.player;
+        //return map.getPlayer();
     }
 
     @Override
@@ -104,6 +135,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         } else if (i == +1) {
             inventory.changeSlot(+1);
         }
+        updateCursor();
     }
 
     @Override
@@ -130,6 +162,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         if (getPlayer().isAttacking()) {
             getPlayer().toggleIsAttacking();
         }
+
         if (crafting.isOpen()) {
             crafting.open();
         }
@@ -191,14 +224,16 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
             Item itemSelected = inventory.getSelectedItem();
-            ItemType itemType = itemSelected.getType();
-            TileType tiletype = TileType.getTileTypeWithId(tileId);
-            if (itemType == ItemType.PICKAXE) {
-                damage = tiletype.getDamage(itemSelected);
-            } else {
-                damage = tiletype.getBaseDamage();
+            if (itemSelected != null) {
+                ItemType itemType = itemSelected.getType();
+                TileType tiletype = TileType.getTileTypeWithId(tileId);
+                if (itemType == ItemType.PICKAXE) {
+                    damage = tiletype.getDamage(itemSelected);
+                } else {
+                    damage = tiletype.getBaseDamage();
+                }
+                return damage;
             }
-            return damage;
         }
         return 0;
     }
@@ -252,6 +287,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                     inventory.removeItem(item);
                     // Add the block to the mineable layer
                     map.addBlock(tileX, tileY, tileType);
+                    if (!inventory.contains(item)) {
+                        updateCursor();
+                    }
                 }
             }
         }
@@ -260,7 +298,11 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void restartGame() {
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
-        map = new MinecraftMap(inventory);
+        map = new MinecraftMap();
+        this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.player = initializePlayer();
+        this.crafting = new Crafting(getInventory());
+
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         gameState = GameState.WELCOME_SCREEN; 
@@ -298,15 +340,37 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         crafting.craft(Player.getHealth());
     }
 
-    @Override
-    public String getSelectedPickaxe() {
+    private void updateCursor() {
+        String selectedPickaxe = getSelectedPickaxe();
+        if (selectedPickaxe == null) {
+            return;
+        }
+        CursorUtils.setCursorPixmap(selectedPickaxe);
+    }
+
+    /**
+     * Get the selected pickaxe from the inventory.
+     * @return the selected pickaxe-texture filepath
+     */
+    private String getSelectedPickaxe() {
 
         Item selectedItem = inventory.getSelectedItem();
-    
+        
         if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
+            if (isLastItemPickaxe == false) {
+                return null;
+            }
+            isLastItemPickaxe = false;
             return "assets/default_cursor.png";
         }
-        
-        return selectedItem.getTexture();
+        else {
+            isLastItemPickaxe = true;
+            return selectedItem.getTexture();
+        }
+    }
+
+    @Override
+    public void handleInput(boolean moveLeft, boolean moveRight) {
+        getPlayer().handleInput(moveLeft, moveRight);
     }
 }

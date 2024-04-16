@@ -58,6 +58,7 @@ public class MinecraftView implements Disposable {
     }
 
     public void newGameScreen() {
+        gameScreen.dispose();
         gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
         updateScreen();
     }

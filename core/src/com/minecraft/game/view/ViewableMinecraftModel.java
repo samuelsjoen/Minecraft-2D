@@ -76,10 +76,4 @@ public interface ViewableMinecraftModel {
      * Check if the game is over and update the game state accordingly.
      */
     void checkAndUpdateGameState(); 
-
-    /**
-     * Get the selected pickaxe from the inventory.
-     * @return the selected pickaxe-texture filepath
-     */
-    String getSelectedPickaxe();
 }

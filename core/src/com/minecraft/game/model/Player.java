@@ -19,7 +19,8 @@ public class Player extends GameEntity {
     private boolean isAttacking = false;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
-    // public static float deadStateTime = 0f; // Timer for the dead animation
+
+    private float velX = 0;
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -27,18 +28,41 @@ public class Player extends GameEntity {
 
     public static State currentState;
 
+    private Boolean moveLeft;
+    private Boolean moveRight;
+
     public Player(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
         this.speed = 10f;
         Player.inventory = inventory;
         Player.health = new Health(5, 5, inventory);
         currentState = State.IDLE;
+
+        this.moveLeft = false;
+        this.moveRight = false; 
+    }
+
+    // Gets information from PlayerController through MinecraftModel
+    public void handleInput(Boolean moveLeft, Boolean moveRight) {
+        this.moveLeft = moveLeft;
+        this.moveRight = moveRight; 
     }
 
     @Override
     public void update(float deltaTime) {
+        velX = 0;
+
+        if (this.moveLeft) {
+            velX = -Constants.PLAYER_MOVE_SPEED;
+        }
+
+        if (this.moveRight) {
+            velX = Constants.PLAYER_MOVE_SPEED;
+        }
+
         x = body.getPosition().x * Constants.PPM;
         y = body.getPosition().y * Constants.PPM;
+
         if (Math.abs(body.getLinearVelocity().x) > 0) {
             currentState = State.RUNNING;
         } else {
@@ -73,9 +97,14 @@ public class Player extends GameEntity {
             currentState = State.DEAD;
         }
 
+        // playerController.handleContinousInput()
+
         // if (currentState == State.DEAD) {
         // deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
         // }
+
+        body.setLinearVelocity(velX, body.getLinearVelocity().y);
+
 
     }
 
@@ -209,7 +238,10 @@ public class Player extends GameEntity {
         return y;
     }
 
-    // @Override
-    // public void render(SpriteBatch batch) {
-    // }
+    public void movePlayer(int direction) {
+        // direction = 1 for right, -1 for left
+        velX = direction * Constants.PLAYER_MOVE_SPEED;
+        body.setLinearVelocity(velX, body.getLinearVelocity().y);
+    }
+
 }

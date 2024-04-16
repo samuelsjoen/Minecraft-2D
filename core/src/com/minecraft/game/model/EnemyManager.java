@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyManager {
-    public static List<Knight> enemies = new ArrayList<>();
+    public static List<Knight> knights = new ArrayList<>();
     public static List<Slime> slimes = new ArrayList<>();
     public static List<PinkMonster> pinkMonsters = new ArrayList<>();
     private World world;
@@ -46,31 +46,34 @@ public class EnemyManager {
     }
 
     private void removeDeadEnemies(float deathThreshold) {
-        ArrayList<Knight> deadEnemies = new ArrayList<>();
+        ArrayList<Knight> deadKnights = new ArrayList<>();
         ArrayList<Slime> deadSlimes = new ArrayList<>();
         ArrayList<PinkMonster> deadPinkMonsters = new ArrayList<>();
-        for (Knight enemy : enemies) {
-            enemy.update(Gdx.graphics.getDeltaTime());
-            if (enemy.getBody().getPosition().y < deathThreshold || enemy.isMarkedForRemoval()) {
-                world.destroyBody(enemy.getBody()); // Remove the enemy's body from the world
-                deadEnemies.add(enemy); // Add dead enemies to the list
+        for (Knight knight : knights) {
+            knight.update(Gdx.graphics.getDeltaTime());
+            if (knight.getBody().getPosition().y < deathThreshold || knight.isMarkedForRemoval()) {
+                // world.destroyBody(knight.getBody()); // Remove the enemy's body from the world
+                deadKnights.add(knight); // Add dead enemies to the list
+                knight.dispose();
             }
         }
         for (Slime slime : slimes) {
             slime.update(Gdx.graphics.getDeltaTime());
             if (slime.getBody().getPosition().y < deathThreshold || slime.isMarkedForRemoval()) {
-                world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
+                // world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
                 deadSlimes.add(slime); // Add dead enemies to the list
+                slime.dispose();
             }
         }
         for (PinkMonster pinkMonster : pinkMonsters) {
             pinkMonster.update(Gdx.graphics.getDeltaTime());
             if (pinkMonster.getBody().getPosition().y < deathThreshold || pinkMonster.isMarkedForRemoval()) {
-                world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
+                //world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
                 deadPinkMonsters.add(pinkMonster); // Add dead enemies to the list
+                pinkMonster.dispose();
             }
         }
-        enemies.removeAll(deadEnemies); // Remove all dead enemies from the list
+        knights.removeAll(deadKnights); // Remove all dead enemies from the list
         slimes.removeAll(deadSlimes); // Remove all dead enemies from the list
         pinkMonsters.removeAll(deadPinkMonsters); // Remove all dead enemies from the list
     }
@@ -122,11 +125,11 @@ public class EnemyManager {
     }
 
     private void spawnEntityBasedOnChoice(float spawnPosX, float spawnPosY) {
-        if (chooseEnemy == 0 && enemies.size() < 2) {
+        if (chooseEnemy == 0 && knights.size() < 2) {
             Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player,
                     spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
                     new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-            enemies.add(enemy);
+            knights.add(enemy);
         } else if (chooseEnemy == 1 && slimes.size() < 3) {
             Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM,
                     (spawnPosY + 2) * Constants.PPM,
@@ -141,7 +144,7 @@ public class EnemyManager {
     }
 
     public static List<Knight> getEnemies() {
-        return enemies;
+        return knights;
     }
 
     public static List<Slime> getSlimes() {

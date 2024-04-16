@@ -70,7 +70,8 @@ public class Constants {
     public static final Item[] DEFAULT_ITEMS = new Item[] {
         Item.DIRT,
         Item.DIAMOND_PICKAXE,
-        Item.WOODEN_PICKAXE
+        Item.WOODEN_PICKAXE,
+        Item.STONE_SNOW
         // Item.WOODEN_SWORD,
         // Item.IRON_SWORD,
         // Item.DIAMOND_SWORD,

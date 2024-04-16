@@ -77,7 +77,7 @@ public class EnemyManagerTest {
         when(mockDayNightCycle.getIsNight()).thenReturn(true);
 
         enemyManager = new EnemyManager(mockWorld, mockPlayer, mockTiledMap, mockDayNightCycle);
-        EnemyManager.enemies.clear();
+        EnemyManager.knights.clear();
         EnemyManager.slimes.clear();
         EnemyManager.pinkMonsters.clear();
 
@@ -91,7 +91,7 @@ public class EnemyManagerTest {
     @Test
     void testGetEnemies() {
         Knight testKnight = new Knight(0, 0, mockWorld, mockPlayer, 0, 0, null);
-        EnemyManager.enemies.add(testKnight);
+        EnemyManager.knights.add(testKnight);
         assertEquals(1, EnemyManager.getEnemies().size(), "Should return a list containing 1 enemy.");
         assertEquals(testKnight, EnemyManager.getEnemies().get(0),
                 "The returned list should contain the added knight.");
@@ -165,12 +165,12 @@ public class EnemyManagerTest {
         when(monsterToRemove.getBody().getPosition()).thenReturn(new Vector2(0, -20)); // Below the threshold
 
         // Adding mock entities to their respective lists
-        EnemyManager.enemies.add(knightToRemove);
+        EnemyManager.knights.add(knightToRemove);
         EnemyManager.slimes.add(slimeToRemove);
         EnemyManager.pinkMonsters.add(monsterToRemove);
 
         // Ensure entities are in the list before removal
-        assertFalse(EnemyManager.enemies.isEmpty());
+        assertFalse(EnemyManager.knights.isEmpty());
         assertFalse(EnemyManager.slimes.isEmpty());
         assertFalse(EnemyManager.pinkMonsters.isEmpty());
 
@@ -178,14 +178,14 @@ public class EnemyManagerTest {
         enemyManager.update(0); // updating to kill them since they are below the threshold
 
         // Verify that lists are empty after removal
-        assertTrue(EnemyManager.enemies.isEmpty(), "Enemies list should be empty after removal.");
+        assertTrue(EnemyManager.knights.isEmpty(), "Enemies list should be empty after removal.");
         assertTrue(EnemyManager.slimes.isEmpty(), "Slimes list should be empty after removal.");
         assertTrue(EnemyManager.pinkMonsters.isEmpty(), "PinkMonsters list should be empty after removal.");
     }
 
     @Test
     void testSpawnEntityBasedOnChoice() throws Exception {
-        EnemyManager.enemies.clear();
+        EnemyManager.knights.clear();
         EnemyManager.slimes.clear();
         EnemyManager.pinkMonsters.clear();
         // Mock player position within the valid range
@@ -212,7 +212,7 @@ public class EnemyManagerTest {
         System.out.println(chosenEnemy);
         // Assert based on the chosenEnemy value
         if (chosenEnemy == 0) {
-            assertFalse(EnemyManager.enemies.isEmpty(), "A Knight should have been spawned.");
+            assertFalse(EnemyManager.knights.isEmpty(), "A Knight should have been spawned.");
         } else if (chosenEnemy == 1) {
             assertFalse(EnemyManager.slimes.isEmpty(), "A Slime should have been spawned.");
         } else if (chosenEnemy == 2) {
@@ -225,10 +225,10 @@ public class EnemyManagerTest {
     @Test
     void testAddKnight() {
         Knight knight = mock(Knight.class);
-        EnemyManager.enemies.add(knight); // Add the mock Knight to the list.
+        EnemyManager.knights.add(knight); // Add the mock Knight to the list.
 
-        assertTrue(EnemyManager.enemies.contains(knight), "The enemies list should contain the added Knight.");
-        assertEquals(1, EnemyManager.enemies.size(), "The enemies list size should be 1 after adding a Knight.");
+        assertTrue(EnemyManager.knights.contains(knight), "The knights list should contain the added Knight.");
+        assertEquals(1, EnemyManager.knights.size(), "The knights list size should be 1 after adding a Knight.");
     }
 
     @Test

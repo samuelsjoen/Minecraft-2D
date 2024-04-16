@@ -87,10 +87,10 @@ public class PlayerTest {
             when(mockSlime.getBody()).thenReturn(mockSlimeBody);
             when(mockPinkMonster.getBody()).thenReturn(mockPinkMonsterBody);
             // Mock EnemyManager to return these entities
-            EnemyManager.enemies.clear();
+            EnemyManager.knights.clear();
             EnemyManager.slimes.clear();
             EnemyManager.pinkMonsters.clear();
-            EnemyManager.enemies.add(mockKnight);
+            EnemyManager.knights.add(mockKnight);
             EnemyManager.slimes.add(mockSlime);
             EnemyManager.pinkMonsters.add(mockPinkMonster);
 

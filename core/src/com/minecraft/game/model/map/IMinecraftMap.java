@@ -2,7 +2,6 @@ package com.minecraft.game.model.map;
 
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
@@ -25,13 +24,6 @@ public interface IMinecraftMap {
      * @return the world
      */
     World getWorld();
-
-    /**
-     * Gets the player associated with the map.
-     *
-     * @return the player
-     */
-    Player getPlayer();
 
     /**
      * Removes a block at the specified coordinates.

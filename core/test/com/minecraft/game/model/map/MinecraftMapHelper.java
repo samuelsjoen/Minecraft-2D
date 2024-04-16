@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 public class MinecraftMapHelper extends MinecraftMap {
 
     public MinecraftMapHelper() {
-        super(null);
+        super();
     }
 
     /**

@@ -17,8 +17,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.minecraft.game.model.Player;
-import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
@@ -26,12 +24,11 @@ public class MinecraftMap implements IMinecraftMap {
 
     protected TiledMap tiledMap;
     private World world;
-    private Player player;
-    private Inventory inventory;
+    private Rectangle playerRectangle;
 
-    public MinecraftMap(Inventory inventory) {
-        this.inventory = inventory;
+    public MinecraftMap() {
         this.world = new World(new Vector2(0, -25f), false);
+        this.playerRectangle = null;
     }
 
     @Override
@@ -52,11 +49,6 @@ public class MinecraftMap implements IMinecraftMap {
     @Override
     public World getWorld() {
         return world;
-    }
-
-    @Override
-    public Player getPlayer() {
-        return player;
     }
 
     @Override
@@ -142,6 +134,8 @@ public class MinecraftMap implements IMinecraftMap {
                 String rectangleName = mapObject.getName();
 
                 if (rectangleName != null && rectangleName.equals("player")) { // Check if rectangleName is not null
+                    this.playerRectangle = rectangle;
+                    /*
                     Body body = BodyHelperService.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
@@ -155,10 +149,14 @@ public class MinecraftMap implements IMinecraftMap {
                             "player",
                             false);
                     // TODO: player should probably be initialized in minecraftmodel?
-                    this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);
+                    this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);*/
                 }
             }
         }
+    }
+
+    public Rectangle getPlayerRectangle() {
+        return this.playerRectangle;
     }
 
     static Shape createPolygonShape(PolygonMapObject polygonMapObject) {

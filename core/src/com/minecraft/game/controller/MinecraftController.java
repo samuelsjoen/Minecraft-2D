@@ -10,18 +10,21 @@ import com.minecraft.game.utils.Constants;
 import com.minecraft.game.view.MinecraftView;
 import java.util.LinkedList;
 
-public class MinecraftController implements InputProcessor {
+public class MinecraftController implements InputProcessor {//extends InputAdapter {
 
     private ControllableMinecraftModel controllableModel;
+    private PlayerController playerController;
     private MinecraftView view;
     private Timer timer;
     private int lastTileX;
     private int lastTileY;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
-        this.controllableModel = controllableModel;
+        this.controllableModel = controllableModel; 
         this.view = view;
         this.timer = new Timer(); // Timer used for mining blocks
+
+        this.playerController = new PlayerController(controllableModel);
 
         // Default value
         this.lastTileX = -1;
@@ -60,25 +63,13 @@ public class MinecraftController implements InputProcessor {
                 }
                 break;
             case GAME_WON:
-                if (keycode == Constants.REVIVE_KEY) {
-                    controllableModel.revivePlayer();
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-                    return true;
-                } else {
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    return true;
-                }
+                controllableModel.restartGame();
+                view.newGameScreen();
+                return true;
             case GAME_OVER:
-                if (keycode == Constants.REVIVE_KEY) {
-                    controllableModel.revivePlayer();
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-                    return true;
-                } else {
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    return true;
-                }
+                controllableModel.restartGame();
+                view.newGameScreen();
+                return true;
             case CRAFTING_SCREEN:
                 if (handleActiveGameInput(keycode))
                     return true;
@@ -92,17 +83,24 @@ public class MinecraftController implements InputProcessor {
         if (controllableModel.getPlayerState() != State.DEAD) {
 
             switch (keycode) {
+                case Constants.REVIVE_KEY:
+                    controllableModel.restartGame();
+                    view.newGameScreen();
+                    return true;
                 case Constants.TOGGLE_PAUSE_KEY: // Pause the game
                     setGameStateAndUpdateScreen(GameState.GAME_PAUSED);
                     return true;
                 case Constants.MOVE_LEFT_KEY:
-                    controllableModel.movePlayer(-1); // Move left
+                    //controllableModel.movePlayer(-1); // Move left
+                    playerController.setMoveLeft(true); // Move left
                     return true;
                 case Constants.MOVE_RIGHT_KEY:
-                    controllableModel.movePlayer(+1); // Move right
+                    //controllableModel.movePlayer(+1); // Move right
+                    playerController.setMoveRight(true); // Move right
                     return true;
                 case Constants.JUMP_KEY:
                     controllableModel.playerJump();
+                    //playerController.setJump(true); // Player jump
                     return true;
                 case Constants.ATTACK_KEY:
                     controllableModel.playerAttack();
@@ -157,8 +155,10 @@ public class MinecraftController implements InputProcessor {
         if (controllableModel.getGameState() == GameState.GAME_ACTIVE) {
             if (keycode == Constants.ATTACK_KEY) {
                 controllableModel.playerAttack();
-            } else if (keycode == Constants.MOVE_LEFT_KEY || keycode == Constants.MOVE_RIGHT_KEY) {
-                controllableModel.stopPlayer();
+            } else if (keycode == Constants.MOVE_LEFT_KEY) {
+                playerController.setMoveLeft(false);
+            } else if (keycode == Constants.MOVE_RIGHT_KEY) {
+                playerController.setMoveRight(false);
             }
             return true;
         }
@@ -270,7 +270,10 @@ public class MinecraftController implements InputProcessor {
         }
     }
 
-    // Unused methods - but part of the interface for InputProcessor
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
@@ -287,8 +290,4 @@ public class MinecraftController implements InputProcessor {
         return false;
     }
 
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
 }
