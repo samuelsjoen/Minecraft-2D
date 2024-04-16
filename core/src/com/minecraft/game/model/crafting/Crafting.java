@@ -96,6 +96,7 @@ public class Crafting {
     public void open() {
         open = !open;
         updateCraftableItems();
+        updateCraftingTable();
     }
 
     private void updateCraftableItems() {

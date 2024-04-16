@@ -72,7 +72,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private void handleGameStateChange() {
         if (gameState == GameState.GAME_ACTIVE) {
-            dayNightCycle.startCycle(300f); // Start the day-night cycle with a # sec interval 5 minutes
+            dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
         }
         else if (gameState == GameState.GAME_PAUSED) {
             dayNightCycle.pauseCycle();
