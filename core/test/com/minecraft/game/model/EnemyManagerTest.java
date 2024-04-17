@@ -317,8 +317,9 @@ public class EnemyManagerTest {
     @Test
     void testKillAllEntities() {
         // Create an instance of EnemyManager
-        EnemyManager enemyManager = new EnemyManager(mock(World.class), mock(Player.class), mock(TiledMap.class),
-                mock(DayNightCycle.class));
+        // EnemyManager enemyManager = new EnemyManager(mock(World.class),
+        // mock(Player.class), mock(TiledMap.class),
+        // mock(DayNightCycle.class));
 
         // Create mock entities and add them to the lists
         Knight mockKnight1 = mock(Knight.class);
@@ -326,20 +327,23 @@ public class EnemyManagerTest {
         Slime mockSlime1 = mock(Slime.class);
         Slime mockSlime2 = mock(Slime.class);
         PinkMonster mockPinkMonster1 = mock(PinkMonster.class);
+        Projectile mockProjectile = mock(Projectile.class);
 
         EnemyManager.knights.add(mockKnight1);
         EnemyManager.knights.add(mockKnight2);
         EnemyManager.slimes.add(mockSlime1);
         EnemyManager.slimes.add(mockSlime2);
         EnemyManager.pinkMonsters.add(mockPinkMonster1);
+        EnemyManager.projectiles.add(mockProjectile);
 
         // Call killAllEntities()
-        enemyManager.killAllEntities();
+        EnemyManager.killAllEntities();
 
         // Check that all lists are empty
         assertTrue(EnemyManager.knights.isEmpty(), "Knights list should be empty after killAllEntities()");
         assertTrue(EnemyManager.slimes.isEmpty(), "Slimes list should be empty after killAllEntities()");
         assertTrue(EnemyManager.pinkMonsters.isEmpty(), "PinkMonsters list should be empty after killAllEntities()");
+        assertTrue(EnemyManager.projectiles.isEmpty(), "Projectiles list should be empty after killAllEntities()");
     }
 
     @BeforeAll

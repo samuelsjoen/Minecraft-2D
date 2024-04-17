@@ -8,7 +8,6 @@ import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
-import com.minecraft.game.view.screens.GameScreen;
 
 public class PinkMonster extends GameEntity {
     private float stateTime;

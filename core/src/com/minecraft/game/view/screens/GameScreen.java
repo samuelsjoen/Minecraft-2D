@@ -28,9 +28,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
-import java.util.Iterator;
-import java.util.ArrayList;
-
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private OverlayView overlayView;
