@@ -41,7 +41,6 @@ public class GameScreen extends ScreenAdapter {
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 
     private EnemyManager enemyManager;
-    private static ArrayList<Projectile> projectiles = new ArrayList<>();
 
     private SpriteManager spriteManager;
     private ViewableMinecraftModel viewableMinecraftModel;
@@ -100,7 +99,8 @@ public class GameScreen extends ScreenAdapter {
 
         viewableMinecraftModel.checkAndUpdateGameState();
 
-        if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER || viewableMinecraftModel.getGameState() == GameState.GAME_WON) {
+        if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER
+                || viewableMinecraftModel.getGameState() == GameState.GAME_WON) {
             // If the game is over, call the method in MinecraftView to update the screen
             minecraftView.updateScreen();
         }
@@ -118,18 +118,6 @@ public class GameScreen extends ScreenAdapter {
         overlayView.update(getLowerLeftCorner());
         enemyManager.update(0.01f);
 
-        Iterator<Projectile> iterator = projectiles.iterator();
-        while (iterator.hasNext()) {
-            Projectile projectile = iterator.next();
-            projectile.update(Gdx.graphics.getDeltaTime());
-            projectile.checkCollisionWithPlayer(viewableMinecraftModel.getPlayer());
-
-            if (projectile.isMarkedForRemoval()) {
-                viewableMinecraftModel.getWorld().destroyBody(projectile.getBody());
-
-                iterator.remove();
-            }
-        }
     }
 
     private void cameraUpdate() {
@@ -195,7 +183,7 @@ public class GameScreen extends ScreenAdapter {
 
         // TODO: Should be in model - if projectiles should be drawn use
         // getVisibleProjectiles() or something
-        for (Projectile projectile : projectiles) {
+        for (Projectile projectile : EnemyManager.getProjectiles()) {
             projectileRenderer.render(projectile, batch);
         }
 
@@ -219,9 +207,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
     // TODO: Should be in model
-    public static void addProjectile(Projectile projectile) {
-        projectiles.add(projectile);
-    }
+    // public static void addProjectile(Projectile projectile) {
+    // projectiles.add(projectile);
+    // }
 
     @Override
     public void dispose() {
@@ -230,6 +218,10 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();
         spriteManager.dispose();
+        knightRenderer.dispose();
+        slimeRenderer.dispose();
+        pinkMonsterRenderer.dispose();
+        projectileRenderer.dispose();
     }
 
 }

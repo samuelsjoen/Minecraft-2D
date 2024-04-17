@@ -42,7 +42,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public MinecraftModel() {
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.factory = new EntityFactory();
-		this.map = new MinecraftMap();
+        this.map = new MinecraftMap();
 
         // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
@@ -54,7 +54,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.dayNightCycle = new DayNightCycle();
 
-        // We are never going to start with a pickaxe in inventory - so this can be false
+        // We are never going to start with a pickaxe in inventory - so this can be
+        // false
         this.isLastItemPickaxe = false;
 
     }
@@ -73,8 +74,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private void handleGameStateChange() {
         if (gameState == GameState.GAME_ACTIVE) {
             dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
-        }
-        else if (gameState == GameState.GAME_PAUSED) {
+        } else if (gameState == GameState.GAME_PAUSED) {
             dayNightCycle.pauseCycle();
         }
     }
@@ -90,20 +90,20 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private Player initializePlayer() {
 
-        Rectangle rectangle =  getPlayerRectangle();
+        Rectangle rectangle = getPlayerRectangle();
 
         Body body = BodyHelperService.createBody(
-            rectangle.getX() + rectangle.getWidth() / 2,
-            rectangle.getY() + rectangle.getHeight() / 2,
-            rectangle.getWidth(),
-            rectangle.getHeight(),
-            null,
-            false,
-            getWorld(),
-            Constants.CATEGORY_PLAYER,
-            Constants.MASK_PLAYER,
-            "player",
-            false);
+                (rectangle.getX() + rectangle.getWidth() / 2),
+                (rectangle.getY() + rectangle.getHeight() / 2),
+                rectangle.getWidth() - 10,
+                rectangle.getHeight() - 2,
+                null,
+                false,
+                getWorld(),
+                Constants.CATEGORY_PLAYER,
+                Constants.MASK_PLAYER,
+                "player",
+                false);
         return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);
     }
 
@@ -120,7 +120,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public Player getPlayer() {
         return this.player;
-        //return map.getPlayer();
+        // return map.getPlayer();
     }
 
     @Override
@@ -305,17 +305,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
-        gameState = GameState.WELCOME_SCREEN; 
+        gameState = GameState.WELCOME_SCREEN;
+        EnemyManager.killAllEntities();
     }
 
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
-        }
-        else {
+        } else {
             int nightsSurvived = dayNightCycle.getNumberOfNights();
             if (nightsSurvived >= 3) {
-                setGameState(GameState.GAME_WON);        
+                setGameState(GameState.GAME_WON);
             }
         }
     }
@@ -327,7 +327,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        return map.isTileMineable(tileX, tileY);    
+        return map.isTileMineable(tileX, tileY);
     }
 
     @Override
@@ -350,20 +350,20 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     /**
      * Get the selected pickaxe from the inventory.
+     * 
      * @return the selected pickaxe-texture filepath
      */
     private String getSelectedPickaxe() {
 
         Item selectedItem = inventory.getSelectedItem();
-        
+
         if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
             if (isLastItemPickaxe == false) {
                 return null;
             }
             isLastItemPickaxe = false;
             return "assets/default_cursor.png";
-        }
-        else {
+        } else {
             isLastItemPickaxe = true;
             return selectedItem.getTexture();
         }

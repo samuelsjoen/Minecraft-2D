@@ -3,6 +3,7 @@ package com.minecraft.game.model.entities;
 // import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.Health;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.BodyHelperService;
@@ -93,9 +94,16 @@ public class PinkMonster extends GameEntity {
                     Vector2 targetPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
                             player.getBody().getPosition().y * Constants.PPM);
                     // Create a new projectile
-                    Projectile projectile = new Projectile(50, 50, world, startPosition, targetPosition);
-                    GameScreen.addProjectile(projectile);
-                    System.out.println("reset");
+                    // Projectile projectile = new Projectile(50, 50, world, startPosition,
+                    // targetPosition);
+                    // GameScreen.addProjectile(projectile);
+
+                    EntityParams projectileParams = new EntityParams(world, null, startPosition.x, startPosition.y,
+                            null);
+                    projectileParams.setTargetPosition(targetPosition.x, targetPosition.y);
+                    Projectile projectile = (Projectile) EntityFactory.createEntity("Projectile", projectileParams);
+                    EnemyManager.addProjectile(projectile);
+
                     hasThrownRock = true; // Mark that a rock has been thrown
                     timeSinceLastAttack = 0; // Reset the timer immediately after throwing a rock
                     attack2StateTime = 0f; // Reset the animation time for attack2

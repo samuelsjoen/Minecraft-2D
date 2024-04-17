@@ -6,31 +6,39 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.World;
+import com.minecraft.game.model.entities.EntityFactory;
+import com.minecraft.game.model.entities.EntityParams;
+import com.minecraft.game.model.entities.GameEntity;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.model.entities.Slime;
+import com.minecraft.game.model.map.TileType;
 import com.minecraft.game.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class EnemyManager {
     public static List<Knight> knights = new ArrayList<>();
     public static List<Slime> slimes = new ArrayList<>();
     public static List<PinkMonster> pinkMonsters = new ArrayList<>();
+    public static List<Projectile> projectiles = new ArrayList<>();
+
     private World world;
     private Player player;
     private float spawnTimer;
     private float chooseEnemy;
     private final float spawnIntervalMin = 1.0f; // Minimum time between spawns
-    private final float spawnIntervalMax = 1.0f; // Maximum time between spawns
+    private final float spawnIntervalMax = 5.0f; // Maximum time between spawns
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
 
     public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle) {
         this.world = world;
         this.player = player;
-        this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
+        // this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
     }
@@ -43,39 +51,42 @@ public class EnemyManager {
         }
         float deathThreshold = -10.0f;
         removeDeadEnemies(deathThreshold);
+        handleProjectileCollisions(delta);
+    }
+
+    public static void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
+    }
+
+    private void handleProjectileCollisions(float delta) {
+        Iterator<Projectile> iterator = projectiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile projectile = iterator.next();
+            projectile.update(delta);
+            projectile.checkCollisionWithPlayer(player);
+            if (projectile.isMarkedForRemoval()) {
+                projectile.dispose();
+                iterator.remove();
+            }
+        }
     }
 
     private void removeDeadEnemies(float deathThreshold) {
-        ArrayList<Knight> deadKnights = new ArrayList<>();
-        ArrayList<Slime> deadSlimes = new ArrayList<>();
-        ArrayList<PinkMonster> deadPinkMonsters = new ArrayList<>();
-        for (Knight knight : knights) {
-            knight.update(Gdx.graphics.getDeltaTime());
-            if (knight.getBody().getPosition().y < deathThreshold || knight.isMarkedForRemoval()) {
-                // world.destroyBody(knight.getBody()); // Remove the enemy's body from the world
-                deadKnights.add(knight); // Add dead enemies to the list
-                knight.dispose();
+        removeDeadEntities(knights, deathThreshold);
+        removeDeadEntities(slimes, deathThreshold);
+        removeDeadEntities(pinkMonsters, deathThreshold);
+    }
+
+    private <T extends GameEntity> void removeDeadEntities(List<T> entities, float deathThreshold) {
+        List<T> deadEntities = new ArrayList<>();
+        for (T entity : entities) {
+            entity.update(Gdx.graphics.getDeltaTime()); // Assuming update is appropriate here
+            if (entity.getBody().getPosition().y < deathThreshold || entity.isMarkedForRemoval()) {
+                entity.dispose();
+                deadEntities.add(entity);
             }
         }
-        for (Slime slime : slimes) {
-            slime.update(Gdx.graphics.getDeltaTime());
-            if (slime.getBody().getPosition().y < deathThreshold || slime.isMarkedForRemoval()) {
-                // world.destroyBody(slime.getBody()); // Remove the enemy's body from the world
-                deadSlimes.add(slime); // Add dead enemies to the list
-                slime.dispose();
-            }
-        }
-        for (PinkMonster pinkMonster : pinkMonsters) {
-            pinkMonster.update(Gdx.graphics.getDeltaTime());
-            if (pinkMonster.getBody().getPosition().y < deathThreshold || pinkMonster.isMarkedForRemoval()) {
-                //world.destroyBody(pinkMonster.getBody()); // Remove the enemy's body from the world
-                deadPinkMonsters.add(pinkMonster); // Add dead enemies to the list
-                pinkMonster.dispose();
-            }
-        }
-        knights.removeAll(deadKnights); // Remove all dead enemies from the list
-        slimes.removeAll(deadSlimes); // Remove all dead enemies from the list
-        pinkMonsters.removeAll(deadPinkMonsters); // Remove all dead enemies from the list
+        entities.removeAll(deadEntities);
     }
 
     public boolean isSpawnLocationValid(float spawnPosX, float spawnPosY) {
@@ -83,14 +94,18 @@ public class EnemyManager {
         int tileY = (int) ((spawnPosY * Constants.PPM) / Constants.TILE_SIZE);
 
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
-        Cell cell = mineableLayer.getCell(tileX, tileY);
-        Cell aboveCell1 = mineableLayer.getCell(tileX, tileY + 1);
-        Cell aboveCell2 = mineableLayer.getCell(tileX, tileY + 2);
+        Cell cell = mineableLayer.getCell(tileX, tileY - 1);
+        Cell aboveCell1 = mineableLayer.getCell(tileX, tileY);
+        // Cell aboveCell2 = mineableLayer.getCell(tileX, tileY + 2);
 
-        boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null) &&
-                (aboveCell2 == null || aboveCell2.getTile() == null);
+        boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null);
+        // boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null)
+        // &&
+        // (aboveCell2 == null || aboveCell2.getTile() == null);
+        if (cell != null && cell.getTile() != null && TileType.getTileTypeWithId(cell.getTile().getId()).isCollidable()
+                && isAboveEmpty) {
 
-        if (cell != null && isAboveEmpty) {
+            // if (cell != null && isAboveEmpty) {
             float playerPosX = player.getBody().getPosition().x;
             float playerPosY = player.getBody().getPosition().y;
 
@@ -104,6 +119,16 @@ public class EnemyManager {
     }
 
     public void spawnEnemy() {
+        // Check if the size of each enemy list is already maxed out
+        boolean maxKnightsReached = knights.size() >= 2;
+        boolean maxSlimesReached = slimes.size() >= 3;
+        boolean maxPinkMonstersReached = pinkMonsters.size() >= 1;
+
+        // If any list has reached its maximum size, return without spawning a new enemy
+        if (maxKnightsReached && maxSlimesReached && maxPinkMonstersReached) {
+            return;
+        }
+
         chooseEnemy = MathUtils.random(0, 2); // Choosing a random enemy
         boolean validLocationFound = false;
         float spawnPosX = 0, spawnPosY = 0;
@@ -125,22 +150,44 @@ public class EnemyManager {
     }
 
     private void spawnEntityBasedOnChoice(float spawnPosX, float spawnPosY) {
+        EntityParams params = new EntityParams(world, player, spawnPosX * Constants.PPM,
+                (spawnPosY + 2) * Constants.PPM,
+                new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+
+        GameEntity entity = null;
         if (chooseEnemy == 0 && knights.size() < 2) {
-            Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player,
-                    spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
-                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-            knights.add(enemy);
+            entity = EntityFactory.createEntity("Knight", params);
+            if (entity != null)
+                knights.add((Knight) entity);
         } else if (chooseEnemy == 1 && slimes.size() < 3) {
-            Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM,
-                    (spawnPosY + 2) * Constants.PPM,
-                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-            slimes.add(slime);
+            entity = EntityFactory.createEntity("Slime", params);
+            if (entity != null)
+                slimes.add((Slime) entity);
         } else if (chooseEnemy == 2 && pinkMonsters.size() < 1) {
-            PinkMonster pinkMonster = new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, world, player,
-                    spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
-                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
-            pinkMonsters.add(pinkMonster);
+            entity = EntityFactory.createEntity("PinkMonster", params);
+            if (entity != null)
+                pinkMonsters.add((PinkMonster) entity);
         }
+    }
+
+    public static void killAllEntities() {
+        // Mark all knights for removal
+        for (Knight knight : knights) {
+            knight.setMarkedForRemoval();
+        }
+        knights.clear(); // Clear the knights list
+
+        // Mark all slimes for removal
+        for (Slime slime : slimes) {
+            slime.setMarkedForRemoval();
+        }
+        slimes.clear(); // Clear the slimes list
+
+        // Mark all pink monsters for removal
+        for (PinkMonster pinkMonster : pinkMonsters) {
+            pinkMonster.setMarkedForRemoval();
+        }
+        pinkMonsters.clear(); // Clear the pink monsters list
     }
 
     public static List<Knight> getEnemies() {
@@ -153,6 +200,10 @@ public class EnemyManager {
 
     public static List<PinkMonster> getPinkMonsters() {
         return pinkMonsters;
+    }
+
+    public static List<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     public float getChooseEnemy() {
