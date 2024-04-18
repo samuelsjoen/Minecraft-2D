@@ -136,6 +136,16 @@ public class MinecraftController implements InputProcessor {// extends InputAdap
                         controllableModel.moveCraftableTableSelection(1, 0);
                     }
                     return true;
+                case Input.Keys.W:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(-1, 0);
+                    }
+                    return true;
+                case Input.Keys.S:
+                    if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                        controllableModel.moveCraftableTableSelection(1, 0);
+                    }
+                    return true;
                 case Constants.TOGGLE_CRAFTING_KEY:
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
                         controllableModel.setGameState(GameState.GAME_ACTIVE);
@@ -290,7 +300,21 @@ public class MinecraftController implements InputProcessor {// extends InputAdap
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        return false;
+        // amountY > 0 for scroll down, amountY < 0 for scroll up
+        if (amountY > 0) { // Scrolling down
+            if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                controllableModel.moveCraftableTableSelection(0, 1);
+            } else {
+                controllableModel.changeInventorySlot(+1); // Change inventory slot to the right
+            }
+        } else if (amountY < 0) { // Scrolling up
+            if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                controllableModel.moveCraftableTableSelection(0, -1);
+            } else {
+                controllableModel.changeInventorySlot(-1); // Change inventory slot to the left
+            }
+        }
+        return true; // Return true to indicate the input was processed
     }
 
 }
