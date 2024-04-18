@@ -1,7 +1,6 @@
 package com.minecraft.game.controller;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.Point;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
@@ -27,17 +26,19 @@ public class PixelToTilePositionConverter {
      *
      * @param x the x-coordinate in pixels
      * @param y the y-coordinate in pixels
-     * @return a LinkedList containing the tile X and Y coordinates
+     * @return a point containing the tile X and Y coordinates
      */
-    public LinkedList<Integer> calculateTileXAndY(int x, int y) {
+    public Point calculateTileXAndY(int x, int y) {
         Vector3 touchPos = new Vector3(x, y, 0);
+        
         // Convert screen coordinates to world coordinates
         camera.unproject(touchPos);
         float worldX = touchPos.x;
         float worldY = touchPos.y;
+
         // Calculate tile coordinates
         int tileX = (int) (worldX / Constants.TILE_SIZE);
         int tileY = (int) (worldY / Constants.TILE_SIZE);
-        return new LinkedList<Integer>(List.of(tileX, tileY));
+        return new Point(tileX, tileY);
     }
 }

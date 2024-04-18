@@ -16,7 +16,6 @@ public class Player extends GameEntity {
     private static Inventory inventory;
 
     private boolean isInvincible;
-    private boolean isAttacking = false;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
 
@@ -30,6 +29,7 @@ public class Player extends GameEntity {
 
     private Boolean moveLeft;
     private Boolean moveRight;
+    private Boolean isAttacking;
 
     public Player(float width, float height, Body body, Inventory inventory) {
         super(width, height, body);
@@ -40,12 +40,14 @@ public class Player extends GameEntity {
 
         this.moveLeft = false;
         this.moveRight = false; 
+        this.isAttacking = false;
     }
 
     // Gets information from PlayerController through MinecraftModel
-    public void handleInput(Boolean moveLeft, Boolean moveRight) {
+    public void updateMovement(Boolean moveLeft, Boolean moveRight, boolean isAttacking) {
         this.moveLeft = moveLeft;
         this.moveRight = moveRight; 
+        this.isAttacking = isAttacking;
     }
 
     @Override
@@ -86,25 +88,21 @@ public class Player extends GameEntity {
                 isInvincible = false;
                 // Ensure the plbayer is visible after invincibility ends
             }
-            // Optional: Add blinking logic/Sound/Cool effect here
+
         }
-        if (isAttacking) {
+
+        if (this.isAttacking) {
             currentState = State.ATTACKING;
             attack();
         }
 
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
-            currentState = State.DEAD;
+            //currentState = State.DEAD;
+            setCurrentState(State.DEAD);
+
         }
 
-        // playerController.handleContinousInput()
-
-        // if (currentState == State.DEAD) {
-        // deadStateTime += Gdx.graphics.getDeltaTime(); // Update dead animation time
-        // }
-
         body.setLinearVelocity(velX, body.getLinearVelocity().y);
-
 
     }
 
@@ -210,12 +208,16 @@ public class Player extends GameEntity {
         isInvincible = !isInvincible;
     }
 
-    public void toggleIsAttacking() {
-        isAttacking = !isAttacking;
+    public boolean getIsAttacking() {
+        return isAttacking;
     }
 
-    public boolean isAttacking() {
-        return isAttacking;
+    public boolean getMoveLeft() {
+        return moveLeft;
+    }
+
+    public boolean getMoveRight() {
+        return moveRight;
     }
 
     public float invincibilityTimer() {
@@ -236,12 +238,6 @@ public class Player extends GameEntity {
 
     public float getY() {
         return y;
-    }
-
-    public void movePlayer(int direction) {
-        // direction = 1 for right, -1 for left
-        velX = direction * Constants.PLAYER_MOVE_SPEED;
-        body.setLinearVelocity(velX, body.getLinearVelocity().y);
     }
 
 }

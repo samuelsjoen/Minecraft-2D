@@ -13,7 +13,7 @@ import com.minecraft.game.utils.Constants;
 //import com.minecraft.game.model.map.TileType;
 
 import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -56,14 +56,14 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 
 	}
 
-	// @Test
-	// public void testSetupMap() {
+	@Test
+	public void testSetupMap() {
 	// 	minecraftMapHelper.setupMapNoRender(mapPath);
 	// 	assertNotNull(minecraftMapHelper.getTiledMap());
 
 	// 	// minecraftMapHelper.setupMapNoRender();
 	// 	// assertNotNull(minecraftMapHelper.getTiledMap());
-	// }
+	}
 
 	/*@Test
 	public void removeBlockTest() {
