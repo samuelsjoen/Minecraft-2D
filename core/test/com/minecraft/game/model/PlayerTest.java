@@ -278,6 +278,7 @@ public class PlayerTest {
         assertEquals(1, damage, "Damage should be 1 when the player has no sword selected");
     }
 
+    // #TODO: Test the movePlayer method (doesnt work rn, need to fix it)
     @Test
     void testMovePlayer() {
         Body playerBody = player.getBody();

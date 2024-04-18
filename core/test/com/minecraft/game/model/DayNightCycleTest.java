@@ -2,6 +2,7 @@ package com.minecraft.game.model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.minecraft.game.LibgdxUnitTest;
@@ -9,7 +10,13 @@ import com.minecraft.game.LibgdxUnitTest;
 // # TODO Gå over at antall sekunder passer med antall ganger run() blir kalt
 public class DayNightCycleTest extends LibgdxUnitTest {
 
-    DayNightCycle dayNightCycle = new DayNightCycle();
+    DayNightCycle dayNightCycle;
+
+    @BeforeEach
+    public void setUp() {
+        dayNightCycle = new DayNightCycle();
+    }
+
 
     @Test
     public void testRun() {
