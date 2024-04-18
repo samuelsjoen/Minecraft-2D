@@ -80,7 +80,7 @@ public class EnemyManager {
     private <T extends GameEntity> void removeDeadEntities(List<T> entities, float deathThreshold) {
         List<T> deadEntities = new ArrayList<>();
         for (T entity : entities) {
-            entity.update(Gdx.graphics.getDeltaTime()); // Assuming update is appropriate here
+            entity.update(Gdx.graphics.getDeltaTime());
             if (entity.getBody().getPosition().y < deathThreshold || entity.isMarkedForRemoval()) {
                 entity.dispose();
                 deadEntities.add(entity);
