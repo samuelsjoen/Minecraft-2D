@@ -7,6 +7,7 @@ import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 
@@ -76,4 +77,10 @@ public interface ViewableMinecraftModel {
      * Check if the game is over and update the game state accordingly.
      */
     void checkAndUpdateGameState(); 
+
+    /**
+     * Get the armor inventory
+     * @return the armor inventory
+     */
+    ArmorInventory getArmorInventory();
 }

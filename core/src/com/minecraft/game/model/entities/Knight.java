@@ -32,7 +32,7 @@ public class Knight extends GameEntity {
                 Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "knight", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(4, 4, null);
+        this.health = new Health(4, 4);
         stateTime = 0f;
     }
 

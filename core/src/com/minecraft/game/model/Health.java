@@ -1,5 +1,6 @@
 package com.minecraft.game.model;
 
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.crafting.Item;
 
@@ -9,15 +10,14 @@ public class Health {
     private int armorHealth;
     private int maxArmorHealth;
     private boolean alive;
-    private Inventory inventory;
+    private ArmorInventory armorInventory;
 
-    public Health(int currentHealth, int maxHealth, Inventory inventory) {
+    public Health(int currentHealth, int maxHealth) {
         this.armorHealth = 0;
         this.maxArmorHealth = 10;
         this.maxHealth = maxHealth;
         this.currentHealth = currentHealth;
         this.alive = true;
-        this.inventory = inventory;
     }
 
     public int getHealth() {
@@ -34,14 +34,14 @@ public class Health {
 
     public void damage(int damage) {
         if (armorHealth > 0) {
-            Item armorPiece = inventory.getNextBreakableArmorItem();
-            int armorPieceHealth = inventory.getArmorPieceHealth(armorPiece);
+            Item armorPiece = armorInventory.getNextBreakableArmorItem();
+            int armorPieceHealth = armorInventory.getArmorPieceHealth(armorPiece);
             if (damage < armorPieceHealth) {
-                inventory.damageArmor(damage);
+                armorInventory.damageArmor(damage);
                 armorHealth -= damage;
             } else {
                 int remainingDamage = damage - armorPieceHealth;
-                inventory.breakArmor();
+                armorInventory.breakArmor();
                 armorHealth -= damage;
                 damage(remainingDamage);
             }
@@ -84,5 +84,9 @@ public class Health {
         } else {
             armorHealth = maxArmorHealth;
         }
+    }
+
+    public void setArmorInventory(ArmorInventory armorInventory) {
+        this.armorInventory = armorInventory;
     }
 }

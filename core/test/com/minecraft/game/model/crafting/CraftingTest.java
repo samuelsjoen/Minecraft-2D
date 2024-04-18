@@ -12,7 +12,7 @@ public class CraftingTest {
 
     @Test
     void testMoveSelection() {
-        Crafting crafting = new Crafting(new Inventory(new Item[]{}));
+        Crafting crafting = new Crafting(new Inventory(new Item[]{}), new ArmorInventory(null));
         assertTrue(crafting.getSelectedRow() == 0);
         assertTrue(crafting.getSelectedCol() == 0);
         crafting.moveCraftableTableSelection(1, 0);
@@ -50,11 +50,11 @@ public class CraftingTest {
             Item.WOOD,
             Item.WOOD,
         });
-        Crafting crafting = new Crafting(inventory);
+        Crafting crafting = new Crafting(inventory, new ArmorInventory(null));
         assertTrue(inventory.contains(Item.WOOD));
         assertTrue(inventory.getSelectedItem() == Item.WOOD);
         assertTrue(crafting.getSelectedItem() == Item.STICK);
-        crafting.craft(null);
+        crafting.craft();
         assertTrue(inventory.contains(Item.STICK));
         assertFalse(inventory.contains(Item.WOOD));
         assertTrue(inventory.getSelectedItem() == Item.STICK);
@@ -66,7 +66,7 @@ public class CraftingTest {
         Crafting crafting = new Crafting(new Inventory(new Item[]{
             Item.WOOD,
             Item.WOOD,
-        }));
+        }), new ArmorInventory(null));
         Item[][] table = crafting.getTable();
         for (int row = 0; row < table.length; row++) {
             for (int col = 0; col < table[row].length; col++) {
@@ -79,7 +79,7 @@ public class CraftingTest {
                 }
             }
         }
-        crafting.craft(null);
+        crafting.craft();
         table = crafting.getTable();
         for (int row = 0; row < table.length; row++) {
             for (int col = 0; col < table[row].length; col++) {
@@ -94,7 +94,7 @@ public class CraftingTest {
             Item.WOOD,
             Item.WOOD,
             Item.STICK,
-        }));
+        }), new ArmorInventory(null));
         Item[][] craftableItems = crafting.getCraftableItems();
         ArrayList<Item> items = new ArrayList<Item>();
         for (int row = 0; row < craftableItems.length; row++) {
@@ -108,4 +108,16 @@ public class CraftingTest {
         assertTrue(items.contains(Item.WOODEN_SWORD));
         assertTrue(items.contains(Item.STICK));
     }
+
+    @Test
+    void testOpen() {
+        Crafting crafting = new Crafting(new Inventory(new Item[]{}), new ArmorInventory(null));
+        assertFalse(crafting.isOpen());
+        crafting.open();
+        assertTrue(crafting.isOpen());
+        crafting.open();
+        assertFalse(crafting.isOpen());
+    }
+
+    // To do: add test for armor crafting
 }

@@ -20,4 +20,11 @@ public class ItemTest {
         });
         assert item.getTexture() == "assets/inventoryItems/diamond_leggings.png";
     }
+
+    @Test
+    void testItemMap() {
+        assert Item.getItemWithName("Diamond leggings") == Item.DIAMOND_LEGGINGS;
+        assert Item.getItemWithName("Diamond chestplate") == Item.DIAMOND_CHESTPLATE;
+        assert Item.getItemWithName("Iron helmet") == Item.IRON_HELMET;
+    }
 }

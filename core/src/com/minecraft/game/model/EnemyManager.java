@@ -128,17 +128,17 @@ public class EnemyManager {
         if (chooseEnemy == 0 && knights.size() < 2) {
             Knight enemy = new Knight(2 * Constants.PPM, 4 * Constants.PPM, world, player,
                     spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
-                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
             knights.add(enemy);
         } else if (chooseEnemy == 1 && slimes.size() < 3) {
             Slime slime = new Slime(2 * Constants.PPM, 2 * Constants.PPM, world, player, spawnPosX * Constants.PPM,
                     (spawnPosY + 2) * Constants.PPM,
-                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
             slimes.add(slime);
         } else if (chooseEnemy == 2 && pinkMonsters.size() < 1) {
             PinkMonster pinkMonster = new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, world, player,
                     spawnPosX * Constants.PPM, (spawnPosY + 2) * Constants.PPM,
-                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+                    new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
             pinkMonsters.add(pinkMonster);
         }
     }

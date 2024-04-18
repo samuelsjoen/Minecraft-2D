@@ -11,6 +11,7 @@ import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.crafting.ItemType;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -28,8 +29,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private EntityFactory factory;
 
     private GameState gameState;
+    private Health playerHealth;
     private Player player;
     private Inventory inventory;
+    private ArmorInventory armorInventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private float velX = 0;
@@ -40,7 +43,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private OrthogonalTiledMapRenderer mapRenderer;
 
     public MinecraftModel() {
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.factory = new EntityFactory();
 		this.map = new MinecraftMap();
 
@@ -48,9 +50,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.playerHealth = new Health(5, 5);
+        this.armorInventory = new ArmorInventory(playerHealth);
+        playerHealth.setArmorInventory(armorInventory);
         this.player = initializePlayer();
-
-        this.crafting = new Crafting(getInventory());
+        this.crafting = new Crafting(inventory, armorInventory);
 
         this.dayNightCycle = new DayNightCycle();
 
@@ -104,7 +109,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
             Constants.MASK_PLAYER,
             "player",
             false);
-        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);
+        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory, playerHealth);
     }
 
     @Override
@@ -301,7 +306,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         map = new MinecraftMap();
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
         this.player = initializePlayer();
-        this.crafting = new Crafting(getInventory());
+        this.crafting = new Crafting(inventory, armorInventory);
 
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
@@ -337,7 +342,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void craftItem() {
-        crafting.craft(Player.getHealth());
+        crafting.craft();
     }
 
     private void updateCursor() {
@@ -372,5 +377,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void handleInput(boolean moveLeft, boolean moveRight) {
         getPlayer().handleInput(moveLeft, moveRight);
+    }
+
+    @Override
+    public ArmorInventory getArmorInventory() {
+        return armorInventory;
     }
 }
