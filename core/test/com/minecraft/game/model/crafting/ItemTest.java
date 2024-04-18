@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class ItemTest {
     @Test
-    void testItem() {
+    void testItemInitialization() {
         Item item = Item.DIAMOND_LEGGINGS;
         assert item.getName().equals("Diamond leggings");
         assert item.getType() == ItemType.LEGGINGS;

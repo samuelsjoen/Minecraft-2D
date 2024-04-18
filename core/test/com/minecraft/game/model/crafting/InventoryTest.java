@@ -21,14 +21,32 @@ public class InventoryTest {
         assertTrue(inventory.getSize() == prevSize + 1);
         assertTrue(inventory.contains(Item.WOODEN_PICKAXE));
         assertTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
+    }
+
+    @Test
+    void testAddArmorItem() {
+        Inventory inventory = new Inventory(new Item[]{});
+        inventory.addItem(Item.IRON_BOOTS);
+        assertFalse(inventory.contains(Item.IRON_BOOTS));
+    }
+    @Test
+    void testAddFullItem() {
+        Inventory inventory = new Inventory(new Item[]{
+            Item.WOODEN_PICKAXE,
+        });
+        assertTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
         inventory.addItem(Item.WOODEN_PICKAXE);
         assertTrue(inventory.getAmount(Item.WOODEN_PICKAXE) == 1);
+    }
+
+    @Test
+    void testAddMoreThanMaxAmountItem() {
+        Inventory inventory = new Inventory(new Item[]{});
         inventory.addItem(Item.DIRT, 5);
         assertTrue(inventory.getAmount(Item.DIRT) == 5);
         inventory.addItem(Item.DIRT, 100);
         assertTrue(inventory.getAmount(Item.DIRT) == 64);
     }
-
     @Test
     void testChangeSlot() {
         Inventory inventory = new Inventory(new Item[]{});
@@ -71,23 +89,24 @@ public class InventoryTest {
 
     @Test
     void testIsFull() {
+        System.out.println("New test");
         Inventory inventory = new Inventory(new Item[]{
             Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
-            Item.WOODEN_PICKAXE,
+            Item.WOODEN_SWORD,
+            Item.IRON_ORE,
+            Item.STICK,
+            Item.STONE,
+            Item.STONE_SNOW,
+            Item.DIRT,
+            Item.DIAMOND_PICKAXE,
+            Item.DIAMOND_SWORD,
         });
-        inventory.addItem(Item.WOODEN_SWORD);
-        assertTrue(inventory.contains(Item.WOODEN_SWORD));
-        inventory.addItem(Item.DIAMOND_BOOTS);
-        assertFalse(inventory.contains(Item.DIAMOND_BOOTS));
+        inventory.addItem(Item.LEAVES);
+        assertTrue(inventory.contains(Item.LEAVES));
+        inventory.addItem(Item.DIAMOND_ORE);
+        assertFalse(inventory.contains(Item.DIAMOND_ORE));
         inventory.dropItem();
-        inventory.addItem(Item.DIAMOND_BOOTS);
-        assertTrue(inventory.contains(Item.DIAMOND_BOOTS));
+        inventory.addItem(Item.DIAMOND_ORE);
+        assertTrue(inventory.contains(Item.DIAMOND_ORE));
     }
 }

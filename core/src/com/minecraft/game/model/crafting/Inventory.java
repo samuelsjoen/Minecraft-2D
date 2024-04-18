@@ -8,14 +8,12 @@ public class Inventory {
     private LinkedHashMap<Item, Integer> items;
     private LinkedHashMap<Item, Integer> armorInventory;
     private int maxItemSlots;
-    private int currentItems;
     private int currentSlot;
 
     public Inventory(Item[] defaultItems) {
         this.items = new LinkedHashMap<Item, Integer>();
         this.armorInventory = new LinkedHashMap<>();
         this.maxItemSlots = 9;
-        this.currentItems = items.size();
         this.currentSlot = 0;
 
         for (Item item : defaultItems) {
@@ -76,7 +74,7 @@ public class Inventory {
     }
 
     private boolean isFull() {
-        return currentItems >= maxItemSlots;
+        return items.size() >= maxItemSlots+1;
     }
 
     public void changeSlot(int slot) {
