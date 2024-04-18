@@ -238,6 +238,10 @@ public class Player extends GameEntity {
         return y;
     }
 
+    /**
+     * Moves the player in the specified direction
+     * @param direction
+     */
     public void movePlayer(int direction) {
         // direction = 1 for right, -1 for left
         velX = direction * Constants.PLAYER_MOVE_SPEED;

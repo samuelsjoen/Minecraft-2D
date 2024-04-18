@@ -6,6 +6,7 @@ public class DayNightCycle extends Timer.Task {
 
     private boolean isNight;
     private int numberOfNights;
+    private int numberOfRuns;
 
     public DayNightCycle() {
         isNight = false;
@@ -14,16 +15,14 @@ public class DayNightCycle extends Timer.Task {
 
     @Override
     public void run() {
-        // Change the time of day
+        this.numberOfRuns++;
+        // Change night to day or vice versa
         if (isNight) {
             isNight = false;
             numberOfNights++; // Increment the number when it becomes day
-            //System.out.println("It is now day, number of survived nights: " + numberOfNights);
         } else {
             isNight = true;
         }
-
-        //System.out.println("DayNightCycle run, it is now " + (isNight ? "night" : "day"));
     }
 
     /**
@@ -65,6 +64,14 @@ public class DayNightCycle extends Timer.Task {
      */
     public void resetNumberOfNights() {
         numberOfNights = 0;
+    }
+
+    /**
+     * Get the number of times run() has been called
+     * @return An integer representing the number of times run() has been called
+     */
+    public int numberOfRuns() {
+        return this.numberOfRuns;
     }
 
 }

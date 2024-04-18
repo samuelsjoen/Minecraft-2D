@@ -8,8 +8,7 @@ import com.minecraft.game.model.Player.State;
  * The ControllableMinecraftModel interface represents a controllable Minecraft
  * model.
  * This interface is a connection between the controller and the model.
- * It provides methods to interact with the game state, inventory, player, and
- * tiles/blocks.
+ * It provides methods for the controller to interact with the various components that are in the model.
  */
 public interface ControllableMinecraftModel {
 
@@ -77,7 +76,7 @@ public interface ControllableMinecraftModel {
     /**
      * Returns the state of the player.
      * 
-     * @return the state of the player
+     * @return State object representing the state of the player.
      */
     State getPlayerState();
 
@@ -147,7 +146,7 @@ public interface ControllableMinecraftModel {
     DayNightCycle getDayNightCycle();
 
     /**
-     * Changes the values based on if player should move. 
+     * Changes the values based on if player should move left or right. 
      * @param moveLeft  
      * @param moveRight
      */
