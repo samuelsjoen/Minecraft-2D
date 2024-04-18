@@ -55,7 +55,8 @@ public interface ControllableMinecraftModel {
     /**
      * Moves the player in the specified direction.
      * 
-     * @param direction The direction to move the player. Use -1 for left and +1 for right.
+     * @param direction The direction to move the player. Use -1 for left and +1 for
+     *                  right.
      */
     void movePlayer(int direction);
 
@@ -142,14 +143,21 @@ public interface ControllableMinecraftModel {
 
     /**
      * Get the DayNightCycle object
+     * 
      * @return the DayNightCycle object
      */
     DayNightCycle getDayNightCycle();
 
     /**
-     * Changes the values based on if player should move. 
-     * @param moveLeft  
+     * Changes the values based on if player should move.
+     * 
+     * @param moveLeft
      * @param moveRight
      */
     void handleInput(boolean moveLeft, boolean moveRight);
+
+    /**
+     * Kills all enemies on the screen (usefull for debugging).
+     */
+    void killAllEntities();
 }

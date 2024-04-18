@@ -306,7 +306,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         gameState = GameState.WELCOME_SCREEN;
-        EnemyManager.killAllEntities();
+        killAllEntities();
     }
 
     public void checkAndUpdateGameState() {
@@ -372,5 +372,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void handleInput(boolean moveLeft, boolean moveRight) {
         getPlayer().handleInput(moveLeft, moveRight);
+    }
+
+    @Override
+    public void killAllEntities() {
+        EnemyManager.killAllEntities();
     }
 }

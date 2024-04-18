@@ -211,7 +211,7 @@ public class EnemyManagerTest {
         enemyManager.spawnEnemy();
 
         // Use the getter to check which enemy was chosen
-        float chosenEnemy = enemyManager.getChooseEnemy();
+        int chosenEnemy = enemyManager.getChooseEnemy();
         // Assert based on the chosenEnemy value
         if (chosenEnemy == 0) {
             assertFalse(EnemyManager.knights.isEmpty(), "A Knight should have been spawned.");

@@ -10,7 +10,7 @@ import com.minecraft.game.utils.Constants;
 import com.minecraft.game.view.MinecraftView;
 import java.util.LinkedList;
 
-public class MinecraftController implements InputProcessor {//extends InputAdapter {
+public class MinecraftController implements InputProcessor {// extends InputAdapter {
 
     private ControllableMinecraftModel controllableModel;
     private PlayerController playerController;
@@ -20,7 +20,7 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
     private int lastTileY;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
-        this.controllableModel = controllableModel; 
+        this.controllableModel = controllableModel;
         this.view = view;
         this.timer = new Timer(); // Timer used for mining blocks
 
@@ -91,16 +91,16 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
                     setGameStateAndUpdateScreen(GameState.GAME_PAUSED);
                     return true;
                 case Constants.MOVE_LEFT_KEY:
-                    //controllableModel.movePlayer(-1); // Move left
+                    // controllableModel.movePlayer(-1); // Move left
                     playerController.setMoveLeft(true); // Move left
                     return true;
                 case Constants.MOVE_RIGHT_KEY:
-                    //controllableModel.movePlayer(+1); // Move right
+                    // controllableModel.movePlayer(+1); // Move right
                     playerController.setMoveRight(true); // Move right
                     return true;
                 case Constants.JUMP_KEY:
                     controllableModel.playerJump();
-                    //playerController.setJump(true); // Player jump
+                    // playerController.setJump(true); // Player jump
                     return true;
                 case Constants.ATTACK_KEY:
                     controllableModel.playerAttack();
@@ -109,14 +109,14 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
                         controllableModel.moveCraftableTableSelection(0, -1);
                     } else {
-                    controllableModel.changeInventorySlot(-1); // Change inventory slot to the left
+                        controllableModel.changeInventorySlot(-1); // Change inventory slot to the left
                     }
                     return true;
                 case Constants.CHANGE_INVENTORY_RIGHT_KEY:
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
                         controllableModel.moveCraftableTableSelection(0, 1);
                     } else {
-                    controllableModel.changeInventorySlot(+1); // Change inventory slot to the right
+                        controllableModel.changeInventorySlot(+1); // Change inventory slot to the right
                     }
                     return true;
                 case Constants.DROP_INVENTORY_ITEM_KEY:
@@ -125,7 +125,7 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
                 case Input.Keys.ENTER:
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
                         controllableModel.craftItem();
-                    }    
+                    }
                 case Input.Keys.UP:
                     if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
                         controllableModel.moveCraftableTableSelection(-1, 0);
@@ -144,8 +144,11 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
                     }
                     controllableModel.toggleCrafting();
                     return true;
+                case Input.Keys.N:
+                    controllableModel.killAllEntities();
+                    return true;
             }
-        return false;
+            return false;
         }
         return false;
     }
@@ -212,7 +215,7 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
     private void handleWelcomeScreenTouch(int screenX, int screenY) {
         float touchX = Gdx.input.getX();
         float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-    
+
         if (view.isStartButtonClicked(touchX, touchY)) {
             setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
         } else if (view.isHelpButtonClicked(touchX, touchY)) {
@@ -241,9 +244,9 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
             if (tileX < 0 || tileY < 0) { // Invalid tile coordinates
                 return;
             }
-    
+
             if (tileX != lastTileX || tileY != lastTileY) { // Check if the player is still mining the same block
-    
+
                 if (controllableModel.isBlockMineable(tileX, tileY)) {
                     view.playMineBlockSound();
                 }
@@ -257,11 +260,11 @@ public class MinecraftController implements InputProcessor {//extends InputAdapt
                         view.stopMineBlockSound();
                     }
                 };
-    
+
                 float delay = controllableModel.getTileDamage(tileX, tileY);
                 timer.scheduleTask(blockRemovalTask, delay);
             }
-    
+
             // Store the previous tile coordinates
             lastTileX = tileX;
             lastTileY = tileY;

@@ -29,9 +29,11 @@ public class EnemyManager {
     private World world;
     private Player player;
     private float spawnTimer;
-    private float chooseEnemy;
+    private int chooseEnemy;
     private final float spawnIntervalMin = 1.0f; // Minimum time between spawns
     private final float spawnIntervalMax = 5.0f; // Maximum time between spawns
+    // private final float spawnIntervalMin = 0.0f; // Minimum time between spawns
+    // private final float spawnIntervalMax = 0.0f; // Maximum time between spawns
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
 
@@ -41,6 +43,7 @@ public class EnemyManager {
         // this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
+        killAllEntities();
     }
 
     public void update(float delta) {
@@ -96,9 +99,10 @@ public class EnemyManager {
         TiledMapTileLayer mineableLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         Cell cell = mineableLayer.getCell(tileX, tileY - 1);
         Cell aboveCell1 = mineableLayer.getCell(tileX, tileY);
-        // Cell aboveCell2 = mineableLayer.getCell(tileX, tileY + 2);
+        Cell aboveCell2 = mineableLayer.getCell(tileX, tileY + 1);
 
-        boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null);
+        boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null)
+                && (aboveCell2 == null || aboveCell2.getTile() == null);
         // boolean isAboveEmpty = (aboveCell1 == null || aboveCell1.getTile() == null)
         // &&
         // (aboveCell2 == null || aboveCell2.getTile() == null);
@@ -142,6 +146,7 @@ public class EnemyManager {
         }
 
         chooseEnemy = MathUtils.random(0, 2); // Choosing a random enemy
+        // chooseEnemy = 2; // Always picking Pinkmonster
         boolean validLocationFound = false;
         float spawnPosX = 0, spawnPosY = 0;
 
@@ -224,7 +229,7 @@ public class EnemyManager {
         return projectiles;
     }
 
-    public float getChooseEnemy() {
+    public int getChooseEnemy() {
         return chooseEnemy;
     }
 
