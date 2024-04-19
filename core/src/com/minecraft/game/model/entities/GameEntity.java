@@ -13,6 +13,7 @@ public abstract class GameEntity implements Disposable {
     public float width;
     public float height;
     protected Body body;
+    private boolean markForRemoval = false;
 
     public GameEntity(float width, float height, Body body) {
         this.x = body.getPosition().x;
@@ -32,8 +33,16 @@ public abstract class GameEntity implements Disposable {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         body.getWorld().destroyBody(body);
+    }
+
+    public boolean isMarkedForRemoval() {
+        return markForRemoval;
+    }
+
+    public void setMarkedForRemoval() {
+        markForRemoval = !markForRemoval;
     }
 
 }

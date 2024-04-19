@@ -72,14 +72,7 @@ class SlimeTest {
     void slimeShouldTransitionToAttackingWhenCloseToPlayer() {
         // Place player close enough to trigger attacking state
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to the slime
-        System.out.println("slime position: " + slime.getBody().getPosition().x);
-        System.out.println("Player position: " + mockPlayer.getBody().getPosition().x);
-        System.out.println("slime state: " + slime.getCurrentState());
         slime.update(0.1f);
-        System.out.println("slime position: " + slime.getBody().getPosition().x);
-        System.out.println("Player position: " + mockPlayer.getBody().getPosition().x);
-        System.out.println("slime state: " + slime.getCurrentState());
-
         assertEquals(Slime.State.ATTACKING, slime.getCurrentState(), "slime should transition to ATTACKING state");
     }
 

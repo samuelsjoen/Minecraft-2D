@@ -20,14 +20,13 @@ public class Projectile extends GameEntity {
         super(width, height,
                 BodyHelperService.createBody(startPosition.x, startPosition.y, width, height, null, false, world,
                         Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "projectile", false));
-        // this.texture = new Texture("assets/Rock2.png");
         this.target = target;
         this.body.setBullet(true); // To ensure continuous collision detection
         calculateTrajectory(startPosition, target);
     }
 
     private void calculateTrajectory(Vector2 startPosition, Vector2 target) {
-        float gravity = 0.7f; // Adjust based on your game's gravity scale
+        float gravity = 0.7f;
 
         // Calculate horizontal (dx) and vertical (dy) distances to the target
         float dx = target.x - startPosition.x;
@@ -39,8 +38,6 @@ public class Projectile extends GameEntity {
         // Calculate the initial speed needed to reach the target at the specified angle
         // Simplified formula based on projectile motion equations: v = sqrt(g*h /
         // sin(2*theta))
-        // Adjusted to incorporate horizontal distance (dx) and to fine-tune for game
-        // feel
         float speed = (float) Math.sqrt((gravity * Math.abs(dx)) / Math.sin(2 * angleRadians));
 
         // Calculate velocity components

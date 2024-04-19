@@ -18,7 +18,7 @@ public class MinecraftController extends InputAdapter {
     private InventoryController inventoryController;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
-        this.controllableModel = controllableModel; 
+        this.controllableModel = controllableModel;
         this.view = view;
 
         this.playerController = new PlayerController(controllableModel);
