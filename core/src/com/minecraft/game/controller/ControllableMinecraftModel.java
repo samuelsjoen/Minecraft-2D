@@ -134,8 +134,13 @@ public interface ControllableMinecraftModel {
 
     /**
      * Get the DayNightCycle object
+     * 
      * @return the DayNightCycle object
      */
     DayNightCycle getDayNightCycle();
 
+    /**
+     * Kills all enemies on the screen (usefull for debugging).
+     */
+    void killAllEntities();
 }

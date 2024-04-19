@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.model.entities.Slime;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,6 +25,8 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -208,8 +211,7 @@ public class EnemyManagerTest {
         enemyManager.spawnEnemy();
 
         // Use the getter to check which enemy was chosen
-        float chosenEnemy = enemyManager.getChooseEnemy();
-        System.out.println(chosenEnemy);
+        int chosenEnemy = enemyManager.getChooseEnemy();
         // Assert based on the chosenEnemy value
         if (chosenEnemy == 0) {
             assertFalse(EnemyManager.knights.isEmpty(), "A Knight should have been spawned.");
@@ -258,6 +260,90 @@ public class EnemyManagerTest {
         enemyManager.update(delta);
         float newSpawnTimer = enemyManager.getSpawnTimer();
         assertTrue(newSpawnTimer > 0, "spawnTimer should be reset to a value greater than 0.");
+    }
+
+    @Test
+    void testGetProjectiles_ReturnsEmptyListWhenNoProjectilesExist() {
+        assertTrue(EnemyManager.getProjectiles().isEmpty(), "Projectiles list should be empty initially.");
+    }
+
+    @Test
+    void testGetProjectiles_ReturnsAddedProjectiles() {
+        // Mock a projectile and add it to the list
+        Projectile projectile = mock(Projectile.class);
+        EnemyManager.addProjectile(projectile);
+
+        // Call the method under test
+        List<Projectile> projectiles = EnemyManager.getProjectiles();
+
+        // Verify that the list contains the added projectile
+        assertTrue(projectiles.contains(projectile), "The list should contain the added projectile.");
+    }
+
+    @Test
+    void testHandleProjectileCollisions_RemovesMarkedProjectiles() {
+        // Mock a projectile and add it to the list
+        Projectile projectile = mock(Projectile.class);
+        EnemyManager.projectiles.add(projectile);
+
+        // Mark the projectile for removal
+        when(projectile.isMarkedForRemoval()).thenReturn(true);
+
+        // Call the method under test
+        enemyManager.update(0);
+
+        // Verify that the projectile was removed
+        assertFalse(EnemyManager.projectiles.contains(projectile), "The projectile should have been removed.");
+        verify(projectile).dispose(); // Verify that dispose was called on the projectile
+    }
+
+    @Test
+    void testHandleProjectileCollisions_DoesNotRemoveUnmarkedProjectiles() {
+        // Mock a projectile and add it to the list
+        Projectile projectile = mock(Projectile.class);
+        EnemyManager.projectiles.add(projectile);
+
+        // Do not mark the projectile for removal
+        when(projectile.isMarkedForRemoval()).thenReturn(false);
+
+        // Call the method under test
+        enemyManager.update(0);
+
+        // Verify that the projectile was not removed
+        assertTrue(EnemyManager.projectiles.contains(projectile), "The projectile should not have been removed.");
+        verify(projectile, never()).dispose(); // Verify that dispose was not called on the projectile
+    }
+
+    @Test
+    void testKillAllEntities() {
+        // Create an instance of EnemyManager
+        // EnemyManager enemyManager = new EnemyManager(mock(World.class),
+        // mock(Player.class), mock(TiledMap.class),
+        // mock(DayNightCycle.class));
+
+        // Create mock entities and add them to the lists
+        Knight mockKnight1 = mock(Knight.class);
+        Knight mockKnight2 = mock(Knight.class);
+        Slime mockSlime1 = mock(Slime.class);
+        Slime mockSlime2 = mock(Slime.class);
+        PinkMonster mockPinkMonster1 = mock(PinkMonster.class);
+        Projectile mockProjectile = mock(Projectile.class);
+
+        EnemyManager.knights.add(mockKnight1);
+        EnemyManager.knights.add(mockKnight2);
+        EnemyManager.slimes.add(mockSlime1);
+        EnemyManager.slimes.add(mockSlime2);
+        EnemyManager.pinkMonsters.add(mockPinkMonster1);
+        EnemyManager.projectiles.add(mockProjectile);
+
+        // Call killAllEntities()
+        EnemyManager.killAllEntities();
+
+        // Check that all lists are empty
+        assertTrue(EnemyManager.knights.isEmpty(), "Knights list should be empty after killAllEntities()");
+        assertTrue(EnemyManager.slimes.isEmpty(), "Slimes list should be empty after killAllEntities()");
+        assertTrue(EnemyManager.pinkMonsters.isEmpty(), "PinkMonsters list should be empty after killAllEntities()");
+        assertTrue(EnemyManager.projectiles.isEmpty(), "Projectiles list should be empty after killAllEntities()");
     }
 
     @BeforeAll

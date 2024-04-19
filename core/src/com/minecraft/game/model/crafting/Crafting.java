@@ -2,8 +2,6 @@ package com.minecraft.game.model.crafting;
 
 import java.util.HashMap;
 
-import com.minecraft.game.model.Health;
-
 public class Crafting {
 
     private int selectedRow;

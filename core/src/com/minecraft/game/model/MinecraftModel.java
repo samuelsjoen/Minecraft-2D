@@ -43,8 +43,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     public MinecraftModel() {
         this.factory = new EntityFactory();
-		this.map = new MinecraftMap();
-        
+        this.map = new MinecraftMap();
+
+        // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
@@ -57,7 +58,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.dayNightCycle = new DayNightCycle();
 
-        // We are never going to start with a pickaxe in inventory - so this can be false
+        // We are never going to start with a pickaxe in inventory - so this can be
+        // false
         this.isLastItemPickaxe = false;
 
     }
@@ -73,6 +75,14 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         handleGameStateChange();
     }
 
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
+        } else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
+    }
+
     @Override
     public World getWorld() {
         return map.getWorld();
@@ -84,7 +94,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     private Player initializePlayer() {
 
-        Rectangle rectangle =  getPlayerRectangle();
+        Rectangle rectangle = getPlayerRectangle();
 
         Body body = BodyHelperService.createBody(
             rectangle.getX() + rectangle.getWidth() / 2,
@@ -156,15 +166,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public DayNightCycle getDayNightCycle() {
         return this.dayNightCycle;
-    }
-
-    private void handleGameStateChange() {
-        if (gameState == GameState.GAME_ACTIVE) {
-            dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
-        }
-        else if (gameState == GameState.GAME_PAUSED) {
-            dayNightCycle.pauseCycle();
-        }
     }
 
     @Override
@@ -339,17 +340,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
-        gameState = GameState.WELCOME_SCREEN; 
+        gameState = GameState.WELCOME_SCREEN;
+        killAllEntities();
     }
 
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
-        }
-        else {
+        } else {
             int nightsSurvived = dayNightCycle.getNumberOfNights();
             if (nightsSurvived >= 3) {
-                setGameState(GameState.GAME_WON);        
+                setGameState(GameState.GAME_WON);
             }
         }
     }
@@ -379,5 +380,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public ArmorInventory getArmorInventory() {
         return armorInventory;
+    }
+
+    @Override
+    public void killAllEntities() {
+        EnemyManager.killAllEntities();
     }
 }

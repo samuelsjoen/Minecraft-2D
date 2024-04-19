@@ -73,6 +73,17 @@ public class InventoryController {
                 controllableModel.toggleCrafting();
                 controllableModel.setGameState(GameState.GAME_ACTIVE);
                 return true;
+            
+            case Keys.W:
+                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                    controllableModel.moveCraftableTableSelection(-1, 0);
+                }
+                return true;
+            
+            case Keys.S:
+                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                    controllableModel.moveCraftableTableSelection(1, 0);
+                }
 
             default:
                 return false;
