@@ -16,8 +16,8 @@ public class MenuScreen extends ScreenAdapter {
     private Texture quitButtonTexture;
     private final float buttonSpacing = 5;
 
-    public MenuScreen(Minecraft game) {
-        this.batch = new SpriteBatch();
+    public MenuScreen(Minecraft game, SpriteBatch batch) {
+        this.batch = batch;
         loadTextures();
     }
 
@@ -38,22 +38,22 @@ public class MenuScreen extends ScreenAdapter {
         batch.end();
     }
 
-    private void clearScreen() {
+    void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
-    private void drawMenu() {
+    void drawMenu() {
         drawBackground();
         drawTitle();
         drawButtons();
     }
 
-    private void drawBackground() {
+    void drawBackground() {
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    private void drawTitle() {
+    void drawTitle() {
         int titleWidth = (int) (titleTexture.getWidth() * 0.6f);
         int titleHeight = (int) (titleTexture.getHeight() * 0.6f);
         int titleX = (Gdx.graphics.getWidth() - titleWidth) / 2;
@@ -61,7 +61,7 @@ public class MenuScreen extends ScreenAdapter {
         batch.draw(titleTexture, titleX, titleY, titleWidth, titleHeight);
     }
 
-    private void drawButtons() {
+    void drawButtons() {
         float buttonY = 300;
         buttonY = drawButton(startButtonTexture, buttonY);
         buttonY -= buttonSpacing;
@@ -70,7 +70,7 @@ public class MenuScreen extends ScreenAdapter {
         drawButton(quitButtonTexture, buttonY);
     }
 
-    private float drawButton(Texture buttonTexture, float buttonY) {
+    float drawButton(Texture buttonTexture, float buttonY) {
         int buttonWidth = (int) (buttonTexture.getWidth());
         int buttonHeight = (int) (buttonTexture.getHeight());
         int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
@@ -101,7 +101,7 @@ public class MenuScreen extends ScreenAdapter {
         return isButtonClicked(quitButtonTexture, touchX, touchY);
     }
 
-    private boolean isButtonClicked(Texture buttonTexture, float touchX, float touchY) {
+    boolean isButtonClicked(Texture buttonTexture, float touchX, float touchY) {
         int buttonWidth = buttonTexture.getWidth();
         int buttonHeight = buttonTexture.getHeight();
         int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
@@ -125,5 +125,25 @@ public class MenuScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+    }
+
+    public void setBackgroundTexture(Texture backgroundTexture) {
+        this.backgroundTexture = backgroundTexture;
+    }
+
+    public void setTitleTexture(Texture titleTexture) {
+        this.titleTexture = titleTexture;
+    }
+
+    public void setHelpButtonTexture(Texture helpButtonTexture) {
+        this.helpButtonTexture = helpButtonTexture;
+    }
+
+    public void setStartButtonTexture(Texture startButtonTexture) {
+        this.startButtonTexture = startButtonTexture;
+    }
+
+    public void setQuitButtonTexture(Texture quitButtonTexture) {
+        this.quitButtonTexture = quitButtonTexture;
     }
 }

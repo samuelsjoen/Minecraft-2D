@@ -58,9 +58,9 @@ public class GameScreen extends ScreenAdapter {
     private MinecraftView minecraftView;
 
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
-            MinecraftView minecraftView) {
+            MinecraftView minecraftView, SpriteBatch batch) {
         this.camera = camera;
-        this.batch = new SpriteBatch();
+        this.batch = batch;
 
         this.isNightBackground = false;
         this.backgroundNight = new Texture(Gdx.files.internal("assets/backgroundNight.png"));
@@ -96,13 +96,14 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    private void update() {
+    public void update() {
 
         viewableMinecraftModel.checkAndUpdateGameState();
 
         if (viewableMinecraftModel.getGameState() == GameState.GAME_OVER || viewableMinecraftModel.getGameState() == GameState.GAME_WON) {
-            // If the game is over, call the method in MinecraftView to update the screen
+            // If the game is over/won, call the method in MinecraftView to update the screen
             minecraftView.updateScreen();
+            return;
         }
 
         // TODO: world.step() should be called in model?
@@ -143,7 +144,7 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
     }
 
-    private Vector2 getLowerLeftCorner() {
+    Vector2 getLowerLeftCorner() {
         float cameraX = camera.position.x - camera.viewportWidth / 2;
         float cameraY = camera.position.y - camera.viewportHeight / 2;
         return new Vector2(cameraX, cameraY);
@@ -161,7 +162,7 @@ public class GameScreen extends ScreenAdapter {
         backgroundImage = backgroundNight;
     }
 
-    private void updateBackground() {
+    void updateBackground() {
         boolean isNight = dayNightCycle.getIsNight();
         if (isNight != isNightBackground) {
             isNightBackground = isNight;
@@ -230,6 +231,57 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();
         spriteManager.dispose();
+    }
+
+    // for testing
+
+    public void setMapRenderer(OrthogonalTiledMapRenderer mapRenderer) {
+        this.orthogonalTiledMapRenderer = mapRenderer;
+    }
+
+    public void setSpriteManager(SpriteManager spriteManager) {
+        this.spriteManager = spriteManager;
+    }
+
+    public void setOverlayView(OverlayView overlayView) {
+        this.overlayView = overlayView;
+    }
+
+    public void setEnemyManager(EnemyManager enemyManager) {
+        this.enemyManager = enemyManager;
+    }
+
+    public Texture getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public Texture getBackgroundDay() {
+        return backgroundDay;
+    }
+
+    public Texture getBackgroundNight() {
+        return backgroundNight;
+    }
+
+    public void setBackgroundImage(Texture backgroundImage) {
+        this.backgroundImage= backgroundImage;
+    }
+
+
+    public void setBackgroundNight(Texture backgroundNight) {
+        this.backgroundNight = backgroundNight;
+    }
+
+    public void setBackgroundDay(Texture backgroundDay) {
+        this.backgroundDay = backgroundDay;
+    }
+
+    public void setIsNightBackground(Boolean isNightBackground) {
+        this.isNightBackground = isNightBackground;
+    }
+
+    public void setDayNightCycle(DayNightCycle dayNightCycle) {
+        this.dayNightCycle = dayNightCycle;
     }
 
 }

@@ -35,20 +35,20 @@ public class MinecraftView implements Disposable {
 
     private SoundManager mineBlockSoundManager;
 
-    public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel) {
+    public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel, SpriteBatch spriteBatch, BitmapFont font) {
 
         this.game = game;
         this.viewableMinecraftModel = viewableMinecraftModel;
 
-        this.spriteBatch = new SpriteBatch();
-        this.font = new BitmapFont();
+        this.spriteBatch = spriteBatch;
+        this.font = font;
 
         // Create the sound manager for the mine block sound
         this.mineBlockSoundManager = new MineBlockSoundManager("assets/sound/mineSound.wav");
 
-        this.menuScreen = new MenuScreen(game);
+        this.menuScreen = new MenuScreen(game, spriteBatch);
         this.helpScreen = new HelpScreen(game, spriteBatch);
-        this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
+        this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this, spriteBatch);
         this.pausedScreen = new PausedScreen(game, spriteBatch, font);
         this.gameOverScreen = new GameOverScreen(game, spriteBatch, font);
         this.gameWonScreen = new GameWonScreen(game, spriteBatch, font);
@@ -58,8 +58,8 @@ public class MinecraftView implements Disposable {
     }
 
     public void newGameScreen() {
-        gameScreen.dispose();
-        gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this);
+        //gameScreen.dispose();
+        gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this, spriteBatch);
         updateScreen();
     }
 
@@ -129,6 +129,72 @@ public class MinecraftView implements Disposable {
         pausedScreen.dispose();
         gameScreen.dispose();
         gameOverScreen.dispose();
+    }
+
+    // Getters for testing
+
+    public MenuScreen getMenuScreen() {
+        return menuScreen;
+    }
+
+    public HelpScreen getHelpScreen() {
+        return helpScreen;
+    }
+
+    public PausedScreen getPausedScreen() {
+        return pausedScreen;
+    }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+
+    public GameOverScreen getGameOverScreen() {
+        return gameOverScreen;
+    }
+
+    public GameWonScreen getGameWonScreen() {
+        return gameWonScreen;
+    }    
+
+    public void setSpriteBatch(SpriteBatch spriteBatch) {
+        this.spriteBatch = spriteBatch;
+    }
+
+    public void setMenuScreen(MenuScreen menuScreen) {
+        this.menuScreen = menuScreen;
+    }
+
+    public void setHelpScreen(HelpScreen helpScreen) {
+        this.helpScreen = helpScreen;
+    }
+
+    public void setPausedScreen(PausedScreen pausedScreen) {
+        this.pausedScreen = pausedScreen;
+    }
+
+    public void setGameScreen(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
+    }
+
+    public void setGameOverScreen(GameOverScreen gameOverScreen) {
+        this.gameOverScreen = gameOverScreen;
+    }
+
+    public void setGameWonScreen(GameWonScreen gameWonScreen) {
+        this.gameWonScreen = gameWonScreen;
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return spriteBatch;
+    }
+    
+    public BitmapFont getFont() {
+        return font;
+    }
+
+    public SoundManager getMineBlockSoundManager() {
+        return mineBlockSoundManager;
     }
     
 }
