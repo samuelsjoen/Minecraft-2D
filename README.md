@@ -79,8 +79,13 @@ Pink monster: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
 
 Vi har hentet bilde til musepekeren fra denne siden: https://astropulse.itch.io/familiar-pixel-cursors
 
+**Grafikk for inventory, health, overlay**
+Pinne: Admurin. (2022). Admurin's Armory [Sprite pack]. itch.io https://admurin.itch.io/pixel-armory
+Sverd: DantePixels (2023) Tools Asset 16x16 [Sprite pack]. itch.io https://dantepixels.itch.io/tools-asset-16x16
+Samuel Sjøen (2024) Overlay textures. Lisens: CC0 1.0 Universal
+
 **Annet**
-For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: https://textcraft.net/
+For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: Textcraft. (2024). Minecrafter [Font]. Textcraft.net. https://textcraft.net/
 
 ### Lyd
 
