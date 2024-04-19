@@ -1,0 +1,46 @@
+Referat for møte [19.04.2024]
+
+Formål:
+
+- Merge brancher
+- Diskutere hva vi må gjøre frem til release
+- Jobbe litt på kode
+
+Deltakere:
+
+    Nini Bjørnstad
+    Martine Larsen
+    Samuel Sjøen
+
+Sammendrag:
+Hva vi har fått til siden sist møte:
+- Fått bedre test coverage. ~70%
+- Intialiserer Player i MinecraftModel
+- Fikset slik at player sin bevegelse er mer 'schmud'
+- Fått lag objektfabrikk
+- Implementere cursor på en annen måte
+- Health sin initialisering har blitt optimalisert
+- Separert ArmorInventory og Inventory
+- Enemy spawner ikke inne i blokker
+- Enemies forsvinner når man restarter spillet
+
+Ting som må gjøres:
+- Lage java doc for ALLE public methods
+- Feltvariabler skal være private (hovedregel) + initialisering inne i konstruktør
+- Lage flere tester
+
+Aksjoner og Ansvar:
+- Finpusse kode (implementere interfaces/abstract classes, osv., legge til javadoc, private' feltvariabler)
+- Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
+- Testing
+
+[ Craftingview, Inventoryview og Overlayview teste - Samuel]
+[ Implementere en highscore (at man får poeng for hver enemy man dreper) - Magnus]
+[ MinecraftModel, Gamescreen og annet teste, se litt på Gradle run - Martine & Nini]
+
+Neste skritt:
+
+    Diskuterer problemer/fremgang neste møte 
+    - Lage/få lagd flere tester
+    - Få jobbet på våres aksjoner
+    - Diskutere hva vi skal gjøre fremover
