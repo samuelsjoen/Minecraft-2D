@@ -11,6 +11,7 @@ import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.crafting.ItemType;
+import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
@@ -28,8 +29,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private EntityFactory factory;
 
     private GameState gameState;
+    private Health playerHealth;
     private Player player;
     private Inventory inventory;
+    private ArmorInventory armorInventory;
 
     private int jumpCounter = 0; // Jump counter initialized
     private Crafting crafting;
@@ -39,16 +42,18 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private OrthogonalTiledMapRenderer mapRenderer;
 
     public MinecraftModel() {
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.factory = new EntityFactory();
 		this.map = new MinecraftMap();
         
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.playerHealth = new Health(5, 5);
+        this.armorInventory = new ArmorInventory(playerHealth);
+        playerHealth.setArmorInventory(armorInventory);
         this.player = initializePlayer();
-
-        this.crafting = new Crafting(getInventory());
+        this.crafting = new Crafting(inventory, armorInventory);
 
         this.dayNightCycle = new DayNightCycle();
 
@@ -75,6 +80,25 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     public Rectangle getPlayerRectangle() {
         return map.getPlayerRectangle();
+    }
+
+    private Player initializePlayer() {
+
+        Rectangle rectangle =  getPlayerRectangle();
+
+        Body body = BodyHelperService.createBody(
+            rectangle.getX() + rectangle.getWidth() / 2,
+            rectangle.getY() + rectangle.getHeight() / 2,
+            rectangle.getWidth(),
+            rectangle.getHeight(),
+            null,
+            false,
+            getWorld(),
+            Constants.CATEGORY_PLAYER,
+            Constants.MASK_PLAYER,
+            "player",
+            false);
+        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory, playerHealth);
     }
 
     @Override
@@ -330,7 +354,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         map = new MinecraftMap();
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
         this.player = initializePlayer();
-        this.crafting = new Crafting(getInventory());
+        this.crafting = new Crafting(inventory, armorInventory);
 
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
@@ -363,8 +387,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.map = map;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    @Override
+    public void craftItem() {
+        crafting.craft();
     }
 
     public void setCrafting (Crafting crafting) {
@@ -373,5 +398,10 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     public void setDayNightCycle(DayNightCycle dayNightCycle) {
         this.dayNightCycle = dayNightCycle;
+    }
+
+    @Override
+    public ArmorInventory getArmorInventory() {
+        return armorInventory;
     }
 }

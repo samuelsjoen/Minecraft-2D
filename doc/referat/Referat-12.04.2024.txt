@@ -1,13 +1,11 @@
 Referat for møte [12.04.2024]
 
 Formål:
-
 - Merge brancher
-- Diskutere hva vi må gjøre frem ...
+- Diskutere hva vi må gjøre fremover
 - Skrive ferdig Oblig3
 
 Deltakere:
-
     Nini Bjørnstad
     Magnus Halvorsen
     Martine Larsen
@@ -30,22 +28,20 @@ Ting som må gjøres:
 - Må gjøre noen småendringer, fikse noen bugs, optimalisere kode, osv.
 - Implementere objektfabrikker
 - Se om vi trenger en til abstraktklasse?
-- Implementere "powerup" for verktøy: slik at det går raskere å mine blokker når du har bedre verktøy
 - Forbedre implementasjon av cursor - slik at det kun oppdateres når selected item er pickaxe.
 
 Aksjoner og Ansvar:
 - Finpusse kode (implementere interfaces/abstract classes) 
 - Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
-- Testing
+- Testing 
 [  - Samuel]
-[  - Magnus]
-[  - Martine]
-[  - Nini]
+[ Implementere Entityfactory - Magnus]
+[ Initialisere Player i MinecraftModel, Implementere endring av cursor på en annen måte, 
+gjøre bevelgesen til player mer 'smooth' - Martine & Nini]
 
 Neste skritt:
-
     Diskuterer problemer/fremgang neste møte 
-    - Lage/få lagd flere tester
+    - Lage flere tester
     - Få jobbet på våres aksjoner
     - Diskutere hva vi skal gjøre fremover
     

@@ -51,7 +51,7 @@ public class PlayerTest {
         // constants for width and height
         final float testWidth = 10.0f;
         final float testHeight = 10.0f;
-        player = new Player(testWidth, testHeight, mockBody, mockInventory);
+        player = new Player(testWidth, testHeight, mockBody, mockInventory, new Health(5, 5));
     }
 
     @Test
@@ -274,4 +274,16 @@ public class PlayerTest {
         damage = player.calculateDamage();
         assertEquals(1, damage, "Damage should be 1 when the player has no sword selected");
     }
+
+    // #TODO: Test the movePlayer method (doesnt work rn, need to fix it)
+    @Test
+    void testMovePlayer() {
+        Body playerBody = player.getBody();
+        System.out.println(playerBody.getLinearVelocity());
+        // Move player to the right
+        player.movePlayer(1);
+        //System.out.println(playerBody.getLinearVelocity());
+        //assertTrue(playerBody.getLinearVelocity().x == Constants.PLAYER_MOVE_SPEED);
+    }
+
 }

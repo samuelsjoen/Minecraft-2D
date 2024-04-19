@@ -58,12 +58,17 @@ public class PlayerController {
         updateMovement();  
     }
 
-    // Methods to set player input state
+    /**
+     * Set the moveLeft variable to true or false, and handle the input
+     */
     public void setMoveLeft(boolean moveLeft) {
         this.moveLeft = moveLeft;
         updateMovement();
     }
 
+    /**
+     * Set the moveRight variable to true or false, and handle the input
+     */
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
         updateMovement();

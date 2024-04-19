@@ -22,6 +22,7 @@ public class MapLoader {
         } catch (Exception e) {
             String fullPath = Gdx.files.internal(mapPath).file().getAbsolutePath();
             System.err.println("Failed to load map: " + fullPath);
+            e.printStackTrace();
             return null;
         }
     }
