@@ -168,15 +168,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         return this.dayNightCycle;
     }
 
-    private void handleGameStateChange() {
-        if (gameState == GameState.GAME_ACTIVE) {
-            dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
-        }
-        else if (gameState == GameState.GAME_PAUSED) {
-            dayNightCycle.pauseCycle();
-        }
-    }
-
     @Override
     public boolean isBlockMineable(int tileX, int tileY) {
         return map.isTileMineable(tileX, tileY);    

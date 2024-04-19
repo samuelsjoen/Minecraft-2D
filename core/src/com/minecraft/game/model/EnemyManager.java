@@ -169,7 +169,7 @@ public class EnemyManager {
     private void spawnEntityBasedOnChoice(float spawnPosX, float spawnPosY) {
         EntityParams params = new EntityParams(world, player, spawnPosX * Constants.PPM,
                 (spawnPosY + 2) * Constants.PPM,
-                new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH, null));
+                new Health(Constants.ENEMY_MAX_HEALTH, Constants.ENEMY_MAX_HEALTH));
 
         GameEntity entity = null;
         if (chooseEnemy == 0 && knights.size() < 2) {

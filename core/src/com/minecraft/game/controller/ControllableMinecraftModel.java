@@ -140,14 +140,6 @@ public interface ControllableMinecraftModel {
     DayNightCycle getDayNightCycle();
 
     /**
-     * Changes the values based on if player should move.
-     * 
-     * @param moveLeft
-     * @param moveRight
-     */
-    void handleInput(boolean moveLeft, boolean moveRight);
-
-    /**
      * Kills all enemies on the screen (usefull for debugging).
      */
     void killAllEntities();

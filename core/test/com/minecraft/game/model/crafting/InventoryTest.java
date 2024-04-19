@@ -7,8 +7,6 @@ import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
 
-import com.minecraft.game.model.Health;
-
 public class InventoryTest {
 
     @Test

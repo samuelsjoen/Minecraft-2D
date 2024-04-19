@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.MinecraftModel;
-import com.minecraft.game.model.Player;
+//import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.Constants;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,16 +15,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.when;
 
 public class MinecraftMapTest extends LibgdxUnitTest {
 
 	private MinecraftMapHelper minecraftMapHelper;
 	private TiledMap tiledMap;
-	private Player playerMock;
+	//private Player playerMock;
 	private TiledMapTileLayer tiledMapLayer;
 	private MapLayer objectLayer;
 	private String mapPath;
+	@SuppressWarnings("unused")
 	private MinecraftModel modelMock;
 
 	/**

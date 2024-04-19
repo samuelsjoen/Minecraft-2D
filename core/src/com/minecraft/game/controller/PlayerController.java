@@ -33,6 +33,9 @@ public class PlayerController {
                 setIsAttacking(true);
                 //controllableModel.playerAttack();
                 return true;
+            case Keys.N:
+                controllableModel.killAllEntities();
+                return true;
         }
         return false;
     }

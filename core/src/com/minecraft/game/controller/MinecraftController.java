@@ -202,6 +202,34 @@ public class MinecraftController extends InputAdapter {
         }
     }
 
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        // amountY > 0 for scroll nedover, amountY < 0 for scroll oppover
+        if (amountY > 0) {
+            // Scroller ned
+            if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                controllableModel.moveCraftableTableSelection(0, 1);
+            } else {
+                controllableModel.changeInventorySlot(+1);
+                // Endre lagerspor til høyre
+            }
+        } else if (amountY < 0) {
+            // Scroller opp
+            if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
+                controllableModel.moveCraftableTableSelection(0, -1);
+            } else {
+                controllableModel.changeInventorySlot(-1);
+                // Endre lagerspor til venstre
+            }
+        }
+        return true;
+    }
+
     // For testing:
     public void setPlayerController(PlayerController playerController) {
         this.playerController = playerController;

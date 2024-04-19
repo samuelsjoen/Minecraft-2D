@@ -2,8 +2,6 @@ package com.minecraft.game.model.crafting;
 
 import java.util.LinkedHashMap;
 
-import com.minecraft.game.model.Health;
-
 public class Inventory {
     private LinkedHashMap<Item, Integer> items;
     private LinkedHashMap<Item, Integer> armorInventory;
