@@ -22,10 +22,10 @@ public class HealthView {
     private float yArmor2;
 
     public HealthView(Health health) {
-        this.healthBarSheet = new Texture(Gdx.files.internal("assets/overlay/healthBar.png"));
+        this.healthBarSheet = new Texture(Gdx.files.internal("overlay/healthBar.png"));
         this.splitHealthFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(),
                 healthBarSheet.getHeight() / 5);
-        this.armorHealthSheet = new Texture(Gdx.files.internal("assets/overlay/armorBar.png"));
+        this.armorHealthSheet = new Texture(Gdx.files.internal("overlay/armorBar.png"));
         this.splitArmorFrames = TextureRegion.split(armorHealthSheet, armorHealthSheet.getWidth(),
                 armorHealthSheet.getHeight() / 5);
         this.health = health;

@@ -15,7 +15,7 @@ public class KnightRenderer implements EntityRenderer<Knight> {
     TextureRegion[] attackFrames = new TextureRegion[6];
 
     public KnightRenderer() {
-        sheet = new Texture("assets/enemyKnight.png");
+        sheet = new Texture("enemyKnight.png");
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 10, sheet.getHeight() / 4);
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = splitFrames[0][i];

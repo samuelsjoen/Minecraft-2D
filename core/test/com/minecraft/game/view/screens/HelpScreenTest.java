@@ -53,7 +53,7 @@ public class HelpScreenTest extends LibgdxUnitTest {
         assertTrue(helpScreen.backgroundTexture instanceof Texture);
 
         // Verify that the file path is correct
-        assertTrue(Gdx.files.internal("assets/helpScreen/help_background.png").exists());
+        assertTrue(Gdx.files.internal("helpScreen/help_background.png").exists());
     }
 
     @Test

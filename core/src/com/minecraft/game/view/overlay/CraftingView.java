@@ -24,8 +24,8 @@ public class CraftingView {
 
     public CraftingView(Crafting crafting){
         this.crafting = crafting;
-        this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
+        this.craftingSprite = new Texture(Gdx.files.internal("overlay/crafting.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
         this.font = new BitmapFont();
         this.jump = 40;
     }

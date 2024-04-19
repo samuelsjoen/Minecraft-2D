@@ -18,10 +18,10 @@ dependencies {
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "test/" ]
-sourceSets.main.resources.srcDirs = ["team6"]
+sourceSets.main.resources.srcDirs = ["../assets"]
 
 project.ext.mainClassName = "com.minecraft.game.DesktopLauncher"
-project.ext.assetsDir = new File("assets")
+project.ext.assetsDir = new File("../assets")
 
 task run(type: JavaExec) {
     dependsOn classes
