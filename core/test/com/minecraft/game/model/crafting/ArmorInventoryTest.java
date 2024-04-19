@@ -46,7 +46,7 @@ public class ArmorInventoryTest {
         Health health = new Health(5, 5);
         ArmorInventory inventory = new ArmorInventory(health);
         inventory.addItem(Item.DIAMOND_BOOTS);
-        inventory.breakArmor();
+        inventory.removeItem();
         assertFalse(inventory.contains(Item.DIAMOND_BOOTS));
     }
 
@@ -58,7 +58,7 @@ public class ArmorInventoryTest {
         assertTrue(inventory.getNextBreakableArmorItem() == Item.DIAMOND_BOOTS);
         inventory.addItem(Item.DIAMOND_CHESTPLATE);
         assertTrue(inventory.getNextBreakableArmorItem() == Item.DIAMOND_BOOTS);
-        inventory.breakArmor();
+        inventory.removeItem();
         assertTrue(inventory.getNextBreakableArmorItem() == Item.DIAMOND_CHESTPLATE);
     }
 
@@ -68,8 +68,8 @@ public class ArmorInventoryTest {
         ArmorInventory inventory = new ArmorInventory(health);
         inventory.addItem(Item.DIAMOND_BOOTS);
         inventory.addItem(Item.DIAMOND_CHESTPLATE);
-        assertTrue(inventory.getArmorInventory().size() == 2);
-        assertTrue(inventory.getArmorInventory().containsKey(Item.DIAMOND_BOOTS));
-        assertTrue(inventory.getArmorInventory().containsKey(Item.DIAMOND_CHESTPLATE));
+        assertTrue(inventory.getInventory().size() == 2);
+        assertTrue(inventory.getInventory().containsKey(Item.DIAMOND_BOOTS));
+        assertTrue(inventory.getInventory().containsKey(Item.DIAMOND_CHESTPLATE));
     }
 }

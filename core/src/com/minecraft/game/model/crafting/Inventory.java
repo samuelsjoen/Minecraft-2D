@@ -2,9 +2,7 @@ package com.minecraft.game.model.crafting;
 
 import java.util.LinkedHashMap;
 
-import com.minecraft.game.model.Health;
-
-public class Inventory {
+public class Inventory implements InventoryInterface {
     private LinkedHashMap<Item, Integer> items;
     private LinkedHashMap<Item, Integer> armorInventory;
     private int maxItemSlots;
@@ -21,7 +19,7 @@ public class Inventory {
         }
     }
 
-    public LinkedHashMap<Item, Integer> getItems() {
+    public LinkedHashMap<Item, Integer> getInventory() {
         return items;
     }
 

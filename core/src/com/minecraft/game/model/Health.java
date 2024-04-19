@@ -40,7 +40,7 @@ public class Health {
                 armorHealth -= damage;
             } else {
                 int remainingDamage = damage - armorPieceHealth;
-                armorInventory.breakArmor();
+                armorInventory.removeItem();
                 armorHealth -= damage;
                 damage(remainingDamage);
             }
