@@ -11,18 +11,25 @@ public class PlayerController {
         this.controllableModel = controllableModel;
     }
 
-    // Methods to set player input state
+    /**
+     * Set the moveLeft variable to true or false, and handle the input
+     */
     public void setMoveLeft(boolean moveLeft) {
         this.moveLeft = moveLeft;
         handleInput();
     }
 
+    /**
+     * Set the moveRight variable to true or false, and handle the input
+     */
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
         handleInput();
     }
 
-    // Method to handle player input
+    /**
+     * Handle the input from the player
+     */
     private void handleInput() {
         controllableModel.handleInput(this.moveLeft, this.moveRight);
     }
