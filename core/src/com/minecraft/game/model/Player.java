@@ -31,11 +31,11 @@ public class Player extends GameEntity {
     private Boolean moveLeft;
     private Boolean moveRight;
 
-    public Player(float width, float height, Body body, Inventory inventory) {
+    public Player(float width, float height, Body body, Inventory inventory, Health health) {
         super(width, height, body);
         this.speed = 10f;
         Player.inventory = inventory;
-        Player.health = new Health(5, 5, inventory);
+        Player.health = health;
         currentState = State.IDLE;
 
         this.moveLeft = false;
