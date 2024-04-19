@@ -51,7 +51,7 @@ public class PlayerTest {
         // constants for width and height
         final float testWidth = 10.0f;
         final float testHeight = 10.0f;
-        player = new Player(testWidth, testHeight, mockBody, mockInventory);
+        player = new Player(testWidth, testHeight, mockBody, mockInventory, new Health(5, 5));
     }
 
     @Test
@@ -203,20 +203,17 @@ public class PlayerTest {
     @Test
     void testPlayerAttackingState() {
         // Simulate the player starting to attack
-        player.toggleIsAttacking();
+        player.updateMovement(false, false, true);
         player.update(0);
         assertEquals(Player.State.ATTACKING, player.getCurrentState(), "Player state should be ATTACKING");
     }
 
     @Test
-    void testToggleIsAttacking() {
-        assertFalse(player.isAttacking());
-
-        player.toggleIsAttacking();
-        assertTrue(player.isAttacking());
-
-        player.toggleIsAttacking();
-        assertFalse(player.isAttacking());
+    void testPlayerIsNotAttackingState() {
+        // Simulate the player is not attacking
+        player.updateMovement(false, false, false);
+        player.update(0);
+        assertEquals(Player.State.IDLE, player.getCurrentState(), "Player state should be IDLE");
     }
 
     @Test
@@ -277,4 +274,5 @@ public class PlayerTest {
         damage = player.calculateDamage();
         assertEquals(1, damage, "Damage should be 1 when the player has no sword selected");
     }
+
 }

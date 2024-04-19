@@ -33,7 +33,7 @@ public class Slime extends GameEntity {
                 Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "slime", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(2, 2, null);
+        this.health = new Health(2, 2);
         currentState = State.IDLE;
 
         stateTime = 0f;

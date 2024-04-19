@@ -39,7 +39,7 @@ public class PinkMonster extends GameEntity {
                 Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "pinkMonster", false));
         this.player = player;
         this.speed = Constants.ENEMY_SPEED;
-        this.health = new Health(3, 3, null);
+        this.health = new Health(3, 3);
         this.world = world;
 
         currentState = State.IDLE;

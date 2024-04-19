@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessFiles;
 import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
@@ -28,7 +29,8 @@ public class LibgdxUnitTest {
         HeadlessNativesLoader.load();
         Gdx.files = new HeadlessFiles();
         // Mock some of the Gdx methods
-        Gdx.graphics = new MockGraphics();
+        //Gdx.graphics = new MockGraphics();
+        Gdx.graphics =  mock(Graphics.class);
         Gdx.input = new MockInput();
         Gdx.audio = new MockAudio();
 

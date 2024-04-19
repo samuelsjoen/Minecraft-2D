@@ -9,13 +9,15 @@ public class Crafting {
     private int selectedRow;
     private int selectedCol;
     private Inventory inventory;
+    private ArmorInventory armorInventory;
     private Item[][] table;
     private Item[][] craftableItems;
     private HashMap<Item[][], Item> recipeTable;
     boolean open;
 
-    public Crafting(Inventory inventory) {
+    public Crafting(Inventory inventory, ArmorInventory armorInventory) {
         this.inventory = inventory;
+        this.armorInventory = armorInventory;
         this.selectedRow = 0;
         this.selectedCol = 0;
         clearCraftableItems();
@@ -50,11 +52,11 @@ public class Crafting {
     }
 
     /** Crafts the currently selected item in the craftable items section */
-    public void craft(Health health) {
+    public void craft() {
         if (getSelectedItem() != null) {
             clearTable(true);
             if (inventory.isArmor(getSelectedItem())) {
-                inventory.addArmorItem(getSelectedItem(), health);
+                armorInventory.addItem(getSelectedItem());
             } else {
                 inventory.addItem(getSelectedItem());
             }
@@ -120,7 +122,7 @@ public class Crafting {
 
     private boolean canCraft(Item[][] recipe, Item item) {
         if (inventory.isArmor(item)) {
-            if (inventory.armorInventoryContains(item)) {
+            if (armorInventory.contains(item)) {
                 return false;
             }
         }

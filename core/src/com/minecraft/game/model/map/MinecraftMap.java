@@ -135,21 +135,6 @@ public class MinecraftMap implements IMinecraftMap {
 
                 if (rectangleName != null && rectangleName.equals("player")) { // Check if rectangleName is not null
                     this.playerRectangle = rectangle;
-                    /*
-                    Body body = BodyHelperService.createBody(
-                            rectangle.getX() + rectangle.getWidth() / 2,
-                            rectangle.getY() + rectangle.getHeight() / 2,
-                            rectangle.getWidth(),
-                            rectangle.getHeight(),
-                            null,
-                            false,
-                            getWorld(),
-                            Constants.CATEGORY_PLAYER,
-                            Constants.MASK_PLAYER,
-                            "player",
-                            false);
-                    // TODO: player should probably be initialized in minecraftmodel?
-                    this.player = new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);*/
                 }
             }
         }

@@ -8,8 +8,7 @@ import com.minecraft.game.model.Player.State;
  * The ControllableMinecraftModel interface represents a controllable Minecraft
  * model.
  * This interface is a connection between the controller and the model.
- * It provides methods to interact with the game state, inventory, player, and
- * tiles/blocks.
+ * It provides methods for the controller to interact with the various components that are in the model.
  */
 public interface ControllableMinecraftModel {
 
@@ -45,6 +44,24 @@ public interface ControllableMinecraftModel {
      */
     void dropInventoryItem();
 
+    /**
+     * Opens or closes the crafting overlay.
+     */
+    void toggleCrafting();
+
+    /**
+     * Moves the selection in the crafting overlay.
+     * 
+     * @param row how many rows to move
+     * @param col how many cols to move
+     */
+    void moveCraftableTableSelection(int row, int col);
+
+    /**
+     * Crafts the selected item in the crafting overlay.
+     */
+    void craftItem();
+
     // Player
 
     /**
@@ -53,17 +70,12 @@ public interface ControllableMinecraftModel {
     void revivePlayer();
 
     /**
-     * Moves the player in the specified direction.
-     * 
-     * @param direction The direction to move the player. Use -1 for left and +1 for
-     *                  right.
+     * Changes the values based on if player should move. 
+     * @param moveLeft boolean value for moving left
+     * @param moveRight boolean value for moving right
+     * @param isAttacking 
      */
-    void movePlayer(int direction);
-
-    /**
-     * Stops the player.
-     */
-    void stopPlayer();
+    void updateMovement(boolean moveLeft, boolean moveRight, boolean isAttacking);
 
     /**
      * Makes the player jump.
@@ -71,14 +83,9 @@ public interface ControllableMinecraftModel {
     void playerJump();
 
     /**
-     * Makes the player attack.
-     */
-    void playerAttack();
-
-    /**
      * Returns the state of the player.
      * 
-     * @return the state of the player
+     * @return State object representing the state of the player.
      */
     State getPlayerState();
 
@@ -118,28 +125,12 @@ public interface ControllableMinecraftModel {
      */
     boolean isBlockMineable(int tileX, int tileY);
 
+    // Game management
+
     /**
      * Restarts the game.
      */
     void restartGame();
-
-    /**
-     * Opens or closes the crafting overlay.
-     */
-    void toggleCrafting();
-
-    /**
-     * Moves the selection in the crafting overlay.
-     * 
-     * @param row how many rows to move
-     * @param col how many cols to move
-     */
-    void moveCraftableTableSelection(int row, int col);
-
-    /**
-     * Crafts the selected item in the crafting overlay.
-     */
-    void craftItem();
 
     /**
      * Get the DayNightCycle object

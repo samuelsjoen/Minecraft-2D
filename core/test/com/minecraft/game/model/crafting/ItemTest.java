@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class ItemTest {
     @Test
-    void testItem() {
+    void testItemInitialization() {
         Item item = Item.DIAMOND_LEGGINGS;
         assert item.getName().equals("Diamond leggings");
         assert item.getType() == ItemType.LEGGINGS;
@@ -19,5 +19,12 @@ public class ItemTest {
             {Item.DIAMOND_ORE, null, Item.DIAMOND_ORE}
         });
         assert item.getTexture() == "assets/inventoryItems/diamond_leggings.png";
+    }
+
+    @Test
+    void testItemMap() {
+        assert Item.getItemWithName("Diamond leggings") == Item.DIAMOND_LEGGINGS;
+        assert Item.getItemWithName("Diamond chestplate") == Item.DIAMOND_CHESTPLATE;
+        assert Item.getItemWithName("Iron helmet") == Item.IRON_HELMET;
     }
 }
