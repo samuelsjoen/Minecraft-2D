@@ -179,7 +179,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void craftItem() {
-        crafting.craft(Player.getHealth());
+        crafting.craft();
     }
 
     private void updateCursor() {
@@ -214,25 +214,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     @Override
     public void updateMovement(boolean moveLeft, boolean moveRight, boolean isAttacking) {
         getPlayer().updateMovement(moveLeft, moveRight, isAttacking);
-    }
-
-    public Player initializePlayer() {
-
-        Rectangle rectangle =  getPlayerRectangle();
-
-        Body body = BodyHelperService.createBody(
-            rectangle.getX() + rectangle.getWidth() / 2,
-            rectangle.getY() + rectangle.getHeight() / 2,
-            rectangle.getWidth(),
-            rectangle.getHeight(),
-            null,
-            false,
-            getWorld(),
-            Constants.CATEGORY_PLAYER,
-            Constants.MASK_PLAYER,
-            "player",
-            false);
-        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory);
     }
 
     @Override
@@ -385,11 +366,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     public void setMap(MinecraftMap map) {
         this.map = map;
-    }
-
-    @Override
-    public void craftItem() {
-        crafting.craft();
     }
 
     public void setCrafting (Crafting crafting) {

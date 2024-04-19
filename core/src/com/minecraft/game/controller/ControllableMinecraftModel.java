@@ -138,10 +138,4 @@ public interface ControllableMinecraftModel {
      */
     DayNightCycle getDayNightCycle();
 
-    /**
-     * Changes the values based on if player should move left or right. 
-     * @param moveLeft  
-     * @param moveRight
-     */
-    void handleInput(boolean moveLeft, boolean moveRight);
 }

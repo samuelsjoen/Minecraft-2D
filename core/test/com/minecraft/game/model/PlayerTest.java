@@ -275,15 +275,4 @@ public class PlayerTest {
         assertEquals(1, damage, "Damage should be 1 when the player has no sword selected");
     }
 
-    // #TODO: Test the movePlayer method (doesnt work rn, need to fix it)
-    @Test
-    void testMovePlayer() {
-        Body playerBody = player.getBody();
-        System.out.println(playerBody.getLinearVelocity());
-        // Move player to the right
-        player.movePlayer(1);
-        //System.out.println(playerBody.getLinearVelocity());
-        //assertTrue(playerBody.getLinearVelocity().x == Constants.PLAYER_MOVE_SPEED);
-    }
-
 }
