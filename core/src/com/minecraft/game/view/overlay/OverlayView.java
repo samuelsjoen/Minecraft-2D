@@ -9,12 +9,12 @@ import com.minecraft.game.model.Health;
 public class OverlayView {
 
     private final InventoryView inventoryView;
-    private final HealthViewTest healthView;
+    private final HealthView healthView;
     private final CraftingView craftingView;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting) {
         this.inventoryView = new InventoryView(inventory);
-        this.healthView = new HealthViewTest(health);
+        this.healthView = new HealthView(health);
         this.craftingView = new CraftingView(crafting);
     }
 
