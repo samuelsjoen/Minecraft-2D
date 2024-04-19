@@ -16,7 +16,7 @@ public class Minecraft extends Game {
 	public OrthographicCamera camera;
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
-	
+
 	public Minecraft() {
 		INSTANCE = this;
 	}
@@ -51,6 +51,7 @@ public class Minecraft extends Game {
 
     @Override
     public void dispose() {
-        // Dispose of resources when the game is closing
+		spriteBatch.dispose();
+		font.dispose();
     }
 }

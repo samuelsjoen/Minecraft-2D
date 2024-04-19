@@ -76,10 +76,10 @@ public class InventoryTest {
     @Test
     void testItemMap() {
         Inventory inventory = new Inventory(new Item[]{}); {
-            LinkedHashMap<Item, Integer> items = inventory.getItems();
+            LinkedHashMap<Item, Integer> items = inventory.getInventory();
             assertTrue(items.size() == 0);
             inventory.addItem(Item.WOODEN_PICKAXE);
-            items = inventory.getItems();
+            items = inventory.getInventory();
             assertTrue(items.size() == 1);
             assertTrue(items.containsKey(Item.WOODEN_PICKAXE));
         }

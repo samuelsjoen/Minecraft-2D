@@ -40,7 +40,7 @@ public class InventoryView {
 
     private void renderItems(SpriteBatch batch) {
         int iteration = 0;
-        for (Item item : inventory.getItems().keySet()) {
+        for (Item item : inventory.getInventory().keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
             batch.draw(itemTexture, xItem + (iteration * invJump), yItem, 23, 23);
             font.draw(batch, Integer.toString(inventory.getAmount(item)), xItem + (iteration * invJump), yInventory + 35);

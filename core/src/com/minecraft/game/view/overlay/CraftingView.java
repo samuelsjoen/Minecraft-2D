@@ -105,4 +105,10 @@ public class CraftingView {
         if (item != null) {
         font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }
     }
+
+    public void dispose() {
+        craftingSprite.dispose();
+        selectedItem.dispose();
+        font.dispose();
+    }
 }

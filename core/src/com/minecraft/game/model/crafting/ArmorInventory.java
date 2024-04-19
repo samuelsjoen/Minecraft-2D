@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import com.minecraft.game.model.Health;
 
-public class ArmorInventory {
+public class ArmorInventory implements InventoryInterface {
     private LinkedHashMap<Item, Integer> armorInventory;
     private Health health;
 
@@ -13,6 +13,7 @@ public class ArmorInventory {
         this.armorInventory = new LinkedHashMap<>();
         this.health = health;
     }
+
     public void addItem(Item item) {
         addOrUpgradeArmor(item);
         int armorHealth = health.getArmorHealth();
@@ -64,8 +65,12 @@ public class ArmorInventory {
         return health;
     }
 
-    public void breakArmor() {
+    public void removeItem() {
         armorInventory.remove(getNextBreakableArmorItem());
+    }
+
+    public void removeItem(Item item) {
+        armorInventory.remove(item);
     }
 
     public void damageArmor(int damage) {
@@ -73,7 +78,7 @@ public class ArmorInventory {
         armorInventory.put(item, getArmorPieceHealth(item) - damage);
     }
 
-    public LinkedHashMap<Item, Integer> getArmorInventory() {
+    public LinkedHashMap<Item, Integer> getInventory() {
         return armorInventory;
     }
 }
