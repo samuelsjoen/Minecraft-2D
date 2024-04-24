@@ -355,25 +355,25 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     // For testing:
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
+    // public void setInventory(Inventory inventory) {
+    //     this.inventory = inventory;
+    // }
 
-    public void setFactory(EntityFactory factory) {
-        this.factory = factory;
-    }
+    // public void setFactory(EntityFactory factory) {
+    //     this.factory = factory;
+    // }
 
-    public void setMap(MinecraftMap map) {
-        this.map = map;
-    }
+    // public void setMap(MinecraftMap map) {
+    //     this.map = map;
+    // }
 
-    public void setCrafting (Crafting crafting) {
-        this.crafting = crafting;
-    }
+    // public void setCrafting (Crafting crafting) {
+    //     this.crafting = crafting;
+    // }
 
-    public void setDayNightCycle(DayNightCycle dayNightCycle) {
-        this.dayNightCycle = dayNightCycle;
-    }
+    // public void setDayNightCycle(DayNightCycle dayNightCycle) {
+    //     this.dayNightCycle = dayNightCycle;
+    // }
 
     @Override
     public ArmorInventory getArmorInventory() {
