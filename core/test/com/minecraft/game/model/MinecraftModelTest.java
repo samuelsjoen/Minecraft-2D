@@ -1,9 +1,6 @@
 package com.minecraft.game.model;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -38,6 +35,9 @@ public class MinecraftModelTest extends LibgdxUnitTest {
             tiledMap = minecraftModel.getTiledMap();
             tiledMapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
             objectLayer = tiledMap.getLayers().get("collisions");
+            player = minecraftModel.getPlayer();
+            // Need to call update, or else the player.getX() and player.getY() will  have the default values from the Body class (which is (0,1)).
+            player.update(0.1f);
         }
     }
 
@@ -66,6 +66,42 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         System.out.println("Player coordinates: " + playerX + ", " + playerY);
         assertNotNull(playerX);
         assertNotNull(playerY);
+    }
+
+    // @Test
+    // public void testObjectLayer() {
+    //     // print out object in objectlayer if it is a rectangle
+    //     for (MapObject object : objectLayer.getObjects()) {
+    //         if (object instanceof RectangleMapObject) {
+    //             System.out.println("Object in objectLayer: " + object.getName());
+    //             // and the coordinates to the rectangle
+    //             System.out.println("Coordinates: for player rectangle  " + ((RectangleMapObject) object).getRectangle());
+    //         }
+    //     }
+    // }
+
+    // TODO: implement this test
+    @Test
+    public void testPlayerJump() {
+        minecraftModel.playerJump();
+    }
+
+    @Test
+    public void testRestartGame() {
+        try (MockedConstruction<OrthogonalTiledMapRenderer> mocked = Mockito.mockConstruction(OrthogonalTiledMapRenderer.class)) {
+            minecraftModel.restartGame();
+        }
+
+        assertNotNull(minecraftModel.getInventory());
+        // should also check that the inventory is only the default items now.
+        
+        assertNotNull(minecraftModel.getTiledMap());
+        assertNotNull(minecraftModel.getMapRenderer());
+        assertNotNull(minecraftModel.getPlayer());
+        assertNotNull(minecraftModel.getDayNightCycle());
+
+        // Verify that the game state is set to WELCOME_SCREEN
+        GameState.WELCOME_SCREEN.equals(minecraftModel.getGameState());
     }
 
     /*@Test
@@ -104,23 +140,27 @@ public class MinecraftModelTest extends LibgdxUnitTest {
 
     // // # TODO: THIS is where I have to test the addBlock method, not in
     // // minecraftMapTest
-    /*@Test
+    @Test
     public void testAddBlockAtPlayer() {
+        int playerX = (int) player.getX() / Constants.TILE_SIZE;
+        int playerY = (int) player.getY() / Constants.TILE_SIZE;
 
-        int playerX = (int) minecraftModel.getPlayer().getX();
-        int playerY = (int) minecraftModel.getPlayer().getY();
-        // cast coordinates to string
-        String playerXString = Integer.toString(playerX);
-        String playerYString = Integer.toString(playerY);
-
-        System.out.println("PlayerTile coordinates: " + playerX + ", " + playerY);
+        // Placing a block on the top of the player with the coordinates playerX and playerY
 
         // There should be no tile nor object at the given coordinates
-		assertNull(tiledMapLayer.getCell(0, 1));
-		assertNull(objectLayer.getObjects().get("0, 1"));
-        minecraftModel.addBlock(0, 1);
-        assertNull(tiledMapLayer.getCell(0, 1));
-		assertNull(objectLayer.getObjects().get("0, 1"));
-    }*/
+		assertNull(tiledMapLayer.getCell(playerX, playerY));
+		assertNull(objectLayer.getObjects().get(playerX + ", " + playerY));
+        minecraftModel.addBlock(playerX, playerY);
+        // There still should be no tile nor object at the given coordinates
+        assertNull(tiledMapLayer.getCell(playerX, playerY));
+		assertNull(objectLayer.getObjects().get(playerX + ", " + playerY));
+
+        // and for playerX and (playerY - 1) for the bottom of the player
+        assertNull(tiledMapLayer.getCell(playerX, playerY - 1));
+        assertNull(objectLayer.getObjects().get(playerX + ", " + (playerY - 1)));
+        minecraftModel.addBlock(playerX, playerY - 1);
+        assertNull(tiledMapLayer.getCell(playerX, playerY - 1));
+        assertNull(objectLayer.getObjects().get(playerX + ", " + (playerY - 1)));
+    }
 
 }

@@ -131,6 +131,7 @@ public class MinecraftMap implements IMinecraftMap {
 
             if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
+                
                 String rectangleName = mapObject.getName();
 
                 if (rectangleName != null && rectangleName.equals("player")) { // Check if rectangleName is not null
@@ -172,9 +173,6 @@ public class MinecraftMap implements IMinecraftMap {
         };
 
         String coordinatesTile = (x * tileWidth) + ", " + (y * tileHeight);
-
-        // print out coordinates
-        System.out.println("Coordinates: " + coordinatesTile);
 
         MapObjects objects = objectLayer.getObjects();
 
