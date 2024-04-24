@@ -173,6 +173,9 @@ public class MinecraftMap implements IMinecraftMap {
 
         String coordinatesTile = (x * tileWidth) + ", " + (y * tileHeight);
 
+        // print out coordinates
+        System.out.println("Coordinates: " + coordinatesTile);
+
         MapObjects objects = objectLayer.getObjects();
 
         PolygonMapObject polygon = new PolygonMapObject(vertices);
