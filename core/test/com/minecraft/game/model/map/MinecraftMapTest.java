@@ -39,7 +39,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 
 		minecraftMapHelper = new MinecraftMapHelper();
 
-		mapPath = "map/mapExample2-64.tmx";
+		mapPath = "assets/map/mapExample2-64.tmx";
 		// tiledMap = tileMapHelper.setupMapNoRender(mapPath);
 		tiledMap = minecraftMapHelper.setupMapNoRender(mapPath);
 		tiledMapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);

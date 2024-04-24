@@ -17,7 +17,7 @@ public class HelpScreen extends ScreenAdapter {
     public HelpScreen(Minecraft game, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
-        backgroundTexture = new Texture(Gdx.files.internal("helpScreen/help_background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("assets/helpScreen/help_background.png"));
     }
 
     @Override

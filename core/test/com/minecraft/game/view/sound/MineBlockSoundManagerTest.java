@@ -15,7 +15,7 @@ public class MineBlockSoundManagerTest extends LibgdxUnitTest {
 
     @BeforeEach
     public void setUp() {
-        soundManager = new MineBlockSoundManager("sound/mineSound.wav");
+        soundManager = new MineBlockSoundManager("assets/sound/mineSound.wav");
     }
 
     @AfterEach

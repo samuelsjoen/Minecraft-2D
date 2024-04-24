@@ -25,8 +25,8 @@ public class InventoryView {
     
     public InventoryView(Inventory inventory){
         this.inventory = inventory;
-        this.inventorySprite = new Texture(Gdx.files.internal("overlay/inventory.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
+        this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
         this.font = new BitmapFont();
         this.invJump = 40;
     }

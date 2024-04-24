@@ -17,8 +17,8 @@ public class SoundLoaderTest extends LibgdxUnitTest {
 
     @BeforeAll
     public static void setUp() {
-        filePath = "sound/mineSound.wav";
-        invalidFilePath = "sound/invalidSound.wav";
+        filePath = "assets/sound/mineSound.wav";
+        invalidFilePath = "assets/sound/invalidSound.wav";
     }
     
     @Test

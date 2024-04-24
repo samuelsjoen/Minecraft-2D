@@ -18,7 +18,7 @@ public class ItemTest {
             {Item.DIAMOND_ORE, null, Item.DIAMOND_ORE},
             {Item.DIAMOND_ORE, null, Item.DIAMOND_ORE}
         });
-        assert item.getTexture() == "inventoryItems/diamond_leggings.png";
+        assert item.getTexture() == "assets/inventoryItems/diamond_leggings.png";
     }
 
     @Test
