@@ -10,9 +10,11 @@ import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
@@ -52,6 +54,7 @@ public class GameScreen extends ScreenAdapter {
     private PinkMonsterRenderer pinkMonsterRenderer;
     private ProjectileRenderer projectileRenderer;
     private MinecraftView minecraftView;
+    private BitmapFont font;
 
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
             MinecraftView minecraftView, SpriteBatch batch) {
@@ -89,6 +92,11 @@ public class GameScreen extends ScreenAdapter {
         slimeRenderer = new SlimeRenderer();
         pinkMonsterRenderer = new PinkMonsterRenderer();
         projectileRenderer = new ProjectileRenderer();
+
+        // initialize font for the score
+        this.font = new BitmapFont();
+        this.font.setColor(Color.GOLD); // Sets the font color to gold
+        this.font.getData().setScale(2f); // Makes the font larger which gives a "bolder" look
 
     }
 
@@ -169,6 +177,10 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         Vector2 lowerLeftCorner = getLowerLeftCorner();
         batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
+        // Draw the score on the screen
+        font.draw(batch, "Score: " + viewableMinecraftModel.getPlayer().getScore(), lowerLeftCorner.x + 255,
+                lowerLeftCorner.y + 695);
+
         batch.end();
 
         orthogonalTiledMapRenderer.render();
@@ -220,6 +232,7 @@ public class GameScreen extends ScreenAdapter {
         slimeRenderer.dispose();
         pinkMonsterRenderer.dispose();
         projectileRenderer.dispose();
+        font.dispose();
     }
 
     // for testing
@@ -253,9 +266,8 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setBackgroundImage(Texture backgroundImage) {
-        this.backgroundImage= backgroundImage;
+        this.backgroundImage = backgroundImage;
     }
-
 
     public void setBackgroundNight(Texture backgroundNight) {
         this.backgroundNight = backgroundNight;
