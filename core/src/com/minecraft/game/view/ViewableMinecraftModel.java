@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.crafting.ArmorInventory;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Inventory;
+import com.minecraft.game.model.entities.EntityModel;
 
 /**
  * The ViewableMinecraftModel interface represents a viewable Minecraft model.
@@ -83,4 +84,10 @@ public interface ViewableMinecraftModel {
      * @return the armor inventory
      */
     ArmorInventory getArmorInventory();
+
+    /**
+     * Get the entity model
+     * @return the entity model
+     */
+    EntityModel getEntityModel();
 }

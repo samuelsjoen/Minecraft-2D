@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.minecraft.game.model.entities.PinkMonster;
 import com.minecraft.game.utils.Constants;
 
-public class PinkMonsterRenderer implements EntityRenderer<PinkMonster> {
+public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
     private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, attack2Animation, deadAnimation;
     private Texture sheet;
     TextureRegion[] attackFrames = new TextureRegion[6];

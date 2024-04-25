@@ -9,15 +9,14 @@ import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.Player.State;
 import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.map.MinecraftMapTest;
 import com.minecraft.game.model.map.TileType;
 import com.minecraft.game.utils.Constants;
+import com.minecraft.game.utils.CursorUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mockingDetails;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +31,9 @@ public class MinecraftModelTest extends LibgdxUnitTest {
     TiledMapTileLayer tiledMapLayer;
     MapLayer objectLayer;
     World world;
+    int playerX;
+    int playerY;
+    Inventory inventory;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +50,10 @@ public class MinecraftModelTest extends LibgdxUnitTest {
             // Need to call update, or else the player.getX() and player.getY() will have
             // the default values from the Body class (which are (0, 1)).
             player.update(0.1f);
+            playerX = (int) player.getX() / Constants.TILE_SIZE;
+            playerY = (int) player.getY() / Constants.TILE_SIZE;
             world = minecraftModel.getWorld();
+            inventory = minecraftModel.getInventory();
         }
     }
 
@@ -70,8 +75,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
 
     @Test
     public void testGetPlayerCoordinates() {
-        int playerX = (int) player.getX() / Constants.TILE_SIZE;
-        int playerY = (int) player.getY() / Constants.TILE_SIZE;
         assertEquals(playerX, 7);
         assertEquals(playerY, 49);
     }
@@ -147,10 +150,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
 
     @Test
     public void testAddBlockAtPlayer() {
-        // Get the player's coordinates
-        int playerX = (int) player.getX() / Constants.TILE_SIZE;
-        int playerY = (int) player.getY() / Constants.TILE_SIZE;
-
         // Placing a block on the top of the player with the coordinates playerX and
         // playerY
 
@@ -170,13 +169,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         assertNull(objectLayer.getObjects().get(playerX + ", " + (playerY - 1)));
     }
 
-    // I don't think the method is used anywhere in the code?
-    // @Test
-    // public void testSetDayNightCycle() {
-    // DayNightCycle dayNightCycle = new DayNightCycle();
-    // minecraftModel.setDayNightCycle(dayNightCycle);
-    // assertEquals(dayNightCycle, minecraftModel.getDayNightCycle());
-    // }
 
     @Test
     public void testSetGameState() {
@@ -254,60 +246,61 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         assertEquals(State.IDLE, player.getCurrentState());
     }
 
-    @Test
+       @Test
     public void testChangeInventorySlot() {
-        Inventory inventory = minecraftModel.getInventory();
+        inventory.addItem(Item.DIRT);
+        inventory.addItem(Item.STONE);
         // Get current item that is selected in inventory
         Item selectedItem = inventory.getSelectedItem();
-        Item selectedItem2 = null;
-        // There is supposed to already be a wooden pickaxe in the inventory at the
-        // beginning of the game
-        if (inventory.contains(Item.WOODEN_PICKAXE)) {
+
+        minecraftModel.changeInventorySlot(1);
+        Item selectedItem2 = inventory.getSelectedItem();
+
+        // Checks if the selected item is not the same as the previous one (since we
+        // should have changed slots)
+        assertNotEquals(selectedItem, selectedItem2);
+
+        // Check current cursor
+        String currentCursor = CursorUtils.getCurrentCursorImagePath();
+
+        // Adds a wooden pickaxe to the inventory
+        inventory.addItem(Item.WOODEN_PICKAXE);
+        // Change inventory slot until the wooden pickaxe is selected
+        while (inventory.getSelectedItem() != Item.WOODEN_PICKAXE) {
             minecraftModel.changeInventorySlot(-1);
-            // Change inventory slot until the wooden pickaxe is selected
-            while (inventory.getSelectedItem() != Item.WOODEN_PICKAXE) {
-                minecraftModel.changeInventorySlot(1);
-            }
-            // The selected item should be the wooden pickaxe
-            selectedItem2 = inventory.getSelectedItem();
         }
 
-        // By changing the inventoryslot, the item selected should change
-        assertNotEquals(selectedItem, selectedItem2);
+        String newCursor = CursorUtils.getCurrentCursorImagePath();
+
+        // Check if the cursor has changed after selecting a pickaxe
+        assertNotEquals(currentCursor, newCursor);
     }
 
     @Test
     public void testGetTileDamage() {
+        inventory.addItem(Item.DIRT);
         float damage = minecraftModel.getTileDamage(0, 0);
         // code to get TileType from the 0,0 coordinates
         int tileId = tiledMapLayer.getCell(0, 0).getTile().getId();
         TileType tiletype = TileType.getTileTypeWithId(tileId);
 
         assertEquals(tiletype.getBaseDamage(), damage);
-
     }
 
-    // # TODO This test is currently identical to the one in MinecraftmapTest.
-    // But it is needed to test this in minecraftModel because some private methods
-    // are called.
     @Test
     public void testAddBlock() {
-        // int mapHeight = tiledMapLayer.getHeight() - 1;
+        // Add a block to the inventory for testing
+        inventory.addItem(Item.DIRT);
+        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
+        minecraftModel.addBlock(playerX+1, playerY);
+        assertNotNull(tiledMapLayer.getCell(playerX+1, playerY));
+    }
 
-        // // There should be no tile nor object at the given coordinates
-        // assertNull(tiledMapLayer.getCell(0, mapHeight));
-        // assertNull(objectLayer.getObjects().get("0, " + mapHeight));
-
-        // // Add a block
-        // minecraftModel.addBlock(0, mapHeight);
-
-        // // The object should be present with the given coordinates
-        // int worldX = 0 * Constants.TILE_SIZE;
-        // int worldY = mapHeight * Constants.TILE_SIZE;
-
-        // // The grass tile and object should be present
-        // assertNotNull(tiledMapLayer.getCell(0, mapHeight));
-        // assertNotNull(objectLayer.getObjects().get(worldX + ", " + worldY));
+    @Test
+    public void testAddBlockWithEmptyInventory() {
+        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
+        minecraftModel.addBlock(playerX+1, playerY);
+        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
     }
 
 }

@@ -1,10 +1,6 @@
 package com.minecraft.game.view.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
-import com.minecraft.game.model.entities.Knight;
-import com.minecraft.game.model.entities.PinkMonster;
-import com.minecraft.game.model.entities.Projectile;
-import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.model.DayNightCycle;
 import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.GameState;
@@ -18,10 +14,7 @@ import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.view.ViewableMinecraftModel;
-import com.minecraft.game.view.entities.KnightRenderer;
-import com.minecraft.game.view.entities.PinkMonsterRenderer;
-import com.minecraft.game.view.entities.ProjectileRenderer;
-import com.minecraft.game.view.entities.SlimeRenderer;
+import com.minecraft.game.view.entities.EntityRenderer;
 import com.minecraft.game.view.overlay.OverlayView;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -37,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 
-    private EnemyManager enemyManager;
+    protected EnemyManager enemyManager;
 
     private SpriteManager spriteManager;
     private ViewableMinecraftModel viewableMinecraftModel;
@@ -47,10 +40,7 @@ public class GameScreen extends ScreenAdapter {
     private Texture backgroundNight;
     private Texture backgroundDay;
 
-    private KnightRenderer knightRenderer;
-    private SlimeRenderer slimeRenderer;
-    private PinkMonsterRenderer pinkMonsterRenderer;
-    private ProjectileRenderer projectileRenderer;
+    protected EntityRenderer entityRenderer;
     private MinecraftView minecraftView;
 
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
@@ -84,12 +74,8 @@ public class GameScreen extends ScreenAdapter {
 
         this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
 
-        // Initialize renderers
-        knightRenderer = new KnightRenderer();
-        slimeRenderer = new SlimeRenderer();
-        pinkMonsterRenderer = new PinkMonsterRenderer();
-        projectileRenderer = new ProjectileRenderer();
-
+        // Initialize renderer
+        this.entityRenderer = new EntityRenderer(viewableMinecraftModel.getEntityModel(), batch);
     }
 
     public void update() {
@@ -114,6 +100,7 @@ public class GameScreen extends ScreenAdapter {
         spriteManager.update();
 
         overlayView.update(getLowerLeftCorner());
+        // # TODO: should go through viewableMinecraftModel
         enemyManager.update(0.01f);
 
     }
@@ -136,14 +123,10 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setDay() {
-        // System.out.println("setDay() gets called from " + this.getClass().getName() +
-        // " class");
         backgroundImage = backgroundDay;
     }
 
     public void setNight() {
-        // System.out.println("setNight() gets called from " + this.getClass().getName()
-        // + " class");
         backgroundImage = backgroundNight;
     }
 
@@ -179,21 +162,7 @@ public class GameScreen extends ScreenAdapter {
                     viewableMinecraftModel.getPlayer().getY());
         }
 
-        // TODO: Should be in model - if projectiles should be drawn use
-        // getVisibleProjectiles() or something
-        for (Projectile projectile : EnemyManager.getProjectiles()) {
-            projectileRenderer.render(projectile, batch);
-        }
-
-        for (Knight knight : EnemyManager.getEnemies()) {
-            knightRenderer.render(knight, batch);
-        }
-        for (Slime slime : EnemyManager.getSlimes()) {
-            slimeRenderer.render(slime, batch);
-        }
-        for (PinkMonster pinkMonster : EnemyManager.getPinkMonsters()) {
-            pinkMonsterRenderer.render(pinkMonster, batch);
-        }
+        entityRenderer.renderAllEntities();
 
         if (overlayView != null) {
             overlayView.render(batch);
@@ -204,10 +173,6 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.render(viewableMinecraftModel.getWorld(), camera.combined.scl(Constants.PPM));
     }
 
-    // TODO: Should be in model
-    // public static void addProjectile(Projectile projectile) {
-    // projectiles.add(projectile);
-    // }
 
     @Override
     public void dispose() {
@@ -216,13 +181,10 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();
         spriteManager.dispose();
-        knightRenderer.dispose();
-        slimeRenderer.dispose();
-        pinkMonsterRenderer.dispose();
-        projectileRenderer.dispose();
+        entityRenderer.dispose();
     }
 
-    // for testing
+    // for testing - only used in gamescreen: 
 
     public void setMapRenderer(OrthogonalTiledMapRenderer mapRenderer) {
         this.orthogonalTiledMapRenderer = mapRenderer;
@@ -240,6 +202,10 @@ public class GameScreen extends ScreenAdapter {
         this.enemyManager = enemyManager;
     }
 
+    public void setEntityRenderer(EntityRenderer entityRenderer) {
+        this.entityRenderer = entityRenderer;
+    }
+
     public Texture getBackgroundImage() {
         return backgroundImage;
     }
@@ -253,20 +219,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setBackgroundImage(Texture backgroundImage) {
-        this.backgroundImage= backgroundImage;
-    }
-
-
-    public void setBackgroundNight(Texture backgroundNight) {
-        this.backgroundNight = backgroundNight;
-    }
-
-    public void setBackgroundDay(Texture backgroundDay) {
-        this.backgroundDay = backgroundDay;
-    }
-
-    public void setIsNightBackground(Boolean isNightBackground) {
-        this.isNightBackground = isNightBackground;
+        this.backgroundImage = backgroundImage;
     }
 
     public void setDayNightCycle(DayNightCycle dayNightCycle) {

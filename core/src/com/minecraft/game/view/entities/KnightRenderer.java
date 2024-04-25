@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.utils.Constants;
 
-public class KnightRenderer implements EntityRenderer<Knight> {
+public class KnightRenderer implements IEntityRenderer<Knight> {
     private Animation<TextureRegion> idleAnimation, runningAnimation;
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> deadAnimation;

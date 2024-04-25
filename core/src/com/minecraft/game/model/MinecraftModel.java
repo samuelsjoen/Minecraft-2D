@@ -21,6 +21,7 @@ import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.view.ViewableMinecraftModel;
+import com.minecraft.game.model.entities.EntityModel;
 
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 
@@ -40,6 +41,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private DayNightCycle dayNightCycle;
     private Boolean isLastItemPickaxe;
     private OrthogonalTiledMapRenderer mapRenderer;
+    private EntityModel EntityModel;
 
     public MinecraftModel() {
         this.factory = new EntityFactory();
@@ -62,6 +64,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         // false
         this.isLastItemPickaxe = false;
 
+        this.EntityModel = new EntityModel();
+
+    }
+
+    @Override
+    public EntityModel getEntityModel() {
+        return EntityModel;
     }
 
     @Override
@@ -295,7 +304,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void addBlock(int tileX, int tileY) {
-
         // needs to check if player is in the way (player is 2x1 tiles)
         int playerX = (int) getPlayer().getX() / Constants.TILE_SIZE;
         int playerY = (int) getPlayer().getY() / Constants.TILE_SIZE;
@@ -333,6 +341,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         map = new MinecraftMap();
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.playerHealth = new Health(5, 5);
+        this.armorInventory = new ArmorInventory(playerHealth);
+        playerHealth.setArmorInventory(armorInventory);
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
 
@@ -352,28 +363,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
             }
         }
     }
-
-    // For testing:
-
-    // public void setInventory(Inventory inventory) {
-    //     this.inventory = inventory;
-    // }
-
-    // public void setFactory(EntityFactory factory) {
-    //     this.factory = factory;
-    // }
-
-    // public void setMap(MinecraftMap map) {
-    //     this.map = map;
-    // }
-
-    // public void setCrafting (Crafting crafting) {
-    //     this.crafting = crafting;
-    // }
-
-    // public void setDayNightCycle(DayNightCycle dayNightCycle) {
-    //     this.dayNightCycle = dayNightCycle;
-    // }
 
     @Override
     public ArmorInventory getArmorInventory() {
