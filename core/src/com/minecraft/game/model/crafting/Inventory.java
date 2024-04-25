@@ -23,10 +23,18 @@ public class Inventory implements InventoryInterface {
         return items;
     }
 
+    /**
+     * @return the currentSlot
+     */
     public int getCurrentSlot() {
         return currentSlot;
     }
 
+    /**
+     * Add an item to the inventory with a specified quantity
+     * @param item the item to add
+     * @param quantity the quantity of the item to add
+     */
     public void addItem(Item item, int quantity) {
         if (!isFull()) {
             if (!isArmor(item)) {
@@ -48,6 +56,10 @@ public class Inventory implements InventoryInterface {
         }
     }
 
+    /**
+     * Checks if an item is armor
+     * @param item the item to check
+     */
     public boolean isArmor(Item item) {
         return item.getType() == ItemType.HELMET || item.getType() == ItemType.CHESTPLATE
                 || item.getType() == ItemType.GLOVES || item.getType() == ItemType.LEGGINGS
@@ -58,6 +70,11 @@ public class Inventory implements InventoryInterface {
         addItem(name, 1);
     }
 
+    /**
+     * Remove an item from the inventory
+     * @param name the item to remove
+     * @param quantity the quantity of the item to remove
+     */
     public void removeItem(Item name, int quantity) {
         if (items.containsKey(name)) {
             items.put(name, items.get(name) - quantity);
@@ -75,6 +92,10 @@ public class Inventory implements InventoryInterface {
         return items.size() >= maxItemSlots+1;
     }
 
+    /**
+     * Change the current slot
+     * @param slot amount to change the slot by
+     */
     public void changeSlot(int slot) {
         int nextSlot = currentSlot + slot;
 
@@ -87,6 +108,9 @@ public class Inventory implements InventoryInterface {
         }
     }
 
+    /**
+     * Drop the item in the currently selected slot
+     */
     public void dropItem() {
         if (currentSlot < items.size()) {
             Item item = (Item) items.keySet().toArray()[currentSlot];
@@ -94,6 +118,10 @@ public class Inventory implements InventoryInterface {
         }
     }
 
+    /**
+     * Get the item in the currently selected slot
+     * @return the item in the currently selected slot
+     */
     public Item getSelectedItem() {
         if (currentSlot < items.size()) {
             return (Item) items.keySet().toArray()[currentSlot];
@@ -101,6 +129,10 @@ public class Inventory implements InventoryInterface {
             return null;
     }
 
+    /**
+     * Get the size of the inventory
+     * @return the amount of unique items in the inventory, i.e currently occupied slots
+     */
     public int getSize() {
         return items.size();
     }
@@ -109,6 +141,11 @@ public class Inventory implements InventoryInterface {
         return items.containsKey(item) || armorInventory.containsKey(item);
     }
 
+    /**
+     * Get the amount of a specific item in the inventory
+     * @param item
+     * @return the amount of the item in the inventory
+     */
     public int getAmount(Item item) {
         return items.getOrDefault(item, 0);
     }
