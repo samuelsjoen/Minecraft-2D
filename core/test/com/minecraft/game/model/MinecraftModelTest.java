@@ -212,7 +212,7 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         Item selectedItem = inventory.getSelectedItem();
 
         // crafting the item
-        minecraftModel.getCrafting().open();
+        minecraftModel.getCrafting().toggleOpen();
         minecraftModel.craftItem();
 
         Item newSelectedItem = inventory.getSelectedItem(); // Should be Item.STICK 
@@ -260,7 +260,7 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         inventory.addItem(Item.WOOD, 2);
 
         // crafting the item
-        minecraftModel.getCrafting().open();
+        minecraftModel.getCrafting().toggleOpen();
         minecraftModel.moveCraftableTableSelection(1, 0);
         minecraftModel.craftItem(); // Now nothing should be crafted
 

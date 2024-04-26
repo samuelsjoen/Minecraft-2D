@@ -197,7 +197,7 @@ public class GameScreenTest extends LibgdxUnitTest {
         verify(mockModel).checkAndUpdateGameState();
         verify(mockBatch, times(2)).begin();
         verify(mockSpriteManager).render(mockBatch, 10f, 20f);
-        verify(mockOverlayView).render(mockBatch);
+        verify(mockOverlayView).render();
         verify(mockBatch, times(2)).end();
         verify(mockEntityRenderer).renderAllEntities();
     }
