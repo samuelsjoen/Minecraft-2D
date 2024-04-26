@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -203,40 +204,119 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         assertEquals(State.DEAD, minecraftModel.getPlayerState());
     }
 
-    // # TODO Implement this method
     @Test
     public void testCraftItem() {
+        // Testing that it should be possible to craft a stick
+        // We start with empty inventory - so need to add some items to craft
+        inventory.addItem(Item.WOOD, 2);
+        Item selectedItem = inventory.getSelectedItem();
 
+        // crafting the item
+        minecraftModel.getCrafting().open();
+        minecraftModel.craftItem();
+
+        Item newSelectedItem = inventory.getSelectedItem(); // Should be Item.STICK 
+        int newSelectedItemAmount = inventory.getAmount(newSelectedItem);
+
+        // Assert that the selected item has changed after crafting
+        assertTrue(selectedItem == Item.WOOD);
+        assertTrue(newSelectedItem == Item.STICK);
+
+        assertEquals(1, newSelectedItemAmount);
+
+        // Checking that there is no wood in the inventory now
+        assertEquals(0, inventory.getAmount(Item.WOOD));
     }
 
-    // # TODO Implement this method
     @Test
     public void testToggleCrafting() {
-
+        Boolean craftingUnopened = minecraftModel.getCrafting().isOpen();
+        minecraftModel.toggleCrafting();
+        Boolean craftingOpened = minecraftModel.getCrafting().isOpen();
+        assertNotEquals(craftingUnopened, craftingOpened);
     }
 
-    // # TODO Implement this method
     @Test
     public void testDropInventoryItem() {
+        // Add an item to the inventory
+        inventory.addItem(Item.DIRT);
 
+        // Get the amount of the item in the inventory
+        Item selectedItem = inventory.getSelectedItem();
+        int selectedItemAmount = inventory.getAmount(selectedItem);
+
+        minecraftModel.dropInventoryItem();
+
+        // Check if the item has been removed from the inventory
+        int selectedItemAmountAfterDrop = inventory.getAmount(selectedItem);
+
+        // Assert that the amount of the item in the inventory has decreased after dropping the item
+        assertNotEquals(selectedItemAmount, selectedItemAmountAfterDrop);
     }
 
-    // # TODO Implement this method
     @Test
     public void testMoveCraftableTableSelection() {
+        // We start with empty inventory - so need to add some items to craft
+        inventory.addItem(Item.WOOD, 2);
 
+        // crafting the item
+        minecraftModel.getCrafting().open();
+        minecraftModel.moveCraftableTableSelection(1, 0);
+        minecraftModel.craftItem(); // Now nothing should be crafted
+
+        // So we should not have stick in inventory
+        assertEquals(0, inventory.getAmount(Item.STICK));
+
+        // Now when we move the selector back - we should be able to craft a stick
+        minecraftModel.moveCraftableTableSelection(-1, 0);
+        minecraftModel.craftItem();
+        assertEquals(1, inventory.getAmount(Item.STICK));  
     }
 
-    // # TODO Implement this method
     @Test
     public void testIsBlockMineable() {
 
+        // Testing a tile that should be mineable
+        Boolean isMineable = minecraftModel.isBlockMineable(playerY+1, playerX+1);
+        assertEquals(true, isMineable);
+
+        // Testing a tile that should not be mineable
+        int mapHeight = tiledMapLayer.getHeight() - 1;
+        Boolean isNotMineable = minecraftModel.isBlockMineable(0, mapHeight);
+        assertEquals(false, isNotMineable);
+
+        assertNotEquals(isMineable, isNotMineable);
+
     }
 
-    // # TODO Implement this method
     @Test
     public void testUpdateMovement() {
-        
+        // Testing no movement
+        minecraftModel.updateMovement(false, false, false);
+        player.update(0.1f);
+        // Then player should not move
+        assertEquals(0, player.getBody().getLinearVelocity().x, 0.01f);
+
+        // Testing movement to the left
+        minecraftModel.updateMovement(true, false, false);
+        player.update(0.1f);
+        // Then player should move to the left
+        assertNotEquals(0, player.getBody().getLinearVelocity().x);
+
+        // Testing movement to the right
+        minecraftModel.updateMovement(false, true, false);
+        player.update(0.1f);
+        // Then player should move to the right
+        assertNotEquals(0, player.getBody().getLinearVelocity().x);
+
+        // Testing attacking
+        State previousState = player.getCurrentState(); // should be State.Idle
+        minecraftModel.updateMovement(false, false, true);
+        player.update(0.1f);
+        // Then player should be in the attacking state
+        State newState = player.getCurrentState();
+        assertNotEquals(previousState, newState);
+        assertEquals(State.ATTACKING, newState);  
     }
 
     @Test

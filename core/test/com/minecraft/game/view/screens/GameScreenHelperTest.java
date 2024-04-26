@@ -172,7 +172,6 @@ public class GameScreenHelperTest /*extends LibgdxUnitTest*/ {
 
         // Call the render method
 
-        // FIXME: the test fails sometimes due to knight, slimes and pinkmonster
         gameScreen.render(0.1f);
 
         // Verify the expected method calls
