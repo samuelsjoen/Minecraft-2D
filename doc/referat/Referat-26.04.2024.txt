@@ -43,7 +43,7 @@ Aksjoner og Ansvar:
 
 [ Skrive oblig4 - Alle]
 [ Lage interfaces for inventory/crafting lage javadocs - Samuel]
-[ Lage interfaces for koden sin der det passer + lage javadocs, se på testspawnenemy som failer av og til, finne kilde til map - Magnus]
+[ Lage interfaces for koden sin der det passer + lage javadocs, se på testspawnenemy som failer av og til, finne kilde til knight - Magnus]
 [ Oppdater help screen - Martine]
 [ Oppdater map - Nini]
 [ Se på Gradle run og lage en knapp på hjelpesiden, prøve å restrukturere entity factory - Martine & Nini]
