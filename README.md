@@ -22,6 +22,12 @@ Utforskning av den todimensjonale verdenen åpner opp for nye muligheter og utfo
 
 ## Brukerveiledning
 
+**Første skjerm**
+- 3 knapper
+  - "Start Game" starter spillet.
+  - "Game Controls" er hjelpesiden. Her får brukeren oversikt over alle kontrollmulighetene i spillet.
+  - "Quit Game" avslutter spillet.
+
 **Museklikk**
   - Venstreklikk: Fjerner blokker der musepekeren er
   - Høyreklikk: Plasserer ut blokken som er markert i inventory der musen er
@@ -45,6 +51,7 @@ Utforskning av den todimensjonale verdenen åpner opp for nye muligheter og utfo
   - P: Åpne pausemeny
   - S: Starter spillet når man er inne på hjelpmenyen
   - Esc: Avslutte spillet
+  - H: Åpne hjelpesiden
 
 ## Hvordan kjøre koden?
 For å kjøre koden, følg disse trinnene:

@@ -1,0 +1,50 @@
+Referat for møte [26.04.2024]
+
+Formål:
+- Merge brancher
+- Diskutere hva vi må gjøre frem til release
+- Jobbe litt på kode
+
+Deltakere:
+    Nini Bjørnstad
+    Martine Larsen
+    Samuel Sjøen
+
+Sammendrag:
+Hva vi har fått til siden sist møte:
+- Fått bedre test coverage. ~85%
+- Lagt til tester for MinecraftModel og Gamescreen
+- Implementert highscore (at man får poeng for hver enemy man dreper)
+- Craftingview, Inventoryview og Overlayview tester er lagt til
+
+Ting som må gjøres:
+- Lage java doc for ALLE public methods
+- Feltvariabler skal være private (hovedregel) + initialisering inne i konstruktør
+- Forbedre kodekvalitet (navngivning, do not repeat yourself, bruk abstraksjon istedenfor å gjenta kode!)
+- Fjerne død/råtnende kode, ubrukte kommentarer
+- Finne bakgrunn til forside (med kilde)
+- Finne kilde til knight-enemy / bruke en annen sprite
+- Skrive ferdig oblig4 - legge til stretch goal, 
+skrive litt om at testing har vært nyttige med å hjelpe oss med å finne feil/bugs i spillet?
+- Fikse objektfabrikk
+- testSpawnEnemy() failer innimellom hvis den ikke finner et sted å spawne 
+(kan fjernes siden vi har nok coverage)
+- Lage flere interfaces, arv, kode gjenbruk
+- Kjøre prosjektet via VM (Linux, Mac, Windows); få testet gradle run på alle OS
+
+Aksjoner og Ansvar:
+*Alle skal:
+- Finpusse kode (implementere interfaces/abstract classes, osv., legge til javadoc, private' feltvariabler)
+- Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
+- Gå igjennom all kode, og evt. forbedre, legge til kommentarer / fikse andre småting
+
+[ - Samuel]
+[ - Magnus]
+[ Oppdater help screen - Martine]
+[ - Nini]
+[ Se på Gradle run og lage en knapp på hjelpesiden - Martine & Nini]
+
+Neste skritt:
+    Diskuterer problemer/fremgang neste møte 
+    - Få jobbet på våres aksjoner
+    - Diskutere hva vi skal gjøre fremover

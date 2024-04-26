@@ -77,6 +77,11 @@ public class GameScreen extends ScreenAdapter {
 
         this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
 
+        // initialize font for the score
+        this.font = new BitmapFont();
+        this.font.setColor(Color.GOLD); // Sets the font color to gold
+        this.font.getData().setScale(2f); // Makes the font larger which gives a "bolder" look
+
         // Initialize renderer
         this.entityRenderer = new EntityRenderer(viewableMinecraftModel.getEntityModel(), batch);
     }
