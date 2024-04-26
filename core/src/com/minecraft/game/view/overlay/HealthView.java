@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.Health;
 
-public class HealthView {
+public class HealthView implements OverlayInterface {
     private final Health health;
     private final Texture healthBarSheet;
     private final Texture armorHealthSheet;

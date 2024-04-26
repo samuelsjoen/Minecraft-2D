@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.crafting.Crafting;
 import com.minecraft.game.model.crafting.Item;
 
-public class CraftingView {
+public class CraftingView implements OverlayInterface {
     private final Crafting crafting;
     private final Texture craftingSprite;
     private final Texture selectedItem;

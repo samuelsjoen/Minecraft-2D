@@ -9,9 +9,9 @@ import com.minecraft.game.model.Health;
 
 public class OverlayView {
 
-    private final InventoryView inventoryView;
-    private final HealthView healthView;
-    private final CraftingView craftingView;
+    private final OverlayInterface inventoryView;
+    private final OverlayInterface healthView;
+    private final OverlayInterface craftingView;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting, SpriteBatch batch, BitmapFont font) {
         this.inventoryView = new InventoryView(inventory, batch, font);
