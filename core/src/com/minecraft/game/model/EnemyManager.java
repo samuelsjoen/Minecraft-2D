@@ -87,6 +87,13 @@ public class EnemyManager {
             if (entity.getBody().getPosition().y < deathThreshold || entity.isMarkedForRemoval()) {
                 entity.dispose();
                 deadEntities.add(entity);
+                if (entity instanceof Knight) {
+                    player.addScore(30); // 30 points for Knight
+                } else if (entity instanceof Slime) {
+                    player.addScore(10); // 10 point for Slime
+                } else if (entity instanceof PinkMonster) {
+                    player.addScore(50); // 50 points for PinkMonster
+                }
             }
         }
         entities.removeAll(deadEntities);

@@ -18,6 +18,7 @@ public class Player extends GameEntity {
     private boolean isInvincible;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
+    private int score = 0;
 
     private float velX = 0;
 
@@ -39,14 +40,14 @@ public class Player extends GameEntity {
         currentState = State.IDLE;
 
         this.moveLeft = false;
-        this.moveRight = false; 
+        this.moveRight = false;
         this.isAttacking = false;
     }
 
     // Gets information from PlayerController through MinecraftModel
     public void updateMovement(Boolean moveLeft, Boolean moveRight, boolean isAttacking) {
         this.moveLeft = moveLeft;
-        this.moveRight = moveRight; 
+        this.moveRight = moveRight;
         this.isAttacking = isAttacking;
     }
 
@@ -97,7 +98,7 @@ public class Player extends GameEntity {
         }
 
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
-            //currentState = State.DEAD;
+            // currentState = State.DEAD;
             setCurrentState(State.DEAD);
 
         }
@@ -238,6 +239,14 @@ public class Player extends GameEntity {
 
     public float getY() {
         return y;
+    }
+
+    public void addScore(int points) {
+        this.score += points;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
 }

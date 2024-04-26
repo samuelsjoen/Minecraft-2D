@@ -6,9 +6,11 @@ import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
@@ -42,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
 
     protected EntityRenderer entityRenderer;
     private MinecraftView minecraftView;
+    private BitmapFont font;
 
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
             MinecraftView minecraftView, SpriteBatch batch) {
@@ -152,6 +155,10 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         Vector2 lowerLeftCorner = getLowerLeftCorner();
         batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
+        // Draw the score on the screen
+        font.draw(batch, "Score: " + viewableMinecraftModel.getPlayer().getScore(), lowerLeftCorner.x + 255,
+                lowerLeftCorner.y + 695);
+
         batch.end();
 
         orthogonalTiledMapRenderer.render();
