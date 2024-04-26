@@ -31,6 +31,9 @@ skrive litt om at testing har vært nyttige med å hjelpe oss med å finne feil/
 (kan fjernes siden vi har nok coverage)
 - Lage flere interfaces, arv, kode gjenbruk
 - Kjøre prosjektet via VM (Linux, Mac, Windows); få testet gradle run på alle OS
+- Dele opp MinecraftModel i flere klasser - prøve å bruke interfaces/abstract classes
+- Oppdatere map
+- Skrive oblig 4
 
 Aksjoner og Ansvar:
 *Alle skal:
@@ -38,11 +41,12 @@ Aksjoner og Ansvar:
 - Tenk 'Single Responsibility Principle' - dele klasser i to/tre der det trengs.
 - Gå igjennom all kode, og evt. forbedre, legge til kommentarer / fikse andre småting
 
-[ - Samuel]
-[ - Magnus]
+[ Skrive oblig4 - Alle]
+[ Lage interfaces for inventory/crafting lage javadocs - Samuel]
+[ Lage interfaces for koden sin der det passer + lage javadocs, se på testspawnenemy som failer av og til, finne kilde til map - Magnus]
 [ Oppdater help screen - Martine]
-[ - Nini]
-[ Se på Gradle run og lage en knapp på hjelpesiden - Martine & Nini]
+[ Oppdater map - Nini]
+[ Se på Gradle run og lage en knapp på hjelpesiden, prøve å restrukturere entity factory - Martine & Nini]
 
 Neste skritt:
     Diskuterer problemer/fremgang neste møte 

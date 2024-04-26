@@ -81,10 +81,11 @@ Blokkene brukt som inventory er hentet fra: Admurin. (2022). BlockyLife [Sprite 
 
 **Grafikk for spiller og fiender**
 Player: Admurin. (2023). Monster_Pack_Free_Character [Sprite pack]. itch.io. https://admurin.itch.io/mega-admurins-freebies 
-Slime: https://rvros.itch.io/pixel-art-animated-slime
-Pink monster: https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
+Slime: rvros. (2018). slime [Sprite]. itch.io. https://rvros.itch.io/pixel-art-animated-slime
+Pink monster: Free Game Assets (GUI, Sprite, Tilesets). (2019). free-pixel-art-tiny-hero-sprites [Sprite pack]. itch.io. https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
+Knight: ?
 
-Vi har hentet bilde til musepekeren fra denne siden: https://astropulse.itch.io/familiar-pixel-cursors
+Vi har hentet bilde til musepekeren fra denne siden: Astropulse. (2023). Pixel Cursors, astro_arrow [Cur fil]. itch.io. https://astropulse.itch.io/familiar-pixel-cursors
 
 **Grafikk for inventory, health, overlay**
 Pinne: Admurin. (2022). Admurin's Armory [Sprite pack]. itch.io https://admurin.itch.io/pixel-armory
@@ -97,7 +98,7 @@ For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet:
 ### Lyd
 
 **Lyd brukt når man fjerner blokker**
-"mineSound.wav":ryanconway. (2014). Pickaxe mining stone [Lydklipp]. Freesound.org.  https://freesound.org/s/240801/. Lisens: Creative Commons Attribution 4.0
+"mineSound.wav": ryanconway. (2014). Pickaxe mining stone [Lydklipp]. Freesound.org.  https://freesound.org/s/240801/. Lisens: Creative Commons Attribution 4.0
 
 ### Kode
 Brukt denne spillelisten som grunnlag for BodyHelperService.java, GameEntity.java og MinecraftMap.java:  Small Pixel Games. (2021). 2D platformer [Spilleliste]. YouTube. https://www.youtube.com/playlist?list=PLVNiGun9focYT2OVFUzL30wUtOToo6frD
