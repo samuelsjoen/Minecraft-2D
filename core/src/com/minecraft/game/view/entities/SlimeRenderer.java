@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.minecraft.game.model.entities.Slime;
 import com.minecraft.game.utils.Constants;
 
-public class SlimeRenderer implements EntityRenderer<Slime> {
+public class SlimeRenderer implements IEntityRenderer<Slime> {
     private Animation<TextureRegion> idleAnimation, attackAnimation, deadAnimation;
     private Texture sheet;
     TextureRegion[] attackFrames = new TextureRegion[8];

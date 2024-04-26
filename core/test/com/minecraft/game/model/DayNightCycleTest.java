@@ -38,24 +38,26 @@ public class DayNightCycleTest extends LibgdxUnitTest {
     public void testStartCycle() {
         // Start the cycle with an interval of 1 second
         dayNightCycle.startCycle(1);
+
         // Wait for 5 seconds
         try {
-            Thread.sleep(5000);
+            // We use 6100 instead of 6000 to make sure the cycle has run 6 times
+            Thread.sleep(4100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        /*dag, natt, dag, natt, dag, natt */
-        // The cycle should have run 5 times, so the number of entire nights survived should be 2??
-        System.out.println(dayNightCycle.getNumberOfNights());
+        /*dag, natt, dag, natt, dag */
+        // The cycle should have run 6 times, so the number of entire nights survived should be 2
+        //System.out.println(dayNightCycle.getNumberOfNights());
         assertTrue(dayNightCycle.getNumberOfNights() == 2);
     }
 
     @Test 
     public void testPauseCycle() {
         dayNightCycle.startCycle(1);
-        // Wait for 2,5 seconds
+        // Wait for 2 ish seconds
         try {
-            Thread.sleep(2500);
+            Thread.sleep(2100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,13 +79,14 @@ public class DayNightCycleTest extends LibgdxUnitTest {
     @Test
     public void testResetNumberOfNights() {
         dayNightCycle.startCycle(1);
-        // Wait for 3 seconds
+        // Wait for 0,3 ish seconds
+        // dag, natt, dag, natt
         try {
-            Thread.sleep(3000);
+            Thread.sleep(3100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // The cycle should have run 3 times, so the number of entire nights survived should be 2??
+        // The cycle should have run 3 times, so the number of entire nights survived should be 1
         assertTrue(dayNightCycle.getNumberOfNights() == 1);
         // Reset the number of nights
         dayNightCycle.resetNumberOfNights();

@@ -68,7 +68,7 @@ public class Constants {
 
     // Inventory
     public static final Item[] DEFAULT_ITEMS = new Item[] {
-        Item.DIRT,
+        /*Item.DIRT,
         Item.DIAMOND_PICKAXE,
         Item.WOODEN_PICKAXE,
         Item.WOODEN_PICKAXE,
@@ -138,8 +138,7 @@ public class Constants {
         // Item.DIAMOND_ORE,
         // Item.DIAMOND_ORE,
         // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-
+        // Item.DIAMOND_ORE,*/
 
     };
 }

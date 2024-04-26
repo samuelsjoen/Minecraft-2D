@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.utils.Constants;
 
-public class ProjectileRenderer implements EntityRenderer<Projectile> {
+public class ProjectileRenderer implements IEntityRenderer<Projectile> {
     private Texture sheet;
 
     public ProjectileRenderer() {
