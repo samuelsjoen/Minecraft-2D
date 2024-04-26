@@ -10,10 +10,10 @@ import com.minecraft.game.model.crafting.Item;
 
 public class CraftingView {
     private final Crafting crafting;
-    final Texture craftingSprite;
-    final Texture selectedItem;
-    final BitmapFont font;
-    final SpriteBatch batch;
+    private final Texture craftingSprite;
+    private final Texture selectedItem;
+    private final BitmapFont font;
+    private final SpriteBatch batch;
     private final int jump;
 
     private float xCrafting;

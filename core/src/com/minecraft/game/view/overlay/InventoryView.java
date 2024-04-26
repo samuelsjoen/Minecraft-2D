@@ -10,10 +10,10 @@ import com.minecraft.game.model.crafting.Item;
 
 public class InventoryView {
     private final Inventory inventory;
-    final Texture inventorySprite;
-    final Texture selectedItem;
-    final SpriteBatch batch;
-    final BitmapFont font;
+    private final Texture inventorySprite;
+    private final Texture selectedItem;
+    private final SpriteBatch batch;
+    private final BitmapFont font;
 
     private float xInventory;
     private float yInventory;
