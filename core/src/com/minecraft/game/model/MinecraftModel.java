@@ -164,7 +164,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void toggleCrafting() {
-        crafting.open();
+        crafting.toggleOpen();
     }
 
     @Override
@@ -231,7 +231,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         Player.getHealth().revive();
 
         if (crafting.isOpen()) {
-            crafting.open();
+            crafting.toggleOpen();
         }
 
         dayNightCycle.resetNumberOfNights();

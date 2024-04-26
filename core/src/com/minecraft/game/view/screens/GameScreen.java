@@ -73,7 +73,7 @@ public class GameScreen extends ScreenAdapter {
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),
                 viewableMinecraftModel.getInventory(), viewableMinecraftModel.getArmorInventory());
         this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(),
-                viewableMinecraftModel.getCrafting());
+                viewableMinecraftModel.getCrafting(), batch, minecraftView.getFont());
 
         this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
 
@@ -172,7 +172,7 @@ public class GameScreen extends ScreenAdapter {
         entityRenderer.renderAllEntities();
 
         if (overlayView != null) {
-            overlayView.render(batch);
+            overlayView.render();
         }
 
         batch.end();

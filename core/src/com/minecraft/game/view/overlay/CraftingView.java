@@ -10,9 +10,10 @@ import com.minecraft.game.model.crafting.Item;
 
 public class CraftingView {
     private final Crafting crafting;
-    private final Texture craftingSprite;
-    private final Texture selectedItem;
-    private final BitmapFont font;
+    final Texture craftingSprite;
+    final Texture selectedItem;
+    final BitmapFont font;
+    final SpriteBatch batch;
     private final int jump;
 
     private float xCrafting;
@@ -22,30 +23,31 @@ public class CraftingView {
     private float xDescription;
     private float yDescription;
 
-    public CraftingView(Crafting crafting){
+    public CraftingView(Crafting crafting, SpriteBatch batch, BitmapFont font) {
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
         this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
         this.font = new BitmapFont();
+        this.batch = batch;
         this.jump = 40;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (crafting.isOpen()) {
-            renderCraftingTable(batch);
-            renderCraftingTableItems(batch);
-            renderCraftableItems(batch);
-            renderSelectedSlot(batch);
-            renderPotentialItem(batch);
-            renderSelectedItemText(batch);
+            renderCraftingTable();
+            renderCraftingTableItems();
+            renderCraftableItems();
+            renderSelectedSlot();
+            renderPotentialItem();
+            renderSelectedItemText();
         }
     }
 
-    private void renderCraftingTable(SpriteBatch batch) {
+    private void renderCraftingTable() {
         batch.draw(craftingSprite, xCrafting, yCrafting);
     }
 
-    private void renderCraftingTableItems(SpriteBatch batch) {
+    private void renderCraftingTableItems() {
         Item[][] table = crafting.getTable();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -61,7 +63,7 @@ public class CraftingView {
     }
 
 
-    private void renderCraftableItems(SpriteBatch batch) {
+    private void renderCraftableItems() {
         Item[][] craftableItems = crafting.getCraftableItems();
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 10; col++) {
@@ -76,14 +78,14 @@ public class CraftingView {
         }
     }
 
-    private void renderSelectedSlot(SpriteBatch batch) {
+    private void renderSelectedSlot() {
         int selectedRow = crafting.getSelectedRow();
         int selectedCol = crafting.getSelectedCol();
         float x = xCrafting + 17 + (selectedCol * jump);
         float y = yCrafting + 176 - (selectedRow * jump);
         batch.draw(selectedItem, x, y);}
 
-    private void renderPotentialItem(SpriteBatch batch) {
+    private void renderPotentialItem() {
         Item item = crafting.getSelectedItem();
         if (item != null) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
@@ -100,7 +102,7 @@ public class CraftingView {
         yDescription = yCrafting + 240;
     }
 
-    private void renderSelectedItemText(SpriteBatch batch) {
+    private void renderSelectedItemText() {
         Item item = crafting.getSelectedItem();
         if (item != null) {
         font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }

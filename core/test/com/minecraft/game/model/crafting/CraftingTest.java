@@ -116,9 +116,9 @@ public class CraftingTest {
     void testOpen() {
         Crafting crafting = new Crafting(new Inventory(new Item[] {}), new ArmorInventory(null));
         assertFalse(crafting.isOpen());
-        crafting.open();
+        crafting.toggleOpen();
         assertTrue(crafting.isOpen());
-        crafting.open();
+        crafting.toggleOpen();
         assertFalse(crafting.isOpen());
     }
 

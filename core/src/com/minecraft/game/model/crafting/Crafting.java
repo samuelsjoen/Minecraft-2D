@@ -93,7 +93,8 @@ public class Crafting {
         return open;
     }
 
-    public void open() {
+    /** Opens the inventory if closed and closes the inventory if open */
+    public void toggleOpen() {
         open = !open;
         updateCraftableItems();
         updateCraftingTable();

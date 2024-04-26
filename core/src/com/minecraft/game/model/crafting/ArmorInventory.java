@@ -38,10 +38,19 @@ public class ArmorInventory implements InventoryInterface {
         return armorInventory.containsKey(item);
     }
 
+    /**
+     * Get the health of an armor piece
+     * @param item to get health of
+     * @return the health of the armor piece
+     */
     public int getArmorPieceHealth(Item item) {
         return armorInventory.get(item);
     }
 
+    /**
+     * Get the armor piece that will break next
+     * @return the armor piece that will break next
+     */
     public Item getNextBreakableArmorItem() {
         for (Entry<Item, Integer> entry : armorInventory.entrySet()) {
             return entry.getKey();
@@ -65,6 +74,9 @@ public class ArmorInventory implements InventoryInterface {
         return health;
     }
 
+    /**
+     * Remove the next breakable armor item from the inventory
+     */
     public void removeItem() {
         armorInventory.remove(getNextBreakableArmorItem());
     }
@@ -73,6 +85,10 @@ public class ArmorInventory implements InventoryInterface {
         armorInventory.remove(item);
     }
 
+    /**
+     * Damage the next breakable armor item
+     * @param damage the amount of damage to deal
+     */
     public void damageArmor(int damage) {
         Item item = getNextBreakableArmorItem();
         armorInventory.put(item, getArmorPieceHealth(item) - damage);

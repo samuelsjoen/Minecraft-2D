@@ -10,9 +10,10 @@ import com.minecraft.game.model.crafting.Item;
 
 public class InventoryView {
     private final Inventory inventory;
-    private final Texture inventorySprite;
-    private final Texture selectedItem;
-    private final BitmapFont font;
+    final Texture inventorySprite;
+    final Texture selectedItem;
+    final SpriteBatch batch;
+    final BitmapFont font;
 
     private float xInventory;
     private float yInventory;
@@ -23,22 +24,23 @@ public class InventoryView {
 
     private final float invJump;
     
-    public InventoryView(Inventory inventory){
+    public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font){
         this.inventory = inventory;
         this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
-        this.font = new BitmapFont();
+        this.font = font;
+        this.batch = batch;
         this.invJump = 40;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         batch.draw(inventorySprite, xInventory, yInventory);
-        renderCurrentInventorySlot(batch);
-        renderItems(batch);
-        renderSelectedItemText(batch);
+        renderCurrentInventorySlot();
+        renderItems();
+        renderSelectedItemText();
     }
 
-    private void renderItems(SpriteBatch batch) {
+    private void renderItems() {
         int iteration = 0;
         for (Item item : inventory.getInventory().keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
@@ -48,11 +50,11 @@ public class InventoryView {
         }
     }
 
-    private void renderCurrentInventorySlot(SpriteBatch batch) {
+    private void renderCurrentInventorySlot() {
         batch.draw(selectedItem, xInventory + (inventory.getCurrentSlot() * invJump), yInventory);
     }
 
-    private void renderSelectedItemText(SpriteBatch batch) {
+    private void renderSelectedItemText() {
         Item item = inventory.getSelectedItem();
         if (item != null) {
         font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }
@@ -67,5 +69,10 @@ public class InventoryView {
         
         xDescription = xInventory;
         yDescription = yInventory - 10;
+    }
+
+    public void dispose() {
+        inventorySprite.dispose();
+        selectedItem.dispose();
     }
 }
