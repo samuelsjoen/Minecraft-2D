@@ -9,10 +9,12 @@ import com.minecraft.game.model.Health;
 
 public class HealthView {
     private final Health health;
-    private final Texture healthBarSheet;
-    private final Texture armorHealthSheet;
+    final Texture healthBarSheet;
+    final Texture armorHealthSheet;
+    final SpriteBatch batch;
     private final TextureRegion[][] splitHealthFrames;
     private final TextureRegion[][] splitArmorFrames;
+    
 
     private float xHealth;
     private float yHealth;
@@ -21,7 +23,7 @@ public class HealthView {
     private float xArmor2;
     private float yArmor2;
 
-    public HealthView(Health health) {
+    public HealthView(Health health, SpriteBatch batch) {
         this.healthBarSheet = new Texture(Gdx.files.internal("assets/overlay/healthBar.png"));
         this.splitHealthFrames = TextureRegion.split(healthBarSheet, healthBarSheet.getWidth(),
                 healthBarSheet.getHeight() / 5);
@@ -29,9 +31,10 @@ public class HealthView {
         this.splitArmorFrames = TextureRegion.split(armorHealthSheet, armorHealthSheet.getWidth(),
                 armorHealthSheet.getHeight() / 5);
         this.health = health;
+        this.batch = batch;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (health.isAlive()) {
             int playerHealth = health.getHealth();
             int armorHealth = health.getArmorHealth();
@@ -60,6 +63,11 @@ public class HealthView {
         yArmor1 = lowerLeftCorner.y + 615;
         xArmor2 = lowerLeftCorner.x + 40;
         yArmor2 = lowerLeftCorner.y + 565;
+    }
+
+    public void dispose() {
+        healthBarSheet.dispose();
+        armorHealthSheet.dispose();
     }
 
 }
