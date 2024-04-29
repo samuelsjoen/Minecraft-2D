@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -54,7 +55,7 @@ class PinkMonsterTest {
     void pinkMonsterShouldTransitionToDeadStateWhenHealthDepletes() {
         pinkMonster.getHit(4);
         pinkMonster.update(0.1f);
-        assertEquals(PinkMonster.State.DEAD, pinkMonster.getCurrentState(),
+        assertEquals(State.DEAD, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to DEAD state");
     }
 
@@ -74,7 +75,7 @@ class PinkMonsterTest {
         // Place player close enough to trigger attacking state
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to the pinkMonster
         pinkMonster.update(0.1f);
-        assertEquals(PinkMonster.State.ATTACKING, pinkMonster.getCurrentState(),
+        assertEquals(State.ATTACKING, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to ATTACKING state");
     }
 
@@ -107,19 +108,19 @@ class PinkMonsterTest {
         // Place player far enough from the pinkMonster
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(50f, 5.0f)); // Far from the slime
         pinkMonster.update(0.1f);
-        assertEquals(PinkMonster.State.IDLE, pinkMonster.getCurrentState(),
+        assertEquals(State.IDLE, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to ATTACKING state");
 
         // Place player close enought to trigger running state of the pinkMonster
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(10f, 5.0f)); // Close to run
         pinkMonster.update(0.1f);
-        assertEquals(PinkMonster.State.RUNNING, pinkMonster.getCurrentState(),
+        assertEquals(State.RUNNING, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to ATTACKING state");
 
         // Place player close enough from the pinkMonster
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to attack
         pinkMonster.update(0.1f);
-        assertEquals(PinkMonster.State.ATTACKING, pinkMonster.getCurrentState(),
+        assertEquals(State.ATTACKING, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to ATTACKING state");
     }
 
@@ -165,7 +166,7 @@ class PinkMonsterTest {
 
         // Ensure enough time has passed since last attack
         pinkMonster.update(4.1f);
-        assertEquals(PinkMonster.State.ATTACKING2, pinkMonster.getCurrentState(),
+        assertEquals(State.ATTACKING2, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to ATTACKING2 state");
     }
 
@@ -196,7 +197,7 @@ class PinkMonsterTest {
 
         // Ensure enough time has passed since last attack
         pinkMonster.update(4.0f);
-        assertEquals(PinkMonster.State.IDLE, pinkMonster.getCurrentState(),
+        assertEquals(State.IDLE, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to ATTACKING2 state");
 
         // Ensure attackFrame is set to true before the update call
@@ -236,8 +237,46 @@ class PinkMonsterTest {
         pinkMonster.update(2.5f);
 
         // Verify that pinkMonster transitions to IDLE state
-        assertEquals(PinkMonster.State.IDLE, pinkMonster.getCurrentState(),
+        assertEquals(State.IDLE, pinkMonster.getCurrentState(),
                 "pinkMonster should transition to IDLE state after attack cooldown");
+    }
+
+    @Test
+    void testGetWidth() {
+        assertEquals(1.0f, pinkMonster.getWidth(), "Width should match the width set in the constructor");
+    }
+
+    @Test
+    void testGetHeight() {
+        assertEquals(1.0f, pinkMonster.getHeight(), "Height should match the height set in the constructor");
+    }
+
+    @Test
+    void testSetAttackFrame() {
+        pinkMonster.setAttackFrame(true);
+        assertTrue(pinkMonster.AttackFrame(), "Attack frame should be true after being set to true");
+
+        pinkMonster.setAttackFrame(false);
+        assertFalse(pinkMonster.AttackFrame(), "Attack frame should be false after being set to false");
+    }
+
+    @Test
+    void testSetMarkedForRemoval() {
+        assertFalse(pinkMonster.isMarkedForRemoval(), "Initially, pinkMonster should not be marked for removal");
+        pinkMonster.setMarkedForRemoval(true);
+        assertTrue(pinkMonster.isMarkedForRemoval(),
+                "PinkMonster should be marked for removal after being set to true");
+
+        pinkMonster.setMarkedForRemoval(false);
+        assertFalse(pinkMonster.isMarkedForRemoval(),
+                "PinkMonster should not be marked for removal after being set to false");
+    }
+
+    @Test
+    void testGetPosition() {
+        Vector2 position = pinkMonster.getPosition();
+        assertEquals(5.0f, position.x, "X position should match the mocked body position");
+        assertEquals(5.0f, position.y, "Y position should match the mocked body position");
     }
 
 }

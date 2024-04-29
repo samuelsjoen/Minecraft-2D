@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.model.entities.Slime;
+import com.minecraft.game.model.entities.State;
 import com.minecraft.game.LibgdxUnitTest;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.*;
 
 class SlimeRendererTest extends LibgdxUnitTest {
@@ -42,20 +46,21 @@ class SlimeRendererTest extends LibgdxUnitTest {
         when(mockIdleAnimation.getKeyFrame(anyFloat(), anyBoolean())).thenReturn(mockTextureRegion);
         when(mockAttackAnimation.getKeyFrame(anyFloat(), anyBoolean())).thenReturn(mockTextureRegion);
         when(mockDeadAnimation.getKeyFrame(anyFloat(), anyBoolean())).thenReturn(mockTextureRegion);
+        when(mockSlime.getPosition()).thenReturn(new Vector2(10, 10));
 
         when(mockBody.getPosition()).thenReturn(new Vector2(10, 10));
         when(mockSlime.getBody()).thenReturn(mockBody);
 
-        slimeRenderer = new SlimeRenderer();
+        slimeRenderer = new SlimeRenderer(mockBatch);
     }
 
     @Test
     void testRenderAnimationBasedOnSlimeState() {
-        when(mockSlime.getCurrentState()).thenReturn(Slime.State.IDLE);
+        when(mockSlime.getCurrentState()).thenReturn(State.IDLE);
         when(mockSlime.getStateTime()).thenReturn(1f); // Simulate 1 second has passed
         when(mockSlime.isFacingRight()).thenReturn(true); // Slime is facing right
 
-        slimeRenderer.render(mockSlime, mockBatch);
+        slimeRenderer.render(mockSlime);
 
         verify(mockBatch, times(1)).draw(
                 any(TextureRegion.class),
@@ -65,35 +70,35 @@ class SlimeRendererTest extends LibgdxUnitTest {
 
     @Test
     void testIdleAnimationSelected() {
-        when(mockSlime.getCurrentState()).thenReturn(Slime.State.IDLE);
+        when(mockSlime.getCurrentState()).thenReturn(State.IDLE);
 
-        slimeRenderer.render(mockSlime, mockBatch);
+        slimeRenderer.render(mockSlime);
     }
 
     @Test
     void testRunningAnimationSelected() {
-        when(mockSlime.getCurrentState()).thenReturn(Slime.State.RUNNING);
+        when(mockSlime.getCurrentState()).thenReturn(State.RUNNING);
 
-        slimeRenderer.render(mockSlime, mockBatch);
+        slimeRenderer.render(mockSlime);
     }
 
     @Test
     void testAttackAnimationSelected() {
-        when(mockSlime.getCurrentState()).thenReturn(Slime.State.ATTACKING);
+        when(mockSlime.getCurrentState()).thenReturn(State.ATTACKING);
         when(mockSlime.getStateTime()).thenReturn(0.2f); // 0.2 seconds passed to manipulate index
 
-        slimeRenderer.render(mockSlime, mockBatch);
+        slimeRenderer.render(mockSlime);
     }
 
     @Test
     void testDeadAnimationSelectedAndMarkedForRemoval() {
-        when(mockSlime.getCurrentState()).thenReturn(Slime.State.DEAD);
+        when(mockSlime.getCurrentState()).thenReturn(State.DEAD);
         when(mockSlime.getDeadStateTime()).thenReturn(Float.MAX_VALUE); // Simulate animation has finished
 
-        slimeRenderer.render(mockSlime, mockBatch);
+        slimeRenderer.render(mockSlime);
 
         // Verify Slime is marked for removal after dead animation is finished.
-        verify(mockSlime, times(1)).setMarkedForRemoval();
+        verify(mockSlime, times(1)).setMarkedForRemoval(true);
     }
 
     @Test

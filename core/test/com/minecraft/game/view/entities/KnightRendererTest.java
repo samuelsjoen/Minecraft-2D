@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.Texture;
 import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.State;
 import com.minecraft.game.LibgdxUnitTest;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.*;
 
 class KnightRendererTest extends LibgdxUnitTest {
@@ -44,22 +48,24 @@ class KnightRendererTest extends LibgdxUnitTest {
 
         // Mocking animations to return the mocked texture region
         when(mockAnimation.getKeyFrame(anyFloat(), anyBoolean())).thenReturn(mockTextureRegion);
+        when(mockKnight.getPosition()).thenReturn(new Vector2(10, 10));
+
         when(mockBody.getPosition()).thenReturn(new Vector2(10, 10));
-        when(mockKnight.getBody()).thenReturn(mockBody);
+        // when(mockKnight.getBody()).thenReturn(mockBody);
 
         // Setup the KnightRenderer with mocked dependencies
-        knightRenderer = new KnightRenderer();
+        knightRenderer = new KnightRenderer(mockBatch);
     }
 
     @Test
     void testRenderAnimationBasedOnKnightState() {
         // Setup the knight's state
-        when(mockKnight.getCurrentState()).thenReturn(Knight.State.IDLE);
+        when(mockKnight.getCurrentState()).thenReturn(State.IDLE);
         when(mockKnight.getStateTime()).thenReturn(1f); // Simulate 1 second has passed
         when(mockKnight.isFacingRight()).thenReturn(true); // Knight is facing right
 
         // Perform the rendering
-        knightRenderer.render(mockKnight, mockBatch);
+        knightRenderer.render(mockKnight);
 
         verify(mockBatch, times(1)).draw(
                 any(TextureRegion.class),
@@ -69,35 +75,35 @@ class KnightRendererTest extends LibgdxUnitTest {
 
     @Test
     void testIdleAnimationSelected() {
-        when(mockKnight.getCurrentState()).thenReturn(Knight.State.IDLE);
+        when(mockKnight.getCurrentState()).thenReturn(State.IDLE);
 
-        knightRenderer.render(mockKnight, mockBatch);
+        knightRenderer.render(mockKnight);
     }
 
     @Test
     void testRunningAnimationSelected() {
-        when(mockKnight.getCurrentState()).thenReturn(Knight.State.RUNNING);
+        when(mockKnight.getCurrentState()).thenReturn(State.RUNNING);
 
-        knightRenderer.render(mockKnight, mockBatch);
+        knightRenderer.render(mockKnight);
     }
 
     @Test
     void testAttackAnimationSelected() {
-        when(mockKnight.getCurrentState()).thenReturn(Knight.State.ATTACKING);
+        when(mockKnight.getCurrentState()).thenReturn(State.ATTACKING);
         when(mockKnight.getStateTime()).thenReturn(0.2f); // 0.2 seconds passed to manipulate index
 
-        knightRenderer.render(mockKnight, mockBatch);
+        knightRenderer.render(mockKnight);
     }
 
     @Test
     void testDeadAnimationSelectedAndMarkedForRemoval() {
-        when(mockKnight.getCurrentState()).thenReturn(Knight.State.DEAD);
+        when(mockKnight.getCurrentState()).thenReturn(State.DEAD);
         when(mockKnight.getDeadStateTime()).thenReturn(Float.MAX_VALUE); // Simulate animation has finished
 
-        knightRenderer.render(mockKnight, mockBatch);
+        knightRenderer.render(mockKnight);
 
         // Verify knight is marked for removal after dead animation is finished.
-        verify(mockKnight, times(1)).setMarkedForRemoval();
+        verify(mockKnight, times(1)).setMarkedForRemoval(true);
     }
 
     @Test
