@@ -21,11 +21,6 @@ import com.badlogic.gdx.Input.Buttons;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.MinecraftView;
-/*import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
-
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.minecraft.game.view.screens.GameScreen;*/
 
 public class MinecraftControllerTest extends LibgdxUnitTest {
 
@@ -44,17 +39,14 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
         mockModel = mock(ControllableMinecraftModel.class);
         mockView = mock(MinecraftView.class);
 
-        // do nothing for helpscreencontroller
-        // mock stage
+        // Mock stage
         mockStage = mock(Stage.class);
         when(mockView.getHelpScreenStage()).thenReturn(mockStage);
 
         mockButton = mock(Button.class);
         when(mockStage.getActors()).thenReturn(new Array<>(new Actor[] { mockButton }));
 
-        //try (MockedConstruction<Stage> mocked = Mockito.mockConstruction(Stage.class)) {
-            minecraftController = new MinecraftController(mockModel, mockView);
-       // }
+        minecraftController = new MinecraftController(mockModel, mockView);
 
         OrthographicCamera mockCamera = mock(OrthographicCamera.class);
         when(mockView.getCamera()).thenReturn(mockCamera);
@@ -77,8 +69,6 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
     public void testKeyDownEscape() {
         assertTrue(minecraftController.keyDown(Keys.ESCAPE));
         verifyNoInteractions(mockModel);
-        // TODO: look at this 
-        //verifyNoInteractions(mockView);
     }
 
     @Test

@@ -1,4 +1,4 @@
-/*package com.minecraft.game.view.screens;
+package com.minecraft.game.view.screens;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.Minecraft;
 
@@ -45,14 +44,6 @@ public class HelpScreenTest extends LibgdxUnitTest {
 
     @Test
     public void testTextureLoading() {
-        // Mocking game instance
-        Minecraft game = mock(Minecraft.class);
-
-        // Mocking SpriteBatch
-        SpriteBatch spriteBatch = mock(SpriteBatch.class);
-
-        // Create HelpScreen instance
-        HelpScreen helpScreen = new HelpScreen(game, spriteBatch);
 
         // Verify that the background texture is not null
         assertNotNull(helpScreen.backgroundTexture);
@@ -96,10 +87,13 @@ public class HelpScreenTest extends LibgdxUnitTest {
 
     @Test
     public void testResize() {
+        Viewport viewport = new FitViewport(1000, 800);
+        Stage stage = new Stage(viewport, spriteBatch);
+        helpScreen.setStage(stage);
+
         // Mock behavior of SpriteBatch
         Matrix4 mockMatrix = mock(Matrix4.class);
-        when(spriteBatch.getProjectionMatrix()).thenReturn(mockMatrix);
-                
+        when(spriteBatch.getProjectionMatrix()).thenReturn(mockMatrix); 
         // Call resize method
         helpScreen.resize(800, 600);
 
@@ -107,4 +101,3 @@ public class HelpScreenTest extends LibgdxUnitTest {
         verify(spriteBatch.getProjectionMatrix()).setToOrtho2D(0, 0, 800, 600);
     }
 }
-*/

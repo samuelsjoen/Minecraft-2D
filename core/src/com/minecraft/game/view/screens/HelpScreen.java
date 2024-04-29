@@ -66,4 +66,10 @@ public class HelpScreen extends ScreenAdapter {
         this.stage.dispose();
         this.button = null;
     }
+
+    // For testing:
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }
