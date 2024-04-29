@@ -22,7 +22,7 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("home/menu_background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
         titleTexture = new Texture(Gdx.files.internal("home/minecraft_logo.png"));
 
         startButtonTexture = new Texture(Gdx.files.internal("home/start_button.png"));

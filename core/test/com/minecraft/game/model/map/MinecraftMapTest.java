@@ -34,7 +34,7 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 
 		minecraftMapHelper = new MinecraftMapHelper();
 
-		mapPath = "map/mapExample2-64.tmx";
+		mapPath = "map/testMap-64.tmx";
 		tiledMap = minecraftMapHelper.setupMapNoRender(mapPath);
 		tiledMapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
 		objectLayer = tiledMap.getLayers().get("collisions");

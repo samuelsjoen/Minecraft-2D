@@ -12,7 +12,7 @@ public class MapLoaderTest extends LibgdxUnitTest {
 
     @Test
     public void testLoadValidTileMap() {
-        String mapPath = "map/mapExample2-64.tmx";
+        String mapPath = "map/testMap-64.tmx";
         TiledMap tiledMap = MapLoader.loadTileMap(mapPath);
 
         // The path is valid, so the TiledMap object should not be null
