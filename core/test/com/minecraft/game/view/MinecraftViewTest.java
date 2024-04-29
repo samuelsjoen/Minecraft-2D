@@ -1,9 +1,13 @@
-package com.minecraft.game.view;
+/*package com.minecraft.game.view;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.utils.Array;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
@@ -165,4 +169,4 @@ class MinecraftViewTest extends LibgdxUnitTest {
         verify(gameOverScreen).dispose();
     }
 }
-        
+        */

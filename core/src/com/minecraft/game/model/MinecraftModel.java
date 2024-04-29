@@ -49,6 +49,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
+        //this.gameState = GameState.HELP_SCREEN;
 
         this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);

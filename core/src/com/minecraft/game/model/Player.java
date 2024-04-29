@@ -31,6 +31,8 @@ public class Player extends GameEntity {
     private Boolean moveLeft;
     private Boolean moveRight;
     private Boolean isAttacking;
+    @SuppressWarnings("unused")
+    private int highScore;
 
     public Player(float width, float height, Body body, Inventory inventory, Health health) {
         super(width, height, body);
@@ -100,11 +102,17 @@ public class Player extends GameEntity {
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             // currentState = State.DEAD;
             setCurrentState(State.DEAD);
+            setHighScore();
 
         }
 
         body.setLinearVelocity(velX, body.getLinearVelocity().y);
 
+    }
+
+    // TODO: implement highscore
+    private void setHighScore() {
+        this.highScore = getScore();
     }
 
     public void playerOutOfbounds(float screenWidth, float screenHeight) {

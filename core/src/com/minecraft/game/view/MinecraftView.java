@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
@@ -55,6 +56,10 @@ public class MinecraftView implements Disposable {
 
         updateScreen();
 
+    }
+
+    public Stage getHelpScreenStage() {
+        return helpScreen.getStage();
     }
 
     public void newGameScreen() {

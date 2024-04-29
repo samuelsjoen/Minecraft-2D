@@ -1,8 +1,8 @@
 package com.minecraft.game.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Buttons;
 
 import com.minecraft.game.model.GameState;
@@ -16,6 +16,9 @@ public class MinecraftController extends InputAdapter {
     private PlayerController playerController;
     private BlockPlacementController blockPlacementController;
     private InventoryController inventoryController;
+    // TODO: check if this is actually used
+    @SuppressWarnings("unused")
+    private HelpScreenController helpScreenController;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
@@ -24,6 +27,7 @@ public class MinecraftController extends InputAdapter {
         this.playerController = new PlayerController(controllableModel);
         this.blockPlacementController = new BlockPlacementController(controllableModel, view);
         this.inventoryController = new InventoryController(controllableModel);
+        this.helpScreenController = new HelpScreenController(view, this);
     }
 
     @Override
@@ -184,6 +188,7 @@ public class MinecraftController extends InputAdapter {
             setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
         } else if (view.isHelpButtonClicked(touchX, touchY)) {
             setGameStateAndUpdateScreen(GameState.HELP_SCREEN);
+            Gdx.input.setInputProcessor(view.getHelpScreenStage());
         } else if (view.isQuitButtonClicked(touchX, touchY)) {
             Gdx.app.exit();
         }
@@ -241,6 +246,10 @@ public class MinecraftController extends InputAdapter {
     
     public void setInventoryController(InventoryController inventoryController) {
         this.inventoryController = inventoryController;
+    }
+
+    public void setHelpScreenController(HelpScreenController helpScreenController) {
+        this.helpScreenController = helpScreenController;
     }
 
 }
