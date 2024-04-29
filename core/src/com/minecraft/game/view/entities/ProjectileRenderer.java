@@ -9,7 +9,7 @@ public class ProjectileRenderer implements IEntityRenderer<Projectile> {
     private Texture sheet;
 
     public ProjectileRenderer() {
-        sheet = new Texture("assets/Rock2.png");
+        sheet = new Texture("Rock2.png");
     }
 
     @Override

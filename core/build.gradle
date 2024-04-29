@@ -4,7 +4,6 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
-//[compileJava, compileTestJava].options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
@@ -14,19 +13,19 @@ dependencies {
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    implementation "com.badlogicgames.gdx:gdx-lwjgl3-glfw-awt-macos:$gdxVersion"
+    //implementation "com.badlogicgames.gdx:gdx-lwjgl3-glfw-awt-macos:$gdxVersion"
 }
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "test/" ]
-sourceSets.main.resources.srcDirs = ["team6"]
+sourceSets.main.resources.srcDirs = ["../assets"]
 
 project.ext.mainClassName = "com.minecraft.game.DesktopLauncher"
-project.ext.assetsDir = new File("assets")
+project.ext.assetsDir = new File("../assets")
 
 task run(type: JavaExec) {
     dependsOn classes
-    main = project.mainClassName
+    mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -39,7 +38,7 @@ task run(type: JavaExec) {
 
 task debug(type: JavaExec) {
     dependsOn classes
-    main = project.mainClassName
+    mainClass = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir

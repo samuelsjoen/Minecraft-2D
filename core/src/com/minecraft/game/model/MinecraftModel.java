@@ -51,7 +51,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.gameState = GameState.WELCOME_SCREEN;
         //this.gameState = GameState.HELP_SCREEN;
 
-        this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.mapRenderer = map.setupMap("map/mapExample3-64.tmx");
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
@@ -214,7 +214,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
                 return null;
             }
             isLastItemPickaxe = false;
-            return "assets/default_cursor.png";
+            return "default_cursor.png";
         }
         else {
             isLastItemPickaxe = true;
@@ -341,7 +341,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public void restartGame() {
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         map = new MinecraftMap();
-        this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.mapRenderer = map.setupMap("map/mapExample3-64.tmx");
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
         playerHealth.setArmorInventory(armorInventory);

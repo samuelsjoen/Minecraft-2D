@@ -26,12 +26,12 @@ public class HelpScreen extends ScreenAdapter {
         float x = Gdx.graphics.getWidth() - Gdx.graphics.getWidth() + padding;
         float y = Gdx.graphics.getHeight() - padding;
 
-        this.button = new Button("assets/helpScreen/home_button.png", stage, x, y);
+        this.button = new Button("helpScreen/home_button.png", stage, x, y);
         this.button.createButton();
 
         this.game = game;
         this.batch = batch;
-        backgroundTexture = new Texture(Gdx.files.internal("assets/helpScreen/help_background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("helpScreen/help_background.png"));
     }
 
     public Stage getStage() {

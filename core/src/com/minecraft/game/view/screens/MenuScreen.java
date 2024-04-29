@@ -22,12 +22,12 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("assets/home/menu_background.png"));
-        titleTexture = new Texture(Gdx.files.internal("assets/home/minecraft_logo.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("home/menu_background.png"));
+        titleTexture = new Texture(Gdx.files.internal("home/minecraft_logo.png"));
 
-        startButtonTexture = new Texture(Gdx.files.internal("assets/home/start_button.png"));
-        helpButtonTexture = new Texture(Gdx.files.internal("assets/home/help_button.png"));
-        quitButtonTexture = new Texture(Gdx.files.internal("assets/home/quit_button.png"));
+        startButtonTexture = new Texture(Gdx.files.internal("home/start_button.png"));
+        helpButtonTexture = new Texture(Gdx.files.internal("home/help_button.png"));
+        quitButtonTexture = new Texture(Gdx.files.internal("home/quit_button.png"));
     }
 
     @Override

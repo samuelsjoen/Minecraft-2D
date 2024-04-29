@@ -45,7 +45,7 @@ public class MinecraftView implements Disposable {
         this.font = font;
 
         // Create the sound manager for the mine block sound
-        this.mineBlockSoundManager = new MineBlockSoundManager("assets/sound/mineSound.wav");
+        this.mineBlockSoundManager = new MineBlockSoundManager("sound/mineSound.wav");
 
         this.menuScreen = new MenuScreen(game, spriteBatch);
         this.helpScreen = new HelpScreen(game, spriteBatch);
@@ -69,7 +69,7 @@ public class MinecraftView implements Disposable {
     }
 
     public void updateScreen() {
-        CursorUtils.setCursorPixmap("assets/default_cursor.png");
+        CursorUtils.setCursorPixmap("default_cursor.png");
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             game.setScreen(menuScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.HELP_SCREEN){

@@ -17,7 +17,7 @@ public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
     TextureRegion[] runFrames = new TextureRegion[6];
 
     public PinkMonsterRenderer() {
-        sheet = new Texture("assets/Pink_Monster.png");
+        sheet = new Texture("Pink_Monster.png");
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 8, sheet.getHeight() / 14);
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = splitFrames[2][i];
