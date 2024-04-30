@@ -6,17 +6,25 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-//import com.minecraft.game.Minecraft;
 import com.minecraft.game.view.ViewableMinecraftModel;
 
+/**
+ * The screen displayed when the game is won.
+ * It prompts the user to restart the game.
+ */
 public class GameWonScreen extends ScreenAdapter {
 
     private final BitmapFont font;
     private final SpriteBatch batch;
     private ViewableMinecraftModel model;
 
+    /**
+     * Constructs a new GameWonScreen.
+     *
+     * @param batch The SpriteBatch used for rendering.
+     * @param font  The BitmapFont used for text rendering.
+     */
     public GameWonScreen(SpriteBatch batch, BitmapFont font, ViewableMinecraftModel model) {
-        //this.game = game;
         this.batch = batch;
         this.font = font;
         this.model = model;
@@ -33,11 +41,6 @@ public class GameWonScreen extends ScreenAdapter {
         batch.end();
     }
 
-    private void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
     @Override
     public void dispose() {
         font.dispose();
@@ -49,5 +52,13 @@ public class GameWonScreen extends ScreenAdapter {
         super.resize(width, height);
         // Update the projection matrix
         batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+    }
+
+    /**
+     * Clears the screen with a black color.
+     */
+    private void clearScreen() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 }

@@ -30,12 +30,27 @@ public class BlockPlacementController {
         this.lastTileY = -1;
     }
 
+    /**
+     * Handles the touch up event.
+     * Stops the timer, clears it, and stops the mine block sound in the view.
+     */
     public void handleTouchUp() {
         timer.stop();
         timer.clear();
         view.stopMineBlockSound();
     }
     
+    /**
+     * Handles the touch down event.
+     * Starts the timer if it is empty.
+     * Calculates the tile coordinates based on the screen coordinates.
+     * If the button is left, removes the block at the tile coordinates.
+     * If the button is right, places a block at the tile coordinates.
+     * @param screenX The x-coordinate of the touch event on the screen.
+     * @param screenY The y-coordinate of the touch event on the screen.
+     * @param button The button that was pressed (left or right).
+     * @return true if a block was placed or removed, false otherwise.
+     */
     public boolean handleTouchDown(int screenX, int screenY, int button) {
 
         if (timer.isEmpty()) {
@@ -56,10 +71,23 @@ public class BlockPlacementController {
         return false;
     }
 
+    /**
+     * Places a block at the specified tile coordinates.
+     * @param tileX The x-coordinate of the tile.
+     * @param tileY The y-coordinate of the tile.
+     */
     private void placeBlock(int tileX, int tileY) {
         controllableModel.addBlock(tileX, tileY);
     }
 
+    /**
+     * Removes a block at the specified tile coordinates.
+     * If the tile coordinates are invalid or different from the previous tile coordinates,
+     * starts mining the block at the new coordinates.
+     * @param tileX The x-coordinate of the tile.
+     * @param tileY The y-coordinate of the tile.
+     * @return true if mining started, false otherwise.
+     */
     private boolean removeBlock(int tileX, int tileY) {
         if (tileX < 0 || tileY < 0) { // Invalid tile coordinates
             return false;
@@ -70,6 +98,14 @@ public class BlockPlacementController {
         return false;
     }
 
+    /**
+     * Starts mining the block at the specified tile coordinates.
+     * If the block is mineable, plays the mine block sound in the view.
+     * Clears the timer, starts it, and schedules a task to remove the block after a delay.
+     * Stores the previous tile coordinates.
+     * @param tileX The x-coordinate of the tile.
+     * @param tileY The y-coordinate of the tile.
+     */
     private void startMiningBlock(int tileX, int tileY) {
 
         if (controllableModel.isBlockMineable(tileX, tileY)) {
@@ -95,6 +131,12 @@ public class BlockPlacementController {
         lastTileY = tileY;
     }
 
+    /**
+     * Calculates the tile coordinates based on the screen coordinates.
+     * @param screenX The x-coordinate of the touch event on the screen.
+     * @param screenY The y-coordinate of the touch event on the screen.
+     * @return The calculated tile coordinates as a Point object.
+     */
     public Point calculateTileXAndY(int screenX, int screenY) {        
         // Calculate tile coordinates
         PixelToTilePositionConverter converter = new PixelToTilePositionConverter(view.getCamera());

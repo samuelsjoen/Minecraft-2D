@@ -64,6 +64,7 @@ public interface ControllableMinecraftModel {
 
     // Player
 
+    // TODO: can probably remove this method
     /**
      * Revives the player.
      */

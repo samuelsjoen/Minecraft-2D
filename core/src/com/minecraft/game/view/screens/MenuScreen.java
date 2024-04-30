@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+/**
+ * The MenuScreen class represents the main menu screen of the Minecraft game.
+ * It provides functionality for rendering the main menu interface and handling user input.
+ */
 public class MenuScreen extends ScreenAdapter {
     private final SpriteBatch batch;
     private Texture backgroundTexture;
@@ -17,6 +21,13 @@ public class MenuScreen extends ScreenAdapter {
     private Button quitButton;
     private Button title;
 
+    /**
+     * Constructs a new MenuScreen with the specified SpriteBatch.
+     * This screen represents the main menu of the Minecraft game, providing functionality
+     * for rendering the main menu interface and handling user input.
+     *
+     * @param batch The SpriteBatch used for rendering graphics.
+     */
     public MenuScreen(SpriteBatch batch) {
         this.batch = batch;
         loadTextures();

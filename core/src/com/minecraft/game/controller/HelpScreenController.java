@@ -8,12 +8,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.MinecraftView;
 
+/**
+ * The HelpScreenController class is responsible for controlling the help screen in the Minecraft game.
+ * It handles user interactions with the help screen buttons and updates the game state accordingly.
+ */
 public class HelpScreenController {
     
     private MinecraftController minecraftController;
     private MinecraftView view;
     private Stage stage;
 
+    /**
+     * The HelpScreenController class is responsible for controlling the help screen in the Minecraft game.
+     * It handles the interaction between the view and the MinecraftController.
+     */
     public HelpScreenController(MinecraftView view, MinecraftController minecraftController) {
         this.view = view;
         this.minecraftController = minecraftController;
@@ -27,13 +35,16 @@ public class HelpScreenController {
         });
     }
 
+    /**
+     * A listener that handles click events.
+     */
     private ClickListener createClickListener(MinecraftController minecraftController) {
         return new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Your logic when the button is clicked
-                GameState lastGameState = minecraftController.getLastGameState();
+                GameState lastGameState = minecraftController.getLastGameState(); // either WELCOME_SCREEN or GAME_ACTIVE
                 minecraftController.setGameStateAndUpdateScreen(lastGameState);
                 if (lastGameState == GameState.WELCOME_SCREEN) {
                     Gdx.input.setInputProcessor(view.getMenuScreenStage());

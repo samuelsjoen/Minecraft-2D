@@ -7,11 +7,22 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * The PausedScreen class represents the screen displayed when the game is paused.
+ * It provides functionality for rendering text and graphics relevant to the paused state.
+ */
 public class PausedScreen extends ScreenAdapter {
 
     private BitmapFont font;
     private SpriteBatch batch;
 
+    /**
+     * Constructs a new PausedScreen with the specified SpriteBatch and BitmapFont.
+     * This screen is displayed when the game is paused and allows rendering text and graphics.
+     *
+     * @param batch The SpriteBatch used for rendering graphics.
+     * @param font The BitmapFont used for rendering text.
+     */
     public PausedScreen(SpriteBatch batch, BitmapFont font) {
         this.batch = batch;
         this.font = font;

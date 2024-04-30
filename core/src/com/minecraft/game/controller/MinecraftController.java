@@ -8,6 +8,11 @@ import com.badlogic.gdx.Input.Buttons;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.MinecraftView;
 
+/**
+ * The MinecraftController class is responsible for controlling the game logic and user interactions in the Minecraft game.
+ * It manages the model, view, and various controllers for player actions, block placement, inventory management,
+ * and screen navigation.
+ */
 public class MinecraftController extends InputAdapter {
 
     private ControllableMinecraftModel controllableModel;
@@ -23,6 +28,14 @@ public class MinecraftController extends InputAdapter {
     @SuppressWarnings("unused")
     private HomeScreenController homeScreenController;
 
+    /**
+     * Constructs a new MinecraftController with the specified controllable model and view.
+     * This controller manages user interactions and game logic, including player actions,
+     * block placement, inventory management.
+     *
+     * @param controllableModel The controllable model for the Minecraft game.
+     * @param view The view component for the Minecraft game.
+     */
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
@@ -35,8 +48,7 @@ public class MinecraftController extends InputAdapter {
         this.homeScreenController =  new HomeScreenController(view, this);
         this.helpScreenController = new HelpScreenController(view, this);
 
-        Gdx.input.setInputProcessor(view.getMenuScreenStage());
-        
+        Gdx.input.setInputProcessor(view.getMenuScreenStage());   
     }
 
     @Override
@@ -63,6 +75,11 @@ public class MinecraftController extends InputAdapter {
                     controllableModel.restartGame();
                     view.newGameScreen();
                     Gdx.input.setInputProcessor(view.getMenuScreenStage());
+                    return true;
+                }
+                if (keycode == Keys.H) {
+                    setGameStateAndUpdateScreen(GameState.HELP_SCREEN);
+                    Gdx.input.setInputProcessor(view.getHelpScreenStage());
                     return true;
                 }
                 if (keycode == Keys.P) {
@@ -115,6 +132,7 @@ public class MinecraftController extends InputAdapter {
                 }*/
 
             case GAME_WON:
+                //this.lastGameState = gameState;
                 playerController.stopMovement();
                 controllableModel.restartGame();
                 view.newGameScreen();
@@ -183,11 +201,6 @@ public class MinecraftController extends InputAdapter {
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
     public boolean scrolled(float amountX, float amountY) {
         // amountY > 0 for scroll nedover, amountY < 0 for scroll oppover
         if (amountY > 0) {
@@ -210,6 +223,14 @@ public class MinecraftController extends InputAdapter {
         return true;
     }
 
+    public GameState getLastGameState() {
+        return this.lastGameState;
+    }
+
+    public void setLastGameState(GameState gameState) {
+        this.lastGameState = gameState;
+    }
+
     // For testing:
     public void setPlayerController(PlayerController playerController) {
         this.playerController = playerController;
@@ -225,10 +246,6 @@ public class MinecraftController extends InputAdapter {
 
     public void setHelpScreenController(HelpScreenController helpScreenController) {
         this.helpScreenController = helpScreenController;
-    }
-
-    public GameState getLastGameState() {
-        return this.lastGameState;
     }
 
 }

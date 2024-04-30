@@ -7,11 +7,21 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * The screen displayed when the game is over.
+ * It prompts the user to restart the game.
+ */
 public class GameOverScreen extends ScreenAdapter {
 
     final BitmapFont font;
     final SpriteBatch batch;
 
+    /**
+     * Constructs a new GameOverScreen.
+     *
+     * @param batch The SpriteBatch used for rendering.
+     * @param font  The BitmapFont used for text rendering.
+     */
     public GameOverScreen(SpriteBatch batch, BitmapFont font) {
         this.batch = batch;
         this.font = font;
@@ -27,6 +37,9 @@ public class GameOverScreen extends ScreenAdapter {
         batch.end();
     }
 
+    /**
+     * Clears the screen with a black color.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
