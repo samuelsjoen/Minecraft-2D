@@ -36,6 +36,7 @@ public class EnemyManager {
     // private final float spawnIntervalMax = 0.0f; // Maximum time between spawns
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
+    private EntityFactory entityFactory;
 
     public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle) {
         this.world = world;
@@ -44,6 +45,7 @@ public class EnemyManager {
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
         killAllEntities();
+        entityFactory = new EntityFactory();
     }
 
     public void update(float delta) {
@@ -180,15 +182,15 @@ public class EnemyManager {
 
         GameEntity entity = null;
         if (chooseEnemy == 0 && knights.size() < 2) {
-            entity = EntityFactory.createEntity("Knight", params);
+            entity = entityFactory.create("Knight", params);
             if (entity != null)
                 knights.add((Knight) entity);
         } else if (chooseEnemy == 1 && slimes.size() < 3) {
-            entity = EntityFactory.createEntity("Slime", params);
+            entity = entityFactory.create("Slime", params);
             if (entity != null)
                 slimes.add((Slime) entity);
         } else if (chooseEnemy == 2 && pinkMonsters.size() < 1) {
-            entity = EntityFactory.createEntity("PinkMonster", params);
+            entity = entityFactory.create("PinkMonster", params);
             if (entity != null)
                 pinkMonsters.add((PinkMonster) entity);
         }

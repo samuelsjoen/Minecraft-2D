@@ -29,6 +29,7 @@ public class PinkMonster extends GameEntity {
     private boolean isInvincible;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
+    private EntityFactory entityFactory;
 
     public enum State {
         IDLE, RUNNING, ATTACKING, ATTACKING2, DEAD
@@ -45,6 +46,8 @@ public class PinkMonster extends GameEntity {
         currentState = State.IDLE;
 
         stateTime = 0f;
+
+        entityFactory = new EntityFactory();
     }
 
     @Override
@@ -100,7 +103,7 @@ public class PinkMonster extends GameEntity {
                     EntityParams projectileParams = new EntityParams(world, null, startPosition.x, startPosition.y,
                             null);
                     projectileParams.setTargetPosition(targetPosition.x, targetPosition.y);
-                    Projectile projectile = (Projectile) EntityFactory.createEntity("Projectile", projectileParams);
+                    Projectile projectile = (Projectile) entityFactory.create("Projectile", projectileParams);
                     EnemyManager.addProjectile(projectile);
 
                     hasThrownRock = true; // Mark that a rock has been thrown
