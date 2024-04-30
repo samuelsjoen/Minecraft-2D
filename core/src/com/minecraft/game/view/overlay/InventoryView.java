@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.items.Item;
 
-public class InventoryView implements OverlayInterface {
+public class InventoryView implements IOverlay {
     private final Inventory inventory;
     private final Texture inventorySprite;
     private final Texture selectedItem;

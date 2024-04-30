@@ -3,15 +3,15 @@ package com.minecraft.game.view.overlay;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.minecraft.game.model.crafting.Crafting;
-import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.Health;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Inventory;
 
-public class OverlayView {
+public class OverlayView implements IOverlay {
 
-    private final OverlayInterface inventoryView;
-    private final OverlayInterface healthView;
-    private final OverlayInterface craftingView;
+    private final IOverlay inventoryView;
+    private final IOverlay healthView;
+    private final IOverlay craftingView;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting, SpriteBatch batch, BitmapFont font) {
         this.inventoryView = new InventoryView(inventory, batch, font);

@@ -13,9 +13,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.Health;
-import com.minecraft.game.model.crafting.Crafting;
-import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.items.Item;
 
 public class OverlayViewTest extends LibgdxUnitTest {
 

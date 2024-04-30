@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.minecraft.game.model.crafting.Crafting;
-import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Item;
 
-public class CraftingView implements OverlayInterface {
+public class CraftingView implements IOverlay {
     private final Crafting crafting;
     private final Texture craftingSprite;
     private final Texture selectedItem;

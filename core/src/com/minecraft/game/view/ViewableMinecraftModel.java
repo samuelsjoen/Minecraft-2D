@@ -7,10 +7,10 @@ import com.minecraft.game.model.Player;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.minecraft.game.model.crafting.ArmorInventory;
-import com.minecraft.game.model.crafting.Crafting;
-import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityModel;
+import com.minecraft.game.model.items.ArmorInventory;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Inventory;
 
 /**
  * The ViewableMinecraftModel interface represents a viewable Minecraft model.
