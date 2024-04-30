@@ -7,16 +7,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 //import com.minecraft.game.Minecraft;
+import com.minecraft.game.view.ViewableMinecraftModel;
 
 public class GameWonScreen extends ScreenAdapter {
 
     private final BitmapFont font;
     private final SpriteBatch batch;
+    private ViewableMinecraftModel model;
 
-    public GameWonScreen(SpriteBatch batch, BitmapFont font) {
+    public GameWonScreen(SpriteBatch batch, BitmapFont font, ViewableMinecraftModel model) {
         //this.game = game;
         this.batch = batch;
         this.font = font;
+        this.model = model;
         this.font.getData().setScale(2); // increasing font size
     }
 
@@ -24,7 +27,8 @@ public class GameWonScreen extends ScreenAdapter {
     public void render(float delta) {
         clearScreen();    
         batch.begin();
-        String message = "Game Won\nPress any button to restart.";
+        int score = this.model.getPlayer().getScore();
+        String message = "Game Won\nPress any button to restart.\nScore : " + score;
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();
     }

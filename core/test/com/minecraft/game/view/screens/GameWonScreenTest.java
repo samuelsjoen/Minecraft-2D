@@ -43,7 +43,7 @@ public class GameWonScreenTest extends LibgdxUnitTest {
         doNothing().when(fontData).setScale(2);
 
         // Create GameWonScreen instance
-        gameWonScreen = new GameWonScreen(spriteBatch, font); //game, 
+        gameWonScreen = new GameWonScreen(spriteBatch, font, null); //game, 
     }
 
     @Test

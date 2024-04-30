@@ -63,7 +63,7 @@ public class MinecraftView implements Disposable {
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this, spriteBatch);
         this.pausedScreen = new PausedScreen(spriteBatch, font);
         this.gameOverScreen = new GameOverScreen(spriteBatch, font);
-        this.gameWonScreen = new GameWonScreen(spriteBatch, font); //game, 
+        this.gameWonScreen = new GameWonScreen(spriteBatch, font, viewableMinecraftModel); //game, 
 
         updateScreen();
 
