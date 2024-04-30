@@ -19,8 +19,10 @@ public class HelpScreenController {
     private Stage stage;
 
     /**
-     * The HelpScreenController class is responsible for controlling the help screen in the Minecraft game.
-     * It handles the interaction between the view and the MinecraftController.
+     * Constructs a new HelpScreenController with the specified MinecraftView and MinecraftController.
+     * Initializes the stage and adds a click listener to the help screen buttons.
+     * @param view The MinecraftView containing the help screen stage.
+     * @param minecraftController The MinecraftController for handling game state changes.
      */
     public HelpScreenController(MinecraftView view, MinecraftController minecraftController) {
         this.view = view;

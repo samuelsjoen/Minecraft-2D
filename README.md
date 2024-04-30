@@ -59,7 +59,7 @@ For å kjøre koden, følg disse trinnene:
 2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
 3. Kompilér og kjør hovedklassen DesktopLauncher.java.
 
-Man kan også bruke `gradle build` og `gradle run` i terminalen. ==Per nå er det noen problemer med 'gradle run' pga. file path, men det er noe vi tenker å få oppdatert==
+Man kan også bruke `gradle run` i terminalen.
 
 ## Hvordan teste koden?
 
@@ -71,8 +71,6 @@ For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-
 
 ## Hvor ressurser er hentet fra
 
-=="For ting dere lager selv må dere legge ved lisens som klargjør hvordan ting (evt) kan gjenbrukes."==
-
 ### Grafikk
 
 **Grafikk for blokker**
@@ -83,7 +81,7 @@ Blokkene brukt som inventory er hentet fra: Admurin. (2022). BlockyLife [Sprite 
 Player: Admurin. (2023). Monster_Pack_Free_Character [Sprite pack]. itch.io. https://admurin.itch.io/mega-admurins-freebies 
 Slime: rvros. (2018). slime [Sprite]. itch.io. https://rvros.itch.io/pixel-art-animated-slime
 Pink monster: Free Game Assets (GUI, Sprite, Tilesets). (2019). free-pixel-art-tiny-hero-sprites [Sprite pack]. itch.io. https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art
-Knight: ?
+Knight: aamatniekss. (2021). FreeKnight_v1 [Sprite]. itch.io. https://aamatniekss.itch.io/fantasy-knight-free-pixelart-animated-character
 
 Vi har hentet bilde til musepekeren fra denne siden: Astropulse. (2023). Pixel Cursors, astro_arrow [Cur fil]. itch.io. https://astropulse.itch.io/familiar-pixel-cursors
 
@@ -94,6 +92,8 @@ Samuel Sjøen (2024) Overlay textures. Lisens: CC0 1.0 Universal
 
 **Annet**
 For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: Textcraft. (2024). Minecrafter [Font]. Textcraft.net. https://textcraft.net/
+Bakgrunnsbilde når man taper: Generated with AI ∙ April 30, 2024 at 5:18 PM. https://www.bing.com/images/create/a-solemn-and-sad-atmosphere-with-27game-over27-text-/1-66310bbf22a94349a09e8e2e9111f254?id=AkidL78M%2fLXYNmcMvLQ1wA%3d%3d&view=detailv2&idpp=genimg&thId=OIG4.N.gQ.Xn3lc4vfJQo4noe&FORM=GCRIDP&ajaxhist=0&ajaxserp=0
+Bakgrunnsbilde når man vinner: Generated with AI ∙ April 30, 2024 at 4:58 PM. https://www.bing.com/images/create/minecraft-inspired-game-win-screen-with-the-word-27/1-6631071a452f4e8eb907d46712ce82ca?id=oqqW3oDEaPa99ghhS4G%2fCw%3d%3d&view=detailv2&idpp=genimg&thId=OIG3.koz_AolWtspy1WXgQj6n&FORM=GCRIDP&mode=overlay
 
 ### Lyd
 

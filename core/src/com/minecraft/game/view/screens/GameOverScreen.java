@@ -3,6 +3,7 @@ package com.minecraft.game.view.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -15,6 +16,7 @@ public class GameOverScreen extends ScreenAdapter {
 
     final BitmapFont font;
     final SpriteBatch batch;
+    private Texture backgroundImage;
 
     /**
      * Constructs a new GameOverScreen.
@@ -26,12 +28,14 @@ public class GameOverScreen extends ScreenAdapter {
         this.batch = batch;
         this.font = font;
         this.font.getData().setScale(2); // increasing font size
+        this.backgroundImage = new Texture(Gdx.files.internal("gameOverScreen.jpg"));
     }
 
     @Override
     public void render(float delta) {
         clearScreen();    
         batch.begin();
+        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         String message = "Game Over\nPress any button to restart.";
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();

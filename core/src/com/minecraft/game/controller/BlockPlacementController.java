@@ -19,13 +19,19 @@ public class BlockPlacementController {
     private int lastTileX;
     private int lastTileY;
 
+    /**
+     * Constructs a new BlockPlacementController with the specified ControllableMinecraftModel and MinecraftView.
+     * Initializes the timer and sets the last tile coordinates to -1, -1 as default values.
+     * @param controllableModel
+     * @param view
+     */
     public BlockPlacementController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
 
         this.timer = new Timer(); // Timer used for mining blocks
 
-        // Default value
+        // Default values for the last tile coordinates
         this.lastTileX = -1;
         this.lastTileY = -1;
     }

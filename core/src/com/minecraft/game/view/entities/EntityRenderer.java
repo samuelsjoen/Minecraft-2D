@@ -7,6 +7,10 @@ import com.minecraft.game.model.entities.PinkMonster;
 import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.model.entities.Slime;
 
+/**
+ * The EntityRenderer class is responsible for rendering all entities in the
+ * game.
+ */
 public class EntityRenderer implements Disposable {
 
     private KnightRenderer knightRenderer;
@@ -16,6 +20,13 @@ public class EntityRenderer implements Disposable {
     private ViewableEntityModel entityModel;
     private SpriteBatch batch;
 
+    /**
+     * Constructs an EntityRenderer with the given ViewableEntityModel and
+     * SpriteBatch.
+     *
+     * @param entityModel The ViewableEntityModel containing entities to render
+     * @param batch       The SpriteBatch used for rendering
+     */
     public EntityRenderer(ViewableEntityModel entityModel, SpriteBatch batch) {
         // Initialize renderers
         this.batch = batch;
@@ -26,6 +37,10 @@ public class EntityRenderer implements Disposable {
         projectileRenderer = new ProjectileRenderer();
     }
 
+    /**
+     * Iterates over all Knights, Slimes, PinkMonsters, and Projectiles in the
+     * entity model, and renders them using their respective renderers.
+     */
     public void renderAllEntities() {
 
         for (Projectile projectile : entityModel.getProjectiles()) {

@@ -6,6 +6,9 @@ import com.minecraft.game.model.entities.PinkMonster;
 import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.model.entities.Slime;
 
+/**
+ * Provides access to lists of entities for rendering.
+ */
 public interface ViewableEntityModel {
 
     List<Knight> getKnights();

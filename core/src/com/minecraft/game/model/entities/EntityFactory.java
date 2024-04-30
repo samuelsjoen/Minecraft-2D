@@ -5,15 +5,22 @@ import com.minecraft.game.model.Factory;
 import com.minecraft.game.utils.Constants;
 import java.util.function.Function;
 
-
+/**
+ * A factory for creating entities.
+ */
 public class EntityFactory extends Factory<GameEntity, EntityParams> {
 
+    /**
+     * Constructs an EntityFactory and registers entity creators.
+     */
     public EntityFactory() {
         registerCreators();
     }
 
+    /**
+     * Registers entity creators for each entity type.
+     */
     private void registerCreators() {
-        // Register each type with its constructor reference
         register("Knight",
                 (params) -> new Knight(2 * Constants.PPM, 4 * Constants.PPM, params.world, params.player,
                         params.spawnX, params.spawnY, params.health));

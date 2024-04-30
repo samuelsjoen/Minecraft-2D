@@ -23,6 +23,9 @@ import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.view.ViewableMinecraftModel;
 import com.minecraft.game.model.entities.EntityModel;
 
+/**
+ * The main model class for the Minecraft game.
+ */
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 
     private MinecraftMap map;

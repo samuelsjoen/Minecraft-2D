@@ -3,6 +3,7 @@ package com.minecraft.game.view.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -17,6 +18,7 @@ public class GameWonScreen extends ScreenAdapter {
     private final BitmapFont font;
     private final SpriteBatch batch;
     private ViewableMinecraftModel model;
+    private Texture backgroundImage;
 
     /**
      * Constructs a new GameWonScreen.
@@ -29,12 +31,14 @@ public class GameWonScreen extends ScreenAdapter {
         this.font = font;
         this.model = model;
         this.font.getData().setScale(2); // increasing font size
+        backgroundImage = new Texture(Gdx.files.internal("winScreen.png"));
     }
 
     @Override
     public void render(float delta) {
         clearScreen();    
         batch.begin();
+        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         int score = this.model.getPlayer().getScore();
         String message = "Game Won\nPress any button to restart.\nScore : " + score;
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
