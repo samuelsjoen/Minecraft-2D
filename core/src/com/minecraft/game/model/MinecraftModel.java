@@ -351,7 +351,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         gameState = GameState.WELCOME_SCREEN;
-        killAllEntities();
+        //killAllEntities();
     }
 
     public void checkAndUpdateGameState() {

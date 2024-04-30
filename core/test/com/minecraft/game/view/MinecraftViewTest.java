@@ -1,13 +1,10 @@
-/*package com.minecraft.game.view;
+package com.minecraft.game.view;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.utils.Array;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
@@ -64,10 +61,12 @@ class MinecraftViewTest extends LibgdxUnitTest {
         // When getMapRenderer() is called on the mock model, return the mock renderer
         when(mockModel.getMapRenderer()).thenReturn(mockRenderer);
 
-        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
+        try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class);
+            MockedConstruction<Stage> mockedStage = Mockito.mockConstruction(Stage.class)) {
             // When GameScreen tries to create a Box2DDebugRenderer, it will get the mock instead
+            // Similarily for HelpScreen which uses Stage. 
             minecraftView = new MinecraftView(mockGame, mockModel, spriteBatch, font);
-        }
+}
     }
 
     @Test
@@ -169,4 +168,3 @@ class MinecraftViewTest extends LibgdxUnitTest {
         verify(gameOverScreen).dispose();
     }
 }
-        */

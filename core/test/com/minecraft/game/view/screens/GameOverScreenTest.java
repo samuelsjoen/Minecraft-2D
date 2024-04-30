@@ -16,20 +16,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.Minecraft;
 
 public class GameOverScreenTest extends LibgdxUnitTest {
 
-    private Minecraft game;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
     private GameOverScreen gameOverScreen;
 
     @BeforeEach
     public void setUp() {
-        // Mocking game instance
-        game = mock(Minecraft.class);
-
         // Mocking SpriteBatch
         spriteBatch = mock(SpriteBatch.class);
 
@@ -43,7 +38,7 @@ public class GameOverScreenTest extends LibgdxUnitTest {
         doNothing().when(fontData).setScale(2);
 
         // Create GameOverScreen instance
-        gameOverScreen = new GameOverScreen(game, spriteBatch, font);
+        gameOverScreen = new GameOverScreen(spriteBatch, font);
     }
 
     @Test
@@ -64,7 +59,7 @@ public class GameOverScreenTest extends LibgdxUnitTest {
         verify(spriteBatch).end();
 
         // Verify that the message is drawn
-        verify(font).draw(any(SpriteBatch.class), eq("Game Over\nPress 'R' to revive player and continue playing. \nPress any other button to restart."), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
+        verify(font).draw(any(SpriteBatch.class), eq("Game Over\nPress any button to restart."), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
     }
 
     @Test

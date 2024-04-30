@@ -1,18 +1,24 @@
 package com.minecraft.game.view.screens;
 
-import com.badlogic.gdx.Gdx;
+//import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.Minecraft;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.eq;
+//import static org.junit.jupiter.api.Assertions.assertFalse;
+//import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class MenuScreenTest extends LibgdxUnitTest {
@@ -27,13 +33,16 @@ public class MenuScreenTest extends LibgdxUnitTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        menuScreen = new MenuScreen(mock(Minecraft.class), mockBatch);
+        try (MockedConstruction<Stage> mocked = Mockito.mockConstruction(Stage.class)) {
+            // Create MenuScreen instance
+            menuScreen = new MenuScreen(mockBatch);
+        }
 
         menuScreen.setBackgroundTexture(mockBackgroundTexture);
-        menuScreen.setTitleTexture(mockTitleTexture);
+        /*menuScreen.setTitleTexture(mockTitleTexture);
         menuScreen.setStartButtonTexture(mockStartButtonTexture);
         menuScreen.setHelpButtonTexture(mockHelpButtonTexture);
-        menuScreen.setQuitButtonTexture(mockQuitButtonTexture);
+        menuScreen.setQuitButtonTexture(mockQuitButtonTexture);*/
     }
 
     @Test
@@ -44,17 +53,18 @@ public class MenuScreenTest extends LibgdxUnitTest {
         verify(mockBatch, times(1)).end();
     }
 
-    @Test
+    /*@Test
     void testDrawMenu() {
         menuScreen.drawMenu();
 
         // Verify that drawBackground, drawTitle, and drawButtons methods are called
         verify(mockBatch, times(1)).draw(eq(mockBackgroundTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        verify(mockBatch, times(1)).draw(eq(mockTitleTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
+        /*verify(mockBatch, times(1)).draw(eq(mockTitleTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
         verify(mockBatch, times(1)).draw(eq(mockStartButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
         verify(mockBatch, times(1)).draw(eq(mockHelpButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
         verify(mockBatch, times(1)).draw(eq(mockQuitButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-    }
+    */
+    //}
 
     @Test
     void testDrawBackground() {
@@ -64,15 +74,15 @@ public class MenuScreenTest extends LibgdxUnitTest {
         verify(mockBatch, times(1)).draw(eq(mockBackgroundTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
     }
 
-    @Test
+    /*@Test
     void testDrawTitle() {
         menuScreen.drawTitle();
 
         // Verify that draw method is called with the correct parameters
         verify(mockBatch, times(1)).draw(eq(mockTitleTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void testDrawButtons() {
         menuScreen.drawButtons();
 
@@ -91,7 +101,7 @@ public class MenuScreenTest extends LibgdxUnitTest {
 
         // Verify that draw method is called with the correct parameters
         verify(mockBatch, times(1)).draw(eq(mockStartButtonTexture), anyFloat(), eq(expectedButtonY), anyFloat(), anyFloat());
-    }
+    }*/
 
     @Test
     void testDispose() {
@@ -100,14 +110,19 @@ public class MenuScreenTest extends LibgdxUnitTest {
         // Verify that dispose method is called for each texture and the batch
         verify(mockBatch, times(1)).dispose();
         verify(mockBackgroundTexture, times(1)).dispose();
-        verify(mockTitleTexture, times(1)).dispose();
+        /*verify(mockTitleTexture, times(1)).dispose();
         verify(mockStartButtonTexture, times(1)).dispose();
         verify(mockHelpButtonTexture, times(1)).dispose();
-        verify(mockQuitButtonTexture, times(1)).dispose();
+        verify(mockQuitButtonTexture, times(1)).dispose();*/
     }
 
     @Test
     public void testResize() {
+
+        Viewport viewport = new FitViewport(1000, 800);
+        Stage stage = new Stage(viewport, mockBatch);
+        menuScreen.setStage(stage);
+
         // Mock behavior of SpriteBatch
         Matrix4 mockMatrix = mock(Matrix4.class);
         when(mockBatch.getProjectionMatrix()).thenReturn(mockMatrix);
@@ -119,27 +134,4 @@ public class MenuScreenTest extends LibgdxUnitTest {
         verify(mockBatch.getProjectionMatrix()).setToOrtho2D(0, 0, 800, 600);
     }
 
-    @Test
-    void testIsStartButtonClicked() {
-        float buttonX = (Gdx.graphics.getWidth() - mockStartButtonTexture.getWidth()) / 2;
-        float buttonY = 300 - mockStartButtonTexture.getHeight();
-        assertTrue(menuScreen.isStartButtonClicked(buttonX, buttonY));
-        assertFalse(menuScreen.isStartButtonClicked(buttonX - 10, buttonY - 10));
-    }
-
-    @Test
-    void testIsHelpButtonClicked() {
-        float buttonX = (Gdx.graphics.getWidth() - mockHelpButtonTexture.getWidth()) / 2;
-        float buttonY = 300 - mockStartButtonTexture.getHeight() - 5 - mockHelpButtonTexture.getHeight();
-        assertTrue(menuScreen.isHelpButtonClicked(buttonX, buttonY));
-        assertFalse(menuScreen.isHelpButtonClicked(buttonX - 10, buttonY - 10));
-    }
-
-    @Test
-    void testIsQuitButtonClicked() {
-        float buttonX = (Gdx.graphics.getWidth() - mockQuitButtonTexture.getWidth()) / 2;
-        float buttonY = 300 - 2 * (mockStartButtonTexture.getHeight() + 5) - mockQuitButtonTexture.getHeight();
-        assertTrue(menuScreen.isQuitButtonClicked(buttonX, buttonY));
-        assertFalse(menuScreen.isQuitButtonClicked(buttonX - 10, buttonY - 10));
-    }
 }

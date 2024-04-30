@@ -32,12 +32,15 @@ public class HelpScreenController {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Button clicked! (HelpScreenController)");
                 // Your logic when the button is clicked
-                minecraftController.setGameStateAndUpdateScreen(GameState.WELCOME_SCREEN);
+                GameState lastGameState = minecraftController.getLastGameState();
+                minecraftController.setGameStateAndUpdateScreen(lastGameState);
+                if (lastGameState == GameState.WELCOME_SCREEN) {
+                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
+                } else {
                 Gdx.input.setInputProcessor(minecraftController);
+                }
             }
         };
     }
-
 }

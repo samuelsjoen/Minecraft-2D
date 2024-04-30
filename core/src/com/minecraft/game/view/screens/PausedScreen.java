@@ -6,17 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-import com.minecraft.game.Minecraft;
 
 public class PausedScreen extends ScreenAdapter {
 
-    @SuppressWarnings("unused")
-    private final Minecraft game;
-    BitmapFont font;
-    SpriteBatch batch;
+    private BitmapFont font;
+    private SpriteBatch batch;
 
-    public PausedScreen(Minecraft game, SpriteBatch batch, BitmapFont font) {
-        this.game = game;
+    public PausedScreen(SpriteBatch batch, BitmapFont font) {
         this.batch = batch;
         this.font = font;
         this.font.getData().setScale(2); // increasing font size

@@ -188,7 +188,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        batch.dispose();
+        //batch.dispose();
         backgroundImage.dispose();
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();

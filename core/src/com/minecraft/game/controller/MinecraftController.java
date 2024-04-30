@@ -19,15 +19,24 @@ public class MinecraftController extends InputAdapter {
     // TODO: check if this is actually used
     @SuppressWarnings("unused")
     private HelpScreenController helpScreenController;
+    private GameState lastGameState;
+    @SuppressWarnings("unused")
+    private HomeScreenController homeScreenController;
 
     public MinecraftController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
 
+        this.lastGameState = GameState.WELCOME_SCREEN;
+
         this.playerController = new PlayerController(controllableModel);
         this.blockPlacementController = new BlockPlacementController(controllableModel, view);
         this.inventoryController = new InventoryController(controllableModel);
+        this.homeScreenController =  new HomeScreenController(view, this);
         this.helpScreenController = new HelpScreenController(view, this);
+
+        Gdx.input.setInputProcessor(view.getMenuScreenStage());
+        
     }
 
     @Override
@@ -40,16 +49,12 @@ public class MinecraftController extends InputAdapter {
         } else if (keycode == Keys.F) {
             view.toggleFullscreen();
             return true;
-        } 
+        }
         
         GameState gameState = controllableModel.getGameState();
 
         switch (gameState) {
             case HELP_SCREEN:
-                if (keycode == Keys.S) {
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-                    return true;
-                }
                 break;
 
             case GAME_ACTIVE:
@@ -57,16 +62,11 @@ public class MinecraftController extends InputAdapter {
                     playerController.stopMovement();
                     controllableModel.restartGame();
                     view.newGameScreen();
+                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
                     return true;
                 }
                 if (keycode == Keys.P) {
                     togglePause(gameState); 
-                    return true;
-                }
-                if (keycode == Keys.H) { // heal player
-                    playerController.stopMovement();
-                    controllableModel.revivePlayer();
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
                     return true;
                 }
                 playerController.handleKeyDown(keycode);
@@ -81,6 +81,7 @@ public class MinecraftController extends InputAdapter {
                     playerController.stopMovement();
                     controllableModel.restartGame();
                     view.newGameScreen();
+                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
                     return true;
                 }
                 break;
@@ -93,12 +94,7 @@ public class MinecraftController extends InputAdapter {
                     playerController.stopMovement();
                     controllableModel.restartGame();
                     view.newGameScreen();
-                    return true;
-                }
-                if (keycode == Keys.H) { // heal player
-                    playerController.stopMovement();
-                    controllableModel.revivePlayer();
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
                     return true;
                 }
                 playerController.handleKeyDown(keycode);
@@ -106,33 +102,30 @@ public class MinecraftController extends InputAdapter {
                 break;
 
             case GAME_OVER:
-                if (keycode == Keys.R) {
-                    playerController.stopMovement();
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    return true;
-                }
-                if (keycode == Keys.H) { // heal player
+                playerController.stopMovement();
+                controllableModel.restartGame();
+                view.newGameScreen();
+                Gdx.input.setInputProcessor(view.getMenuScreenStage());
+                return true;
+                /*if (keycode == Keys.H) { // heal player
                     playerController.stopMovement();
                     controllableModel.revivePlayer();
                     setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
                     return true;
-                }
+                }*/
 
             case GAME_WON:
-                if (keycode == Keys.R) {
-                    playerController.stopMovement();
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    return true;
-                }
-                if (keycode == Keys.H) { // heal player
+                playerController.stopMovement();
+                controllableModel.restartGame();
+                view.newGameScreen();
+                Gdx.input.setInputProcessor(view.getMenuScreenStage());
+                return true;
+                /*if (keycode == Keys.H) { // heal player
                     playerController.stopMovement();
                     controllableModel.revivePlayer();
                     setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
                     return true;
-                }
-                return false;
+                }*/
             }
             return false;
         }
@@ -151,10 +144,6 @@ public class MinecraftController extends InputAdapter {
 
         GameState gameState = controllableModel.getGameState();
 
-        if (gameState == GameState.WELCOME_SCREEN) {
-            handleWelcomeScreenTouch();
-            return true;
-        }
         if (gameState == GameState.GAME_ACTIVE) {
             blockPlacementController.handleTouchDown(screenX, screenY, button); 
             return true;
@@ -178,20 +167,6 @@ public class MinecraftController extends InputAdapter {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         int button = Gdx.input.isButtonPressed(Buttons.RIGHT) ? Buttons.RIGHT : Buttons.LEFT;
         return touchDown(screenX, screenY, pointer, button); // Call touchDown method with the specified button
-    }
-
-    public void handleWelcomeScreenTouch() {
-        float touchX = Gdx.input.getX();
-        float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
-        if (view.isStartButtonClicked(touchX, touchY)) {
-            setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-        } else if (view.isHelpButtonClicked(touchX, touchY)) {
-            setGameStateAndUpdateScreen(GameState.HELP_SCREEN);
-            Gdx.input.setInputProcessor(view.getHelpScreenStage());
-        } else if (view.isQuitButtonClicked(touchX, touchY)) {
-            Gdx.app.exit();
-        }
     }
 
     public void setGameStateAndUpdateScreen(GameState gameState) {
@@ -250,6 +225,10 @@ public class MinecraftController extends InputAdapter {
 
     public void setHelpScreenController(HelpScreenController helpScreenController) {
         this.helpScreenController = helpScreenController;
+    }
+
+    public GameState getLastGameState() {
+        return this.lastGameState;
     }
 
 }

@@ -31,7 +31,6 @@ public class PlayerController {
                 return true;
             case Keys.TAB:
                 setIsAttacking(true);
-                //controllableModel.playerAttack();
                 return true;
             case Keys.N:
                 controllableModel.killAllEntities();
@@ -42,7 +41,6 @@ public class PlayerController {
 
     public Boolean handleKeyUp(int keycode) {
         if (keycode == Keys.TAB) {
-            //controllableModel.playerAttack();
             setIsAttacking(false);
         } 
         

@@ -7,35 +7,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.minecraft.game.Minecraft;
 
 public class HelpScreen extends ScreenAdapter {
 
-    @SuppressWarnings("unused")
-    private final Minecraft game;
-    // # TODO: Make all field variables private !! (aka. fix tests)
-    final SpriteBatch batch;
-    Texture backgroundTexture;
+    private final SpriteBatch batch;
+    private Texture backgroundTexture;
     private Button button;
     private Stage stage;
 
-    public HelpScreen(Minecraft game, SpriteBatch batch) {
+    public HelpScreen(SpriteBatch batch) {
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         int padding = 20;
         float x = Gdx.graphics.getWidth() - Gdx.graphics.getWidth() + padding;
         float y = Gdx.graphics.getHeight() - padding;
 
-        this.button = new Button("helpScreen/home_button.png", stage, x, y);
+        this.button = new Button("helpScreen/back_button.png", stage, x, y, "backButton");
         this.button.createButton();
 
-        this.game = game;
         this.batch = batch;
         backgroundTexture = new Texture(Gdx.files.internal("helpScreen/help_background.png"));
-    }
-
-    public Stage getStage() {
-        return this.stage;
     }
 
     @Override
@@ -71,5 +62,13 @@ public class HelpScreen extends ScreenAdapter {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    public Texture getBackgroundTexture() {
+        return this.backgroundTexture;
     }
 }

@@ -45,7 +45,7 @@ public interface ControllableMinecraftModel {
     void dropInventoryItem();
 
     /**
-     * Opens or closes the crafting overlay.
+     * Opens or closes the crafting table.
      */
     void toggleCrafting();
 
@@ -140,7 +140,7 @@ public interface ControllableMinecraftModel {
     DayNightCycle getDayNightCycle();
 
     /**
-     * Kills all enemies on the screen (usefull for debugging).
+     * Kills all enemies on the screen (useful for debugging).
      */
     void killAllEntities();
 }

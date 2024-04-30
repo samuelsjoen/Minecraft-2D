@@ -6,6 +6,10 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.utils.Timer;
 import com.minecraft.game.view.MinecraftView;
 
+/**
+ * The BlockPlacementController class is responsible for handling block placement and removal in the Minecraft game.
+ * It interacts with the ControllableMinecraftModel and MinecraftView to perform these actions.
+ */
 public class BlockPlacementController {
     
     private final ControllableMinecraftModel controllableModel;

@@ -75,15 +75,12 @@ public class InventoryController {
                 return true;
             
             case Keys.W:
-                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-                    controllableModel.moveCraftableTableSelection(-1, 0);
-                }
+                controllableModel.moveCraftableTableSelection(-1, 0);
                 return true;
             
             case Keys.S:
-                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-                    controllableModel.moveCraftableTableSelection(1, 0);
-                }
+                controllableModel.moveCraftableTableSelection(1, 0);
+                return true;
 
             default:
                 return false;

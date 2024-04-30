@@ -6,17 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-import com.minecraft.game.Minecraft;
 
 public class GameOverScreen extends ScreenAdapter {
 
-    @SuppressWarnings("unused")
-    private final Minecraft game;
     final BitmapFont font;
     final SpriteBatch batch;
 
-    public GameOverScreen(Minecraft game, SpriteBatch batch, BitmapFont font) {
-        this.game = game;
+    public GameOverScreen(SpriteBatch batch, BitmapFont font) {
         this.batch = batch;
         this.font = font;
         this.font.getData().setScale(2); // increasing font size
@@ -26,7 +22,7 @@ public class GameOverScreen extends ScreenAdapter {
     public void render(float delta) {
         clearScreen();    
         batch.begin();
-        String message = "Game Over\nPress 'R' to revive player and continue playing. \nPress any other button to restart.";
+        String message = "Game Over\nPress any button to restart.";
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();
     }

@@ -5,37 +5,62 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.minecraft.game.Minecraft;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class MenuScreen extends ScreenAdapter {
     private final SpriteBatch batch;
     private Texture backgroundTexture;
-    private Texture titleTexture;
-    private Texture startButtonTexture;
-    private Texture helpButtonTexture;
-    private Texture quitButtonTexture;
-    private final float buttonSpacing = 5;
+    private Stage stage;
+    private Button startButton;
+    private Button helpButton;
+    private Button quitButton;
+    private Button title;
 
-    public MenuScreen(Minecraft game, SpriteBatch batch) {
+    public MenuScreen(SpriteBatch batch) {
         this.batch = batch;
         loadTextures();
+
+        this.stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        int space = 100;
+
+        float x = Gdx.graphics.getWidth() / 2 - (375/2); // 375 is the width of the button
+        float y = Gdx.graphics.getHeight() / 2 ; // the middle of the screen
+        
+        float yStart = y ;
+        float yHelp = y - space;
+        float yQuit = y - space * 2;
+
+        float xTitle = Gdx.graphics.getWidth() / 2 - (800 / 2); // width of title is 800
+        float yTitle = y + space * 2.5f;
+
+        this.startButton = new Button("homeScreen/start_button.png", stage, x, yStart, "startButton");
+        this.startButton.createButton();
+
+        this.helpButton = new Button("homeScreen/help_button.png", stage, x, yHelp, "helpButton");
+        this.helpButton.createButton();
+
+        this.quitButton = new Button("homeScreen/quit_button.png", stage, x, yQuit, "quitButton");
+        this.quitButton.createButton();
+
+        this.title = new Button("homeScreen/minecraft_logo.png", stage, xTitle, yTitle, "title");
+        this.title.createButton();
+
     }
 
     private void loadTextures() {
         backgroundTexture = new Texture(Gdx.files.internal("background.png"));
-        titleTexture = new Texture(Gdx.files.internal("home/minecraft_logo.png"));
-
-        startButtonTexture = new Texture(Gdx.files.internal("home/start_button.png"));
-        helpButtonTexture = new Texture(Gdx.files.internal("home/help_button.png"));
-        quitButtonTexture = new Texture(Gdx.files.internal("home/quit_button.png"));
     }
 
     @Override
     public void render(float delta) {
         clearScreen();
         batch.begin();
-        drawMenu();
+        drawBackground();
         batch.end();
+        stage.act(delta);
+        stage.draw();
     }
 
     void clearScreen() {
@@ -43,107 +68,35 @@ public class MenuScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
-    void drawMenu() {
-        drawBackground();
-        drawTitle();
-        drawButtons();
-    }
-
     void drawBackground() {
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    }
-
-    void drawTitle() {
-        int titleWidth = (int) (titleTexture.getWidth() * 0.6f);
-        int titleHeight = (int) (titleTexture.getHeight() * 0.6f);
-        int titleX = (Gdx.graphics.getWidth() - titleWidth) / 2;
-        int titleY = Gdx.graphics.getHeight() - titleHeight - 100;
-        batch.draw(titleTexture, titleX, titleY, titleWidth, titleHeight);
-    }
-
-    void drawButtons() {
-        float buttonY = 300;
-        buttonY = drawButton(startButtonTexture, buttonY);
-        buttonY -= buttonSpacing;
-        buttonY = drawButton(helpButtonTexture, buttonY);
-        buttonY -= buttonSpacing;
-        drawButton(quitButtonTexture, buttonY);
-    }
-
-    float drawButton(Texture buttonTexture, float buttonY) {
-        int buttonWidth = (int) (buttonTexture.getWidth());
-        int buttonHeight = (int) (buttonTexture.getHeight());
-        int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
-        batch.draw(buttonTexture, buttonX, buttonY, buttonWidth, buttonHeight);
-        return buttonY - buttonHeight;
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         backgroundTexture.dispose();
-        titleTexture.dispose();
-        startButtonTexture.dispose();
-        helpButtonTexture.dispose();
-        quitButtonTexture.dispose();
-    }
-
-    // Methods to check if buttons are clicked
-    public boolean isStartButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(startButtonTexture, touchX, touchY);
-    }
-
-    public boolean isHelpButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(helpButtonTexture, touchX, touchY);
-    }
-
-    public boolean isQuitButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(quitButtonTexture, touchX, touchY);
-    }
-
-    boolean isButtonClicked(Texture buttonTexture, float touchX, float touchY) {
-        int buttonWidth = buttonTexture.getWidth();
-        int buttonHeight = buttonTexture.getHeight();
-        int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
-        float buttonY;
-    
-        // Determine the Y position based on the button texture being checked
-        if (buttonTexture == startButtonTexture) {
-            buttonY = 300;
-        } else if (buttonTexture == helpButtonTexture) {
-            buttonY = 300 - buttonHeight - buttonSpacing;
-        } else { // quitButtonTexture
-            buttonY = 300 - 2 * (buttonHeight + buttonSpacing);
-        }
-    
-        return (touchX >= buttonX &&
-                touchX <= buttonX + buttonWidth &&
-                touchY >= buttonY &&
-                touchY <= buttonY + buttonHeight);
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+        stage.getViewport().update(width, height, true);
     }
+
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    // Getters used for testing only: 
 
     public void setBackgroundTexture(Texture backgroundTexture) {
         this.backgroundTexture = backgroundTexture;
     }
 
-    public void setTitleTexture(Texture titleTexture) {
-        this.titleTexture = titleTexture;
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-    public void setHelpButtonTexture(Texture helpButtonTexture) {
-        this.helpButtonTexture = helpButtonTexture;
-    }
-
-    public void setStartButtonTexture(Texture startButtonTexture) {
-        this.startButtonTexture = startButtonTexture;
-    }
-
-    public void setQuitButtonTexture(Texture quitButtonTexture) {
-        this.quitButtonTexture = quitButtonTexture;
-    }
 }
