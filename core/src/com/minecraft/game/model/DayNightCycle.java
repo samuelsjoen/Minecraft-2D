@@ -2,12 +2,22 @@ package com.minecraft.game.model;
 
 import com.badlogic.gdx.utils.Timer;
 
+/**
+ * Represents a day-night cycle mechanism.
+ * Provides functionality to simulate day and night cycles,
+ * track the number of nights passed, and control cycle timing.
+ * Extends {@link com.badlogic.gdx.utils.Timer.Task} to allow for scheduling.
+ */
 public class DayNightCycle extends Timer.Task {
 
     private boolean isNight;
     private int numberOfNights;
     private int numberOfRuns;
 
+    /**
+     * Constructs a new DayNightCycle with default values.
+     * The cycle starts in the day.
+     */
     public DayNightCycle() {
         isNight = false;
         numberOfNights = 0;

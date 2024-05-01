@@ -30,6 +30,8 @@ class EntityFactoryTest {
 
     private EntityParams params;
 
+    private EntityFactory entityFactory;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -38,32 +40,33 @@ class EntityFactoryTest {
         when(mockBody.getWorld()).thenReturn(mockWorld);
         when(mockBody.createFixture(any(FixtureDef.class))).thenReturn(mock(Fixture.class));
         params = new EntityParams(mockWorld, mockPlayer, 100.0f, 200.0f, mockHealth);
+        entityFactory = new EntityFactory();
     }
 
     @Test
     void createKnight_CreatesCorrectly() {
-        GameEntity entity = EntityFactory.createEntity("Knight", params);
+        GameEntity entity = entityFactory.create("Knight", params);
         assertNotNull(entity);
         assertTrue(entity instanceof Knight);
     }
 
     @Test
     void createSlime_CreatesCorrectly() {
-        GameEntity entity = EntityFactory.createEntity("Slime", params);
+        GameEntity entity = entityFactory.create("Slime", params);
         assertNotNull(entity);
         assertTrue(entity instanceof Slime);
     }
 
     @Test
     void createPinkMonster_CreatesCorrectly() {
-        GameEntity entity = EntityFactory.createEntity("PinkMonster", params);
+        GameEntity entity = entityFactory.create("PinkMonster", params);
         assertNotNull(entity);
         assertTrue(entity instanceof PinkMonster);
     }
 
     @Test
     void createProjectile_CreatesCorrectly() {
-        GameEntity entity = EntityFactory.createEntity("Projectile", params);
+        GameEntity entity = entityFactory.create("Projectile", params);
         assertNotNull(entity);
         assertTrue(entity instanceof Projectile);
     }
@@ -71,14 +74,14 @@ class EntityFactoryTest {
     @Test
     void createEntity_WithUnknownType_ThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            EntityFactory.createEntity("UnknownType", params);
+            entityFactory.create("UnknownType", params);
         });
         assertEquals("Unknown entity type: UnknownType", exception.getMessage());
     }
 
     @Test
     void createKnight_VerifiesProperties() {
-        Knight knight = (Knight) EntityFactory.createEntity("Knight", params);
+        Knight knight = (Knight) entityFactory.create("Knight", params);
         assertNotNull(knight);
         assertEquals(100.0f, knight.x);
         assertEquals(200.0f, knight.y);
@@ -89,7 +92,7 @@ class EntityFactoryTest {
 
     @Test
     void createSlime_VerifiesProperties() {
-        Slime slime = (Slime) EntityFactory.createEntity("Slime", params);
+        Slime slime = (Slime) entityFactory.create("Slime", params);
         assertNotNull(slime);
         assertEquals(100.0f, slime.x);
         assertEquals(200.0f, slime.y);
@@ -99,7 +102,7 @@ class EntityFactoryTest {
 
     @Test
     void createPinkMonster_VerifiesProperties() {
-        PinkMonster pinkMonster = (PinkMonster) EntityFactory.createEntity("PinkMonster", params);
+        PinkMonster pinkMonster = (PinkMonster) entityFactory.create("PinkMonster", params);
         assertNotNull(pinkMonster);
         assertEquals(100.0f, pinkMonster.x);
         assertEquals(200.0f, pinkMonster.y);
@@ -109,7 +112,7 @@ class EntityFactoryTest {
 
     @Test
     void createProjectile_VerifiesProperties() {
-        Projectile projectile = (Projectile) EntityFactory.createEntity("Projectile", params);
+        Projectile projectile = (Projectile) entityFactory.create("Projectile", params);
         assertNotNull(projectile);
         assertEquals(100.0f, projectile.x);
         assertEquals(200.0f, projectile.y);

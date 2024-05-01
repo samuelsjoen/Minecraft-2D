@@ -6,11 +6,9 @@ import com.minecraft.game.model.EnemyManager;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.model.Player;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
@@ -23,6 +21,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
+/**
+ * The main game screen where the game is played.
+ */
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private OverlayView overlayView;
@@ -44,16 +45,23 @@ public class GameScreen extends ScreenAdapter {
 
     protected EntityRenderer entityRenderer;
     private MinecraftView minecraftView;
-    private BitmapFont font;
 
+    /**
+     * Constructs a new GameScreen.
+     *
+     * @param camera                The OrthographicCamera used for rendering.
+     * @param viewableMinecraftModel The model containing game data.
+     * @param minecraftView         The main view of the game.
+     * @param batch                 The SpriteBatch used for rendering.
+     */
     public GameScreen(OrthographicCamera camera, ViewableMinecraftModel viewableMinecraftModel,
             MinecraftView minecraftView, SpriteBatch batch) {
         this.camera = camera;
         this.batch = batch;
 
         this.isNightBackground = false;
-        this.backgroundNight = new Texture(Gdx.files.internal("assets/backgroundNight.png"));
-        this.backgroundDay = new Texture(Gdx.files.internal("assets/background.png"));
+        this.backgroundNight = new Texture(Gdx.files.internal("backgroundNight.png"));
+        this.backgroundDay = new Texture(Gdx.files.internal("background.png"));
         this.backgroundImage = backgroundDay;
 
         this.box2DDebugRenderer = new Box2DDebugRenderer();
@@ -73,7 +81,7 @@ public class GameScreen extends ScreenAdapter {
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),
                 viewableMinecraftModel.getInventory(), viewableMinecraftModel.getArmorInventory());
         this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(),
-                viewableMinecraftModel.getCrafting(), batch, minecraftView.getFont());
+                viewableMinecraftModel.getCrafting(), viewableMinecraftModel.getPlayer(), batch, minecraftView.getFont());
 
         this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
 
@@ -81,6 +89,9 @@ public class GameScreen extends ScreenAdapter {
         this.entityRenderer = new EntityRenderer(viewableMinecraftModel.getEntityModel(), batch);
     }
 
+    /**
+     * Updates the game logic.
+     */
     public void update() {
 
         viewableMinecraftModel.checkAndUpdateGameState();
@@ -108,6 +119,9 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+    /**
+     * Updates the camera position based on the player's position.
+     */
     private void cameraUpdate() {
         Vector3 position = camera.position;
         position.x = Math.round(viewableMinecraftModel.getPlayer().getBody().getPosition().x * Constants.PPM * 10)
@@ -119,20 +133,34 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
     }
 
+    /**
+     * Retrieves the lower-left corner position of the camera viewport.
+     *
+     * @return The lower-left corner position.
+     */
     Vector2 getLowerLeftCorner() {
         float cameraX = camera.position.x - camera.viewportWidth / 2;
         float cameraY = camera.position.y - camera.viewportHeight / 2;
         return new Vector2(cameraX, cameraY);
     }
 
+    /**
+     * Sets the background to day mode.
+     */
     public void setDay() {
         backgroundImage = backgroundDay;
     }
 
+    /**
+     * Sets the background to night mode.
+     */
     public void setNight() {
         backgroundImage = backgroundNight;
     }
 
+    /**
+     * Updates the background based on the day/night cycle.
+     */
     void updateBackground() {
         boolean isNight = dayNightCycle.getIsNight();
         if (isNight != isNightBackground) {
@@ -155,10 +183,6 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         Vector2 lowerLeftCorner = getLowerLeftCorner();
         batch.draw(backgroundImage, lowerLeftCorner.x, lowerLeftCorner.y, camera.viewportWidth, camera.viewportHeight);
-        // Draw the score on the screen
-        font.draw(batch, "Score: " + viewableMinecraftModel.getPlayer().getScore(), lowerLeftCorner.x + 255,
-                lowerLeftCorner.y + 695);
-
         batch.end();
 
         orthogonalTiledMapRenderer.render();
@@ -183,7 +207,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        batch.dispose();
+        //batch.dispose();
         backgroundImage.dispose();
         box2DDebugRenderer.dispose();
         orthogonalTiledMapRenderer.dispose();

@@ -1,27 +1,36 @@
 package com.minecraft.game.model.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.minecraft.game.model.Factory;
 import com.minecraft.game.utils.Constants;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
-public class EntityFactory {
+/**
+ * A factory for creating entities.
+ */
+public class EntityFactory extends Factory<GameEntity, EntityParams> {
 
-    private static final Map<String, Function<EntityParams, GameEntity>> entityCreators = new HashMap<>();
+    /**
+     * Constructs an EntityFactory and registers entity creators.
+     */
+    public EntityFactory() {
+        registerCreators();
+    }
 
-    static {
-        // Register each type with its constructor reference
-        entityCreators.put("Knight",
+    /**
+     * Registers entity creators for each entity type.
+     */
+    private void registerCreators() {
+        register("Knight",
                 (params) -> new Knight(2 * Constants.PPM, 4 * Constants.PPM, params.world, params.player,
                         params.spawnX, params.spawnY, params.health));
-        entityCreators.put("Slime",
+        register("Slime",
                 (params) -> new Slime(2 * Constants.PPM, 2 * Constants.PPM, params.world, params.player,
                         params.spawnX, params.spawnY, params.health));
-        entityCreators.put("PinkMonster",
+        register("PinkMonster",
                 (params) -> new PinkMonster(2 * Constants.PPM, 4 * Constants.PPM, params.world, params.player,
                         params.spawnX, params.spawnY, params.health));
-        entityCreators.put("Projectile", (params) -> {
+        register("Projectile", (params) -> {
             if (params.targetPosition == null) {
                 params.targetPosition = new Vector2(params.spawnX + 10, params.spawnY + 10);
             }
@@ -30,8 +39,9 @@ public class EntityFactory {
         });
     }
 
-    public static GameEntity createEntity(String type, EntityParams params) {
-        Function<EntityParams, GameEntity> creator = entityCreators.get(type);
+    @Override
+    public GameEntity create(String type, EntityParams params) {
+        Function<EntityParams, GameEntity> creator = creators.get(type);
         if (creator != null) {
             return creator.apply(params);
         } else {

@@ -16,21 +16,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.Minecraft;
-
 
 public class PausedScreenTest extends LibgdxUnitTest {
 
-    private Minecraft game;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
     private PausedScreen pausedScreen;
 
     @BeforeEach
     public void setUp() {
-        // Mocking game instance
-        game = mock(Minecraft.class);
-
         // Mocking SpriteBatch 
         spriteBatch = mock(SpriteBatch.class);
         
@@ -44,7 +38,7 @@ public class PausedScreenTest extends LibgdxUnitTest {
         doNothing().when(fontData).setScale(2);
 
         // Create PausedScreen instance
-        pausedScreen = new PausedScreen(game, spriteBatch, font);
+        pausedScreen = new PausedScreen(spriteBatch, font);
     }
 
     @Test
@@ -74,8 +68,8 @@ public class PausedScreenTest extends LibgdxUnitTest {
         pausedScreen.dispose();
 
         // Verify that font and batch were disposed
-        verify(pausedScreen.font).dispose();
-        verify(pausedScreen.batch).dispose();
+        verify(font).dispose();
+        verify(spriteBatch).dispose();
     }
 
     @Test

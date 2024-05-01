@@ -20,12 +20,22 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
+/**
+ * Represents a Minecraft map that implements the IMinecraftMap interface.
+ * This class provides methods for interacting with the map, such as getting
+ * cells, adding and removing blocks,
+ * setting up the map, and accessing the world and player rectangle.
+ */
 public class MinecraftMap implements IMinecraftMap {
 
     protected TiledMap tiledMap;
     private World world;
     private Rectangle playerRectangle;
 
+    /**
+     * Constructs a new MinecraftMap object with a new world.
+     * Rectangle representing the player is set to null.
+     */
     public MinecraftMap() {
         this.world = new World(new Vector2(0, -25f), false);
         this.playerRectangle = null;
@@ -77,11 +87,25 @@ public class MinecraftMap implements IMinecraftMap {
         return tiledMap;
     }
 
+    /**
+     * Checks if a tile at the specified coordinates is mineable.
+     *
+     * @param tileX the x-coordinate of the tile
+     * @param tileY the y-coordinate of the tile
+     * @return true if the tile is mineable, false otherwise
+     */
     public boolean isTileMineable(int tileX, int tileY) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         return layer.getCell(tileX, tileY) != null;
     }
 
+    /**
+     * Creates a static body for a given PolygonMapObject.
+     *
+     * @param polygonMapObject The PolygonMapObject to create the body for.
+     * @param isSensor         Specifies whether the body is a sensor or not.
+     * @param userData         The user data associated with the body.
+     */
     private void createStaticBody(PolygonMapObject polygonMapObject, boolean isSensor, String userData) {
         Body body = BodyHelperService.createBody(
                 createPolygonShape(polygonMapObject),
@@ -95,6 +119,12 @@ public class MinecraftMap implements IMinecraftMap {
         polygonMapObject.getProperties().put("body", body);
     }
 
+    /**
+     * Removes the static body associated with the given PolygonMapObject.
+     *
+     * @param polygonMapObject the PolygonMapObject whose static body needs to be
+     *                         removed
+     */
     private void removeStaticBody(PolygonMapObject polygonMapObject) {
         Body body = (Body) polygonMapObject.getProperties().get("body");
         if (body != null) {
@@ -102,7 +132,16 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
-    protected void createMapObjectsForAllTiles () {
+    /**
+     * Creates map objects for all tiles in the tiled map.
+     * This method iterates through each layer in the tiled map and checks if it is
+     * a TiledMapTileLayer.
+     * For each tile in the layer, it retrieves the tile's ID and gets the
+     * corresponding TileType.
+     * If a valid TileType is found, it creates a polygon map object at the
+     * specified coordinates.
+     */
+    protected void createMapObjectsForAllTiles() {
         for (MapLayer layer : tiledMap.getLayers()) {
             if (layer instanceof TiledMapTileLayer) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
@@ -122,6 +161,12 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
+    /**
+     * Parses the map objects and creates static bodies for polygons and assigns the
+     * player rectangle.
+     *
+     * @param mapObjects the map objects to be parsed
+     */
     protected void parseMapObjects(MapObjects mapObjects) {
         for (MapObject mapObject : mapObjects) {
             if (mapObject instanceof PolygonMapObject) {
@@ -131,7 +176,7 @@ public class MinecraftMap implements IMinecraftMap {
 
             if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
-                
+
                 String rectangleName = mapObject.getName();
 
                 if (rectangleName != null && rectangleName.equals("player")) { // Check if rectangleName is not null
@@ -141,6 +186,11 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
+    /**
+     * Returns the player rectangle.
+     * 
+     * @return Rectangle object representing the player.
+     */
     public Rectangle getPlayerRectangle() {
         return this.playerRectangle;
     }
@@ -159,6 +209,18 @@ public class MinecraftMap implements IMinecraftMap {
         return shape;
     }
 
+    /**
+     * Creates a PolygonMapObject representing a tile at the specified coordinates.
+     * The method constructs a PolygonMapObject based on the provided coordinates,
+     * tile type,
+     * and TiledMapTileLayer, and adds it to the object layer of the TiledMap.
+     *
+     * @param x          The x-coordinate of the tile
+     * @param y          The y-coordinate of the tile
+     * @param tileType   The type of tile to create
+     * @param tiledLayer The TiledMapTileLayer to add the PolygonMapObject to
+     * @return The created PolygonMapObject
+     */
     private PolygonMapObject createPolygonMapObject(int x, int y, TileType tileType, TiledMapTileLayer tiledLayer) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
 
@@ -186,6 +248,14 @@ public class MinecraftMap implements IMinecraftMap {
         return polygon;
     }
 
+    /**
+     * Adds a map object to the Minecraft map object layer at the specified
+     * coordinates.
+     *
+     * @param x      the x-coordinate of the map object
+     * @param y      the y-coordinate of the map object
+     * @param tileId the ID of the tile for the map object
+     */
     private void addMapObject(int x, int y, int tileId) {
         TiledMapTileLayer tiledLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         TileType tileType = TileType.getTileTypeWithId(tileId);
@@ -196,6 +266,12 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
+    /**
+     * Removes a map object from the object layer at the specified coordinates.
+     *
+     * @param x The x-coordinate of the map object.
+     * @param y The y-coordinate of the map object.
+     */
     private void removeMapObject(int x, int y) {
         MapLayer objectLayer = tiledMap.getLayers().get("collisions");
         MapObjects objects = objectLayer.getObjects();
@@ -208,6 +284,13 @@ public class MinecraftMap implements IMinecraftMap {
         }
     }
 
+    /**
+     * Adds a tile of the specified type at the given coordinates.
+     *
+     * @param x        the x-coordinate of the tile
+     * @param y        the y-coordinate of the tile
+     * @param tileType the type of the tile to be added
+     */
     private void addTile(int x, int y, TileType tileType) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         TiledMapTileSets tileSets = tiledMap.getTileSets();
@@ -217,13 +300,15 @@ public class MinecraftMap implements IMinecraftMap {
         layer.setCell(x, y, cell);
     }
 
+    /**
+     * Removes a tile at the specified coordinates from the mineable layer of the
+     * map.
+     *
+     * @param x the x-coordinate of the tile to remove
+     * @param y the y-coordinate of the tile to remove
+     */
     private void removeTile(int x, int y) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("mineable");
         layer.setCell(x, y, null);
-    }
-
-    // Setter method for tiledMap to be used for testing
-    public void setTiledMap(TiledMap tiledMap) {
-        this.tiledMap = tiledMap;
     }
 }

@@ -14,20 +14,20 @@ import static org.mockito.Mockito.*;
 
 import java.awt.Point;
 
-class BlockPlacementControllerTest extends LibgdxUnitTest {
+class BlockControllerTest extends LibgdxUnitTest {
 
     @Mock
     private ControllableMinecraftModel mockModel;
     @Mock
     private MinecraftView mockView;
-    private BlockPlacementController controller;
+    private BlockController controller;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         OrthographicCamera mockCamera = mock(OrthographicCamera.class);
         when(mockView.getCamera()).thenReturn(mockCamera);
-        controller = new BlockPlacementController(mockModel, mockView);
+        controller = new BlockController(mockModel, mockView);
     }
 
     @Test
@@ -77,7 +77,7 @@ class BlockPlacementControllerTest extends LibgdxUnitTest {
     @Test
     void testInvalidTileCoordinates() {
         // Create a spy of the real controller
-        BlockPlacementController spyController = spy(controller);
+        BlockController spyController = spy(controller);
 
         // when tileX < 0 or tileY < 0
         int screenX = 10;

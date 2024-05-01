@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
@@ -60,10 +61,12 @@ class MinecraftViewTest extends LibgdxUnitTest {
         // When getMapRenderer() is called on the mock model, return the mock renderer
         when(mockModel.getMapRenderer()).thenReturn(mockRenderer);
 
-        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
+        try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class);
+            MockedConstruction<Stage> mockedStage = Mockito.mockConstruction(Stage.class)) {
             // When GameScreen tries to create a Box2DDebugRenderer, it will get the mock instead
+            // Similarily for HelpScreen which uses Stage. 
             minecraftView = new MinecraftView(mockGame, mockModel, spriteBatch, font);
-        }
+}
     }
 
     @Test
@@ -89,7 +92,6 @@ class MinecraftViewTest extends LibgdxUnitTest {
 
     @Test
     void testUpdateScreen() {
-        // Arrange
         GameScreen gameScreen = mock(GameScreen.class);
         minecraftView.setGameScreen(gameScreen);
 
@@ -107,7 +109,6 @@ class MinecraftViewTest extends LibgdxUnitTest {
 
         GameWonScreen gameWonScreen = mock(GameWonScreen.class);
         minecraftView.setGameWonScreen(gameWonScreen);
-
 
         when(mockModel.getGameState()).thenReturn(GameState.GAME_ACTIVE);
         minecraftView.updateScreen();
@@ -133,8 +134,37 @@ class MinecraftViewTest extends LibgdxUnitTest {
         when(mockModel.getGameState()).thenReturn(GameState.WELCOME_SCREEN);
         minecraftView.updateScreen();
         // Assert
-        verify(mockGame).setScreen(menuScreen);
+        verify(mockGame).setScreen(menuScreen); 
+    }
 
+    @Test
+    void testDispose() {
+        GameScreen gameScreen = mock(GameScreen.class);
+        minecraftView.setGameScreen(gameScreen);
+
+        MenuScreen menuScreen = mock(MenuScreen.class);
+        minecraftView.setMenuScreen(menuScreen);
+
+        HelpScreen helpScreen = mock(HelpScreen.class);
+        minecraftView.setHelpScreen(helpScreen);
+
+        PausedScreen pausedScreen = mock(PausedScreen.class);
+        minecraftView.setPausedScreen(pausedScreen);
+
+        GameOverScreen gameOverScreen = mock(GameOverScreen.class);
+        minecraftView.setGameOverScreen(gameOverScreen);
+
+        GameWonScreen gameWonScreen = mock(GameWonScreen.class);
+        minecraftView.setGameWonScreen(gameWonScreen);
+
+        minecraftView.dispose();
+
+        verify(spriteBatch).dispose();
+        verify(font).dispose();
+        verify(menuScreen).dispose();
+        verify(helpScreen).dispose();
+        verify(pausedScreen).dispose();
+        verify(gameScreen).dispose();
+        verify(gameOverScreen).dispose();
     }
 }
-        

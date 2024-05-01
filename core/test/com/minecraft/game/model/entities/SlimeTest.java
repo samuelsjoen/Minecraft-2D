@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -54,7 +55,7 @@ class SlimeTest {
     void slimeShouldTransitionToDeadStateWhenHealthDepletes() {
         slime.getHit(4);
         slime.update(0.1f);
-        assertEquals(Slime.State.DEAD, slime.getCurrentState(), "slime should transition to DEAD state");
+        assertEquals(State.DEAD, slime.getCurrentState(), "slime should transition to DEAD state");
     }
 
     @Test
@@ -73,7 +74,7 @@ class SlimeTest {
         // Place player close enough to trigger attacking state
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to the slime
         slime.update(0.1f);
-        assertEquals(Slime.State.ATTACKING, slime.getCurrentState(), "slime should transition to ATTACKING state");
+        assertEquals(State.ATTACKING, slime.getCurrentState(), "slime should transition to ATTACKING state");
     }
 
     @Test
@@ -105,17 +106,17 @@ class SlimeTest {
         // Place player far enough from the slime
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(50f, 5.0f)); // Far from the slime
         slime.update(0.1f);
-        assertEquals(Slime.State.IDLE, slime.getCurrentState(), "slime should transition to ATTACKING state");
+        assertEquals(State.IDLE, slime.getCurrentState(), "slime should transition to ATTACKING state");
 
         // Place player close enought to trigger running state of the slime
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(10f, 5.0f)); // Close to run
         slime.update(0.1f);
-        assertEquals(Slime.State.RUNNING, slime.getCurrentState(), "slime should transition to ATTACKING state");
+        assertEquals(State.RUNNING, slime.getCurrentState(), "slime should transition to ATTACKING state");
 
         // Place player close enough from the slime
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to attack
         slime.update(0.1f);
-        assertEquals(Slime.State.ATTACKING, slime.getCurrentState(), "slime should transition to ATTACKING state");
+        assertEquals(State.ATTACKING, slime.getCurrentState(), "slime should transition to ATTACKING state");
     }
 
     @Test
@@ -150,6 +151,46 @@ class SlimeTest {
 
         slime.update(0.1f);
         verify(mockBody).applyLinearImpulse(new Vector2(0, 55), mockBody.getWorldCenter(), true);
+    }
+
+    @Test
+    void testGetAttack2StateTime() {
+        assertEquals(0, slime.getAttack2StateTime(), "getAttack2StateTime should always return 0 for Slime.");
+    }
+
+    @Test
+    void testGetWidth() {
+        assertEquals(1.0f, slime.getWidth(), "getWidth should correctly return the width of the Slime.");
+    }
+
+    @Test
+    void testGetHeight() {
+        assertEquals(1.0f, slime.getHeight(), "getHeight should correctly return the height of the Slime.");
+    }
+
+    @Test
+    void testSetAttackFrame() {
+        assertFalse(slime.AttackFrame(), "Initially, attackFrame should be false.");
+        slime.setAttackFrame(true);
+        assertTrue(slime.AttackFrame(), "setAttackFrame(true) should set attackFrame to true.");
+        slime.setAttackFrame(false);
+        assertFalse(slime.AttackFrame(), "setAttackFrame(false) should set attackFrame to false.");
+    }
+
+    @Test
+    void testSetMarkedForRemoval() {
+        assertFalse(slime.isMarkedForRemoval(), "Initially, Slime should not be marked for removal.");
+        slime.setMarkedForRemoval(true);
+        assertTrue(slime.isMarkedForRemoval(), "setMarkedForRemoval(true) should mark the Slime for removal.");
+        slime.setMarkedForRemoval(false);
+        assertFalse(slime.isMarkedForRemoval(), "setMarkedForRemoval(false) should unmark the Slime for removal.");
+    }
+
+    @Test
+    void testGetPosition() {
+        Vector2 position = slime.getPosition();
+        assertEquals(5.0f, position.x, "getPosition should return the correct X coordinate.");
+        assertEquals(5.0f, position.y, "getPosition should return the correct Y coordinate.");
     }
 
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
@@ -18,6 +19,10 @@ import com.minecraft.game.view.screens.PausedScreen;
 import com.minecraft.game.view.sound.MineBlockSoundManager;
 import com.minecraft.game.view.sound.SoundManager;
 
+/**
+ * The MinecraftView class represents the view component of the Minecraft game.
+ * It is responsible for changing the screens and managing the user interface.
+ */
 public class MinecraftView implements Disposable {
 
     private Minecraft game;
@@ -35,6 +40,14 @@ public class MinecraftView implements Disposable {
 
     private SoundManager mineBlockSoundManager;
 
+    /**
+     * Constructs a new MinecraftView object.
+     *
+     * @param game The Minecraft game instance.
+     * @param viewableMinecraftModel The viewable Minecraft model.
+     * @param spriteBatch The sprite batch used for rendering.
+     * @param font The font used for rendering text.
+     */
     public MinecraftView(Minecraft game, ViewableMinecraftModel viewableMinecraftModel, SpriteBatch spriteBatch, BitmapFont font) {
 
         this.game = game;
@@ -43,28 +56,52 @@ public class MinecraftView implements Disposable {
         this.spriteBatch = spriteBatch;
         this.font = font;
 
-        // Create the sound manager for the mine block sound
-        this.mineBlockSoundManager = new MineBlockSoundManager("assets/sound/mineSound.wav");
+        this.mineBlockSoundManager = new MineBlockSoundManager("sound/mineSound.wav");
 
-        this.menuScreen = new MenuScreen(game, spriteBatch);
-        this.helpScreen = new HelpScreen(game, spriteBatch);
+        this.menuScreen = new MenuScreen(spriteBatch);
+        this.helpScreen = new HelpScreen(spriteBatch);
         this.gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this, spriteBatch);
-        this.pausedScreen = new PausedScreen(game, spriteBatch, font);
-        this.gameOverScreen = new GameOverScreen(game, spriteBatch, font);
-        this.gameWonScreen = new GameWonScreen(game, spriteBatch, font);
+        this.pausedScreen = new PausedScreen(spriteBatch, font);
+        this.gameOverScreen = new GameOverScreen(spriteBatch, font);
+        this.gameWonScreen = new GameWonScreen(spriteBatch, font, viewableMinecraftModel); //game, 
 
         updateScreen();
 
     }
 
+    /**
+     * Returns the menu screen stage.
+     *
+     * @return the menu screen stage
+     */
+    public Stage getMenuScreenStage() {
+		return menuScreen.getStage();
+	}
+
+    /**
+     * Returns the help screen stage.
+     *
+     * @return the help screen stage
+     */
+    public Stage getHelpScreenStage() {
+        return helpScreen.getStage();
+    }
+
+    /**
+     * Creates a new game screen and updates the view.
+     */
     public void newGameScreen() {
-        //gameScreen.dispose();
+        gameScreen.dispose();
         gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this, spriteBatch);
         updateScreen();
     }
-    
+
+    /**
+     * Updates the screen based on the current game state in the viewable Minecraft model.
+     * Sets the appropriate screen in the game based on the game state.
+     */
     public void updateScreen() {
-        CursorUtils.setCursorPixmap("assets/default_cursor.png");
+        CursorUtils.setCursorPixmap("default_cursor.png");
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){
             game.setScreen(menuScreen);
         } else if (viewableMinecraftModel.getGameState() == GameState.HELP_SCREEN){
@@ -80,6 +117,9 @@ public class MinecraftView implements Disposable {
         }
     }
 
+    /**
+     * Toggles the fullscreen mode.
+     */
     public void toggleFullscreen() {
         if (Gdx.graphics.isFullscreen()) {
             Gdx.graphics.setWindowedMode(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
@@ -88,24 +128,15 @@ public class MinecraftView implements Disposable {
         }
     }
 
+    /**
+     * Gets the camera used in the game.
+     * @return The OrthographicCamera object representing the camera.
+     */
     public OrthographicCamera getCamera() {
         return game.camera;
     }
 
-    // Used for checking if menuScreen buttons are clicked or not. 
-    public boolean isStartButtonClicked(float touchX, float touchY) {
-        return menuScreen.isStartButtonClicked(touchX, touchY);
-    }
-
-    public boolean isHelpButtonClicked(float touchX, float touchY) {
-        return menuScreen.isHelpButtonClicked(touchX, touchY);
-    }
-
-    public boolean isQuitButtonClicked(float touchX, float touchY) {
-        return menuScreen.isQuitButtonClicked(touchX, touchY);
-    }
-
-     /**
+    /**
      * Plays the mine block sound
      */
     public void playMineBlockSound() {
@@ -131,7 +162,7 @@ public class MinecraftView implements Disposable {
         gameOverScreen.dispose();
     }
 
-    // Getters for testing
+    // Getters used for testing only:
 
     public MenuScreen getMenuScreen() {
         return menuScreen;
