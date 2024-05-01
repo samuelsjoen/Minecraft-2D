@@ -38,11 +38,6 @@ public class PausedScreen extends ScreenAdapter {
         batch.end();
     }
 
-    private void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
     @Override
     public void dispose() {
         font.dispose();
@@ -53,5 +48,13 @@ public class PausedScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         super.resize(width, height);
         batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+    }
+
+    /**
+     * Clears the screen by setting the background color to black.
+     */
+    private void clearScreen() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 }

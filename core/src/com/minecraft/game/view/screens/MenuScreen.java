@@ -5,7 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 /**
@@ -14,12 +17,13 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
  */
 public class MenuScreen extends ScreenAdapter {
     private final SpriteBatch batch;
-    private Texture backgroundTexture;
     private Stage stage;
+    private Texture backgroundTexture;
+    private Texture buttonTexture;
     private Button startButton;
     private Button helpButton;
     private Button quitButton;
-    private Button title;
+    private Texture titleTexture;
 
     /**
      * Constructs a new MenuScreen with the specified SpriteBatch.
@@ -34,34 +38,8 @@ public class MenuScreen extends ScreenAdapter {
 
         this.stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        int space = 100;
-
-        float x = Gdx.graphics.getWidth() / 2 - (375/2); // 375 is the width of the button
-        float y = Gdx.graphics.getHeight() / 2 ; // the middle of the screen
-        
-        float yStart = y ;
-        float yHelp = y - space;
-        float yQuit = y - space * 2;
-
-        float xTitle = Gdx.graphics.getWidth() / 2 - (800 / 2); // width of title is 800
-        float yTitle = y + space * 2.5f;
-
-        this.startButton = new Button("homeScreen/start_button.png", stage, x, yStart, "startButton");
-        this.startButton.createButton();
-
-        this.helpButton = new Button("homeScreen/help_button.png", stage, x, yHelp, "helpButton");
-        this.helpButton.createButton();
-
-        this.quitButton = new Button("homeScreen/quit_button.png", stage, x, yQuit, "quitButton");
-        this.quitButton.createButton();
-
-        this.title = new Button("homeScreen/minecraft_logo.png", stage, xTitle, yTitle, "title");
-        this.title.createButton();
-
-    }
-
-    private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+        drawButtons();
+        drawTitle();
     }
 
     @Override
@@ -74,19 +52,12 @@ public class MenuScreen extends ScreenAdapter {
         stage.draw();
     }
 
-    void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
-    void drawBackground() {
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    }
-
     @Override
     public void dispose() {
         batch.dispose();
         backgroundTexture.dispose();
+        buttonTexture.dispose();
+        titleTexture.dispose();
     }
 
     @Override
@@ -96,16 +67,97 @@ public class MenuScreen extends ScreenAdapter {
         stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Returns the stage connected to the menu screen.
+     * @return The stage.
+     */
     public Stage getStage() {
         return this.stage;
     }
 
-    // Getters used for testing only: 
+    /**
+     * Loads textures used in menu screen.
+     */
+    private void loadTextures() {
+        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+    }
 
+    // TODO: these should be private? 
+    /**
+     * Clears the screen.
+     */
+    void clearScreen() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    /**
+     * Draws the background of the menu screen.
+     */
+    void drawBackground() {
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    /**
+     * Draws the buttons on the menu screen.
+     */
+    private void drawButtons() {
+        int space = 100;
+
+        buttonTexture = new Texture(Gdx.files.internal("homeScreen/start_button.png"));
+        float buttonHeight = buttonTexture.getWidth();
+
+        float x = (Gdx.graphics.getWidth() - (buttonHeight)) / 2; // buttonWidth is the width of the button
+        float y = Gdx.graphics.getHeight() / 2 ; // the middle of the screen
+        
+        float yStart = y ;
+        float yHelp = y - space;
+        float yQuit = y - space * 2;
+
+        this.startButton = new Button("homeScreen/start_button.png", stage, x, yStart, "startButton");
+        this.startButton.createButton();
+
+        this.helpButton = new Button("homeScreen/help_button.png", stage, x, yHelp, "helpButton");
+        this.helpButton.createButton();
+
+        this.quitButton = new Button("homeScreen/quit_button.png", stage, x, yQuit, "quitButton");
+        this.quitButton.createButton();
+    }
+
+    /**
+     * Draws the title of the menu screen.
+     */
+    private void drawTitle() {
+        int space = 100;
+
+        titleTexture = new Texture(Gdx.files.internal("homeScreen/minecraft_logo.png"));
+        float titleHeight = titleTexture.getHeight();
+        float titleWidth = titleTexture.getWidth();
+
+        float xTitle = (Gdx.graphics.getWidth() - titleWidth)/ 2; 
+        float yTitle = Gdx.graphics.getHeight() / 2 + space * 2.5f;
+
+        Image titleImage = new Image(new TextureRegionDrawable(new TextureRegion(titleTexture)));
+        titleImage.setPosition(xTitle, yTitle - titleHeight);
+        stage.addActor(titleImage);   
+    }
+
+
+
+    // TODO: remove these setters someway? 
+    // Setters below used for testing only: 
+    /**
+     * Sets the background texture of the menu screen.
+     * @param backgroundTexture The background texture to set.
+     */
     public void setBackgroundTexture(Texture backgroundTexture) {
         this.backgroundTexture = backgroundTexture;
     }
 
+    /**
+     * Sets the stage of the menu screen.
+     * @param stage The stage to set.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

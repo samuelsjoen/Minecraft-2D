@@ -40,7 +40,7 @@ public class GameWonScreen extends ScreenAdapter {
         batch.begin();
         batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         int score = this.model.getPlayer().getScore();
-        String message = "Game Won\nPress any button to restart.\nScore : " + score;
+        String message = "Press any button to restart.\nScore : " + score;
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();
     }

@@ -7,10 +7,10 @@ import com.badlogic.gdx.utils.Timer;
 import com.minecraft.game.view.MinecraftView;
 
 /**
- * The BlockPlacementController class is responsible for handling block placement and removal in the Minecraft game.
+ * The BlockController class is responsible for handling block placement and removal in the Minecraft game.
  * It interacts with the ControllableMinecraftModel and MinecraftView to perform these actions.
  */
-public class BlockPlacementController {
+public class BlockController {
     
     private final ControllableMinecraftModel controllableModel;
     private MinecraftView view;
@@ -20,12 +20,12 @@ public class BlockPlacementController {
     private int lastTileY;
 
     /**
-     * Constructs a new BlockPlacementController with the specified ControllableMinecraftModel and MinecraftView.
+     * Constructs a new BlockController with the specified ControllableMinecraftModel and MinecraftView.
      * Initializes the timer and sets the last tile coordinates to -1, -1 as default values.
      * @param controllableModel
      * @param view
      */
-    public BlockPlacementController(ControllableMinecraftModel controllableModel, MinecraftView view) {
+    public BlockController(ControllableMinecraftModel controllableModel, MinecraftView view) {
         this.controllableModel = controllableModel;
         this.view = view;
 

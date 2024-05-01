@@ -13,7 +13,7 @@ public class OverlayView {
     private final InventoryView inventoryView;
     private final HealthView healthView;
     private final CraftingView craftingView;
-    private ScoreView scoreView;
+    private final ScoreView scoreView;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting, Player player, SpriteBatch batch, BitmapFont font) {
         this.inventoryView = new InventoryView(inventory, batch, font);

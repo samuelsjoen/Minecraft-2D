@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.minecraft.game.model.GameState;
 import com.minecraft.game.view.MinecraftView;
 
+/**
+ * The HomeScreenController class is responsible for controlling the home screen of the Minecraft game.
+ */
 public class HomeScreenController {
     
     private MinecraftController minecraftController;
@@ -15,9 +18,10 @@ public class HomeScreenController {
     private Stage stage;
 
     /**
-     * The HomeScreenController class is responsible for controlling the home screen of the Minecraft game.
-     * It handles the initialization of the view, the Minecraft controller, and the stage.
-     * It also sets up the input processors for the buttons on the home screen.
+     * Constructs a new HomeScreenController with the specified MinecraftView and MinecraftController.
+     * Initializes the stage and adds a click listener to the home screen buttons.
+     * @param view The MinecraftView containing the home screen stage.
+     * @param minecraftController The MinecraftController for handling game state changes.
      */
     public HomeScreenController(MinecraftView view, MinecraftController minecraftController) {
         this.view = view;

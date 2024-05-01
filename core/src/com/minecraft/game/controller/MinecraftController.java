@@ -19,7 +19,7 @@ public class MinecraftController extends InputAdapter {
     private MinecraftView view;
 
     private PlayerController playerController;
-    private BlockPlacementController blockPlacementController;
+    private BlockController blockController;
     private InventoryController inventoryController;
     // TODO: check if this is actually used
     @SuppressWarnings("unused")
@@ -40,10 +40,10 @@ public class MinecraftController extends InputAdapter {
         this.controllableModel = controllableModel;
         this.view = view;
 
-        this.lastGameState = GameState.WELCOME_SCREEN;
+        this.lastGameState = controllableModel.getGameState();
 
         this.playerController = new PlayerController(controllableModel);
-        this.blockPlacementController = new BlockPlacementController(controllableModel, view);
+        this.blockController = new BlockController(controllableModel, view);
         this.inventoryController = new InventoryController(controllableModel);
         this.homeScreenController =  new HomeScreenController(view, this);
         this.helpScreenController = new HelpScreenController(view, this);
@@ -65,18 +65,16 @@ public class MinecraftController extends InputAdapter {
         
         GameState gameState = controllableModel.getGameState();
 
-        switch (gameState) {
-            case HELP_SCREEN:
-                break;
+        if (gameState == GameState.GAME_ACTIVE || gameState == GameState.CRAFTING_SCREEN) {
+            if (keycode == Keys.R) {
+                restartGame();                
+                return true;
+            }
+            
+            playerController.handleKeyDown(keycode);
+            inventoryController.handleKeyDown(keycode);
 
-            case GAME_ACTIVE:
-                if (keycode == Keys.R) {
-                    playerController.stopMovement();
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
-                    return true;
-                }
+            if (gameState == GameState.GAME_ACTIVE) {
                 if (keycode == Keys.H) {
                     setGameStateAndUpdateScreen(GameState.HELP_SCREEN);
                     Gdx.input.setInputProcessor(view.getHelpScreenStage());
@@ -86,67 +84,26 @@ public class MinecraftController extends InputAdapter {
                     togglePause(gameState); 
                     return true;
                 }
-                playerController.handleKeyDown(keycode);
-                inventoryController.handleKeyDown(keycode);
-
-            case GAME_PAUSED:
-                if (keycode == Keys.P) {
-                    togglePause(gameState); 
-                    return true;
-                }
-                if (keycode == Keys.R) {
-                    playerController.stopMovement();
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
-                    return true;
-                }
-                break;
-
-            case WELCOME_SCREEN:
-                break;
-
-            case CRAFTING_SCREEN:
-                if (keycode == Keys.R) {
-                    playerController.stopMovement();
-                    controllableModel.restartGame();
-                    view.newGameScreen();
-                    Gdx.input.setInputProcessor(view.getMenuScreenStage());
-                    return true;
-                }
-                playerController.handleKeyDown(keycode);
-                inventoryController.handleKeyDown(keycode);
-                break;
-
-            case GAME_OVER:
-                playerController.stopMovement();
-                controllableModel.restartGame();
-                view.newGameScreen();
-                Gdx.input.setInputProcessor(view.getMenuScreenStage());
-                return true;
-                /*if (keycode == Keys.H) { // heal player
-                    playerController.stopMovement();
-                    controllableModel.revivePlayer();
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-                    return true;
-                }*/
-
-            case GAME_WON:
-                //this.lastGameState = gameState;
-                playerController.stopMovement();
-                controllableModel.restartGame();
-                view.newGameScreen();
-                Gdx.input.setInputProcessor(view.getMenuScreenStage());
-                return true;
-                /*if (keycode == Keys.H) { // heal player
-                    playerController.stopMovement();
-                    controllableModel.revivePlayer();
-                    setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-                    return true;
-                }*/
             }
-            return false;
         }
+
+        if (gameState == GameState.GAME_PAUSED) {
+            if (keycode == Keys.P) {
+                togglePause(gameState); 
+                return true;
+            }
+            if (keycode == Keys.R) {
+                restartGame();                
+                return true;
+            }
+        }
+
+        if (gameState == GameState.GAME_OVER || gameState == GameState.GAME_WON) {
+            restartGame();                
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean keyUp(int keycode) {
@@ -163,7 +120,7 @@ public class MinecraftController extends InputAdapter {
         GameState gameState = controllableModel.getGameState();
 
         if (gameState == GameState.GAME_ACTIVE) {
-            blockPlacementController.handleTouchDown(screenX, screenY, button); 
+            blockController.handleTouchDown(screenX, screenY, button); 
             return true;
         }
 
@@ -175,7 +132,7 @@ public class MinecraftController extends InputAdapter {
         GameState gameState = controllableModel.getGameState();
 
         if (gameState == GameState.GAME_ACTIVE) {
-            blockPlacementController.handleTouchUp();
+            blockController.handleTouchUp();
             return true;
         }
         return false;
@@ -185,19 +142,6 @@ public class MinecraftController extends InputAdapter {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         int button = Gdx.input.isButtonPressed(Buttons.RIGHT) ? Buttons.RIGHT : Buttons.LEFT;
         return touchDown(screenX, screenY, pointer, button); // Call touchDown method with the specified button
-    }
-
-    public void setGameStateAndUpdateScreen(GameState gameState) {
-        controllableModel.setGameState(gameState);
-        view.updateScreen();
-    }
-
-    public void togglePause(GameState gameState) {
-        if (gameState == GameState.GAME_ACTIVE) {
-            setGameStateAndUpdateScreen(GameState.GAME_PAUSED);
-        } else if (gameState == GameState.GAME_PAUSED) {
-            setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-        }
     }
 
     @Override
@@ -223,27 +167,94 @@ public class MinecraftController extends InputAdapter {
         return true;
     }
 
+    
+    /**
+     * Heals the player by reviving the player and updating the screen.
+     */
+    /*public void healPlayer() {
+        playerController.stopMovement();
+        controllableModel.revivePlayer();
+        setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+    }*/
+    
+    /**
+     * Restarts the game by restarting the game model, and updating the screen with a new gamescreen.
+     */
+    public void restartGame() {
+        playerController.stopMovement();
+        controllableModel.restartGame();
+        view.newGameScreen();
+        Gdx.input.setInputProcessor(view.getMenuScreenStage());
+    }
+
+    /**
+     * Set the game state and update the screen.
+     * @param gameState The new game state.
+     */
+    public void setGameStateAndUpdateScreen(GameState gameState) {
+        controllableModel.setGameState(gameState);
+        view.updateScreen();
+    }
+
+    /**
+     * Toggle the pause state of the game.
+     * If the game is active, it will be paused, and vice versa.
+     * @param gameState The current game state.
+     */
+    public void togglePause(GameState gameState) {
+        if (gameState == GameState.GAME_ACTIVE) {
+            setGameStateAndUpdateScreen(GameState.GAME_PAUSED);
+        } else if (gameState == GameState.GAME_PAUSED) {
+            setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
+        }
+    }
+
+    /**
+     * Get the last game state.
+     * @return The last game state.
+     */
     public GameState getLastGameState() {
         return this.lastGameState;
     }
 
+    /**
+     * Set the last game state.
+     * @param gameState The last game state.
+     */
     public void setLastGameState(GameState gameState) {
         this.lastGameState = gameState;
     }
 
-    // For testing:
+    // For testing: 
+    //TODO: check if it possible to have these methods elsewhere.
+    /**
+     * Set the player controller.
+     * @param playerController The player controller.
+     */
     public void setPlayerController(PlayerController playerController) {
         this.playerController = playerController;
     }
     
-    public void setBlockPlacementController(BlockPlacementController blockPlacementController) {
-        this.blockPlacementController = blockPlacementController;
+    /**
+     * Set the block controller.
+     * @param blockController The block controller.
+     */
+    public void setBlockController(BlockController blockController) {
+        this.blockController = blockController;
     }
     
+    /**
+     * Set the inventory controller.
+     * @param inventoryController The inventory controller.
+     */
     public void setInventoryController(InventoryController inventoryController) {
         this.inventoryController = inventoryController;
     }
 
+    /**
+     * Set the help screen controller.
+     * @param helpScreenController The help screen controller.
+     */
     public void setHelpScreenController(HelpScreenController helpScreenController) {
         this.helpScreenController = helpScreenController;
     }

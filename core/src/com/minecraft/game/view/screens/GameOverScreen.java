@@ -36,7 +36,7 @@ public class GameOverScreen extends ScreenAdapter {
         clearScreen();    
         batch.begin();
         batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        String message = "Game Over\nPress any button to restart.";
+        String message = "Press any button to restart.";
         font.draw(batch, message, (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2), 0, Align.center, false);
         batch.end();
     }

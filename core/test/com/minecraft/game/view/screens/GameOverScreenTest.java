@@ -59,7 +59,7 @@ public class GameOverScreenTest extends LibgdxUnitTest {
         verify(spriteBatch).end();
 
         // Verify that the message is drawn
-        verify(font).draw(any(SpriteBatch.class), eq("Game Over\nPress any button to restart."), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
+        verify(font).draw(any(SpriteBatch.class), eq("Press any button to restart."), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
     }
 
     @Test

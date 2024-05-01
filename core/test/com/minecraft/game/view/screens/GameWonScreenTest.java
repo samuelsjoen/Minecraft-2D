@@ -70,7 +70,7 @@ public class GameWonScreenTest extends LibgdxUnitTest {
         verify(spriteBatch).end();
 
         // Verify that the message is drawn
-        verify(font).draw(any(SpriteBatch.class), eq("Game Won\nPress any button to restart.\nScore : 10"), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
+        verify(font).draw(any(SpriteBatch.class), eq("Press any button to restart.\nScore : 10"), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
     }
 
     @Test
