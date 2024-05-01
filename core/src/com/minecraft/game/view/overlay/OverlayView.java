@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.Health;
+import com.minecraft.game.model.Player;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Inventory;
 
@@ -12,6 +13,7 @@ public class OverlayView implements IOverlay {
     private final IOverlay inventoryView;
     private final IOverlay healthView;
     private final IOverlay craftingView;
+    private final IOverlay scoreView;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting, Player player, SpriteBatch batch, BitmapFont font) {
         this.inventoryView = new InventoryView(inventory, batch, font);
@@ -20,6 +22,7 @@ public class OverlayView implements IOverlay {
         this.scoreView = new ScoreView(batch, player);
     }
 
+    @Override
     public void render() {
         craftingView.render();
         inventoryView.render();
@@ -27,6 +30,7 @@ public class OverlayView implements IOverlay {
         scoreView.render();
     }
 
+    @Override
     public void update(Vector2 lowerLeftCorner) {
         craftingView.update(lowerLeftCorner);
         inventoryView.update(lowerLeftCorner);
@@ -34,6 +38,7 @@ public class OverlayView implements IOverlay {
         scoreView.update(lowerLeftCorner);
     }
 
+    @Override
     public void dispose() {
         inventoryView.dispose();
         healthView.dispose();
@@ -41,3 +46,4 @@ public class OverlayView implements IOverlay {
         scoreView.dispose();
     }
 }
+

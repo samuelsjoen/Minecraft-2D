@@ -22,7 +22,7 @@ public class ProjectileRenderer {
      */
     public ProjectileRenderer(SpriteBatch batch) {
         this.batch = batch;
-        sheet = new Texture("assets/Rock2.png");
+        sheet = new Texture("Rock2.png");
     }
 
     /**

@@ -30,7 +30,7 @@ public class SlimeRenderer {
      */
     public SlimeRenderer(SpriteBatch batch) {
         this.batch = batch;
-        sheet = new Texture("assets/slime-Sheet.png");
+        sheet = new Texture("slime-Sheet.png");
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 8, sheet.getHeight() / 3);
         for (int i = 0; i < 8; i++) {
             attackFrames[i] = splitFrames[1][i];
