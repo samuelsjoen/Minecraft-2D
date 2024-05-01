@@ -17,7 +17,7 @@ public class OverlayView implements IOverlay {
     private final TextureMap textureMap;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting, Player player, SpriteBatch batch, BitmapFont font) {
-        this.textureMap = new TextureMap(inventory);
+        this.textureMap = new TextureMap();
         this.inventoryView = new InventoryView(inventory, batch, font, textureMap);
         this.healthView = new HealthView(health, batch);
         this.craftingView = new CraftingView(crafting, batch, font, textureMap);

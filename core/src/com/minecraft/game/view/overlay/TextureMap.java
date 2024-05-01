@@ -1,7 +1,6 @@
 package com.minecraft.game.view.overlay;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.minecraft.game.model.items.Inventory;
 import com.minecraft.game.model.items.Item;
 
 import java.util.HashMap;
@@ -10,7 +9,7 @@ public class TextureMap {
 
     private HashMap<Item, Texture> textureMap;
 
-    public TextureMap(Inventory inventory) {
+    public TextureMap() {
         this.textureMap = new HashMap<>();
     }
 
