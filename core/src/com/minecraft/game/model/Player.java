@@ -9,6 +9,10 @@ import com.minecraft.game.model.items.Inventory;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
 
+/**
+ * Represents the player character in the game, handling movement, interactions,
+ * and combat mechanics.
+ */
 public class Player extends GameEntity {
 
     private boolean isFacingRight = true;
@@ -32,6 +36,15 @@ public class Player extends GameEntity {
     private Boolean moveRight;
     private Boolean isAttacking;
 
+    /**
+     * Constructs a Player with specified parameters, initializing state and health.
+     *
+     * @param width     the width of the player's entity
+     * @param height    the height of the player's entity
+     * @param body      the physics body associated with the player
+     * @param inventory the player's inventory for managing items
+     * @param health    the player's health management system
+     */
     public Player(float width, float height, Body body, Inventory inventory, Health health) {
         super(width, height, body);
         this.speed = 10f;
@@ -44,13 +57,26 @@ public class Player extends GameEntity {
         this.isAttacking = false;
     }
 
-    // Gets information from PlayerController through MinecraftModel
+    /**
+     * Updates the player's movement based on input flags from the controller.
+     *
+     * @param moveLeft    indicates whether the player is moving left
+     * @param moveRight   indicates whether the player is moving right
+     * @param isAttacking indicates whether the player is attacking
+     */
     public void updateMovement(Boolean moveLeft, Boolean moveRight, boolean isAttacking) {
         this.moveLeft = moveLeft;
         this.moveRight = moveRight;
         this.isAttacking = isAttacking;
     }
 
+    /**
+     * Updates the player's state each frame, applying movement, checking for
+     * out-of-bounds conditions, handling attacks, and updating invincibility
+     * status.
+     *
+     * @param deltaTime The time elapsed since the last frame.
+     */
     @Override
     public void update(float deltaTime) {
         velX = 0;
@@ -107,6 +133,12 @@ public class Player extends GameEntity {
 
     }
 
+    /**
+     * Teleports the player back onto the playing field if they fall out of bounds.
+     *
+     * @param screenWidth  the width of the screen to calculate bounds
+     * @param screenHeight the height of the screen to calculate bounds
+     */
     public void playerOutOfbounds(float screenWidth, float screenHeight) {
         float yfall = -10f;
         if (body.getPosition().y < yfall) {
@@ -117,6 +149,10 @@ public class Player extends GameEntity {
         }
     }
 
+    /**
+     * Applies damage to the player and triggers invincibility if not already
+     * invincible.
+     */
     public void getHit() {
         if (!isInvincible) {
             health.damage(1); // call damage method and reduces health
@@ -125,6 +161,10 @@ public class Player extends GameEntity {
         }
     }
 
+    /**
+     * Executes attack mechanics, checking for nearby enemies within attack range
+     * and applying damage.
+     */
     public void attack() {
         float attackRange = 5.0f;
         float verticalAttackRange = 3.0f;
@@ -169,6 +209,11 @@ public class Player extends GameEntity {
         }
     }
 
+    /**
+     * Calculates damage based on the player's current equipment.
+     *
+     * @return the amount of damage the player can inflict
+     */
     public int calculateDamage() {
         if (inventory.getSelectedItem() == null) {
             return 1;
@@ -185,66 +230,144 @@ public class Player extends GameEntity {
         }
     }
 
+    /**
+     * Sets the current state of the player.
+     *
+     * @param state The new state to set for the player.
+     */
     public void setCurrentState(State state) {
         Player.currentState = state;
     }
 
+    /**
+     * Gets the current state of the player.
+     *
+     * @return the current state
+     */
     public State getCurrentState() {
         return Player.currentState;
     }
 
+    /**
+     * Gets the player's health.
+     *
+     * @return the health of the player
+     */
     public static Health getHealth() {
         return health;
     }
 
+    /**
+     * Checks if the player is facing right.
+     *
+     * @return true if the player is facing right, false otherwise
+     */
     public boolean isFacingRight() {
         return isFacingRight;
     }
 
+    /**
+     * Checks if the player is currently invincible.
+     *
+     * @return true if the player is invincible, false otherwise
+     */
     public boolean isInvincible() {
         return isInvincible;
     }
 
+    /**
+     * Toggles the player's invincibility status.
+     */
     public void setIsInvincible() {
         isInvincible = !isInvincible;
     }
 
+    /**
+     * Checks if the player is currently attacking.
+     *
+     * @return true if attacking, false otherwise
+     */
     public boolean getIsAttacking() {
         return isAttacking;
     }
 
+    /**
+     * Checks if the player is moving left.
+     *
+     * @return true if moving left, false otherwise
+     */
     public boolean getMoveLeft() {
         return moveLeft;
     }
 
+    /**
+     * Checks if the player is moving right.
+     *
+     * @return true if moving right, false otherwise
+     */
     public boolean getMoveRight() {
         return moveRight;
     }
 
+    /**
+     * Gets the remaining duration of the invincibility timer.
+     *
+     * @return the remaining invincibility duration
+     */
     public float invincibilityTimer() {
         return invincibilityTimer;
     }
 
+    /**
+     * Gets the width of the player entity.
+     *
+     * @return the width
+     */
     public float getWidth() {
         return width;
     }
 
+    /**
+     * Gets the height of the player entity.
+     *
+     * @return the height
+     */
     public float getHeight() {
         return height;
     }
 
+    /**
+     * Gets the x-coordinate of the player's position.
+     *
+     * @return the x-coordinate
+     */
     public float getX() {
         return x;
     }
 
+    /**
+     * Gets the y-coordinate of the player's position.
+     *
+     * @return the y-coordinate
+     */
     public float getY() {
         return y;
     }
 
+    /**
+     * Adds points to the player's score.
+     *
+     * @param points the points to add
+     */
     public void addScore(int points) {
         this.score += points;
     }
 
+    /**
+     * Gets the player's current score.
+     *
+     * @return the score
+     */
     public int getScore() {
         return this.score;
     }

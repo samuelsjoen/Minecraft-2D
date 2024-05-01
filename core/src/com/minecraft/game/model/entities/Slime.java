@@ -1,6 +1,5 @@
 package com.minecraft.game.model.entities;
 
-// import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.Health;
@@ -8,7 +7,14 @@ import com.minecraft.game.model.Player;
 import com.minecraft.game.utils.BodyHelperService;
 import com.minecraft.game.utils.Constants;
 
-public class Slime extends GameEntity {
+/**
+ * Represents the Slime entity in the game, extending the GameEntity class.
+ * Slimes are enemies that can jump, attack, and follow the player within the
+ * game world.
+ * They have health, states of behavior, and can be marked for removal when
+ * defeated.
+ */
+public class Slime extends GameEntity implements IViewableEntityModel {
     private float stateTime;
     public State currentState;
     public boolean isFacingRight = true;
@@ -24,10 +30,17 @@ public class Slime extends GameEntity {
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
 
-    public enum State {
-        IDLE, RUNNING, ATTACKING, DEAD
-    }
-
+    /**
+     * Constructs a Slime entity with specified dimensions, position, and health.
+     * 
+     * @param width  Width of the Slime.
+     * @param height Height of the Slime.
+     * @param world  The game world where the Slime exists.
+     * @param player The player character that the Slime will interact with.
+     * @param x      The initial x-coordinate of the Slime.
+     * @param y      The initial y-coordinate of the Slime.
+     * @param health The health object managing the Slime's health.
+     */
     public Slime(float width, float height, World world, Player player, float x, float y, Health health) {
         super(width, height, BodyHelperService.createBody(x, y, width, height, null, false, world,
                 Constants.CATEGORY_ENEMY, Constants.MASK_ENEMY, "slime", false));
@@ -39,6 +52,12 @@ public class Slime extends GameEntity {
         stateTime = 0f;
     }
 
+    /**
+     * Updates the state of the Slime based on elapsed time and interactions with
+     * the player.
+     * 
+     * @param deltaTime The time elapsed since the last update call.
+     */
     @Override
     public void update(float deltaTime) {
 
@@ -120,14 +139,29 @@ public class Slime extends GameEntity {
 
     }
 
+    /**
+     * Returns whether the Slime is currently alive.
+     * 
+     * @return true if alive, false otherwise.
+     */
     public boolean isAlive() {
         return health.isAlive();
     }
 
+    /**
+     * Gets the current health state of the Slime.
+     * 
+     * @return the health object of the Slime.
+     */
     public Health getHealth() {
         return health;
     }
 
+    /**
+     * Handles the logic when the Slime takes damage.
+     * 
+     * @param damage The amount of damage to apply to the Slime.
+     */
     public void getHit(int damage) {
         if (!isInvincible) {
             health.damage(damage); // call damage method and reduces health
@@ -136,43 +170,150 @@ public class Slime extends GameEntity {
         }
     }
 
+    /**
+     * Checks if the Slime is marked for removal from the game world.
+     * 
+     * @return true if the Slime is marked for removal, false otherwise.
+     */
     public boolean isMarkedForRemoval() {
         return markForRemoval;
     }
 
+    /**
+     * Toggles the removal flag for the Slime.
+     */
     public void setMarkedForRemoval() {
         markForRemoval = !markForRemoval;
     }
 
+    /**
+     * Gets the amount of time the Slime has been in the DEAD state.
+     * 
+     * @return The dead state time in seconds.
+     */
     public float getDeadStateTime() {
         return deadStateTime;
     }
 
+    /**
+     * Gets the total time the Slime has been in its current state.
+     * 
+     * @return The state time in seconds.
+     */
     public float getStateTime() {
         return stateTime;
     }
 
+    /**
+     * Gets the current state of the Slime (e.g., IDLE, RUNNING, ATTACKING, DEAD).
+     * 
+     * @return The current state.
+     */
     public State getCurrentState() {
         return currentState;
     }
 
+    /**
+     * Checks if the Slime is facing right.
+     * 
+     * @return true if facing left, false if facing right.
+     */
     public boolean isFacingRight() {
         return isFacingRight;
     }
 
+    /**
+     * Sets the attack frame state to true, indicating the Slime is in an attack
+     * frame.
+     */
     public void setAttackFrameTrue() {
         attackFrame = true;
     }
 
+    /**
+     * Sets the attack frame state to false, indicating the Slime is not in an
+     * attack frame.
+     */
     public void setAttackFrameFalse() {
         attackFrame = false;
     }
 
+    /**
+     * Gets the current state of the attack frame.
+     * 
+     * @return true if currently in an attack frame, false otherwise.
+     */
     public boolean AttackFrame() {
         return attackFrame;
     }
 
+    /**
+     * Checks if the Slime is currently invincible.
+     * 
+     * @return true if invincible, false otherwise.
+     */
     public boolean isInvincible() {
         return isInvincible;
+    }
+
+    /**
+     * Gets the time the slime has spent in the secondary attack state (not used in
+     * this class).
+     * 
+     * @return The time in seconds spent in the attack2 state.
+     */
+    @Override
+    public float getAttack2StateTime() {
+        return 0;
+    }
+
+    /**
+     * Gets the width of the Slime.
+     * 
+     * @return The width in game units.
+     */
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    /**
+     * Gets the height of the Slime.
+     * 
+     * @return The height in game units.
+     */
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    /**
+     * Sets whether the Slime's attack frame is active.
+     * 
+     * @param isActive true to activate the attack frame, false to deactivate.
+     */
+    @Override
+    public void setAttackFrame(boolean isActive) {
+        attackFrame = isActive;
+    }
+
+    /**
+     * Sets the Slime's removal status.
+     * 
+     * @param isMarked true to mark the Slime for removal, false otherwise.
+     */
+    @Override
+    public void setMarkedForRemoval(boolean isMarked) {
+        markForRemoval = isMarked;
+    }
+
+    /**
+     * Gets the current position of the Slime.
+     * 
+     * @return A Vector2 representing the position of the Slime.
+     */
+    @Override
+    public Vector2 getPosition() {
+        return new Vector2(body.getPosition().x, body.getPosition().y);
     }
 }

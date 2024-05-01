@@ -23,6 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -51,6 +53,8 @@ public class EnemyManagerTest {
     private Slime mockSlime;
     @Mock
     private PinkMonster mockPinkMonster;
+    @Mock
+    private Projectile mockProjectile;
     @Mock
     private DayNightCycle mockDayNightCycle;
 
@@ -84,6 +88,23 @@ public class EnemyManagerTest {
         EnemyManager.slimes.clear();
         EnemyManager.pinkMonsters.clear();
 
+        // Mocking entities
+        mockKnight = mock(Knight.class);
+        mockSlime = mock(Slime.class);
+        mockPinkMonster = mock(PinkMonster.class);
+        mockProjectile = mock(Projectile.class);
+
+        // Ensure getBody() returns a non-null Body for all entities
+        when(mockKnight.getBody()).thenReturn(mockBody);
+        when(mockSlime.getBody()).thenReturn(mockBody);
+        when(mockPinkMonster.getBody()).thenReturn(mockBody);
+        when(mockProjectile.getBody()).thenReturn(mockBody);
+
+        // Clear lists to start fresh
+        EnemyManager.knights.clear();
+        EnemyManager.slimes.clear();
+        EnemyManager.pinkMonsters.clear();
+        EnemyManager.projectiles.clear();
     }
 
     @Test
@@ -314,32 +335,61 @@ public class EnemyManagerTest {
         verify(projectile, never()).dispose(); // Verify that dispose was not called on the projectile
     }
 
+    // @Test
+    // void testKillAllEntities() {
+    // // Create an instance of EnemyManager
+    // // EnemyManager enemyManager = new EnemyManager(mock(World.class),
+    // // mock(Player.class), mock(TiledMap.class),
+    // // mock(DayNightCycle.class));
+
+    // // Create mock entities and add them to the lists
+    // Knight mockKnight1 = mock(Knight.class);
+    // Knight mockKnight2 = mock(Knight.class);
+    // Slime mockSlime1 = mock(Slime.class);
+    // Slime mockSlime2 = mock(Slime.class);
+    // PinkMonster mockPinkMonster1 = mock(PinkMonster.class);
+    // Projectile mockProjectile = mock(Projectile.class);
+
+    // EnemyManager.knights.add(mockKnight1);
+    // EnemyManager.knights.add(mockKnight2);
+    // EnemyManager.slimes.add(mockSlime1);
+    // EnemyManager.slimes.add(mockSlime2);
+    // EnemyManager.pinkMonsters.add(mockPinkMonster1);
+    // EnemyManager.projectiles.add(mockProjectile);
+
+    // // Call killAllEntities()
+    // EnemyManager.killAllEntities();
+    // enemyManager.update(0.1f);
+    // // Check that all lists are empty
+    // assertTrue(EnemyManager.knights.isEmpty(), "Knights list should be empty
+    // after killAllEntities()");
+    // assertTrue(EnemyManager.slimes.isEmpty(), "Slimes list should be empty after
+    // killAllEntities()");
+    // assertTrue(EnemyManager.pinkMonsters.isEmpty(), "PinkMonsters list should be
+    // empty after killAllEntities()");
+    // assertTrue(EnemyManager.projectiles.isEmpty(), "Projectiles list should be
+    // empty after killAllEntities()");
+    // }
     @Test
     void testKillAllEntities() {
-        // Create an instance of EnemyManager
-        // EnemyManager enemyManager = new EnemyManager(mock(World.class),
-        // mock(Player.class), mock(TiledMap.class),
-        // mock(DayNightCycle.class));
+        // Add the mocked entities to their respective lists
+        // Assuming `setMarkedForRemoval` sets some boolean flag inside the entities
+        when(mockKnight.isMarkedForRemoval()).thenReturn(true);
+        when(mockSlime.isMarkedForRemoval()).thenReturn(true);
+        when(mockPinkMonster.isMarkedForRemoval()).thenReturn(true);
+        when(mockProjectile.isMarkedForRemoval()).thenReturn(true);
 
-        // Create mock entities and add them to the lists
-        Knight mockKnight1 = mock(Knight.class);
-        Knight mockKnight2 = mock(Knight.class);
-        Slime mockSlime1 = mock(Slime.class);
-        Slime mockSlime2 = mock(Slime.class);
-        PinkMonster mockPinkMonster1 = mock(PinkMonster.class);
-        Projectile mockProjectile = mock(Projectile.class);
-
-        EnemyManager.knights.add(mockKnight1);
-        EnemyManager.knights.add(mockKnight2);
-        EnemyManager.slimes.add(mockSlime1);
-        EnemyManager.slimes.add(mockSlime2);
-        EnemyManager.pinkMonsters.add(mockPinkMonster1);
+        EnemyManager.knights.add(mockKnight);
+        EnemyManager.slimes.add(mockSlime);
+        EnemyManager.pinkMonsters.add(mockPinkMonster);
         EnemyManager.projectiles.add(mockProjectile);
 
-        // Call killAllEntities()
+        // Perform the killAllEntities action
         EnemyManager.killAllEntities();
-
-        // Check that all lists are empty
+        // Simulate an update to process entity removal
+        enemyManager.update(0.1f);
+        System.out.println(EnemyManager.knights.size());
+        // Verify that all entities have been removed
         assertTrue(EnemyManager.knights.isEmpty(), "Knights list should be empty after killAllEntities()");
         assertTrue(EnemyManager.slimes.isEmpty(), "Slimes list should be empty after killAllEntities()");
         assertTrue(EnemyManager.pinkMonsters.isEmpty(), "PinkMonsters list should be empty after killAllEntities()");

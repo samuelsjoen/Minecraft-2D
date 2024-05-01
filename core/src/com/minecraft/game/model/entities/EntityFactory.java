@@ -6,7 +6,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Factory class for creating game entities.
+ * This class uses a functional programming style to map entity types to their
+ * respective constructors,
+ * allowing for flexible creation of various game entity types based on runtime
+ * parameters.
+ *
+ * <p>
+ * Entity creation is centralized in this factory to decouple the instantiation
+ * logic and to facilitate
+ * easy management of entity creation throughout the game.
+ * </p>
+ */
+
 public class EntityFactory {
+    /**
+     * Maps entity type names to their corresponding constructor functions.
+     */
 
     private static final Map<String, Function<EntityParams, GameEntity>> entityCreators = new HashMap<>();
 
@@ -30,6 +47,15 @@ public class EntityFactory {
         });
     }
 
+    /**
+     * Creates a game entity of the specified type with the provided parameters.
+     *
+     * @param type   the type of the entity to create, as a string.
+     * @param params the parameters necessary for creating the entity, encapsulated
+     *               in an {@link EntityParams} object.
+     * @return the created {@link GameEntity} instance.
+     * @throws IllegalArgumentException if the entity type is unknown.
+     */
     public static GameEntity createEntity(String type, EntityParams params) {
         Function<EntityParams, GameEntity> creator = entityCreators.get(type);
         if (creator != null) {
