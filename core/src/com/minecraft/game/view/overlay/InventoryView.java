@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.items.Inventory;
 import com.minecraft.game.model.items.Item;
+import java.util.HashMap;
 
 public class InventoryView implements IOverlay {
     private final Inventory inventory;
@@ -21,8 +22,8 @@ public class InventoryView implements IOverlay {
     private float yItem;
     private float xDescription;
     private float yDescription;
-
     private final float invJump;
+    private HashMap<Item, Texture> textureMap;
 
     public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font) {
         this.inventory = inventory;
@@ -31,6 +32,7 @@ public class InventoryView implements IOverlay {
         this.font = new BitmapFont();
         this.batch = batch;
         this.invJump = 40;
+        this.textureMap = new HashMap<>();
     }
 
     public void render() {
@@ -43,7 +45,11 @@ public class InventoryView implements IOverlay {
     private void renderItems() {
         int iteration = 0;
         for (Item item : inventory.getInventory().keySet()) {
-            Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+            Texture itemTexture = textureMap.get(item);
+            if (itemTexture == null) {
+                itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+                textureMap.put(item, itemTexture);
+            }
             batch.draw(itemTexture, xItem + (iteration * invJump), yItem, 23, 23);
             font.draw(batch, Integer.toString(inventory.getAmount(item)), xItem + (iteration * invJump),
                     yInventory + 35);
@@ -76,5 +82,12 @@ public class InventoryView implements IOverlay {
     public void dispose() {
         inventorySprite.dispose();
         selectedItem.dispose();
+        disposeItemTextures();
+    }
+
+    private void disposeItemTextures() {
+        for (Texture texture : textureMap.values()) {
+            texture.dispose();
+        }
     }
 }
