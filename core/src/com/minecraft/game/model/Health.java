@@ -1,7 +1,7 @@
 package com.minecraft.game.model;
 
-import com.minecraft.game.model.crafting.ArmorInventory;
-import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.items.ArmorInventory;
+import com.minecraft.game.model.items.Item;
 
 public class Health {
     private int currentHealth;
@@ -19,10 +19,14 @@ public class Health {
         this.alive = true;
     }
 
+    /** Returns the current health */
     public int getHealth() {
         return currentHealth;
     }
 
+    /** Sets the health of the player
+     * @param health the health to set
+     */
     private void setHealth(int health) {
         if (health <= maxHealth) {
             currentHealth = health;
@@ -31,6 +35,9 @@ public class Health {
         }
     }
 
+    /** Damages the player
+     * @param damage the amount of damage to deal
+     */
     public void damage(int damage) {
         if (armorHealth > 0) {
             Item armorPiece = armorInventory.getNextBreakableArmorItem();
@@ -52,6 +59,9 @@ public class Health {
         }
     }
 
+    /** Heals the player
+     * @param heal the amount of health to heal
+     */
     public void heal(int heal) {
         if (isAlive()) {
             if (currentHealth + heal >= maxHealth) {
@@ -62,6 +72,7 @@ public class Health {
         }
     }
 
+    /** Revives the player */
     public void revive() {
         if (!isAlive()) {
             alive = true;
@@ -69,14 +80,19 @@ public class Health {
         }
     }
 
+    /** Returns whether the player is alive */
     public boolean isAlive() {
         return alive;
     }
 
+    /** Returns the current armor health */
     public int getArmorHealth() {
         return armorHealth;
     }
 
+    /** Sets the armor health of the player
+     * @param health the health to set
+     */
     public void setArmorHealth(int health) {
         if (armorHealth <= maxArmorHealth) {
             armorHealth = health;
@@ -85,6 +101,7 @@ public class Health {
         }
     }
 
+    /** Initilizes the armor inventory */
     public void setArmorInventory(ArmorInventory armorInventory) {
         this.armorInventory = armorInventory;
     }

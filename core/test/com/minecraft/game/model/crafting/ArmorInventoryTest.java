@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.minecraft.game.model.Health;
+import com.minecraft.game.model.items.ArmorInventory;
+import com.minecraft.game.model.items.Item;
 
 public class ArmorInventoryTest {
 

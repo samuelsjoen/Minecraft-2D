@@ -31,10 +31,10 @@ public class EntityRenderer implements Disposable {
         // Initialize renderers
         this.batch = batch;
         this.entityModel = entityModel;
-        knightRenderer = new KnightRenderer();
-        slimeRenderer = new SlimeRenderer();
-        pinkMonsterRenderer = new PinkMonsterRenderer();
-        projectileRenderer = new ProjectileRenderer();
+        knightRenderer = new KnightRenderer(batch);
+        slimeRenderer = new SlimeRenderer(batch);
+        pinkMonsterRenderer = new PinkMonsterRenderer(batch);
+        projectileRenderer = new ProjectileRenderer(batch);
     }
 
     /**
@@ -44,20 +44,24 @@ public class EntityRenderer implements Disposable {
     public void renderAllEntities() {
 
         for (Projectile projectile : entityModel.getProjectiles()) {
-            projectileRenderer.render(projectile, batch);
+            projectileRenderer.render(projectile);
         }
 
         for (Knight knight : entityModel.getKnights()) {
-            knightRenderer.render(knight, batch);
+            knightRenderer.render(knight);
         }
         for (Slime slime : entityModel.getSlimes()) {
-            slimeRenderer.render(slime, batch);
+            slimeRenderer.render(slime);
         }
         for (PinkMonster pinkMonster : entityModel.getPinkMonsters()) {
-            pinkMonsterRenderer.render(pinkMonster, batch);
+            pinkMonsterRenderer.render(pinkMonster);
         }
     }
 
+    /**
+     * Disposes of resources used by this renderer. It ensures all individual
+     * entity renderers are also disposed of properly, freeing up graphic resources.
+     */
     @Override
     public void dispose() {
         knightRenderer.dispose();

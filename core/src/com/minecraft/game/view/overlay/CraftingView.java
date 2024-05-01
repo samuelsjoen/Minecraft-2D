@@ -5,15 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.minecraft.game.model.crafting.Crafting;
-import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Item;
 
-public class CraftingView {
+public class CraftingView implements IOverlay {
     private final Crafting crafting;
-    final Texture craftingSprite;
-    final Texture selectedItem;
-    final BitmapFont font;
-    final SpriteBatch batch;
+    private final Texture craftingSprite;
+    private final Texture selectedItem;
+    private final BitmapFont font;
+    private final SpriteBatch batch;
     private final int jump;
 
     private float xCrafting;

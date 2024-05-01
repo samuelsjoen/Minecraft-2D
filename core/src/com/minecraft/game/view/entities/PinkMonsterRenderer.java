@@ -4,20 +4,36 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
-import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.IViewableEntityModel;
 import com.minecraft.game.utils.Constants;
 
-public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
+/**
+ * Responsible for rendering the Pink Monster entity using various animations.
+ * This class manages the animations for different states of the Pink Monster
+ * such as idle, running,
+ * attacking, attacking2, and dead. It chooses the appropriate animation based
+ * on the Pink Monster's current state
+ * and renders it at the Pink Monster's position on the screen.
+ */
+public class PinkMonsterRenderer {
     private Animation<TextureRegion> idleAnimation, runningAnimation, attackAnimation, attack2Animation, deadAnimation;
     private Texture sheet;
+    private SpriteBatch batch;
     TextureRegion[] attackFrames = new TextureRegion[6];
     TextureRegion[] attack2Frames = new TextureRegion[4];
     TextureRegion[] deadFrames = new TextureRegion[8];
     TextureRegion[] idleFrames = new TextureRegion[4];
     TextureRegion[] runFrames = new TextureRegion[6];
 
-    public PinkMonsterRenderer() {
-        sheet = new Texture("Pink_Monster.png");
+    /**
+     * Constructs a PinkMonsterRenderer with a provided SpriteBatch.
+     * Initializes all animations used for the Pink Monster.
+     *
+     * @param batch The SpriteBatch used to draw the Pink Monster's animations.
+     */
+    public PinkMonsterRenderer(SpriteBatch batch) {
+        sheet = new Texture("assets/Pink_Monster.png");
+        this.batch = batch;
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 8, sheet.getHeight() / 14);
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = splitFrames[2][i];
@@ -42,8 +58,15 @@ public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
 
     }
 
-    @Override
-    public void render(PinkMonster pinkMonster, SpriteBatch batch) {
+    /**
+     * Renders the Pink Monster based on its current state and position.
+     * Chooses and applies the correct animation and adjusts the sprite based on the
+     * Pink Monster's direction.
+     *
+     * @param pinkMonster The Pink Monster entity to be rendered, which implements
+     *                    the IViewableEntityModel interface.
+     */
+    public void render(IViewableEntityModel pinkMonster) {
         Animation<TextureRegion> currentAnimation = getCurrentAnimation(pinkMonster);
 
         TextureRegion currentFrame;
@@ -56,10 +79,10 @@ public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
         } else
             currentFrame = currentAnimation.getKeyFrame(pinkMonster.getStateTime(), true);
 
-        float posX = pinkMonster.getBody().getPosition().x * Constants.PPM;
-        float posY = pinkMonster.getBody().getPosition().y * Constants.PPM;
-        float spriteWidth = pinkMonster.width / 2 / Constants.PPM * 330;
-        float spriteHeight = pinkMonster.height / 4 / Constants.PPM * 270;
+        float posX = pinkMonster.getPosition().x * Constants.PPM;
+        float posY = pinkMonster.getPosition().y * Constants.PPM;
+        float spriteWidth = pinkMonster.getWidth() / 2 / Constants.PPM * 330;
+        float spriteHeight = pinkMonster.getHeight() / 4 / Constants.PPM * 270;
 
         // Flip texture region based on knight direction
         if ((pinkMonster.isFacingRight() && currentFrame.isFlipX())
@@ -79,7 +102,13 @@ public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
 
     }
 
-    private Animation<TextureRegion> getCurrentAnimation(PinkMonster pinkMonster) {
+    /**
+     * Determines the current animation for the Pink Monster based on its state.
+     *
+     * @param pinkMonster The Pink Monster entity.
+     * @return The current animation based on the Pink Monster's state.
+     */
+    private Animation<TextureRegion> getCurrentAnimation(IViewableEntityModel pinkMonster) {
         switch (pinkMonster.getCurrentState()) {
             case IDLE:
                 return idleAnimation;
@@ -87,19 +116,19 @@ public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
                 return runningAnimation;
             case ATTACKING:
                 if (getCurrentAtkIndex(pinkMonster) == 3 || getCurrentAtkIndex(pinkMonster) == 5) {
-                    pinkMonster.setAttackFrameTrue();
+                    pinkMonster.setAttackFrame(true);
                 } else
-                    pinkMonster.setAttackFrameFalse();
+                    pinkMonster.setAttackFrame(false);
                 return attackAnimation;
             case ATTACKING2:
                 if (getCurrentAtk2Index(pinkMonster) == 3) {
-                    pinkMonster.setAttackFrameTrue();
+                    pinkMonster.setAttackFrame(true);
                 } else
-                    pinkMonster.setAttackFrameFalse();
+                    pinkMonster.setAttackFrame(false);
                 return attack2Animation;
             case DEAD:
                 if (deadAnimation.isAnimationFinished(pinkMonster.getDeadStateTime())) {
-                    pinkMonster.setMarkedForRemoval();
+                    pinkMonster.setMarkedForRemoval(true);
                 }
                 return deadAnimation;
             default:
@@ -107,18 +136,21 @@ public class PinkMonsterRenderer implements IEntityRenderer<PinkMonster> {
         }
     }
 
-    private int getCurrentAtkIndex(PinkMonster pinkMonster) {
+    private int getCurrentAtkIndex(IViewableEntityModel pinkMonster) {
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (pinkMonster.getStateTime() / frameDuration) % 6;
         return currentFrameIndex;
     }
 
-    private int getCurrentAtk2Index(PinkMonster pinkMonster) {
+    private int getCurrentAtk2Index(IViewableEntityModel pinkMonster) {
         float frameDuration = attack2Animation.getFrameDuration();
         int currentFrameIndex = (int) (pinkMonster.getAttack2StateTime() / frameDuration) % 4;
         return currentFrameIndex;
     }
 
+    /**
+     * Disposes of the texture resources used by this renderer.
+     */
     public void dispose() {
         sheet.dispose();
     }

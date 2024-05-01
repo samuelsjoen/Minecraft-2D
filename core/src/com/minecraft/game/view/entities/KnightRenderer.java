@@ -4,18 +4,34 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
-import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.IViewableEntityModel;
 import com.minecraft.game.utils.Constants;
 
-public class KnightRenderer implements IEntityRenderer<Knight> {
+/**
+ * Responsible for rendering the Knight entity using various animations.
+ * This class manages the animations for different states of the Knight such as
+ * idle, running,
+ * attacking, and dead. It chooses the appropriate animation based on the
+ * Knight's current state
+ * and renders it at the Knight's position on the screen.
+ */
+public class KnightRenderer {
+    private SpriteBatch batch;
     private Animation<TextureRegion> idleAnimation, runningAnimation;
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> deadAnimation;
     private Texture sheet;
     TextureRegion[] attackFrames = new TextureRegion[6];
 
-    public KnightRenderer() {
-        sheet = new Texture("enemyKnight.png");
+    /**
+     * Constructs a KnightRenderer with a provided SpriteBatch.
+     * Initializes all animations used for the Knight.
+     *
+     * @param batch The SpriteBatch used to draw the Knight's animations.
+     */
+    public KnightRenderer(SpriteBatch batch) {
+        this.batch = batch;
+        sheet = new Texture("assets/enemyKnight.png");
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 10, sheet.getHeight() / 4);
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = splitFrames[0][i];
@@ -26,8 +42,15 @@ public class KnightRenderer implements IEntityRenderer<Knight> {
         deadAnimation = new Animation<>(0.1f, splitFrames[1]);
     }
 
-    @Override
-    public void render(Knight knight, SpriteBatch batch) {
+    /**
+     * Renders the Knight based on its current state and position.
+     * Chooses and applies the correct animation and adjusts the sprite based on the
+     * Knight's direction.
+     *
+     * @param knight The Knight entity to be rendered, which implements the
+     *               IViewableEntityModel interface.
+     */
+    public void render(IViewableEntityModel knight) {
         Animation<TextureRegion> currentAnimation = getCurrentAnimation(knight);
 
         TextureRegion currentFrame;
@@ -37,10 +60,10 @@ public class KnightRenderer implements IEntityRenderer<Knight> {
         } else
             currentFrame = currentAnimation.getKeyFrame(knight.getStateTime(), true);
 
-        float posX = knight.getBody().getPosition().x * Constants.PPM;
-        float posY = knight.getBody().getPosition().y * Constants.PPM;
-        float spriteWidth = knight.width / 2 / Constants.PPM * 330;
-        float spriteHeight = knight.height / 4 / Constants.PPM * 270;
+        float posX = knight.getPosition().x * Constants.PPM;
+        float posY = knight.getPosition().y * Constants.PPM;
+        float spriteWidth = knight.getWidth() / 2 / Constants.PPM * 330;
+        float spriteHeight = knight.getHeight() / 4 / Constants.PPM * 270;
 
         // Flip texture region based on knight direction
         if ((knight.isFacingRight() && currentFrame.isFlipX())
@@ -60,7 +83,13 @@ public class KnightRenderer implements IEntityRenderer<Knight> {
 
     }
 
-    private Animation<TextureRegion> getCurrentAnimation(Knight knight) {
+    /**
+     * Determines the current animation for the Knight based on its state.
+     *
+     * @param knight The Knight entity.
+     * @return The current animation based on the Knight's state.
+     */
+    private Animation<TextureRegion> getCurrentAnimation(IViewableEntityModel knight) {
         switch (knight.getCurrentState()) {
             case IDLE:
                 return idleAnimation;
@@ -68,13 +97,13 @@ public class KnightRenderer implements IEntityRenderer<Knight> {
                 return runningAnimation;
             case ATTACKING:
                 if (getCurrentAtkIndex(knight) == 2) {
-                    knight.setAttackFrameTrue();
+                    knight.setAttackFrame(true);
                 } else
-                    knight.setAttackFrameFalse();
+                    knight.setAttackFrame(false);
                 return attackAnimation;
             case DEAD:
                 if (deadAnimation.isAnimationFinished(knight.getDeadStateTime())) {
-                    knight.setMarkedForRemoval();
+                    knight.setMarkedForRemoval(true);
                 }
                 return deadAnimation;
             default:
@@ -82,12 +111,15 @@ public class KnightRenderer implements IEntityRenderer<Knight> {
         }
     }
 
-    private int getCurrentAtkIndex(Knight knight) {
+    private int getCurrentAtkIndex(IViewableEntityModel knight) {
         float frameDuration = attackAnimation.getFrameDuration();
         int currentFrameIndex = (int) (knight.getStateTime() / frameDuration) % 6;
         return currentFrameIndex;
     }
 
+    /**
+     * Disposes of the texture resources used by this renderer.
+     */
     public void dispose() {
         sheet.dispose();
     }

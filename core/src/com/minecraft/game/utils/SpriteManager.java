@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Disposable;
 import com.minecraft.game.model.Player;
 import com.minecraft.game.model.Player.State;
-import com.minecraft.game.model.crafting.ArmorInventory;
-import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.crafting.ItemType;
+import com.minecraft.game.model.items.ArmorInventory;
+import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.items.Item;
+import com.minecraft.game.model.items.ItemType;
 
 import java.util.HashMap;
 import java.util.ArrayList;

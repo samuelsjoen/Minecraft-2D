@@ -3,11 +3,11 @@ package com.minecraft.game.model;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.minecraft.game.model.Player.State;
-import com.minecraft.game.model.crafting.Inventory;
-import com.minecraft.game.model.crafting.Item;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
 import com.minecraft.game.model.entities.Slime;
+import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.items.Item;
 import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.SpriteManager;
 

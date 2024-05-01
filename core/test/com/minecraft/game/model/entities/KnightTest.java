@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -54,7 +55,7 @@ class KnightTest {
     void knightShouldTransitionToDeadStateWhenHealthDepletes() {
         knight.getHit(4);
         knight.update(0.1f);
-        assertEquals(Knight.State.DEAD, knight.getCurrentState(), "Knight should transition to DEAD state");
+        assertEquals(State.DEAD, knight.getCurrentState(), "Knight should transition to DEAD state");
     }
 
     @Test
@@ -73,7 +74,7 @@ class KnightTest {
         // Place player close enough to trigger attacking state
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to the knight
         knight.update(0.1f);
-        assertEquals(Knight.State.ATTACKING, knight.getCurrentState(), "Knight should transition to ATTACKING state");
+        assertEquals(State.ATTACKING, knight.getCurrentState(), "Knight should transition to ATTACKING state");
     }
 
     @Test
@@ -103,17 +104,17 @@ class KnightTest {
         // Place player far enough from the knight
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(50f, 5.0f)); // Far from the slime
         knight.update(0.1f);
-        assertEquals(Knight.State.IDLE, knight.getCurrentState(), "Knight should transition to ATTACKING state");
+        assertEquals(State.IDLE, knight.getCurrentState(), "Knight should transition to ATTACKING state");
 
         // Place player close enought to trigger running state of the knight
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(10f, 5.0f)); // Close to attack
         knight.update(0.1f);
-        assertEquals(Knight.State.RUNNING, knight.getCurrentState(), "Knight should transition to ATTACKING state");
+        assertEquals(State.RUNNING, knight.getCurrentState(), "Knight should transition to ATTACKING state");
 
         // Place player close enough from the knight
         when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(5.0f, 5.0f)); // Close to run
         knight.update(0.1f);
-        assertEquals(Knight.State.ATTACKING, knight.getCurrentState(), "Knight should transition to ATTACKING state");
+        assertEquals(State.ATTACKING, knight.getCurrentState(), "Knight should transition to ATTACKING state");
     }
 
     @Test
@@ -149,4 +150,46 @@ class KnightTest {
         knight.update(0.1f);
         verify(mockBody).applyLinearImpulse(new Vector2(0, 150), mockBody.getWorldCenter(), true);
     }
+
+    @Test
+    void testSetAttackFrame() {
+        knight.setAttackFrame(true);
+        assertTrue(knight.AttackFrame(), "Attack frame should be true after being set to true");
+
+        knight.setAttackFrame(false);
+        assertFalse(knight.AttackFrame(), "Attack frame should be false after being set to false");
+    }
+
+    @Test
+    void testSetMarkedForRemoval() {
+        assertFalse(knight.isMarkedForRemoval(), "Initially knight should not be marked for removal");
+        knight.setMarkedForRemoval(true);
+        assertTrue(knight.isMarkedForRemoval(), "Knight should be marked for removal after being set to true");
+
+        knight.setMarkedForRemoval(false);
+        assertFalse(knight.isMarkedForRemoval(), "Knight should not be marked for removal after being set to false");
+    }
+
+    @Test
+    void testGetPosition() {
+        Vector2 position = knight.getPosition();
+        assertEquals(5.0f, position.x, "X position should match the mocked body position");
+        assertEquals(5.0f, position.y, "Y position should match the mocked body position");
+    }
+
+    @Test
+    void testGetWidth() {
+        assertEquals(1.0f, knight.getWidth(), "Width should match the width set in the constructor");
+    }
+
+    @Test
+    void testGetHeight() {
+        assertEquals(1.0f, knight.getHeight(), "Height should match the height set in the constructor");
+    }
+
+    @Test
+    void testGetAttack2StateTime() {
+        assertEquals(0.0f, knight.getAttack2StateTime(), "Attack2StateTime should return 0 as it is not implemented");
+    }
+
 }

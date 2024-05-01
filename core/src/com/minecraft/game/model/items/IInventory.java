@@ -1,8 +1,8 @@
-package com.minecraft.game.model.crafting;
+package com.minecraft.game.model.items;
 
 import java.util.LinkedHashMap;
 
-public interface InventoryInterface {
+public interface IInventory {
     /** Adds item to the inventory
      * @param item item to add
      */

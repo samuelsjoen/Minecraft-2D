@@ -1,8 +1,8 @@
-package com.minecraft.game.model.crafting;
+package com.minecraft.game.model.items;
 
 import java.util.LinkedHashMap;
 
-public class Inventory implements InventoryInterface {
+public class Inventory implements IInventory {
     private LinkedHashMap<Item, Integer> items;
     private LinkedHashMap<Item, Integer> armorInventory;
     private int maxItemSlots;

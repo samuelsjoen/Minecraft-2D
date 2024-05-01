@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import com.minecraft.game.model.crafting.Item;
-//import com.minecraft.game.model.crafting.ItemMaterial;
+import com.minecraft.game.model.items.Item;
 
 public class TileTypeTest {
 

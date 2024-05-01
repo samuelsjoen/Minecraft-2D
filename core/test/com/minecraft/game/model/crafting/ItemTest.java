@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import com.minecraft.game.model.items.Item;
+import com.minecraft.game.model.items.ItemMaterial;
+import com.minecraft.game.model.items.ItemType;
+
 public class ItemTest {
     @Test
     void testItemInitialization() {

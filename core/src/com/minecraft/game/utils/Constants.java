@@ -1,7 +1,7 @@
 package com.minecraft.game.utils;
 
 import com.badlogic.gdx.Input.Keys;
-import com.minecraft.game.model.crafting.Item;
+import com.minecraft.game.model.items.Item;
 
 public class Constants {
     // Screen dimensions
@@ -67,77 +67,5 @@ public class Constants {
 
     // Inventory
     public static final Item[] DEFAULT_ITEMS = new Item[] {
-        /*Item.DIRT,
-        Item.DIAMOND_PICKAXE,
-        Item.WOODEN_PICKAXE,
-        Item.WOODEN_PICKAXE,
-        Item.WOODEN_PICKAXE,
-        Item.WOODEN_PICKAXE,
-        Item.WOODEN_PICKAXE,
-        Item.WOODEN_PICKAXE,
-        Item.STONE_SNOW,
-        // Item.WOODEN_SWORD,
-        // Item.IRON_SWORD,
-        // Item.DIAMOND_SWORD,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        Item.IRON_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,
-        // Item.DIAMOND_ORE,*/
-
     };
 }

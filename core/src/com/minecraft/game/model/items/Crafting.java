@@ -1,4 +1,4 @@
-package com.minecraft.game.model.crafting;
+package com.minecraft.game.model.items;
 
 import java.util.HashMap;
 

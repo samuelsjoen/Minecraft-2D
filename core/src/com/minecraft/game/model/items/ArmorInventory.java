@@ -1,11 +1,11 @@
-package com.minecraft.game.model.crafting;
+package com.minecraft.game.model.items;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import com.minecraft.game.model.Health;
 
-public class ArmorInventory implements InventoryInterface {
+public class ArmorInventory implements IInventory {
     private LinkedHashMap<Item, Integer> armorInventory;
     private Health health;
 
@@ -36,6 +36,30 @@ public class ArmorInventory implements InventoryInterface {
 
     public boolean contains(Item item) {
         return armorInventory.containsKey(item);
+    }
+
+    /**
+     * Remove the next breakable armor item from the inventory
+     */
+    public void removeItem() {
+        armorInventory.remove(getNextBreakableArmorItem());
+    }
+
+    public void removeItem(Item item) {
+        armorInventory.remove(item);
+    }
+
+    /**
+     * Damage the next breakable armor item
+     * @param damage the amount of damage to deal
+     */
+    public void damageArmor(int damage) {
+        Item item = getNextBreakableArmorItem();
+        armorInventory.put(item, getArmorPieceHealth(item) - damage);
+    }
+
+    public LinkedHashMap<Item, Integer> getInventory() {
+        return armorInventory;
     }
 
     /**
@@ -74,27 +98,4 @@ public class ArmorInventory implements InventoryInterface {
         return health;
     }
 
-    /**
-     * Remove the next breakable armor item from the inventory
-     */
-    public void removeItem() {
-        armorInventory.remove(getNextBreakableArmorItem());
-    }
-
-    public void removeItem(Item item) {
-        armorInventory.remove(item);
-    }
-
-    /**
-     * Damage the next breakable armor item
-     * @param damage the amount of damage to deal
-     */
-    public void damageArmor(int damage) {
-        Item item = getNextBreakableArmorItem();
-        armorInventory.put(item, getArmorPieceHealth(item) - damage);
-    }
-
-    public LinkedHashMap<Item, Integer> getInventory() {
-        return armorInventory;
-    }
 }

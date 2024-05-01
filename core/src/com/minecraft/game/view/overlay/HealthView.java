@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.Health;
 
-public class HealthView {
+public class HealthView implements IOverlay {
     private final Health health;
-    final Texture healthBarSheet;
-    final Texture armorHealthSheet;
-    final SpriteBatch batch;
+    private final Texture healthBarSheet;
+    private final Texture armorHealthSheet;
+    private final SpriteBatch batch;
     private final TextureRegion[][] splitHealthFrames;
     private final TextureRegion[][] splitArmorFrames;
     

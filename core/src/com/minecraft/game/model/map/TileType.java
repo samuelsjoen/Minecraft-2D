@@ -2,8 +2,8 @@ package com.minecraft.game.model.map;
 
 import java.util.HashMap;
 
-import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.crafting.ItemMaterial;
+import com.minecraft.game.model.items.Item;
+import com.minecraft.game.model.items.ItemMaterial;
 
 /**
  * Represents the types of tiles in the game.

@@ -1,4 +1,4 @@
-package com.minecraft.game.model.crafting;
+package com.minecraft.game.model.items;
 
 public enum ItemMaterial {
     WOOD, STONE, IRON, DIAMOND;
