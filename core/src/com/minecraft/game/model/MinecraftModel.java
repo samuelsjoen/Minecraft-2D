@@ -53,7 +53,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.gameState = GameState.WELCOME_SCREEN;
 
         this.mapRenderer = map.setupMap("map/minecraftMap-64.tmx");
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.inventory = new Inventory(Constants.DEMO_ITEMS);
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
         playerHealth.setArmorInventory(armorInventory);
