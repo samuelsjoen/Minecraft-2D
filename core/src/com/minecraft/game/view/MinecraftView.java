@@ -62,7 +62,7 @@ public class MinecraftView implements Disposable {
         gameScreen = new GameScreen(game.camera, viewableMinecraftModel, this, spriteBatch);
         updateScreen();
     }
-
+    
     public void updateScreen() {
         CursorUtils.setCursorPixmap("assets/default_cursor.png");
         if (viewableMinecraftModel.getGameState() == GameState.WELCOME_SCREEN){

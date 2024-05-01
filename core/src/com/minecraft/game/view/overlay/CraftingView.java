@@ -62,7 +62,6 @@ public class CraftingView implements IOverlay {
         }
     }
 
-
     private void renderCraftableItems() {
         Item[][] craftableItems = crafting.getCraftableItems();
         for (int row = 0; row < 5; row++) {
@@ -83,7 +82,8 @@ public class CraftingView implements IOverlay {
         int selectedCol = crafting.getSelectedCol();
         float x = xCrafting + 17 + (selectedCol * jump);
         float y = yCrafting + 176 - (selectedRow * jump);
-        batch.draw(selectedItem, x, y);}
+        batch.draw(selectedItem, x, y);
+    }
 
     private void renderPotentialItem() {
         Item item = crafting.getSelectedItem();
@@ -93,7 +93,7 @@ public class CraftingView implements IOverlay {
         }
     }
 
-    public void update(Vector2 lowerLeftCorner) {        
+    public void update(Vector2 lowerLeftCorner) {
         xCrafting = lowerLeftCorner.x + 820;
         yCrafting = lowerLeftCorner.y + 240;
         xItem = xCrafting + 62;
@@ -105,7 +105,8 @@ public class CraftingView implements IOverlay {
     private void renderSelectedItemText() {
         Item item = crafting.getSelectedItem();
         if (item != null) {
-        font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }
+            font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription);
+        }
     }
 
     public void dispose() {

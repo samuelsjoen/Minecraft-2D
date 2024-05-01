@@ -14,7 +14,6 @@ public class HealthView implements IOverlay {
     private final SpriteBatch batch;
     private final TextureRegion[][] splitHealthFrames;
     private final TextureRegion[][] splitArmorFrames;
-    
 
     private float xHealth;
     private float yHealth;

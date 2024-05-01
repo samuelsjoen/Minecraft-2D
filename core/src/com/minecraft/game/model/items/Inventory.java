@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 public class Inventory implements IInventory {
     private LinkedHashMap<Item, Integer> items;
     private LinkedHashMap<Item, Integer> armorInventory;
-    private int maxItemSlots;
+    private final int maxItemSlots;
     private int currentSlot;
 
     public Inventory(Item[] defaultItems) {
@@ -32,7 +32,8 @@ public class Inventory implements IInventory {
 
     /**
      * Add an item to the inventory with a specified quantity
-     * @param item the item to add
+     * 
+     * @param item     the item to add
      * @param quantity the quantity of the item to add
      */
     public void addItem(Item item, int quantity) {
@@ -58,6 +59,7 @@ public class Inventory implements IInventory {
 
     /**
      * Checks if an item is armor
+     * 
      * @param item the item to check
      */
     public boolean isArmor(Item item) {
@@ -72,7 +74,8 @@ public class Inventory implements IInventory {
 
     /**
      * Remove an item from the inventory
-     * @param name the item to remove
+     * 
+     * @param name     the item to remove
      * @param quantity the quantity of the item to remove
      */
     public void removeItem(Item name, int quantity) {
@@ -89,11 +92,12 @@ public class Inventory implements IInventory {
     }
 
     private boolean isFull() {
-        return items.size() >= maxItemSlots+1;
+        return items.size() >= maxItemSlots + 1;
     }
 
     /**
      * Change the current slot
+     * 
      * @param slot amount to change the slot by
      */
     public void changeSlot(int slot) {
@@ -120,6 +124,7 @@ public class Inventory implements IInventory {
 
     /**
      * Get the item in the currently selected slot
+     * 
      * @return the item in the currently selected slot
      */
     public Item getSelectedItem() {
@@ -131,7 +136,9 @@ public class Inventory implements IInventory {
 
     /**
      * Get the size of the inventory
-     * @return the amount of unique items in the inventory, i.e currently occupied slots
+     * 
+     * @return the amount of unique items in the inventory, i.e currently occupied
+     *         slots
      */
     public int getSize() {
         return items.size();
@@ -143,6 +150,7 @@ public class Inventory implements IInventory {
 
     /**
      * Get the amount of a specific item in the inventory
+     * 
      * @param item
      * @return the amount of the item in the inventory
      */

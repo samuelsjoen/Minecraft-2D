@@ -5,9 +5,9 @@ import com.minecraft.game.model.items.Item;
 
 public class Health {
     private int currentHealth;
-    private int maxHealth;
+    private final int maxHealth;
     private int armorHealth;
-    private int maxArmorHealth;
+    private final int maxArmorHealth;
     private boolean alive;
     private ArmorInventory armorInventory;
 
@@ -24,7 +24,9 @@ public class Health {
         return currentHealth;
     }
 
-    /** Sets the health of the player
+    /**
+     * Sets the health of the player
+     * 
      * @param health the health to set
      */
     private void setHealth(int health) {
@@ -35,7 +37,9 @@ public class Health {
         }
     }
 
-    /** Damages the player
+    /**
+     * Damages the player
+     * 
      * @param damage the amount of damage to deal
      */
     public void damage(int damage) {
@@ -55,11 +59,13 @@ public class Health {
             setHealth(0);
             alive = false;
         } else {
-            setHealth(currentHealth-damage);
+            setHealth(currentHealth - damage);
         }
     }
 
-    /** Heals the player
+    /**
+     * Heals the player
+     * 
      * @param heal the amount of health to heal
      */
     public void heal(int heal) {
@@ -90,7 +96,9 @@ public class Health {
         return armorHealth;
     }
 
-    /** Sets the armor health of the player
+    /**
+     * Sets the armor health of the player
+     * 
      * @param health the health to set
      */
     public void setArmorHealth(int health) {

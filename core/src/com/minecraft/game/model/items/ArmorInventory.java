@@ -51,6 +51,7 @@ public class ArmorInventory implements IInventory {
 
     /**
      * Damage the next breakable armor item
+     * 
      * @param damage the amount of damage to deal
      */
     public void damageArmor(int damage) {
@@ -64,6 +65,7 @@ public class ArmorInventory implements IInventory {
 
     /**
      * Get the health of an armor piece
+     * 
      * @param item to get health of
      * @return the health of the armor piece
      */
@@ -73,6 +75,7 @@ public class ArmorInventory implements IInventory {
 
     /**
      * Get the armor piece that will break next
+     * 
      * @return the armor piece that will break next
      */
     public Item getNextBreakableArmorItem() {
