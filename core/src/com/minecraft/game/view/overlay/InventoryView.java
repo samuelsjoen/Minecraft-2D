@@ -23,8 +23,8 @@ public class InventoryView implements IOverlay {
     private float yDescription;
 
     private final float invJump;
-    
-    public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font){
+
+    public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font) {
         this.inventory = inventory;
         this.inventorySprite = new Texture(Gdx.files.internal("overlay/inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
@@ -45,7 +45,8 @@ public class InventoryView implements IOverlay {
         for (Item item : inventory.getInventory().keySet()) {
             Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
             batch.draw(itemTexture, xItem + (iteration * invJump), yItem, 23, 23);
-            font.draw(batch, Integer.toString(inventory.getAmount(item)), xItem + (iteration * invJump), yInventory + 35);
+            font.draw(batch, Integer.toString(inventory.getAmount(item)), xItem + (iteration * invJump),
+                    yInventory + 35);
             iteration++;
         }
     }
@@ -57,16 +58,17 @@ public class InventoryView implements IOverlay {
     private void renderSelectedItemText() {
         Item item = inventory.getSelectedItem();
         if (item != null) {
-        font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription); }
+            font.draw(batch, item.getName() + ": " + item.getDescription(), xDescription, yDescription);
+        }
     }
 
-    public void update(Vector2 lowerLeftCorner) {        
+    public void update(Vector2 lowerLeftCorner) {
         xInventory = lowerLeftCorner.x + 840;
         yInventory = lowerLeftCorner.y + 660;
 
         xItem = xInventory + 7;
         yItem = yInventory + 7;
-        
+
         xDescription = xInventory;
         yDescription = yInventory - 10;
     }

@@ -11,7 +11,7 @@ public class Crafting {
     private Item[][] table;
     private Item[][] craftableItems;
     private HashMap<Item[][], Item> recipeTable;
-    boolean open;
+    private boolean open;
 
     public Crafting(Inventory inventory, ArmorInventory armorInventory) {
         this.inventory = inventory;
