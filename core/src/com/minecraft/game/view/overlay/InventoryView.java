@@ -23,16 +23,16 @@ public class InventoryView implements IOverlay {
     private float xDescription;
     private float yDescription;
     private final float invJump;
-    private HashMap<Item, Texture> textureMap;
+    private TextureMap textureMap;
 
-    public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font) {
+    public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font, TextureMap textureMap) {
         this.inventory = inventory;
         this.inventorySprite = new Texture(Gdx.files.internal("overlay/inventory.png"));
         this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
         this.font = new BitmapFont();
         this.batch = batch;
         this.invJump = 40;
-        this.textureMap = new HashMap<>();
+        this.textureMap = textureMap;
     }
 
     public void render() {
@@ -45,11 +45,7 @@ public class InventoryView implements IOverlay {
     private void renderItems() {
         int iteration = 0;
         for (Item item : inventory.getInventory().keySet()) {
-            Texture itemTexture = textureMap.get(item);
-            if (itemTexture == null) {
-                itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
-                textureMap.put(item, itemTexture);
-            }
+            Texture itemTexture = textureMap.getTexture(item);
             batch.draw(itemTexture, xItem + (iteration * invJump), yItem, 23, 23);
             font.draw(batch, Integer.toString(inventory.getAmount(item)), xItem + (iteration * invJump),
                     yInventory + 35);
@@ -82,12 +78,5 @@ public class InventoryView implements IOverlay {
     public void dispose() {
         inventorySprite.dispose();
         selectedItem.dispose();
-        disposeItemTextures();
-    }
-
-    private void disposeItemTextures() {
-        for (Texture texture : textureMap.values()) {
-            texture.dispose();
-        }
     }
 }

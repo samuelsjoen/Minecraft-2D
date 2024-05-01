@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Item;
+import java.util.HashMap;
 
 public class CraftingView implements IOverlay {
     private final Crafting crafting;
@@ -16,6 +17,8 @@ public class CraftingView implements IOverlay {
     private final SpriteBatch batch;
     private final int jump;
 
+    private TextureMap textureMap;
+
     private float xCrafting;
     private float yCrafting;
     private float xItem;
@@ -23,13 +26,14 @@ public class CraftingView implements IOverlay {
     private float xDescription;
     private float yDescription;
 
-    public CraftingView(Crafting crafting, SpriteBatch batch, BitmapFont font) {
+    public CraftingView(Crafting crafting, SpriteBatch batch, BitmapFont font, TextureMap textureMap) {
         this.crafting = crafting;
         this.craftingSprite = new Texture(Gdx.files.internal("overlay/crafting.png"));
         this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
         this.font = new BitmapFont();
         this.batch = batch;
         this.jump = 40;
+        this.textureMap = textureMap;
     }
 
     public void render() {
@@ -55,7 +59,7 @@ public class CraftingView implements IOverlay {
                 if (item != null) {
                     float x = xItem + (col * jump);
                     float y = yItem - (row * jump);
-                    Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+                    Texture itemTexture = textureMap.getTexture(item);
                     batch.draw(itemTexture, x, y, 30, 30);
                 }
             }
@@ -70,7 +74,7 @@ public class CraftingView implements IOverlay {
                 if (item != null) {
                     float x = xCrafting + 22 + (col * jump);
                     float y = yCrafting + 182 - (row * jump);
-                    Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+                    Texture itemTexture = textureMap.getTexture(item);
                     batch.draw(itemTexture, x, y, 30, 30);
                 }
             }
@@ -88,7 +92,7 @@ public class CraftingView implements IOverlay {
     private void renderPotentialItem() {
         Item item = crafting.getSelectedItem();
         if (item != null) {
-            Texture itemTexture = new Texture(Gdx.files.internal(item.getTexture()));
+            Texture itemTexture = textureMap.getTexture(item);
             batch.draw(itemTexture, xCrafting + 344, yCrafting + 302, 30, 30);
         }
     }

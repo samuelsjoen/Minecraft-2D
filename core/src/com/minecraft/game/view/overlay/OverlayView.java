@@ -14,11 +14,13 @@ public class OverlayView implements IOverlay {
     private final IOverlay healthView;
     private final IOverlay craftingView;
     private final IOverlay scoreView;
+    private final TextureMap textureMap;
 
     public OverlayView(Inventory inventory, Health health, Crafting crafting, Player player, SpriteBatch batch, BitmapFont font) {
-        this.inventoryView = new InventoryView(inventory, batch, font);
+        this.textureMap = new TextureMap(inventory);
+        this.inventoryView = new InventoryView(inventory, batch, font, textureMap);
         this.healthView = new HealthView(health, batch);
-        this.craftingView = new CraftingView(crafting, batch, font);
+        this.craftingView = new CraftingView(crafting, batch, font, textureMap);
         this.scoreView = new ScoreView(batch, player);
     }
 
@@ -44,6 +46,7 @@ public class OverlayView implements IOverlay {
         healthView.dispose();
         craftingView.dispose();
         scoreView.dispose();
+        textureMap.dispose();
     }
 }
 
