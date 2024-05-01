@@ -11,7 +11,7 @@ import com.minecraft.game.model.Player;
  * It uses a BitmapFont to draw the score and a SpriteBatch to render it.
  * The score is obtained from the Player object and displayed on the screen.
  */
-public class ScoreView {
+public class ScoreView implements IOverlay {
 
     private BitmapFont font;    // the font used for rendering
     private SpriteBatch batch;  // the SpriteBatch used for rendering
@@ -33,33 +33,24 @@ public class ScoreView {
         this.player = player;
 
         this.font = new BitmapFont();
-        this.font.setColor(Color.GOLD);             // Sets the font color to gold
+        this.font.setColor(Color.GOLD);     // Sets the font color to gold
         this.font.getData().setScale(2f);   // Makes the font larger which gives a "bolder" look
-
     }
 
-    /**
-     * Renders the score on the screen.
-     */
+    @Override
     public void render() {
         score = player.getScore(); // Updating the score
         // Drawing the score on the screen based on the new updated coordinated
         font.draw(batch, "Score: " + score, xScore, yScore); 
     }
 
-    /**
-     * Updates the position of the score view based on the lower left corner of the screen.
-     * 
-     * @param lowerLeftCorner the position of the lower left corner of the screen
-     */
+    @Override
     public void update(Vector2 lowerLeftCorner) {   
         xScore = lowerLeftCorner.x + 255;
         yScore = lowerLeftCorner.y + 695;
     }
 
-    /**
-     * Disposes the resources used by the score view.
-     */
+    @Override
     public void dispose() {
         font.dispose();
     }

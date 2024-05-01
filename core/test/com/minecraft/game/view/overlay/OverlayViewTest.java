@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.Health;
+import com.minecraft.game.model.Player;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Inventory;
 import com.minecraft.game.model.items.Item;

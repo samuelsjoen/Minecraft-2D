@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public abstract class Factory<T, P> {
 
-    // # TODO : Magnus, can you add a description?
+    // TODO: Magnus, can you add a description?
     protected Map<String, Function<P, T>> creators = new HashMap<>();
 
     /**
@@ -23,9 +23,13 @@ public abstract class Factory<T, P> {
     }
 
     /**
-     * Create a new object of the specified type
-     * @param type The type of object to create
-     * @param params The parameters to pass to the object's constructor.
+     * Creates a game entity of the specified type with the provided parameters.
+     *
+     * @param type   the type of the entity to create, as a string.
+     * @param params the parameters necessary for creating the entity, encapsulated
+     *               in an {@link EntityParams} object.
+     * @return the created {@link GameEntity} instance.
+     * @throws IllegalArgumentException if the entity type is unknown.
      */
     public abstract T create(String type, P params);
 }
