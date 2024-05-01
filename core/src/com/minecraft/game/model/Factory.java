@@ -11,7 +11,14 @@ import java.util.HashMap;
 public abstract class Factory<T, P> {
 
     // TODO: Magnus, can you add a description?
-    protected Map<String, Function<P, T>> creators = new HashMap<>();
+    protected Map<String, Function<P, T>> creators;
+
+    /**
+     * Constructs a Factory object with an empty map of creators.
+     */
+    public Factory() {
+        creators = new HashMap<>();
+    }
 
     /**
      * Register a new type of object with its constructor
@@ -23,13 +30,9 @@ public abstract class Factory<T, P> {
     }
 
     /**
-     * Creates a game entity of the specified type with the provided parameters.
-     *
-     * @param type   the type of the entity to create, as a string.
-     * @param params the parameters necessary for creating the entity, encapsulated
-     *               in an {@link EntityParams} object.
-     * @return the created {@link GameEntity} instance.
-     * @throws IllegalArgumentException if the entity type is unknown.
+     * Create a new object of the specified type
+     * @param type The type of object to create
+     * @param params The parameters to pass to the object's constructor.
      */
     public abstract T create(String type, P params);
 }

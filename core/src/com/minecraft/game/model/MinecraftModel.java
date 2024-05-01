@@ -150,7 +150,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public boolean isBlockMineable(int tileX, int tileY) {
-        return map.isTileMineable(tileX, tileY);    
+        return map.isTileMineable(tileX, tileY);
     }
 
     @Override
@@ -203,18 +203,19 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
             // Get the tile type based on the tile coordinates
             int tileId = cell.getTile().getId();
             Item itemSelected = inventory.getSelectedItem();
+            TileType tiletype = TileType.getTileTypeWithId(tileId);
             if (itemSelected != null) {
                 ItemType itemType = itemSelected.getType();
-                TileType tiletype = TileType.getTileTypeWithId(tileId);
                 if (itemType == ItemType.PICKAXE) {
                     damage = tiletype.getDamage(itemSelected);
                 } else {
                     damage = tiletype.getBaseDamage();
                 }
-                return damage;
+            } else {
+                damage = tiletype.getBaseDamage();
             }
         }
-        return 0;
+        return damage;
     }
 
     @Override
@@ -285,7 +286,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         gameState = GameState.WELCOME_SCREEN;
-        //killAllEntities(); // TODO: I think that this is not necessary here?
+        // killAllEntities(); // TODO: I think that this is not necessary here?
     }
 
     @Override
@@ -335,20 +336,20 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     /**
      * Get the selected pickaxe from the inventory.
+     * 
      * @return the selected pickaxe-texture filepath
      */
     private String getSelectedPickaxe() {
 
         Item selectedItem = inventory.getSelectedItem();
-        
+
         if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
             if (isLastItemPickaxe == false) {
                 return null;
             }
             isLastItemPickaxe = false;
             return "default_cursor.png";
-        }
-        else {
+        } else {
             isLastItemPickaxe = true;
             return selectedItem.getTexture();
         }
@@ -356,6 +357,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     /**
      * Get the player's rectangle.
+     * 
      * @return the player's rectangle
      */
     public Rectangle getPlayerRectangle() {
@@ -364,6 +366,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     /**
      * Initialize the player.
+     * 
      * @return the player
      */
     private Player initializePlayer() {
@@ -371,17 +374,17 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         Rectangle rectangle = getPlayerRectangle();
 
         Body body = BodyHelperService.createBody(
-            rectangle.getX() + rectangle.getWidth() / 2,
-            rectangle.getY() + rectangle.getHeight() / 2,
-            rectangle.getWidth(),
-            rectangle.getHeight(),
-            null,
-            false,
-            getWorld(),
-            Constants.CATEGORY_PLAYER,
-            Constants.MASK_PLAYER,
-            "player",
-            false);
+                rectangle.getX() + rectangle.getWidth() / 2,
+                rectangle.getY() + rectangle.getHeight() / 2,
+                rectangle.getWidth(),
+                rectangle.getHeight(),
+                null,
+                false,
+                getWorld(),
+                Constants.CATEGORY_PLAYER,
+                Constants.MASK_PLAYER,
+                "player",
+                false);
         return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory, playerHealth);
     }
 
