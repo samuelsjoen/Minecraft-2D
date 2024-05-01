@@ -42,6 +42,14 @@ Gruppedynamikken er god, og vi har en god kommunikasjon på Discord. Vi har ikke
 
 ==Skriv ferdig denne delen==
 
+Kunne delt opp klassene mer. Brukt flere interfaces og abstrakte klasser.
+Burde ha implementert 'OverlayView' på en bedre måte, slik at objektene slipper å måtte oppdatere posisjon hele tiden fordi at kameraet flytter på seg. For å kunne ha fått til det, måtte vi hatt større kunnskap om Libgdx.
+
+1. Vi burde ha ordentlig implementert en DEBUG-mode. Det hadde gjort det lettere for oss å sjekke om ting så riktig ut i GUI.
+2. Vi burde ha planlagt prosjektstrukturen bedre før vi begynte å kode, det hadde ført til at vi hadde sluppet å brukt mye tid på å endre på koden slik at den ble mer MVC-aktig.
+3. Kunne tatt i bruk maven fremfor gradle ettersom foreleser anbefalte det. I tillegg fikk vi innføring i maven under forelesning, mens det ikke ble lagt noe som helst fokus på gradle. Derfor måtte vi sette oss inn i gradle på egenhånd, noe vi har syntes vært vanskelig. Vi har brukt alt for lang tid på gradle. Det har vært mye problemer i forhold til å få 'gradle run' til å fungere. 
+
+
 ##### Fordeling av bidrag til kodebasen
 
 Vi deler jevnt på arbeidsoppgavene og alle bidrar til kodebasen.
@@ -62,7 +70,11 @@ Vårt stretch goal er:
 Se mer i tidligere oblig for å få en oversikt over brukerhistorier, akseptansekriterier og arbeidsoppgaver, [her](oblig3.md). 
 
 ###### Bugs
-- Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen. 
+- Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen.
+- Etterhvert som spilleren akkumulerer flere gjenstander i inventory, begynner spillet å lagge. Det slutter å lagge igjen når man fjerner ting fra inventory. 
+- Plutselig starta med 140 score. Skjedde bare én gang da.
+- Noen ganger så blir en blokk ødelagt med en gang, istedenfor at det tar et visst antall sekunder.
+- Spillet krasjer noen ganger når man prøver å lukke det.
 
 #### Produkt og kode
 
