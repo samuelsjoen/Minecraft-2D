@@ -40,8 +40,8 @@ public enum Item {
                     { null, STICK, null }
             }, ItemType.PICKAXE, ItemMaterial.WOOD),
     IRON_SWORD("Iron sword", "A decent sword for fighting", "inventoryItems/iron_sword.png", 1, new Item[][] {
-            { IRON_ORE, IRON_ORE, IRON_ORE },
-            { null, STICK, null },
+            { null, IRON_ORE, null },
+            { null, IRON_ORE, null },
             { null, STICK, null },
     }, ItemType.SWORD, ItemMaterial.IRON),
     IRON_PICKAXE("Iron pickaxe", "A decent pickaxe for mining", "inventoryItems/iron_pickaxe.png", 1,
