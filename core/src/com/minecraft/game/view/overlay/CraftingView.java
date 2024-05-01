@@ -25,8 +25,8 @@ public class CraftingView implements IOverlay {
 
     public CraftingView(Crafting crafting, SpriteBatch batch, BitmapFont font) {
         this.crafting = crafting;
-        this.craftingSprite = new Texture(Gdx.files.internal("assets/overlay/crafting.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
+        this.craftingSprite = new Texture(Gdx.files.internal("overlay/crafting.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
         this.font = new BitmapFont();
         this.batch = batch;
         this.jump = 40;

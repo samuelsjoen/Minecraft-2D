@@ -26,9 +26,9 @@ public class InventoryView implements IOverlay {
     
     public InventoryView(Inventory inventory, SpriteBatch batch, BitmapFont font){
         this.inventory = inventory;
-        this.inventorySprite = new Texture(Gdx.files.internal("assets/overlay/inventory.png"));
-        this.selectedItem = new Texture(Gdx.files.internal("assets/overlay/selectedItem.png"));
-        this.font = font;
+        this.inventorySprite = new Texture(Gdx.files.internal("overlay/inventory.png"));
+        this.selectedItem = new Texture(Gdx.files.internal("overlay/selectedItem.png"));
+        this.font = new BitmapFont();
         this.batch = batch;
         this.invJump = 40;
     }

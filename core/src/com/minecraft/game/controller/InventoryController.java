@@ -3,14 +3,26 @@ package com.minecraft.game.controller;
 import com.badlogic.gdx.Input.Keys;
 import com.minecraft.game.model.GameState;
 
+/**
+ * The InventoryController class is responsible for handling input related to the player's inventory and crafting.
+ */
 public class InventoryController {
 
     private ControllableMinecraftModel controllableModel;
 
+    /**
+     * Constructs a new InventoryController with the specified controllable model.
+     * @param controllableModel the controllable model for the Minecraft game
+     */
     public InventoryController(ControllableMinecraftModel controllableModel) {
         this.controllableModel = controllableModel;
     }
 
+    /**
+     * Handle key down events for inventory and crafting actions
+     * @param keycode the key code connected to the key
+     * @return true if the key event was handled, false otherwise
+     */
     public Boolean handleKeyDown(int keycode) {
         GameState gameState = controllableModel.getGameState();
 
@@ -22,7 +34,11 @@ public class InventoryController {
         return false;
     }
     
-
+    /**
+     * Handle key down events for the game active state
+     * @param keycode the key code connected to the key
+     * @return true if the key event was handled, false otherwise
+     */
     private Boolean handleGameActiveKeyDown(int keycode) {
         switch (keycode) {
             case Keys.LEFT:
@@ -47,6 +63,11 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Handle key down events for the crafting screen state
+     * @param keycode the key code connected to the key
+     * @return true if the key event was handled, false otherwise
+     */
     private Boolean handleCraftingScreenKeyDown(int keycode) {
         switch (keycode) {
             case Keys.LEFT:
@@ -75,20 +96,16 @@ public class InventoryController {
                 return true;
             
             case Keys.W:
-                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-                    controllableModel.moveCraftableTableSelection(-1, 0);
-                }
+                controllableModel.moveCraftableTableSelection(-1, 0);
                 return true;
             
             case Keys.S:
-                if (controllableModel.getGameState() == GameState.CRAFTING_SCREEN) {
-                    controllableModel.moveCraftableTableSelection(1, 0);
-                }
+                controllableModel.moveCraftableTableSelection(1, 0);
+                return true;
 
             default:
                 return false;
         }
     }
-
 }
 

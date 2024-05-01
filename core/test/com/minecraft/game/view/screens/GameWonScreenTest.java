@@ -16,20 +16,20 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.Minecraft;
+import com.minecraft.game.model.MinecraftModel;
+import com.minecraft.game.model.Player;
 
 public class GameWonScreenTest extends LibgdxUnitTest {
 
-    private Minecraft game;
+    //private Minecraft game;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
     private GameWonScreen gameWonScreen;
+    private MinecraftModel model;
+    private Player mockPlayer;
 
     @BeforeEach
     public void setUp() {
-        // Mocking game instance
-        game = mock(Minecraft.class);
-
         // Mocking SpriteBatch
         spriteBatch = mock(SpriteBatch.class);
 
@@ -42,8 +42,14 @@ public class GameWonScreenTest extends LibgdxUnitTest {
         // Mock the behavior of setScale() on the BitmapFontData mock
         doNothing().when(fontData).setScale(2);
 
+        mockPlayer = mock(Player.class);
+
+        model = mock(MinecraftModel.class);
+        when(model.getPlayer()).thenReturn(mockPlayer);
+        when(model.getPlayer().getScore()).thenReturn(10);
+
         // Create GameWonScreen instance
-        gameWonScreen = new GameWonScreen(game, spriteBatch, font);
+        gameWonScreen = new GameWonScreen(spriteBatch, font, model);
     }
 
     @Test
@@ -64,7 +70,7 @@ public class GameWonScreenTest extends LibgdxUnitTest {
         verify(spriteBatch).end();
 
         // Verify that the message is drawn
-        verify(font).draw(any(SpriteBatch.class), eq("Game Won\nPress 'R' to continue playing. \nPress any other button to restart."), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
+        verify(font).draw(any(SpriteBatch.class), eq("Press any button to restart.\nScore : 10"), anyFloat(), anyFloat(), anyFloat(), anyInt(), anyBoolean());
     }
 
     @Test
@@ -73,8 +79,8 @@ public class GameWonScreenTest extends LibgdxUnitTest {
         gameWonScreen.dispose();
 
         // Verify that font and batch were disposed
-        verify(gameWonScreen.font).dispose();
-        verify(gameWonScreen.batch).dispose();
+        verify(font).dispose();
+        verify(spriteBatch).dispose();
     }
 
     @Test

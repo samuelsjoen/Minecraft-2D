@@ -9,6 +9,11 @@ import com.minecraft.game.model.MinecraftModel;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.controller.MinecraftController;
 
+
+/**
+ * The `Minecraft` class is responsible for creating and managing the game instance.
+ * It serves as the entry point where essential elements are initialized.
+ */
 public class Minecraft extends Game {
 
 	public static Minecraft INSTANCE;
@@ -33,12 +38,18 @@ public class Minecraft extends Game {
 		
 		MinecraftModel model = new MinecraftModel();
 		MinecraftView view = new MinecraftView(this, model, spriteBatch, font);
-		MinecraftController controller = new MinecraftController(model, view);
+		new MinecraftController(model, view);
+		//MinecraftController controller = new MinecraftController(model, view);
 
-		Gdx.input.setInputProcessor(controller);
+		//Gdx.input.setInputProcessor(controller);
 		
 	}
 
+	/**
+	 * Gets the camera used in the game.
+	 * 
+	 * @return The OrthographicCamera object representing the camera.
+	 */
 	public OrthographicCamera getCamera() {
 		return camera;
 	}
@@ -46,7 +57,6 @@ public class Minecraft extends Game {
 	@Override
     public void render() {
         super.render();
-        // Additional game logic can go here
     }
 
     @Override

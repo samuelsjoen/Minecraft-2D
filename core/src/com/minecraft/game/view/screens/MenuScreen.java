@@ -5,145 +5,161 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.minecraft.game.Minecraft;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+/**
+ * The MenuScreen class represents the main menu screen of the Minecraft game.
+ * It provides functionality for rendering the main menu interface and handling user input.
+ */
 public class MenuScreen extends ScreenAdapter {
     private final SpriteBatch batch;
+    private Stage stage;
     private Texture backgroundTexture;
+    private Texture buttonTexture;
+    private Button startButton;
+    private Button helpButton;
+    private Button quitButton;
     private Texture titleTexture;
-    private Texture startButtonTexture;
-    private Texture helpButtonTexture;
-    private Texture quitButtonTexture;
-    private final float buttonSpacing = 5;
 
-    public MenuScreen(Minecraft game, SpriteBatch batch) {
+    /**
+     * Constructs a new MenuScreen with the specified SpriteBatch.
+     * This screen represents the main menu of the Minecraft game, providing functionality
+     * for rendering the main menu interface and handling user input.
+     *
+     * @param batch The SpriteBatch used for rendering graphics.
+     */
+    public MenuScreen(SpriteBatch batch) {
         this.batch = batch;
         loadTextures();
-    }
 
-    private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("assets/home/menu_background.png"));
-        titleTexture = new Texture(Gdx.files.internal("assets/home/minecraft_logo.png"));
+        this.stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        startButtonTexture = new Texture(Gdx.files.internal("assets/home/start_button.png"));
-        helpButtonTexture = new Texture(Gdx.files.internal("assets/home/help_button.png"));
-        quitButtonTexture = new Texture(Gdx.files.internal("assets/home/quit_button.png"));
+        drawButtons();
+        drawTitle();
     }
 
     @Override
     public void render(float delta) {
         clearScreen();
         batch.begin();
-        drawMenu();
-        batch.end();
-    }
-
-    void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    }
-
-    void drawMenu() {
         drawBackground();
-        drawTitle();
-        drawButtons();
-    }
-
-    void drawBackground() {
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    }
-
-    void drawTitle() {
-        int titleWidth = (int) (titleTexture.getWidth() * 0.6f);
-        int titleHeight = (int) (titleTexture.getHeight() * 0.6f);
-        int titleX = (Gdx.graphics.getWidth() - titleWidth) / 2;
-        int titleY = Gdx.graphics.getHeight() - titleHeight - 100;
-        batch.draw(titleTexture, titleX, titleY, titleWidth, titleHeight);
-    }
-
-    void drawButtons() {
-        float buttonY = 300;
-        buttonY = drawButton(startButtonTexture, buttonY);
-        buttonY -= buttonSpacing;
-        buttonY = drawButton(helpButtonTexture, buttonY);
-        buttonY -= buttonSpacing;
-        drawButton(quitButtonTexture, buttonY);
-    }
-
-    float drawButton(Texture buttonTexture, float buttonY) {
-        int buttonWidth = (int) (buttonTexture.getWidth());
-        int buttonHeight = (int) (buttonTexture.getHeight());
-        int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
-        batch.draw(buttonTexture, buttonX, buttonY, buttonWidth, buttonHeight);
-        return buttonY - buttonHeight;
+        batch.end();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         backgroundTexture.dispose();
+        buttonTexture.dispose();
         titleTexture.dispose();
-        startButtonTexture.dispose();
-        helpButtonTexture.dispose();
-        quitButtonTexture.dispose();
-    }
-
-    // Methods to check if buttons are clicked
-    public boolean isStartButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(startButtonTexture, touchX, touchY);
-    }
-
-    public boolean isHelpButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(helpButtonTexture, touchX, touchY);
-    }
-
-    public boolean isQuitButtonClicked(float touchX, float touchY) {
-        return isButtonClicked(quitButtonTexture, touchX, touchY);
-    }
-
-    boolean isButtonClicked(Texture buttonTexture, float touchX, float touchY) {
-        int buttonWidth = buttonTexture.getWidth();
-        int buttonHeight = buttonTexture.getHeight();
-        int buttonX = (Gdx.graphics.getWidth() - buttonWidth) / 2;
-        float buttonY;
-    
-        // Determine the Y position based on the button texture being checked
-        if (buttonTexture == startButtonTexture) {
-            buttonY = 300;
-        } else if (buttonTexture == helpButtonTexture) {
-            buttonY = 300 - buttonHeight - buttonSpacing;
-        } else { // quitButtonTexture
-            buttonY = 300 - 2 * (buttonHeight + buttonSpacing);
-        }
-    
-        return (touchX >= buttonX &&
-                touchX <= buttonX + buttonWidth &&
-                touchY >= buttonY &&
-                touchY <= buttonY + buttonHeight);
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+        stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Returns the stage connected to the menu screen.
+     * @return The stage.
+     */
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    /**
+     * Loads textures used in menu screen.
+     */
+    private void loadTextures() {
+        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+    }
+
+    // TODO: these should be private? 
+    /**
+     * Clears the screen.
+     */
+    void clearScreen() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    /**
+     * Draws the background of the menu screen.
+     */
+    void drawBackground() {
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    /**
+     * Draws the buttons on the menu screen.
+     */
+    private void drawButtons() {
+        int space = 100;
+
+        buttonTexture = new Texture(Gdx.files.internal("homeScreen/start_button.png"));
+        float buttonHeight = buttonTexture.getWidth();
+
+        float x = (Gdx.graphics.getWidth() - (buttonHeight)) / 2; // buttonWidth is the width of the button
+        float y = Gdx.graphics.getHeight() / 2 ; // the middle of the screen
+        
+        float yStart = y ;
+        float yHelp = y - space;
+        float yQuit = y - space * 2;
+
+        this.startButton = new Button("homeScreen/start_button.png", stage, x, yStart, "startButton");
+        this.startButton.createButton();
+
+        this.helpButton = new Button("homeScreen/help_button.png", stage, x, yHelp, "helpButton");
+        this.helpButton.createButton();
+
+        this.quitButton = new Button("homeScreen/quit_button.png", stage, x, yQuit, "quitButton");
+        this.quitButton.createButton();
+    }
+
+    /**
+     * Draws the title of the menu screen.
+     */
+    private void drawTitle() {
+        int space = 100;
+
+        titleTexture = new Texture(Gdx.files.internal("homeScreen/minecraft_logo.png"));
+        float titleHeight = titleTexture.getHeight();
+        float titleWidth = titleTexture.getWidth();
+
+        float xTitle = (Gdx.graphics.getWidth() - titleWidth)/ 2; 
+        float yTitle = Gdx.graphics.getHeight() / 2 + space * 2.5f;
+
+        Image titleImage = new Image(new TextureRegionDrawable(new TextureRegion(titleTexture)));
+        titleImage.setPosition(xTitle, yTitle - titleHeight);
+        stage.addActor(titleImage);   
+    }
+
+
+
+    // TODO: remove these setters someway? 
+    // Setters below used for testing only: 
+    /**
+     * Sets the background texture of the menu screen.
+     * @param backgroundTexture The background texture to set.
+     */
     public void setBackgroundTexture(Texture backgroundTexture) {
         this.backgroundTexture = backgroundTexture;
     }
 
-    public void setTitleTexture(Texture titleTexture) {
-        this.titleTexture = titleTexture;
+    /**
+     * Sets the stage of the menu screen.
+     * @param stage The stage to set.
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-    public void setHelpButtonTexture(Texture helpButtonTexture) {
-        this.helpButtonTexture = helpButtonTexture;
-    }
-
-    public void setStartButtonTexture(Texture startButtonTexture) {
-        this.startButtonTexture = startButtonTexture;
-    }
-
-    public void setQuitButtonTexture(Texture quitButtonTexture) {
-        this.quitButtonTexture = quitButtonTexture;
-    }
 }

@@ -117,7 +117,7 @@ public class SpriteManager implements Disposable {
     }
 
     private void loadAnimation(String filePath, int cols, int rows, float frameDuration, String key) {
-        Texture sheet = new Texture(Gdx.files.internal("assets/player/" + filePath));
+        Texture sheet = new Texture(Gdx.files.internal("player/" + filePath));
         TextureRegion[][] regions = TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
 
         // Using the 3rd row for the animation
@@ -132,7 +132,7 @@ public class SpriteManager implements Disposable {
 
     private void loadAnimationWithCustomIndex(String filePath, int cols, int rows, float frameDuration, String key,
             int rowIndex) {
-        Texture sheet = new Texture(Gdx.files.internal("assets/player/" + filePath));
+        Texture sheet = new Texture(Gdx.files.internal("player/" + filePath));
         TextureRegion[][] regions = TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
 
         // Use rowIndex to select the correct row for animation

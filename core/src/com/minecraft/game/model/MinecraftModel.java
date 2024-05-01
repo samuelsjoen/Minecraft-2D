@@ -23,6 +23,9 @@ import com.minecraft.game.model.items.Inventory;
 import com.minecraft.game.model.items.Item;
 import com.minecraft.game.model.items.ItemType;
 
+/**
+ * The main model class for the Minecraft game.
+ */
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 
     private MinecraftMap map;
@@ -47,10 +50,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.factory = new EntityFactory();
         this.map = new MinecraftMap();
 
-        // this.gameState = GameState.GAME_ACTIVE;
         this.gameState = GameState.WELCOME_SCREEN;
 
-        this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.mapRenderer = map.setupMap("map/minecraftMap-64.tmx");
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
@@ -84,40 +86,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         handleGameStateChange();
     }
 
-    private void handleGameStateChange() {
-        if (gameState == GameState.GAME_ACTIVE) {
-            dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
-        } else if (gameState == GameState.GAME_PAUSED) {
-            dayNightCycle.pauseCycle();
-        }
-    }
-
     @Override
     public World getWorld() {
         return map.getWorld();
-    }
-
-    public Rectangle getPlayerRectangle() {
-        return map.getPlayerRectangle();
-    }
-
-    private Player initializePlayer() {
-
-        Rectangle rectangle = getPlayerRectangle();
-
-        Body body = BodyHelperService.createBody(
-            rectangle.getX() + rectangle.getWidth() / 2,
-            rectangle.getY() + rectangle.getHeight() / 2,
-            rectangle.getWidth(),
-            rectangle.getHeight(),
-            null,
-            false,
-            getWorld(),
-            Constants.CATEGORY_PLAYER,
-            Constants.MASK_PLAYER,
-            "player",
-            false);
-        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory, playerHealth);
     }
 
     @Override
@@ -192,35 +163,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         crafting.craft();
     }
 
-    private void updateCursor() {
-        String selectedPickaxe = getSelectedPickaxe();
-        if (selectedPickaxe == null) {
-            return;
-        }
-        CursorUtils.setCursorPixmap(selectedPickaxe);
-    }
-
-    /**
-     * Get the selected pickaxe from the inventory.
-     * @return the selected pickaxe-texture filepath
-     */
-    private String getSelectedPickaxe() {
-
-        Item selectedItem = inventory.getSelectedItem();
-        
-        if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
-            if (isLastItemPickaxe == false) {
-                return null;
-            }
-            isLastItemPickaxe = false;
-            return "assets/default_cursor.png";
-        }
-        else {
-            isLastItemPickaxe = true;
-            return selectedItem.getTexture();
-        }
-    }
-
     @Override
     public void updateMovement(boolean moveLeft, boolean moveRight, boolean isAttacking) {
         getPlayer().updateMovement(moveLeft, moveRight, isAttacking);
@@ -236,13 +178,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         dayNightCycle.resetNumberOfNights();
         getPlayer().setCurrentState(Player.State.IDLE);
-    }
-
-    // Check if the player is on the ground to reset the jump counter
-    public void checkIfPlayerOnGround() {
-        if (getPlayer().getBody().getLinearVelocity().y == 0) {
-            jumpCounter = 0; // Reset jump counter if player is on the ground
-        }
     }
 
     @Override
@@ -340,7 +275,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     public void restartGame() {
         this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
         map = new MinecraftMap();
-        this.mapRenderer = map.setupMap("assets/map/mapExample3-64.tmx");
+        this.mapRenderer = map.setupMap("map/minecraftMap-64.tmx");
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
         playerHealth.setArmorInventory(armorInventory);
@@ -350,9 +285,32 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         gameState = GameState.WELCOME_SCREEN;
-        killAllEntities();
+        //killAllEntities(); // TODO: I think that this is not necessary here?
     }
 
+    @Override
+    public ArmorInventory getArmorInventory() {
+        return armorInventory;
+    }
+
+    @Override
+    public void killAllEntities() {
+        EnemyManager.killAllEntities();
+    }
+
+    /**
+     * Check if the player is on the ground to reset the jump counter.
+     */
+    public void checkIfPlayerOnGround() {
+        if (getPlayer().getBody().getLinearVelocity().y == 0) {
+            jumpCounter = 0; // Reset jump counter if player is on the ground
+        }
+    }
+
+    /**
+     * Check and update the game state based on the player's state and the number of
+     * nights survived.
+     */
     public void checkAndUpdateGameState() {
         if (getPlayerState() == State.DEAD) {
             setGameState(GameState.GAME_OVER);
@@ -364,13 +322,77 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         }
     }
 
-    @Override
-    public ArmorInventory getArmorInventory() {
-        return armorInventory;
+    /**
+     * Update the cursor based on the selected pickaxe.
+     */
+    private void updateCursor() {
+        String selectedPickaxe = getSelectedPickaxe();
+        if (selectedPickaxe == null) {
+            return;
+        }
+        CursorUtils.setCursorPixmap(selectedPickaxe);
     }
 
-    @Override
-    public void killAllEntities() {
-        EnemyManager.killAllEntities();
+    /**
+     * Get the selected pickaxe from the inventory.
+     * @return the selected pickaxe-texture filepath
+     */
+    private String getSelectedPickaxe() {
+
+        Item selectedItem = inventory.getSelectedItem();
+        
+        if (selectedItem == null || selectedItem.getType() != ItemType.PICKAXE) {
+            if (isLastItemPickaxe == false) {
+                return null;
+            }
+            isLastItemPickaxe = false;
+            return "default_cursor.png";
+        }
+        else {
+            isLastItemPickaxe = true;
+            return selectedItem.getTexture();
+        }
+    }
+
+    /**
+     * Get the player's rectangle.
+     * @return the player's rectangle
+     */
+    public Rectangle getPlayerRectangle() {
+        return map.getPlayerRectangle();
+    }
+
+    /**
+     * Initialize the player.
+     * @return the player
+     */
+    private Player initializePlayer() {
+
+        Rectangle rectangle = getPlayerRectangle();
+
+        Body body = BodyHelperService.createBody(
+            rectangle.getX() + rectangle.getWidth() / 2,
+            rectangle.getY() + rectangle.getHeight() / 2,
+            rectangle.getWidth(),
+            rectangle.getHeight(),
+            null,
+            false,
+            getWorld(),
+            Constants.CATEGORY_PLAYER,
+            Constants.MASK_PLAYER,
+            "player",
+            false);
+        return new Player(rectangle.getHeight(), rectangle.getWidth(), body, inventory, playerHealth);
+    }
+
+    /**
+     * Handle the game state change.
+     */
+    private void handleGameStateChange() {
+        if (gameState == GameState.GAME_ACTIVE) {
+            dayNightCycle.startCycle(60f); // Start the day-night cycle with a # sec interval 1 minute
+        } else if (gameState == GameState.GAME_PAUSED) {
+            dayNightCycle.pauseCycle();
+        }
     }
 }

@@ -37,6 +37,7 @@ public class PinkMonster extends GameEntity implements IViewableEntityModel {
     private boolean isInvincible;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
+    private EntityFactory entityFactory;
 
     /**
      * Constructs a PinkMonster entity with specified dimensions, position, and
@@ -61,6 +62,8 @@ public class PinkMonster extends GameEntity implements IViewableEntityModel {
         currentState = State.IDLE;
 
         stateTime = 0f;
+
+        entityFactory = new EntityFactory();
     }
 
     /**
@@ -123,7 +126,7 @@ public class PinkMonster extends GameEntity implements IViewableEntityModel {
                     EntityParams projectileParams = new EntityParams(world, null, startPosition.x, startPosition.y,
                             null);
                     projectileParams.setTargetPosition(targetPosition.x, targetPosition.y);
-                    Projectile projectile = (Projectile) EntityFactory.createEntity("Projectile", projectileParams);
+                    Projectile projectile = (Projectile) entityFactory.create("Projectile", projectileParams);
                     EnemyManager.addProjectile(projectile);
 
                     hasThrownRock = true; // Mark that a rock has been thrown

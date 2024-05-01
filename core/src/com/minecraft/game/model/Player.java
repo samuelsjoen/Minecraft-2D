@@ -126,7 +126,6 @@ public class Player extends GameEntity {
         if (health.getHealth() <= 0 && currentState != State.DEAD) {
             // currentState = State.DEAD;
             setCurrentState(State.DEAD);
-
         }
 
         body.setLinearVelocity(velX, body.getLinearVelocity().y);

@@ -2,6 +2,8 @@ package com.minecraft.game.view.screens;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,46 +16,38 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.minecraft.game.LibgdxUnitTest;
-import com.minecraft.game.Minecraft;
 
 public class HelpScreenTest extends LibgdxUnitTest {
 
-    private Minecraft game;
     private SpriteBatch spriteBatch;
     private HelpScreen helpScreen;
 
     @BeforeEach
     public void setUp() {
-        // Mocking game instance
-        game = mock(Minecraft.class);
-
         // Mocking SpriteBatch
         spriteBatch = mock(SpriteBatch.class);
-    
-        // Create HelpScreen instance
-        helpScreen = new HelpScreen(game, spriteBatch);
+
+        try (MockedConstruction<Stage> mocked = Mockito.mockConstruction(Stage.class)) {
+            // Create HelpScreen instance
+            helpScreen = new HelpScreen(spriteBatch);
+        }
     }
 
     @Test
     public void testTextureLoading() {
-        // Mocking game instance
-        Minecraft game = mock(Minecraft.class);
-
-        // Mocking SpriteBatch
-        SpriteBatch spriteBatch = mock(SpriteBatch.class);
-
-        // Create HelpScreen instance
-        HelpScreen helpScreen = new HelpScreen(game, spriteBatch);
 
         // Verify that the background texture is not null
-        assertNotNull(helpScreen.backgroundTexture);
+        assertNotNull(helpScreen.getBackgroundTexture());
 
         // Verify that the background texture is loaded correctly
-        assertTrue(helpScreen.backgroundTexture instanceof Texture);
+        assertTrue(helpScreen.getBackgroundTexture() instanceof Texture);
 
         // Verify that the file path is correct
-        assertTrue(Gdx.files.internal("assets/helpScreen/help_background.png").exists());
+        assertTrue(Gdx.files.internal("helpScreen/help_background.png").exists());
     }
 
     @Test
@@ -74,7 +68,7 @@ public class HelpScreenTest extends LibgdxUnitTest {
         verify(spriteBatch).end();
 
         // Verify that the background texture is rendered
-        verify(spriteBatch).draw(eq(helpScreen.backgroundTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
+        verify(spriteBatch).draw(eq(helpScreen.getBackgroundTexture()), anyFloat(), anyFloat(), anyFloat(), anyFloat());
     }
 
     @Test
@@ -82,16 +76,20 @@ public class HelpScreenTest extends LibgdxUnitTest {
         // Call dispose method
         helpScreen.dispose();
 
-        // Verify that font and batch were disposed
-        verify(helpScreen.batch).dispose();
+        // Verify that batch and stage were disposed
+        verify(spriteBatch).dispose();
+        verify(helpScreen.getStage()).dispose();
     }
 
     @Test
     public void testResize() {
+        Viewport viewport = new FitViewport(1000, 800);
+        Stage stage = new Stage(viewport, spriteBatch);
+        helpScreen.setStage(stage);
+
         // Mock behavior of SpriteBatch
         Matrix4 mockMatrix = mock(Matrix4.class);
-        when(spriteBatch.getProjectionMatrix()).thenReturn(mockMatrix);
-                
+        when(spriteBatch.getProjectionMatrix()).thenReturn(mockMatrix); 
         // Call resize method
         helpScreen.resize(800, 600);
 

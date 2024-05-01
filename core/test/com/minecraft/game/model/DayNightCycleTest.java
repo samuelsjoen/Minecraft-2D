@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import com.minecraft.game.LibgdxUnitTest;
 
-// # TODO Gå over at antall sekunder passer med antall ganger run() blir kalt
 public class DayNightCycleTest extends LibgdxUnitTest {
 
     DayNightCycle dayNightCycle;

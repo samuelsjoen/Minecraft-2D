@@ -17,7 +17,6 @@ public class Constants {
     public static final int ESCAPE_KEY = Keys.ESCAPE;
     public static final int TOGGLE_PAUSE_KEY = Keys.P;
     public static final int TOGGLE_FULLSCREEN_KEY = Keys.F;
-    public static final int START_KEY = Keys.S;
     public static final int ANY_KEY = Keys.ANY_KEY;
 
     // Key to toggle debug mode if needed dynamically

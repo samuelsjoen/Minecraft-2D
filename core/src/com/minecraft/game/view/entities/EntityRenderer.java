@@ -8,9 +8,8 @@ import com.minecraft.game.model.entities.Projectile;
 import com.minecraft.game.model.entities.Slime;
 
 /**
- * Manages and coordinates the rendering of all game entities on the screen.
- * This class holds individual renderers for different entity types and handles
- * the lifecycle of these renderers.
+ * The EntityRenderer class is responsible for rendering all entities in the
+ * game.
  */
 public class EntityRenderer implements Disposable {
 
@@ -22,12 +21,11 @@ public class EntityRenderer implements Disposable {
     private SpriteBatch batch;
 
     /**
-     * Constructs an EntityRenderer which sets up individual renderers for
-     * different entity types.
+     * Constructs an EntityRenderer with the given ViewableEntityModel and
+     * SpriteBatch.
      *
-     * @param entityModel The model providing access to the entities that need to be
-     *                    rendered.
-     * @param batch       The SpriteBatch used to draw all entities on the screen.
+     * @param entityModel The ViewableEntityModel containing entities to render
+     * @param batch       The SpriteBatch used for rendering
      */
     public EntityRenderer(ViewableEntityModel entityModel, SpriteBatch batch) {
         // Initialize renderers
@@ -40,8 +38,8 @@ public class EntityRenderer implements Disposable {
     }
 
     /**
-     * Renders all entities managed by this renderer. It delegates the actual
-     * rendering to the specific entity renderers for each type of entity.
+     * Iterates over all Knights, Slimes, PinkMonsters, and Projectiles in the
+     * entity model, and renders them using their respective renderers.
      */
     public void renderAllEntities() {
 
