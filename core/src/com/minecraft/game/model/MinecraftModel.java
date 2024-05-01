@@ -9,11 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
-import com.minecraft.game.model.crafting.Item;
-import com.minecraft.game.model.crafting.ItemType;
-import com.minecraft.game.model.crafting.ArmorInventory;
-import com.minecraft.game.model.crafting.Crafting;
-import com.minecraft.game.model.crafting.Inventory;
 import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
@@ -22,6 +17,11 @@ import com.minecraft.game.utils.Constants;
 import com.minecraft.game.utils.CursorUtils;
 import com.minecraft.game.view.ViewableMinecraftModel;
 import com.minecraft.game.model.entities.EntityModel;
+import com.minecraft.game.model.items.ArmorInventory;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.items.Item;
+import com.minecraft.game.model.items.ItemType;
 
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 

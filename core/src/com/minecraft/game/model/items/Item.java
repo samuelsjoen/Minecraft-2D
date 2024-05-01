@@ -1,4 +1,4 @@
-package com.minecraft.game.model.crafting;
+package com.minecraft.game.model.items;
 
 import java.util.HashMap;
 
@@ -144,39 +144,47 @@ public enum Item {
     }
 
 
-    // get the item with name
+    /** Returns the whole item based on it's name */
     public static Item getItemWithName(String name) {
         return itemMapName.get(name);
     }
 
+    /** Returns a map of all recipes and the return item of said recipe*/
     public static HashMap<Item[][], Item> getRecipeMap() {
         return recipeMap;
     }
 
+    /** Returns the name of the item */
     public String getName() {
         return name;
     }
 
+    /** Returns the description of the item */
     public String getDescription() {
         return description;
     }
 
+    /** Returns the texture of the item */
     public String getTexture() {
         return texture;
     }
 
+    /** Returns the max amount you can carry of an item in the inventory */
     public int getMaxAmount() {
         return maxAmount;
     }
     
+    /** Returns the recipe for the item */
     public Item[][] getRecipe() {
         return recipe;
     }
 
+    /** Returns the type of the item */
     public ItemType getType() {
         return type;
     }
 
+    /** Returns the material of the item */
     public ItemMaterial getMaterial() {
         return material;
     }

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import com.minecraft.game.model.Health;
+import com.minecraft.game.model.items.ArmorInventory;
+import com.minecraft.game.model.items.Crafting;
+import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.items.Item;
 
 public class CraftingTest {
 
