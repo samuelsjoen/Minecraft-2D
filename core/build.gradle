@@ -47,6 +47,9 @@ task debug(type: JavaExec) {
 }
 
 task dist(type: Jar) {
+     // Set the custom name for the JAR file
+    archiveFileName = "team6-${version}.jar"
+
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes 'Main-Class': project.mainClassName

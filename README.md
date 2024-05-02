@@ -71,9 +71,9 @@ For å kjøre koden, følg disse trinnene:
 For å kjøre spillet fra en JAR-fil, følg disse trinnene:
 1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
 2. I terminalen naviger til mappen du har lastet ned koden til. `/team6`
-3. Kjør kommandoen `gradle jar` i terminalen.
+3. Kjør kommandoen `gradle w dist` i terminalen.
 4. Naviger til mappen `/core/build/libs`
-5. Kjør kommandoen `java -jar core-1.0.jar` i terminalen.
+5. Kjør kommandoen `java -jar team6-1.0.jar` i terminalen.
 6. Spillet vil starte og du kan begynne å spille :)
 
 ## Hvordan teste koden?
