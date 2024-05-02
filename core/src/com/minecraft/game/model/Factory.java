@@ -10,7 +10,8 @@ import java.util.HashMap;
  */
 public abstract class Factory<T, P> {
 
-    // TODO: Magnus, can you add a description?
+    // A map storing the object creation functions associated with string keys.
+    // Each function defines how to create an instance of type T using parameters of type P.
     protected Map<String, Function<P, T>> creators;
 
     /**
@@ -23,7 +24,8 @@ public abstract class Factory<T, P> {
     /**
      * Register a new type of object with its constructor
      * @param type The type of object (e.g. "Knight")
-     * @param creator # TODO : Magnus, can you add a description for the creator parameter?
+     * @param creator A function that constructs an object of type T given parameters of type P.
+     *                This function encapsulates the creation logic specific to the object type.
      */
     public void register(String type, Function<P, T> creator) {
         creators.put(type, creator);

@@ -73,7 +73,6 @@ public class Knight extends GameEntity implements IViewableEntityModel {
                 isInvincible = false;
                 // Ensure the player is visible after invincibility ends
             }
-            // Optional: Add blinking logic/Sound/Cool effect here
         }
 
         if (currentState != State.DEAD) {
@@ -91,7 +90,6 @@ public class Knight extends GameEntity implements IViewableEntityModel {
 
                 currentState = State.ATTACKING;
                 if (attackFrame == true) {
-                    // player.getHealth().damage(1);
                     player.getHit();
 
                     // Push the player when he gets hit (from the left or right)

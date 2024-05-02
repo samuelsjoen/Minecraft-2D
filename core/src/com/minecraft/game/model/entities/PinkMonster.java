@@ -90,7 +90,6 @@ public class PinkMonster extends GameEntity implements IViewableEntityModel {
                 isInvincible = false;
                 // Ensure the player is visible after invincibility ends
             }
-            // Optional: Add blinking logic/Sound/Cool effect here
         }
 
         if (currentState != State.DEAD) {
@@ -118,11 +117,6 @@ public class PinkMonster extends GameEntity implements IViewableEntityModel {
                             (this.getBody().getPosition().y * Constants.PPM) + 20);
                     Vector2 targetPosition = new Vector2(player.getBody().getPosition().x * Constants.PPM,
                             player.getBody().getPosition().y * Constants.PPM);
-                    // Create a new projectile
-                    // Projectile projectile = new Projectile(50, 50, world, startPosition,
-                    // targetPosition);
-                    // GameScreen.addProjectile(projectile);
-
                     EntityParams projectileParams = new EntityParams(world, null, startPosition.x, startPosition.y,
                             null);
                     projectileParams.setTargetPosition(targetPosition.x, targetPosition.y);
@@ -140,7 +134,6 @@ public class PinkMonster extends GameEntity implements IViewableEntityModel {
 
                 currentState = State.ATTACKING;
                 if (attackFrame == true) {
-                    // player.getHealth().damage(1);
                     player.getHit();
 
                     // Push the player when he gets hit (from the left or right)

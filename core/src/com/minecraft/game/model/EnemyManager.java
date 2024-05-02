@@ -35,8 +35,6 @@ public class EnemyManager {
     private int chooseEnemy;
     private final float spawnIntervalMin = 1.0f; // Minimum time between spawns
     private final float spawnIntervalMax = 5.0f; // Maximum time between spawns
-    // private final float spawnIntervalMin = 0.0f; // Minimum time between spawns
-    // private final float spawnIntervalMax = 0.0f; // Maximum time between spawns
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
     private EntityFactory entityFactory;
@@ -54,7 +52,6 @@ public class EnemyManager {
     public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle) {
         this.world = world;
         this.player = player;
-        // this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
         killAllEntities();
@@ -147,7 +144,6 @@ public class EnemyManager {
                 && (aboveCell2 == null || aboveCell2.getTile() == null);
         if (cell != null && isAboveEmpty) {
 
-            // if (cell != null && isAboveEmpty) {
             float playerPosX = player.getBody().getPosition().x;
             float playerPosY = player.getBody().getPosition().y;
 
@@ -176,7 +172,6 @@ public class EnemyManager {
         }
 
         chooseEnemy = MathUtils.random(0, 2); // Choosing a random enemy
-        // chooseEnemy = 2; // Always picking Pinkmonster
         boolean validLocationFound = false;
         float spawnPosX = 0, spawnPosY = 0;
 

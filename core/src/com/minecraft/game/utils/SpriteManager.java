@@ -218,7 +218,6 @@ public class SpriteManager implements Disposable {
                 currentAnimation = animations.get("Character_Death");
                 break;
             default:
-                // currentAnimation = animations.get("Character_Idle");
 
         }
 
@@ -261,22 +260,6 @@ public class SpriteManager implements Disposable {
                     currentSprites.add("Character_FX_Attack");
                 }
 
-                // Draw item-specific and always-on sprites if player is not dead
-                // if (player.getCurrentState() != State.DEAD) {
-                // for (String spriteKey : currentSprites) {
-                // Animation<TextureRegion> itemAnimation =
-                // animations.get(getItemStateKey(spriteKey));
-                // if (itemAnimation != null) {
-                // TextureRegion itemFrame = itemAnimation.getKeyFrame(stateTime, true);
-                // if ((player.isFacingRight() && itemFrame.isFlipX())
-                // || (!player.isFacingRight() && !itemFrame.isFlipX())) {
-                // itemFrame.flip(true, false);
-                // }
-                // // batch.draw(itemFrame, x - 175, y - 265, player.getWidth() + 225,
-                // // player.getHeight() + 475);
-                // }
-                // }
-
                 // Always draw beard and hair with the character
                 String[] alwaysOnSprites = { "Character_Beard", "Character_Hair" };
                 for (String spriteKey : alwaysOnSprites) {
@@ -294,7 +277,6 @@ public class SpriteManager implements Disposable {
                                 player.getHeight() + 475);
                     }
                 }
-                // }
                 // Draw non-top layer items (everything but swords and FX)
                 for (String spriteKey : currentSprites) {
                     if (spriteKey.contains("Sword") || spriteKey.equals("Character_FX")) {
