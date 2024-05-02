@@ -4,10 +4,8 @@
 **Teammedlemmer:** Magnus Yadi Halvorsen, Martine Naustdal Larsen, Nini Øyane Bjørnstad, Samuel Alois Starck Sjøen
 
 **Prosjekt:** Minecraft 2D (light versjon)
-**Lenke til project board:** https://app.asana.com/0/1206585808458619/1206585820662301
+**Lenke til project board:** https://git.app.uib.no/samuel.sjoen/team6/-/boards
 **Lenke til git:** https://git.app.uib.no/samuel.sjoen/team6
-
-==Krav til Readme: Dere må dokumentere hvordan prosjektet bygger, testes og kjøres, slik at det er lett for gruppelederne å bygge, teste og kjøre koden deres. Under vurdering kommer koden også til å brukertestes.==
 
 ## Om spillet
 "Minecraft 2D light" er en todimensjonal versjon inspirert av det ikoniske Minecraft-universet. Målet er å utforske, bygge og mine ved å bevege seg rundt i en todimensjonell verden. 
@@ -66,21 +64,20 @@ For å kjøre koden, følg disse trinnene:
 3. Bruk kommandoen `gradle run` i terminalen.
 4. Spillet vil starte og du kan begynne å spille :)
 
-==Fiks JAR-mulighet==
 #### Kjøre spillet fra en JAR-fil
 For å kjøre spillet fra en JAR-fil, følg disse trinnene:
 1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
 2. I terminalen naviger til mappen du har lastet ned koden til. `/team6`
 3. Kjør kommandoen `gradle w dist` i terminalen.
-4. Naviger til mappen `/core/build/libs`
-5. Kjør kommandoen `java -jar team6-1.0.jar` i terminalen.
+4. Naviger til mappen `core/build/libs`
+5. Skriv inn kommandoen `java -jar team6-1.0.jar` i terminalen og trykk Enter. Hvis du bruker Mac, skriv `java -XstartOnFirstThread -jar team6-1.0.jar` i stedet.
 6. Spillet vil starte og du kan begynne å spille :)
 
 ## Hvordan teste koden?
 
 For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-objekter. Følg disse trinnene for å kjøre testene:
 
-1. Last ned koden fra git.
+1. Last ned koden fra Git.
 2. Naviger til mappen `/team6` i terminalen.
 3. Skriv kommandoen `gradle test` i terminalen for å kjøre testene.
 
@@ -105,10 +102,13 @@ Pinne: Admurin. (2022). Admurin's Armory [Sprite pack]. itch.io https://admurin.
 Sverd: DantePixels (2023) Tools Asset 16x16 [Sprite pack]. itch.io https://dantepixels.itch.io/tools-asset-16x16
 Samuel Sjøen (2024) Overlay textures. Lisens: CC0 1.0 Universal
 
-**Annet**
-For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: Textcraft. (2024). Minecrafter [Font]. Textcraft.net. https://textcraft.net/
+**Grafikk for bakgrunn**
+På menyskjerm og spillskjerm: Martine Larsen (2024) Background texture. Lisens: CC0 1.0 Universal
 Bakgrunnsbilde når man taper: Generated with AI ∙ April 30, 2024 at 5:18 PM. https://www.bing.com/images/create/a-solemn-and-sad-atmosphere-with-27game-over27-text-/1-66310bbf22a94349a09e8e2e9111f254?id=AkidL78M%2fLXYNmcMvLQ1wA%3d%3d&view=detailv2&idpp=genimg&thId=OIG4.N.gQ.Xn3lc4vfJQo4noe&FORM=GCRIDP&ajaxhist=0&ajaxserp=0
 Bakgrunnsbilde når man vinner: Generated with AI ∙ April 30, 2024 at 4:58 PM. https://www.bing.com/images/create/minecraft-inspired-game-win-screen-with-the-word-27/1-6631071a452f4e8eb907d46712ce82ca?id=oqqW3oDEaPa99ghhS4G%2fCw%3d%3d&view=detailv2&idpp=genimg&thId=OIG3.koz_AolWtspy1WXgQj6n&FORM=GCRIDP&mode=overlay
+
+**Annet**
+For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: Textcraft. (2024). Minecrafter [Font]. Textcraft.net. https://textcraft.net/
 
 ### Lyd
 

@@ -79,7 +79,7 @@ public class MenuScreen extends ScreenAdapter {
      * Loads textures used in menu screen.
      */
     private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("background/backgroundDay.png"));
     }
 
     // TODO: these should be private? 

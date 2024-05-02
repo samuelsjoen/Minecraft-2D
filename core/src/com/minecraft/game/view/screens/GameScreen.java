@@ -60,8 +60,8 @@ public class GameScreen extends ScreenAdapter {
         this.batch = batch;
 
         this.isNightBackground = false;
-        this.backgroundNight = new Texture(Gdx.files.internal("backgroundNight.png"));
-        this.backgroundDay = new Texture(Gdx.files.internal("background.png"));
+        this.backgroundNight = new Texture(Gdx.files.internal("background/backgroundNight.png"));
+        this.backgroundDay = new Texture(Gdx.files.internal("background/backgroundDay.png"));
         this.backgroundImage = backgroundDay;
 
         this.box2DDebugRenderer = new Box2DDebugRenderer();

@@ -28,7 +28,7 @@ public class GameOverScreen extends ScreenAdapter {
         this.batch = batch;
         this.font = font;
         this.font.getData().setScale(2); // increasing font size
-        this.backgroundImage = new Texture(Gdx.files.internal("gameOverScreen.jpg"));
+        this.backgroundImage = new Texture(Gdx.files.internal("background/gameOverScreen.jpg"));
     }
 
     @Override
