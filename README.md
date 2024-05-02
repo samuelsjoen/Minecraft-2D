@@ -41,33 +41,48 @@ Utforskning av den todimensjonale verdenen åpner opp for nye muligheter og utfo
   - Spacebar: Hopp
 
 - Inventory-funksjoner
-  - E: Åpne/lukke crafting table
   - Q: Dropper inventory item som er markert
   - Pil venstre: Bevege seg til venstre i inventory
   - Pil høyre: Bevege seg til høyre i inventory
 
+- Crafting-funksjoner
+  - E: Åpne/lukke crafting table
+  - Pil opp: Bevege seg opp i crafting table
+  - Pil ned: Bevege seg ned i crafting table
+  - Pil venstre: Bevege seg til venstre i crafting table
+  - Pil høyre: Bevege seg til høyre i crafting table
+  - Enter: Lage gjenstand i crafting table
+
 - Generelle funksjoner
   - F: Skru av/på fullskjerm modus
   - P: Åpne pausemeny
-  - S: Starter spillet når man er inne på hjelpmenyen
   - Esc: Avslutte spillet
   - H: Åpne hjelpesiden
 
 ## Hvordan kjøre koden?
 For å kjøre koden, følg disse trinnene:
 1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
-2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
-3. Kompilér og kjør hovedklassen DesktopLauncher.java.
+2. I terminalen naviger til mappen du har lastet ned koden til. `/team6`
+3. Bruk kommandoen `gradle run` i terminalen.
+4. Spillet vil starte og du kan begynne å spille :)
 
-Man kan også bruke `gradle run` i terminalen.
+==Fiks JAR-mulighet==
+#### Kjøre spillet fra en JAR-fil
+For å kjøre spillet fra en JAR-fil, følg disse trinnene:
+1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
+2. I terminalen naviger til mappen du har lastet ned koden til. `/team6`
+3. Kjør kommandoen `gradle jar` i terminalen.
+4. Naviger til mappen `/core/build/libs`
+5. Kjør kommandoen `java -jar core-1.0.jar` i terminalen.
+6. Spillet vil starte og du kan begynne å spille :)
 
 ## Hvordan teste koden?
 
 For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-objekter. Følg disse trinnene for å kjøre testene:
 
-1. Åpne prosjektet i din foretrukne kodeeditor.
-2. Naviger til test-fanen i din kodeeditor og kjør testene
-3. Eventuelt i terminalen skriv inn kommandoen `gradle test`
+1. Last ned koden fra git.
+2. Naviger til mappen `/team6` i terminalen.
+3. Skriv kommandoen `gradle test` i terminalen for å kjøre testene.
 
 ## Hvor ressurser er hentet fra
 

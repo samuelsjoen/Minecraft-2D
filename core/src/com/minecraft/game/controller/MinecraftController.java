@@ -167,7 +167,6 @@ public class MinecraftController extends InputAdapter {
         return true;
     }
 
-    
     /**
      * Heals the player by reviving the player and updating the screen.
      */

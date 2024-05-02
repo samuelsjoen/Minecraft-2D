@@ -46,10 +46,6 @@ public class PlayerController {
             case Keys.TAB:
                 setIsAttacking(true);
                 return true;
-            // TODO: maybe remove this? Is this like a cheat code?
-            case Keys.N:
-                controllableModel.killAllEntities();
-                return true;
         }
         return false;
     }

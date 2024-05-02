@@ -371,4 +371,11 @@ public class Player extends GameEntity {
         return this.score;
     }
 
+    /**
+     * Reset the player's score to zero.
+     */
+    public void resetScore() {
+        this.score = 0;
+    }
+
 }

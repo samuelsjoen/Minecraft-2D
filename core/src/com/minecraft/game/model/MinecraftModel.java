@@ -285,8 +285,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
+        player.resetScore();
         gameState = GameState.WELCOME_SCREEN;
-        // killAllEntities(); // TODO: I think that this is not necessary here?
     }
 
     @Override

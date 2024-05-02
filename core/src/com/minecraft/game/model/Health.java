@@ -3,6 +3,9 @@ package com.minecraft.game.model;
 import com.minecraft.game.model.items.ArmorInventory;
 import com.minecraft.game.model.items.Item;
 
+/**
+ * The Health class represents the health of the player.
+ */
 public class Health {
     private int currentHealth;
     private final int maxHealth;
@@ -11,6 +14,12 @@ public class Health {
     private boolean alive;
     private ArmorInventory armorInventory;
 
+    /**
+     * Initializes the health of the player
+     * 
+     * @param currentHealth the current health of the player
+     * @param maxHealth     the maximum health of the player
+     */
     public Health(int currentHealth, int maxHealth) {
         this.armorHealth = 0;
         this.maxArmorHealth = 10;
