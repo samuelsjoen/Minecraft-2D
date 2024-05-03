@@ -40,6 +40,10 @@ public class Inventory implements IInventory {
         return currentSlot;
     }
 
+    public void clearInventory() {
+        items.clear();
+    }
+
     /**
      * Add an item to the inventory with a specified quantity
      * 

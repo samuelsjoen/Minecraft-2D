@@ -31,4 +31,9 @@ public interface IInventory {
      * @return a LinkedHashMap containing the items and their quantities in the inventory
      */
     public LinkedHashMap<Item, Integer> getInventory();
+
+    /**
+     * Clears the inventory
+     */
+    public void clearInventory();
 }

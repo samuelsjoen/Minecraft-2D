@@ -129,4 +129,8 @@ public class ArmorInventory implements IInventory {
         }
         return health;
     }
+
+    public void clearInventory() {
+        armorInventory.clear();
+    }
 }
