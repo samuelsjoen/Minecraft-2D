@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
-import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
 import com.minecraft.game.utils.BodyHelperService;
@@ -29,7 +28,6 @@ import com.minecraft.game.model.items.ItemType;
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 
     private MinecraftMap map;
-    private EntityFactory factory;
 
     private GameState gameState;
     private Health playerHealth;
@@ -45,8 +43,12 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private OrthogonalTiledMapRenderer mapRenderer;
     private EntityModel EntityModel;
 
+    /**
+     * Constructs a new instance of the MinecraftModel class.
+     * Initializes the game state, map, inventory, player health, armor inventory,
+     * player, crafting system, day-night cycle, and entity model.
+     */
     public MinecraftModel() {
-        //this.factory = new EntityFactory();
         this.map = new MinecraftMap();
 
         this.gameState = GameState.WELCOME_SCREEN;
@@ -261,7 +263,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void restartGame() {
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.inventory = new Inventory(Constants.DEMO_ITEMS);
         map = new MinecraftMap();
         this.mapRenderer = map.setupMap("map/minecraftMap-64.tmx");
         this.playerHealth = new Health(5, 5);
@@ -271,7 +273,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
 
-        //factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         
         gameState = GameState.WELCOME_SCREEN;

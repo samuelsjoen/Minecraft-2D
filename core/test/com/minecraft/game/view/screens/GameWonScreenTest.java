@@ -21,7 +21,6 @@ import com.minecraft.game.model.Player;
 
 public class GameWonScreenTest extends LibgdxUnitTest {
 
-    //private Minecraft game;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
     private GameWonScreen gameWonScreen;
