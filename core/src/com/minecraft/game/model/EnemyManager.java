@@ -40,6 +40,7 @@ public class EnemyManager {
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
     private EntityFactory entityFactory;
+    private static boolean dontScore;
 
     /**
      * Constructs an EnemyManager with necessary game elements like the game world,
@@ -58,6 +59,7 @@ public class EnemyManager {
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
         killAllEntities();
+        player.resetScore();
         entityFactory = new EntityFactory();
     }
 
@@ -113,13 +115,16 @@ public class EnemyManager {
             if (entity.getBody().getPosition().y < deathThreshold || entity.isMarkedForRemoval()) {
                 entity.dispose();
                 deadEntities.add(entity);
-                if (entity instanceof Knight) {
-                    player.addScore(30); // 30 points for Knight
-                } else if (entity instanceof Slime) {
-                    player.addScore(10); // 10 point for Slime
-                } else if (entity instanceof PinkMonster) {
-                    player.addScore(50); // 50 points for PinkMonster
+                if(dontScore != true){
+                    if (entity instanceof Knight) {
+                        player.addScore(30); // 30 points for Knight
+                    } else if (entity instanceof Slime) {
+                        player.addScore(10); // 10 point for Slime
+                    } else if (entity instanceof PinkMonster) {
+                        player.addScore(50); // 50 points for PinkMonster
+                    }
                 }
+                dontScore = false;
             }
         }
         entities.removeAll(deadEntities);
@@ -230,6 +235,7 @@ public class EnemyManager {
      * during game resets or cleanup phases.
      */
     public static void killAllEntities() {
+        dontScore = true;
         // Mark all knights for removal
         for (Knight knight : knights) {
             knight.setMarkedForRemoval();
