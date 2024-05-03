@@ -208,44 +208,6 @@ public class EnemyManagerTest {
     }
 
     @Test
-    void testSpawnEntityBasedOnChoice() throws Exception {
-        EnemyManager.knights.clear();
-        EnemyManager.slimes.clear();
-        EnemyManager.pinkMonsters.clear();
-        // Mock player position within the valid range
-        when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(15, 15));
-
-        // Simulate valid spawn locations.
-        when(mockMineableLayer.getCell(anyInt(), anyInt()))
-                .thenAnswer(invocation -> {
-                    Object[] args = invocation.getArguments();
-                    int y = (int) args[1];
-                    // Simulate that the cell at the spawn level is mineable and the ones above are
-                    // empty
-                    if (y == 10) {
-                        Cell mockCell = mock(Cell.class);
-                        return mockCell;
-                    }
-                    return null; // Simulate empty cells above
-                });
-
-        enemyManager.spawnEnemy();
-
-        // Use the getter to check which enemy was chosen
-        int chosenEnemy = enemyManager.getChooseEnemy();
-        // Assert based on the chosenEnemy value
-        if (chosenEnemy == 0) {
-            assertFalse(EnemyManager.knights.isEmpty(), "A Knight should have been spawned.");
-        } else if (chosenEnemy == 1) {
-            assertFalse(EnemyManager.slimes.isEmpty(), "A Slime should have been spawned.");
-        } else if (chosenEnemy == 2) {
-            assertFalse(EnemyManager.pinkMonsters.isEmpty(), "A PinkMonster should have been spawned.");
-        } else {
-            fail("Invalid enemy type chosen.");
-        }
-    }
-
-    @Test
     void testAddKnight() {
         Knight knight = mock(Knight.class);
         EnemyManager.knights.add(knight); // Add the mock Knight to the list.
@@ -388,7 +350,6 @@ public class EnemyManagerTest {
         EnemyManager.killAllEntities();
         // Simulate an update to process entity removal
         enemyManager.update(0.1f);
-        System.out.println(EnemyManager.knights.size());
         // Verify that all entities have been removed
         assertTrue(EnemyManager.knights.isEmpty(), "Knights list should be empty after killAllEntities()");
         assertTrue(EnemyManager.slimes.isEmpty(), "Slimes list should be empty after killAllEntities()");

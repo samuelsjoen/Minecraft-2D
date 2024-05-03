@@ -28,7 +28,7 @@ public interface IInventory {
     /**
      * Returns the inventory
      * 
-     * @return inventory
+     * @return a LinkedHashMap containing the items and their quantities in the inventory
      */
     public LinkedHashMap<Item, Integer> getInventory();
 }

@@ -29,7 +29,6 @@ import com.minecraft.game.model.items.ItemType;
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 
     private MinecraftMap map;
-    @SuppressWarnings("unused")
     private EntityFactory factory;
 
     private GameState gameState;
@@ -47,7 +46,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private EntityModel EntityModel;
 
     public MinecraftModel() {
-        this.factory = new EntityFactory();
+        //this.factory = new EntityFactory();
         this.map = new MinecraftMap();
 
         this.gameState = GameState.WELCOME_SCREEN;
@@ -169,18 +168,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     }
 
     @Override
-    public void revivePlayer() {
-        Player.getHealth().revive();
-
-        if (crafting.isOpen()) {
-            crafting.toggleOpen();
-        }
-
-        dayNightCycle.resetNumberOfNights();
-        getPlayer().setCurrentState(Player.State.IDLE);
-    }
-
-    @Override
     public void playerJump() {
         checkIfPlayerOnGround();
         int maxJumps = 2; // Maximum number of jumps allowed (including initial jump)
@@ -283,7 +270,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
 
-        factory = new EntityFactory();
+        //factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         player.resetScore();
         gameState = GameState.WELCOME_SCREEN;

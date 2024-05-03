@@ -57,6 +57,49 @@ Utforskning av den todimensjonale verdenen åpner opp for nye muligheter og utfo
   - Esc: Avslutte spillet
   - H: Åpne hjelpesiden
 
+<details>
+<summary>For 'avanserte' spillere</summary>
+
+```
+  - Scroll med musen for å raskt bevege deg gjennom inventory og crafting table
+  - I crafting table kan du bruke scrolle-funksjonen for å velge kolonner og 'W' for å endre rad 1 opp og 'S' for å endre rad 1 ned
+
+```
+</details>
+
+
+<details>
+<summary>Klikk her for å se hvilke gjenstander du kan lage!</summary>
+
+```
+Her er en oversikt over hvilke gjenstander du kan lage i crafting table:
+
+- Stick: 2 Wood -> 1 stick
+
+Våpen og verktøy:
+- Wooden Sword: 1 stick + 2 Wood -> 1 Wooden Sword
+- Wooden Pickaxe: 2 stick + 3 Wood -> 1 Wooden Pickaxe
+- Iron Sword: 1 stick + 2 Iron -> 1 Iron Sword
+- Iron Pickaxe: 2 stick + 3 Iron -> 1 Iron Pickaxe
+- Diamond Sword: 1 stick + 2 Diamond -> 1 Diamond Sword
+- Diamond Pickaxe: 2 stick + 3 Diamond -> 1 Diamond Pickaxe
+
+Rustning:
+- Iron helmet: 5 iron ore -> 1 Iron helmet
+- Iron chestplate: 8 iron ore -> 1 Iron chestplate
+- Iron gloves: 2 iron ore -> 1 Iron gloves
+- Iron leggings: 7 iron ore -> 1 Iron leggings
+- Iron boots: 4 iron ore -> 1 Iron boots
+
+- Diamond helmet: 5 diamond ore -> 1 Diamond helmet
+- Diamond chestplate: 8 diamond ore -> 1 Diamond chestplate
+- Diamond gloves: 2 diamond ore -> 1 Diamond gloves
+- Diamond leggings: 7 diamond ore -> 1 Diamond leggings
+- Diamond boots: 4 diamond ore -> 1 Diamond boots
+
+```
+</details>
+
 ## Hvordan kjøre koden?
 For å kjøre koden, følg disse trinnene:
 1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.

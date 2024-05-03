@@ -90,7 +90,6 @@ public class InventoryTest {
 
     @Test
     void testIsFull() {
-        System.out.println("New test");
         Inventory inventory = new Inventory(new Item[]{
             Item.WOODEN_PICKAXE,
             Item.WOODEN_SWORD,

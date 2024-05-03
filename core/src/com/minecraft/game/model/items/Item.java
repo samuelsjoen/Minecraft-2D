@@ -2,6 +2,9 @@ package com.minecraft.game.model.items;
 
 import java.util.HashMap;
 
+/**
+ * The enum represents different items in the game.
+ */
 public enum Item {
     // 1. Core blocks
     WOOD("Wood", "A block of wood", "inventoryItems/wood.png", 64, null, ItemType.BLOCK, null),
@@ -134,6 +137,17 @@ public enum Item {
     private final ItemType type;
     private final ItemMaterial material;
 
+/**
+ * Constructs a new Item object with the specified parameters.
+ *
+ * @param name        the name of the item
+ * @param description the description of the item
+ * @param texture     the texture of the item
+ * @param maxAmount   the maximum amount of the item that can be held
+ * @param recipe      the recipe required to craft the item
+ * @param type        the type of the item
+ * @param material    the material of the item
+ */
     Item(String name, String description, String texture, int maxAmount, Item[][] recipe, ItemType type,
             ItemMaterial material) {
         this.name = name;

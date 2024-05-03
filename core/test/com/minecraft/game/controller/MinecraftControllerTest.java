@@ -53,7 +53,6 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
         mockMenuButton = mock(Button.class);
         when(mockMenuStage.getActors()).thenReturn(new Array<>(new Actor[] { mockMenuButton }));
 
-
         minecraftController = new MinecraftController(mockModel, mockView);
 
         OrthographicCamera mockCamera = mock(OrthographicCamera.class);
@@ -67,9 +66,6 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
 
         mockInventoryController = mock(InventoryController.class);
         minecraftController.setInventoryController(mockInventoryController);
-
-        mockHelpScreenController = mock(HelpScreenController.class);
-        minecraftController.setHelpScreenController(mockHelpScreenController);
 
     }
 
@@ -158,29 +154,7 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
         verify(mockView).newGameScreen();
 
     }
-
-    /*@Test
-    public void testKeyDownHInGameWonOrGameOver() {
-        when(mockModel.getGameState()).thenReturn(GameState.GAME_WON);
-
-        assertTrue(minecraftController.keyDown(Keys.H));
-        verify(mockModel).getGameState();
-        verify(mockModel).revivePlayer();
-        verify(mockModel).setGameState(GameState.GAME_ACTIVE);
-        verify(mockView).updateScreen();
-    }
-
-    @Test
-    public void testKeyDownHInGameOver() {
-        when(mockModel.getGameState()).thenReturn(GameState.GAME_OVER);
-
-        assertTrue(minecraftController.keyDown(Keys.H));
-        verify(mockModel).getGameState();
-        verify(mockModel).revivePlayer();
-        verify(mockModel).setGameState(GameState.GAME_ACTIVE);
-        verify(mockView).updateScreen();
-    }*/
-
+    
     @Test
     public void testKeyUpInGameActive() {
         when(mockModel.getGameState()).thenReturn(GameState.GAME_ACTIVE);

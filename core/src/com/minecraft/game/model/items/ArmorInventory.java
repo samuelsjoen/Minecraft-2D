@@ -5,15 +5,28 @@ import java.util.Map.Entry;
 
 import com.minecraft.game.model.Health;
 
+/**
+ * Represents an inventory for armor items.
+ */
 public class ArmorInventory implements IInventory {
     private LinkedHashMap<Item, Integer> armorInventory;
     private Health health;
 
+    /**
+     * Constructs a new ArmorInventory object.
+     * 
+     * @param health the health object associated with the player
+     */
     public ArmorInventory(Health health) {
         this.armorInventory = new LinkedHashMap<>();
         this.health = health;
     }
 
+    /**
+     * Adds an item to the armor inventory.
+     * 
+     * @param item the item to be added
+     */
     public void addItem(Item item) {
         addOrUpgradeArmor(item);
         int armorHealth = health.getArmorHealth();
@@ -34,23 +47,34 @@ public class ArmorInventory implements IInventory {
         armorInventory.put(item, getArmorPieceMaxHealth(item));
     }
 
+    /**
+     * Checks if the armor inventory contains the specified item.
+     * 
+     * @param item the item to check
+     * @return true if the item is present in the inventory, false otherwise
+     */
     public boolean contains(Item item) {
         return armorInventory.containsKey(item);
     }
 
     /**
-     * Remove the next breakable armor item from the inventory
+     * Removes the next breakable armor item from the inventory.
      */
     public void removeItem() {
         armorInventory.remove(getNextBreakableArmorItem());
     }
 
+    /**
+     * Removes the specified item from the armor inventory.
+     * 
+     * @param item the item to be removed
+     */
     public void removeItem(Item item) {
         armorInventory.remove(item);
     }
 
     /**
-     * Damage the next breakable armor item
+     * Damages the next breakable armor item.
      * 
      * @param damage the amount of damage to deal
      */
@@ -59,14 +83,19 @@ public class ArmorInventory implements IInventory {
         armorInventory.put(item, getArmorPieceHealth(item) - damage);
     }
 
+    /**
+     * Returns the armor inventory as a LinkedHashMap.
+     * 
+     * @return the armor inventory
+     */
     public LinkedHashMap<Item, Integer> getInventory() {
         return armorInventory;
     }
 
     /**
-     * Get the health of an armor piece
+     * Gets the health of an armor piece.
      * 
-     * @param item to get health of
+     * @param item the item to get the health of
      * @return the health of the armor piece
      */
     public int getArmorPieceHealth(Item item) {
@@ -74,9 +103,9 @@ public class ArmorInventory implements IInventory {
     }
 
     /**
-     * Get the armor piece that will break next
+     * Gets the armor piece that will break next.
      * 
-     * @return the armor piece that will break next
+     * @return the armor piece that will break next, or null if there are no breakable armor pieces
      */
     public Item getNextBreakableArmorItem() {
         for (Entry<Item, Integer> entry : armorInventory.entrySet()) {
@@ -100,5 +129,4 @@ public class ArmorInventory implements IInventory {
         }
         return health;
     }
-
 }

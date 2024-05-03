@@ -2,6 +2,11 @@ package com.minecraft.game.model.items;
 
 import java.util.HashMap;
 
+/**
+ * The Crafting class represents the crafting system in the game.
+ * It allows players to craft items using the items they have in their inventory.
+ * The class manages the crafting table, craftable items, and the process of crafting.
+ */
 public class Crafting {
 
     private int selectedRow;
@@ -13,6 +18,12 @@ public class Crafting {
     private HashMap<Item[][], Item> recipeTable;
     private boolean open;
 
+    /**
+     * Constructs a new Crafting object with the given inventory and armor inventory.
+     * 
+     * @param inventory the inventory to be used for crafting
+     * @param armorInventory the armor inventory to be used for crafting
+     */
     public Crafting(Inventory inventory, ArmorInventory armorInventory) {
         this.inventory = inventory;
         this.armorInventory = armorInventory;

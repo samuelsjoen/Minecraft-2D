@@ -60,7 +60,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
 
     @Test
     public void testConstructor() {
-        // # TODO: factory, map
         assertNotNull(minecraftModel);
         GameState.WELCOME_SCREEN.equals(minecraftModel.getGameState());
         assertNotNull(minecraftModel.getMapRenderer());
@@ -324,13 +323,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
     }
 
     @Test
-    public void testRevivePlayer() {
-        player.setCurrentState(State.DEAD);
-        minecraftModel.revivePlayer();
-        assertEquals(State.IDLE, player.getCurrentState());
-    }
-
-       @Test
     public void testChangeInventorySlot() {
         inventory.addItem(Item.DIRT);
         inventory.addItem(Item.STONE);

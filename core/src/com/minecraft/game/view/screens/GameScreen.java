@@ -103,7 +103,6 @@ public class GameScreen extends ScreenAdapter {
             return;
         }
 
-        // TODO: world.step() should be called in model?
         viewableMinecraftModel.getWorld().step(1 / 60f, 6, 2);
 
         cameraUpdate();
