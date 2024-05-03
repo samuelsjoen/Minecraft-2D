@@ -21,12 +21,7 @@ public class MinecraftController extends InputAdapter {
     private PlayerController playerController;
     private BlockController blockController;
     private InventoryController inventoryController;
-    // TODO: check if this is actually used
-    @SuppressWarnings("unused")
-    private HelpScreenController helpScreenController;
     private GameState lastGameState;
-    @SuppressWarnings("unused")
-    private HomeScreenController homeScreenController;
 
     /**
      * Constructs a new MinecraftController with the specified controllable model and view.
@@ -45,8 +40,8 @@ public class MinecraftController extends InputAdapter {
         this.playerController = new PlayerController(controllableModel);
         this.blockController = new BlockController(controllableModel, view);
         this.inventoryController = new InventoryController(controllableModel);
-        this.homeScreenController =  new HomeScreenController(view, this);
-        this.helpScreenController = new HelpScreenController(view, this);
+        new HomeScreenController(view, this);
+        new HelpScreenController(view, this);
 
         Gdx.input.setInputProcessor(view.getMenuScreenStage());   
     }
@@ -166,16 +161,6 @@ public class MinecraftController extends InputAdapter {
         }
         return true;
     }
-
-    
-    /**
-     * Heals the player by reviving the player and updating the screen.
-     */
-    /*public void healPlayer() {
-        playerController.stopMovement();
-        controllableModel.revivePlayer();
-        setGameStateAndUpdateScreen(GameState.GAME_ACTIVE);
-    }*/
     
     /**
      * Restarts the game by restarting the game model, and updating the screen with a new gamescreen.
@@ -226,7 +211,6 @@ public class MinecraftController extends InputAdapter {
     }
 
     // For testing: 
-    //TODO: check if it possible to have these methods elsewhere.
     /**
      * Set the player controller.
      * @param playerController The player controller.
@@ -249,14 +233,6 @@ public class MinecraftController extends InputAdapter {
      */
     public void setInventoryController(InventoryController inventoryController) {
         this.inventoryController = inventoryController;
-    }
-
-    /**
-     * Set the help screen controller.
-     * @param helpScreenController The help screen controller.
-     */
-    public void setHelpScreenController(HelpScreenController helpScreenController) {
-        this.helpScreenController = helpScreenController;
     }
 
 }

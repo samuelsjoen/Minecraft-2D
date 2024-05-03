@@ -60,8 +60,8 @@ public class GameScreen extends ScreenAdapter {
         this.batch = batch;
 
         this.isNightBackground = false;
-        this.backgroundNight = new Texture(Gdx.files.internal("backgroundNight.png"));
-        this.backgroundDay = new Texture(Gdx.files.internal("background.png"));
+        this.backgroundNight = new Texture(Gdx.files.internal("background/backgroundNight.png"));
+        this.backgroundDay = new Texture(Gdx.files.internal("background/backgroundDay.png"));
         this.backgroundImage = backgroundDay;
 
         this.box2DDebugRenderer = new Box2DDebugRenderer();
@@ -103,7 +103,6 @@ public class GameScreen extends ScreenAdapter {
             return;
         }
 
-        // TODO: world.step() should be called in model?
         viewableMinecraftModel.getWorld().step(1 / 60f, 6, 2);
 
         cameraUpdate();

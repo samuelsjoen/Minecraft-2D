@@ -31,7 +31,7 @@ public class GameWonScreen extends ScreenAdapter {
         this.font = font;
         this.model = model;
         this.font.getData().setScale(2); // increasing font size
-        backgroundImage = new Texture(Gdx.files.internal("winScreen.png"));
+        backgroundImage = new Texture(Gdx.files.internal("background/winScreen.png"));
     }
 
     @Override

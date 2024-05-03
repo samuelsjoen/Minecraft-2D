@@ -14,6 +14,7 @@ public class EntityFactory extends Factory<GameEntity, EntityParams> {
      * Constructs an EntityFactory and registers entity creators.
      */
     public EntityFactory() {
+        super();
         registerCreators();
     }
 

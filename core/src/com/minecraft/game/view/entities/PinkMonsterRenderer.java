@@ -32,7 +32,7 @@ public class PinkMonsterRenderer {
      * @param batch The SpriteBatch used to draw the Pink Monster's animations.
      */
     public PinkMonsterRenderer(SpriteBatch batch) {
-        sheet = new Texture("Pink_Monster.png");
+        sheet = new Texture("entities/Pink_Monster.png");
         this.batch = batch;
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 8, sheet.getHeight() / 14);
         for (int i = 0; i < 6; i++) {

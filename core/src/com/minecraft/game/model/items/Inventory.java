@@ -2,12 +2,21 @@ package com.minecraft.game.model.items;
 
 import java.util.LinkedHashMap;
 
+/**
+ * The Inventory class represents a player's inventory in the game.
+ * It stores the items and their quantities, as well as the current slot and maximum item slots.
+ */
 public class Inventory implements IInventory {
     private LinkedHashMap<Item, Integer> items;
     private LinkedHashMap<Item, Integer> armorInventory;
     private final int maxItemSlots;
     private int currentSlot;
 
+    /**
+     * Constructs an Inventory object with the specified default items.
+     * 
+     * @param defaultItems an array of default items to add to the inventory
+     */
     public Inventory(Item[] defaultItems) {
         this.items = new LinkedHashMap<Item, Integer>();
         this.armorInventory = new LinkedHashMap<>();
@@ -18,7 +27,8 @@ public class Inventory implements IInventory {
             addItem(item);
         }
     }
-
+       
+    @Override
     public LinkedHashMap<Item, Integer> getInventory() {
         return items;
     }
@@ -80,6 +90,7 @@ public class Inventory implements IInventory {
                 || item.getType() == ItemType.BOOTS;
     }
 
+    @Override
     public void addItem(Item name) {
         addItem(name, 1);
     }
@@ -99,6 +110,7 @@ public class Inventory implements IInventory {
         }
     }
 
+    @Override
     public void removeItem(Item name) {
         removeItem(name, 1);
     }
@@ -156,6 +168,7 @@ public class Inventory implements IInventory {
         return items.size();
     }
 
+    @Override
     public boolean contains(Item item) {
         return items.containsKey(item) || armorInventory.containsKey(item);
     }

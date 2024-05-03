@@ -72,8 +72,6 @@ Se mer i tidligere oblig for å få en oversikt over brukerhistorier, akseptanse
 ###### Bugs
 - Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen.
 - Etterhvert som spilleren akkumulerer flere gjenstander i inventory, begynner spillet å lagge. Det slutter å lagge igjen når man fjerner ting fra inventory. 
-- Plutselig starta med 140 score. Skjedde bare én gang da.
-- Noen ganger så blir en blokk ødelagt med en gang, istedenfor at det tar et visst antall sekunder.
 - Spillet krasjer noen ganger når man prøver å lukke det.
 
 #### Produkt og kode

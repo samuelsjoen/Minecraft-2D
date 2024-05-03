@@ -4,10 +4,8 @@
 **Teammedlemmer:** Magnus Yadi Halvorsen, Martine Naustdal Larsen, Nini Øyane Bjørnstad, Samuel Alois Starck Sjøen
 
 **Prosjekt:** Minecraft 2D (light versjon)
-**Lenke til project board:** https://app.asana.com/0/1206585808458619/1206585820662301
+**Lenke til project board:** https://git.app.uib.no/samuel.sjoen/team6/-/boards
 **Lenke til git:** https://git.app.uib.no/samuel.sjoen/team6
-
-==Krav til Readme: Dere må dokumentere hvordan prosjektet bygger, testes og kjøres, slik at det er lett for gruppelederne å bygge, teste og kjøre koden deres. Under vurdering kommer koden også til å brukertestes.==
 
 ## Om spillet
 "Minecraft 2D light" er en todimensjonal versjon inspirert av det ikoniske Minecraft-universet. Målet er å utforske, bygge og mine ved å bevege seg rundt i en todimensjonell verden. 
@@ -41,33 +39,90 @@ Utforskning av den todimensjonale verdenen åpner opp for nye muligheter og utfo
   - Spacebar: Hopp
 
 - Inventory-funksjoner
-  - E: Åpne/lukke crafting table
   - Q: Dropper inventory item som er markert
   - Pil venstre: Bevege seg til venstre i inventory
   - Pil høyre: Bevege seg til høyre i inventory
 
+- Crafting-funksjoner
+  - E: Åpne/lukke crafting table
+  - Pil opp: Bevege seg opp i crafting table
+  - Pil ned: Bevege seg ned i crafting table
+  - Pil venstre: Bevege seg til venstre i crafting table
+  - Pil høyre: Bevege seg til høyre i crafting table
+  - Enter: Lage gjenstand i crafting table
+
 - Generelle funksjoner
   - F: Skru av/på fullskjerm modus
   - P: Åpne pausemeny
-  - S: Starter spillet når man er inne på hjelpmenyen
   - Esc: Avslutte spillet
   - H: Åpne hjelpesiden
+
+<details>
+<summary>For 'avanserte' spillere</summary>
+
+```
+  - Scroll med musen for å raskt bevege deg gjennom inventory og crafting table
+  - I crafting table kan du bruke scrolle-funksjonen for å velge kolonner og 'W' for å endre rad 1 opp og 'S' for å endre rad 1 ned
+
+```
+</details>
+
+
+<details>
+<summary>Klikk her for å se hvilke gjenstander du kan lage!</summary>
+
+```
+Her er en oversikt over hvilke gjenstander du kan lage i crafting table:
+
+- Stick: 2 Wood -> 1 stick
+
+Våpen og verktøy:
+- Wooden Sword: 1 stick + 2 Wood -> 1 Wooden Sword
+- Wooden Pickaxe: 2 stick + 3 Wood -> 1 Wooden Pickaxe
+- Iron Sword: 1 stick + 2 Iron -> 1 Iron Sword
+- Iron Pickaxe: 2 stick + 3 Iron -> 1 Iron Pickaxe
+- Diamond Sword: 1 stick + 2 Diamond -> 1 Diamond Sword
+- Diamond Pickaxe: 2 stick + 3 Diamond -> 1 Diamond Pickaxe
+
+Rustning:
+- Iron helmet: 5 iron ore -> 1 Iron helmet
+- Iron chestplate: 8 iron ore -> 1 Iron chestplate
+- Iron gloves: 2 iron ore -> 1 Iron gloves
+- Iron leggings: 7 iron ore -> 1 Iron leggings
+- Iron boots: 4 iron ore -> 1 Iron boots
+
+- Diamond helmet: 5 diamond ore -> 1 Diamond helmet
+- Diamond chestplate: 8 diamond ore -> 1 Diamond chestplate
+- Diamond gloves: 2 diamond ore -> 1 Diamond gloves
+- Diamond leggings: 7 diamond ore -> 1 Diamond leggings
+- Diamond boots: 4 diamond ore -> 1 Diamond boots
+
+```
+</details>
 
 ## Hvordan kjøre koden?
 For å kjøre koden, følg disse trinnene:
 1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
-2. Åpne prosjektet i en kodeeditor (f.eks. VSCode, Eclipse, IntelliJ).
-3. Kompilér og kjør hovedklassen DesktopLauncher.java.
+2. I terminalen naviger til mappen du har lastet ned koden til. `/team6`
+3. Bruk kommandoen `gradle run` i terminalen.
+4. Spillet vil starte og du kan begynne å spille :)
 
-Man kan også bruke `gradle run` i terminalen.
+#### Kjøre spillet fra en JAR-fil
+For å kjøre spillet fra en JAR-fil, følg disse trinnene:
+1. Last ned koden fra Git ved å klone eller laste ned repositoriet til din lokale maskin.
+2. I terminalen naviger til mappen du har lastet ned koden til. `/team6`
+3. Kjør kommandoen `gradle w dist` i terminalen.
+4. Naviger til mappen `core/build/libs`
+5. Skriv inn kommandoen `java -jar team6-1.0.jar` i terminalen og trykk Enter. Hvis du bruker Mac, skriv `java -XstartOnFirstThread -jar team6-1.0.jar` i stedet.
+6. Spillet vil starte og du kan begynne å spille :)
 
 ## Hvordan teste koden?
 
 For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-objekter. Følg disse trinnene for å kjøre testene:
 
-1. Åpne prosjektet i din foretrukne kodeeditor.
-2. Naviger til test-fanen i din kodeeditor og kjør testene
-3. Eventuelt i terminalen skriv inn kommandoen `gradle test`
+1. Last ned koden fra Git.
+2. Naviger til mappen `/team6` i terminalen.
+3. Skriv kommandoen `gradle test` i terminalen for å kjøre testene.
 
 ## Hvor ressurser er hentet fra
 
@@ -90,10 +145,13 @@ Pinne: Admurin. (2022). Admurin's Armory [Sprite pack]. itch.io https://admurin.
 Sverd: DantePixels (2023) Tools Asset 16x16 [Sprite pack]. itch.io https://dantepixels.itch.io/tools-asset-16x16
 Samuel Sjøen (2024) Overlay textures. Lisens: CC0 1.0 Universal
 
-**Annet**
-For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: Textcraft. (2024). Minecrafter [Font]. Textcraft.net. https://textcraft.net/
+**Grafikk for bakgrunn**
+På menyskjerm og spillskjerm: Martine Larsen (2024) Background texture. Lisens: CC0 1.0 Universal
 Bakgrunnsbilde når man taper: Generated with AI ∙ April 30, 2024 at 5:18 PM. https://www.bing.com/images/create/a-solemn-and-sad-atmosphere-with-27game-over27-text-/1-66310bbf22a94349a09e8e2e9111f254?id=AkidL78M%2fLXYNmcMvLQ1wA%3d%3d&view=detailv2&idpp=genimg&thId=OIG4.N.gQ.Xn3lc4vfJQo4noe&FORM=GCRIDP&ajaxhist=0&ajaxserp=0
 Bakgrunnsbilde når man vinner: Generated with AI ∙ April 30, 2024 at 4:58 PM. https://www.bing.com/images/create/minecraft-inspired-game-win-screen-with-the-word-27/1-6631071a452f4e8eb907d46712ce82ca?id=oqqW3oDEaPa99ghhS4G%2fCw%3d%3d&view=detailv2&idpp=genimg&thId=OIG3.koz_AolWtspy1WXgQj6n&FORM=GCRIDP&mode=overlay
+
+**Annet**
+For tekst på MenuScreen.java og HelpScreen.java har denne siden blitt benyttet: Textcraft. (2024). Minecrafter [Font]. Textcraft.net. https://textcraft.net/
 
 ### Lyd
 

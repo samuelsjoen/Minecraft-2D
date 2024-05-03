@@ -31,7 +31,7 @@ public class KnightRenderer {
      */
     public KnightRenderer(SpriteBatch batch) {
         this.batch = batch;
-        sheet = new Texture("enemyKnight.png");
+        sheet = new Texture("entities/enemyKnight.png");
         TextureRegion[][] splitFrames = TextureRegion.split(sheet, sheet.getWidth() / 10, sheet.getHeight() / 4);
         for (int i = 0; i < 6; i++) {
             attackFrames[i] = splitFrames[0][i];

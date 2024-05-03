@@ -47,7 +47,6 @@ public class DayNightCycleTest extends LibgdxUnitTest {
         }
         /*dag, natt, dag, natt, dag */
         // The cycle should have run 6 times, so the number of entire nights survived should be 2
-        //System.out.println(dayNightCycle.getNumberOfNights());
         assertTrue(dayNightCycle.getNumberOfNights() == 2);
     }
 

@@ -67,7 +67,6 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 
 		MapObject polygon = objectLayer.getObjects().get("0, 0");
 		int objectId = (int) polygon.getProperties().get("id");
-		System.out.println("Object id: " + objectId);
 
 		// Remove the bedrock block
 		minecraftMapHelper.removeBlock(0, 0);

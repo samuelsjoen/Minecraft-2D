@@ -79,10 +79,9 @@ public class MenuScreen extends ScreenAdapter {
      * Loads textures used in menu screen.
      */
     private void loadTextures() {
-        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("background/backgroundDay.png"));
     }
 
-    // TODO: these should be private? 
     /**
      * Clears the screen.
      */
@@ -143,8 +142,6 @@ public class MenuScreen extends ScreenAdapter {
     }
 
 
-
-    // TODO: remove these setters someway? 
     // Setters below used for testing only: 
     /**
      * Sets the background texture of the menu screen.

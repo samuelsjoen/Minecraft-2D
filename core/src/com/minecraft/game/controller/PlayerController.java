@@ -46,10 +46,6 @@ public class PlayerController {
             case Keys.TAB:
                 setIsAttacking(true);
                 return true;
-            // TODO: maybe remove this? Is this like a cheat code?
-            case Keys.N:
-                controllableModel.killAllEntities();
-                return true;
         }
         return false;
     }
@@ -119,8 +115,7 @@ public class PlayerController {
         controllableModel.updateMovement(this.moveLeft, this.moveRight, this.isAttacking);
     }
 
-    // Unsure, but think these are only used for testing. 
-    // TODO: check if it possible to do this another way
+    // These are only used for testing. 
     /**
      * Get the moveLeft variable
      * @return true if the player is moving left, false otherwise

@@ -64,12 +64,6 @@ public interface ControllableMinecraftModel {
 
     // Player
 
-    // TODO: can probably remove this method
-    /**
-     * Revives the player.
-     */
-    void revivePlayer();
-
     /**
      * Changes the values based on if player should move. 
      * @param moveLeft boolean value for moving left
