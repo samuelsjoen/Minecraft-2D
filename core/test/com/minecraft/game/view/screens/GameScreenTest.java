@@ -61,27 +61,6 @@ public class GameScreenTest extends LibgdxUnitTest {
             gameScreen.setMapRenderer(mockRenderer);
         }
 
-        /*try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
-            try (MockedConstruction<EntityRenderer> mockedEntity = Mockito.mockConstruction(EntityRenderer.class)) {
-                gameScreen = new GameScreen(camera, mockModel, mockView, mockBatch);
-                gameScreen.setMapRenderer(mockRenderer);
-            }
-        }*/
-        
-
-        // try (MockedConstruction<Box2DDebugRenderer> mocked =
-        // Mockito.mockConstruction(Box2DDebugRenderer.class)) {
-        /*try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class);
-                MockedConstruction<EntityRenderer> mockedEntity = Mockito.mockConstruction(EntityRenderer.class)) {
-            // When GameScreen tries to create a Box2DDebugRenderer, it will get the mock
-            // instead
-            gameScreen = new GameScreen(camera, mockModel, mockView, mockBatch);
-            gameScreen.setMapRenderer(mockRenderer);
-        }*/
-
-        // try (MockedConstruction<EntityRenderer> mocked =
-        // Mockito.mockConstruction(EntityRenderer.class)) {
-
         // Set up the mock objects
 
         World mockWorld = mock(World.class);
@@ -109,49 +88,6 @@ public class GameScreenTest extends LibgdxUnitTest {
         gameScreen.setMapRenderer(mockRenderer);
         gameScreen.setDayNightCycle(mockDayNightCycle);
         gameScreen.setEntityRenderer(mockEntityRenderer);
-
-        // Mock the EntityRenderer class
-        // mockEntityRenderer = mock(EntityRenderer.class);
-
-        // Mock the constructor call for EntityRenderer
-        /*
-         * mockEntityRenderer = mock(EntityRenderer.class);
-         * whenNew(EntityRenderer.class)
-         * .withArguments(eq(mockEntityModel), any(SpriteBatch.class))
-         * .thenReturn(mockEntityRenderer);
-         */
-
-
-        /*when(gameScreen.createEntityRenderer(eq(mockEntityModel), any(SpriteBatch.class)))
-                .thenReturn(mockEntityRenderer);*/
-
-        /*mockEntityModel = mock(EntityModel.class);
-        when(mockModel.getEntityModel()).thenReturn(mockEntityModel);
-
-        // Mock the enemies
-        Knight mockKnight = mock(Knight.class);
-        Slime mockSlime = mock(Slime.class);
-        PinkMonster mockPinkMonster = mock(PinkMonster.class);
-        Projectile mockProjectile = mock(Projectile.class);
-
-        // Add the mocked enemies to the lists
-        List<Knight> knightList = new ArrayList<Knight>();
-        knightList.add(mockKnight);
-        List<Slime> slimesList = new ArrayList<Slime>();
-        slimesList.add(mockSlime);
-        List<PinkMonster> pinkMonstersList = new ArrayList<PinkMonster>();
-        pinkMonstersList.add(mockPinkMonster);
-        List<Projectile> projectilesList = new ArrayList<Projectile>();
-        projectilesList.add(mockProjectile);
-
-        // Stub the get methods
-        when(mockEntityModel.getKnights()).thenReturn(knightList);
-        when(mockEntityModel.getSlimes()).thenReturn(slimesList);
-        when(mockEntityModel.getPinkMonsters()).thenReturn(pinkMonstersList);
-        when(mockEntityModel.getProjectiles()).thenReturn(projectilesList);
-
-        // Mock the renderAllEntities method
-        doNothing().when(mockEntityRenderer).renderAllEntities();*/
     }
 
     @AfterEach

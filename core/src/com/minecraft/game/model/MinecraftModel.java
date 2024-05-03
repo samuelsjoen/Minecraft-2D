@@ -267,12 +267,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
         playerHealth.setArmorInventory(armorInventory);
+        player.resetScore();
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
 
         //factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
-        player.resetScore();
+        
         gameState = GameState.WELCOME_SCREEN;
     }
 

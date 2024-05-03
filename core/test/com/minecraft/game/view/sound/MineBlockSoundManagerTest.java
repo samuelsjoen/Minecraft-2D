@@ -38,13 +38,6 @@ public class MineBlockSoundManagerTest extends LibgdxUnitTest {
         assertFalse(soundManager.isPlaying());
     }
 
-    // @Test
-    // public void testDispose() {
-    //     assertNotNull(soundManager.getSound());
-    //     soundManager.dispose();
-    //     assertNull(soundManager.getSound());
-    // }
-
     @Test
     public void testIsSoundPlaying() {
         assertFalse(soundManager.isPlaying());

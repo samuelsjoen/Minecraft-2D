@@ -69,13 +69,6 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
 
     }
 
-    // FIXME: this tests fails
-    /*@Test
-    public void testKeyDownEscape() {
-        assertTrue(minecraftController.keyDown(Keys.ESCAPE));
-        verifyNoInteractions(mockModel);
-    }*/
-
     @Test
     public void testKeyDownF() {
         assertTrue(minecraftController.keyDown(Keys.F));

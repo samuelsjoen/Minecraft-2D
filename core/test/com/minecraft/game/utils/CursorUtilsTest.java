@@ -27,16 +27,6 @@ public class CursorUtilsTest extends LibgdxUnitTest {
         // assert that newCursor gets called with the correct arguments, and only once
         verify(Gdx.graphics, times(1)).newCursor(any(Pixmap.class), any(Integer.class), any(Integer.class));
     }
-
-    // @Test
-    // public void anotherTest() {
-    //     try (MockedConstruction<Pixmap> mockedConstruction = 
-    //          Mockito.mockConstruction(PixMap.class)) {
-    //         mockedConstruction.when(() -> new Pixmap(any())).thenReturn(null);
-    //         CursorUtils.setCursorPixmap("default_cursor.png");
-    //         verify(Gdx.graphics, never()).newCursor(any(Pixmap.class), any(Integer.class), any(Integer.class));
-    //     }
-    // }
 }
 
 

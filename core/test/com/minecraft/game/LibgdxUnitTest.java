@@ -28,7 +28,6 @@ public class LibgdxUnitTest {
         HeadlessNativesLoader.load();
         Gdx.files = new HeadlessFiles();
         // Mock some of the Gdx methods
-        //Gdx.graphics = new MockGraphics();
         Gdx.graphics =  mock(Graphics.class);
         Gdx.input = new MockInput();
         Gdx.audio = new MockAudio();

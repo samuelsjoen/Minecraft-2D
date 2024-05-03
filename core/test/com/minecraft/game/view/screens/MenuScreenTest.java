@@ -1,6 +1,5 @@
 package com.minecraft.game.view.screens;
 
-//import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -17,8 +16,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.eq;
-//import static org.junit.jupiter.api.Assertions.assertFalse;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class MenuScreenTest extends LibgdxUnitTest {
@@ -39,10 +36,6 @@ public class MenuScreenTest extends LibgdxUnitTest {
         }
 
         menuScreen.setBackgroundTexture(mockBackgroundTexture);
-        /*menuScreen.setTitleTexture(mockTitleTexture);
-        menuScreen.setStartButtonTexture(mockStartButtonTexture);
-        menuScreen.setHelpButtonTexture(mockHelpButtonTexture);
-        menuScreen.setQuitButtonTexture(mockQuitButtonTexture);*/
     }
 
     @Test
@@ -53,19 +46,6 @@ public class MenuScreenTest extends LibgdxUnitTest {
         verify(mockBatch, times(1)).end();
     }
 
-    /*@Test
-    void testDrawMenu() {
-        menuScreen.drawMenu();
-
-        // Verify that drawBackground, drawTitle, and drawButtons methods are called
-        verify(mockBatch, times(1)).draw(eq(mockBackgroundTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        /*verify(mockBatch, times(1)).draw(eq(mockTitleTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        verify(mockBatch, times(1)).draw(eq(mockStartButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        verify(mockBatch, times(1)).draw(eq(mockHelpButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        verify(mockBatch, times(1)).draw(eq(mockQuitButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-    */
-    //}
-
     @Test
     void testDrawBackground() {
         menuScreen.drawBackground();
@@ -74,34 +54,6 @@ public class MenuScreenTest extends LibgdxUnitTest {
         verify(mockBatch, times(1)).draw(eq(mockBackgroundTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
     }
 
-    /*@Test
-    void testDrawTitle() {
-        menuScreen.drawTitle();
-
-        // Verify that draw method is called with the correct parameters
-        verify(mockBatch, times(1)).draw(eq(mockTitleTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-    }*/
-
-    /*@Test
-    void testDrawButtons() {
-        menuScreen.drawButtons();
-
-        // Verify that drawButton method is called for each button texture
-        verify(mockBatch, times(1)).draw(eq(mockStartButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        verify(mockBatch, times(1)).draw(eq(mockHelpButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-        verify(mockBatch, times(1)).draw(eq(mockQuitButtonTexture), anyFloat(), anyFloat(), anyFloat(), anyFloat());
-    }
-
-    @Test
-    void testDrawButton() {
-        float buttonY = 300;
-        float expectedButtonY = buttonY - mockStartButtonTexture.getHeight();
-
-        menuScreen.drawButton(mockStartButtonTexture, buttonY);
-
-        // Verify that draw method is called with the correct parameters
-        verify(mockBatch, times(1)).draw(eq(mockStartButtonTexture), anyFloat(), eq(expectedButtonY), anyFloat(), anyFloat());
-    }*/
 
     @Test
     void testDispose() {
@@ -110,10 +62,6 @@ public class MenuScreenTest extends LibgdxUnitTest {
         // Verify that dispose method is called for each texture and the batch
         verify(mockBatch, times(1)).dispose();
         verify(mockBackgroundTexture, times(1)).dispose();
-        /*verify(mockTitleTexture, times(1)).dispose();
-        verify(mockStartButtonTexture, times(1)).dispose();
-        verify(mockHelpButtonTexture, times(1)).dispose();
-        verify(mockQuitButtonTexture, times(1)).dispose();*/
     }
 
     @Test
