@@ -37,10 +37,22 @@ public class Inventory implements IInventory {
      * @param quantity the quantity of the item to add
      */
     public void addItem(Item item, int quantity) {
-        if (!isFull()) {
+        if (canAddMore(item)) {
             if (!isArmor(item)) {
                 addItemToInventory(item, quantity);
             }
+        }
+    }
+
+    private boolean canAddMore(Item item) {
+        if (isFull()) {
+            if (items.keySet().toArray()[maxItemSlots] == item) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
         }
     }
 
