@@ -146,12 +146,5 @@ public class Constants {
         Item.IRON_ORE,
         Item.IRON_ORE,
         Item.IRON_ORE,
-        Item.IRON_PICKAXE,
-        Item.IRON_SWORD,
-        Item.BEDROCK,
-        Item.DIAMOND_ORE,
-        Item.STICK,
-        Item.STONE,
-        Item.DIAMOND_SWORD
     };
 }
