@@ -36,11 +36,11 @@ Gruppedynamikken er god, og vi har en god kommunikasjon på Discord. Vi har ikke
 
 ##### Retrospektiv 
 
-- [ ] Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
-- [ ] Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
-- [ ] For siste innlevering (Oblig 4): Gjør et retrospektiv hvor dere vurderer hvordan hele prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt?
+Vi innser nå i ettertid at vi burde vært ferdig med spillet 1-2 uker før innleveringsfrist slik at vi kunne brukt tiden på å brukerteste. Den siste uken har vi funnet en del bugs i koden. Vi burde brukertestet koden mer og lengre tidligere. Tidligere har vi ofte bare sjekket om spillet fungerer og kan kjøre, men etter at vi kjørte spillet over en lengre periode fant vi ut at det lagget en del som vi nå har fikset. 
 
-==Skriv ferdig denne delen==
+Holdt oss ansvarlig for å ha oversikt over de andre sin kode. Slik at vi hvert møte kunne ha en liten gjennomgang av hva kode vi hadde laget. Vi burde brukt møtene på å diskutere kode og ikke bare kodet for oss selv.
+
+Vi synes at prosjektet har gått bra, kommunikasjon og hvordan vi har jobbet har ikke vært noe problem. Vi har hatt god kommunikasjon og har hatt jevnlige møter. Vi har også hatt en god fordeling av arbeidsoppgaver. Mye av problemene vi har hatt i prosjektet har vært med det tekniske, git, vs code, gradle run. I retrospektiv burde vi kanskje endret på arbeidsmåte - kanskje brukt maven fremfor gradle.
 
 Kunne delt opp klassene mer. Brukt flere interfaces og abstrakte klasser.
 Burde ha implementert 'OverlayView' på en bedre måte, slik at objektene slipper å måtte oppdatere posisjon hele tiden fordi at kameraet flytter på seg. For å kunne ha fått til det, måtte vi hatt større kunnskap om Libgdx.
@@ -48,7 +48,6 @@ Burde ha implementert 'OverlayView' på en bedre måte, slik at objektene slippe
 1. Vi burde ha ordentlig implementert en DEBUG-mode. Det hadde gjort det lettere for oss å sjekke om ting så riktig ut i GUI.
 2. Vi burde ha planlagt prosjektstrukturen bedre før vi begynte å kode, det hadde ført til at vi hadde sluppet å brukt mye tid på å endre på koden slik at den ble mer MVC-aktig.
 3. Kunne tatt i bruk maven fremfor gradle ettersom foreleser anbefalte det. I tillegg fikk vi innføring i maven under forelesning, mens det ikke ble lagt noe som helst fokus på gradle. Derfor måtte vi sette oss inn i gradle på egenhånd, noe vi har syntes vært vanskelig. Vi har brukt alt for lang tid på gradle. Det har vært mye problemer i forhold til å få 'gradle run' til å fungere. 
-
 
 ##### Fordeling av bidrag til kodebasen
 
@@ -65,20 +64,23 @@ Vårt stretch goal er:
 - [ ] Flere typer blokker og items
 - [ ] Gjøre det lettere for spilleren å se hvilken blokk som er markert når man skal fjerne/plassere en blokk (f.eks. ha en tydelig rød boks rundt kantene på blokken)
 - [ ] Lagre spillet og laste det inn igjen
+- [ ] Ha mulighet til at player kan få mer liv igjen, f. eks. ved å crafte potions. Nå kan player kun crafte rustning, for å få mer liv. 
+- [ ] Endre slik at treblokker kan bli kolliderbare når man plasserer dem ut - slik at man kan lage hus etc. uten å "gå gjennom veggene".
+- [ ] Legge til mer ores og mengden av dem
 
 ###### Brukerhistorier, akseptansekriterier & prioritering av arbeidsoppgaver
 Se mer i tidligere oblig for å få en oversikt over brukerhistorier, akseptansekriterier og arbeidsoppgaver, [her](oblig3.md). 
 
 ###### Bugs
 - Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen.
-- Etterhvert som spilleren akkumulerer flere gjenstander i inventory, begynner spillet å lagge. Det slutter å lagge igjen når man fjerner ting fra inventory. 
 - Spillet krasjer noen ganger når man prøver å lukke det.
+- Noen få ganger så fjernes ikke blokken når man klikker på den. Hvis man tar musen og klikker på nytt på blokken - så fungerer det som det skal. 
 
 #### Produkt og kode
 
 ##### Hvordan bygge, teste og kjøre prosjektet
 - [x] I README.md: Dere må dokumentere hvordan prosjektet bygger, testes og kjøres, slik at det er lett for gruppelederne å bygge, teste og kjøre koden deres. Under vurdering kommer koden også til å brukertestes. [Klikk her for å se README.md](../README.md)
-- [ ] Prosjektet skal kunne bygge, testes og kjøres på Linux, Windows og OS X – dere kan f.eks. spørre de andre teamene på gruppen om dere ikke har tilgang til alle platformene. OBS! Den vanligste grunnen til inkompatibilitet med Linux er at filnavn er case sensitive, mens store/små bokstaver ikke spiller noen rolle på Windows og OS X. Det er viktig å sjekke at stiene til grafikk og lyd og slikt matcher eksakt. Det samme vil antakelig også gjelde når man kjører fra JAR-fil.
+- [x] Prosjektet skal kunne bygge, testes og kjøres på Linux, Windows og OS X – dere kan f.eks. spørre de andre teamene på gruppen om dere ikke har tilgang til alle platformene. OBS! Den vanligste grunnen til inkompatibilitet med Linux er at filnavn er case sensitive, mens store/små bokstaver ikke spiller noen rolle på Windows og OS X. Det er viktig å sjekke at stiene til grafikk og lyd og slikt matcher eksakt. Det samme vil antakelig også gjelde når man kjører fra JAR-fil.
 - [ ] Utførte oppgaver skal være ferdige. Slett filer/kode som ikke virker eller ikke er relevant (ennå) for prosjektet. (Så lenge dere har en egen git branch for innlevering, så er det ikke noe stress å fjerne ting fra / rydde den, selv om dere fortsetter utviklingen på en annen gren.)
 
 For instrukser ift. bygging, testing og kjøring av kode [se README.md.](../README.md)
@@ -125,4 +127,3 @@ Se nedenfor for klassediagram av koden vår:
 ![Klassediagramsoversikt](klassediagram/oblig4/classdiagram_overview.png)
 ![Klassediagram for verktøy](klassediagram/oblig4/classdiagram_utils.png)
 ![Klassediagram for visning](klassediagram/oblig4/classdiagram_view.png)
-
