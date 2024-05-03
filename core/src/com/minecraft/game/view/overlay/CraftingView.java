@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Item;
-import java.util.HashMap;
 
 public class CraftingView implements IOverlay {
     private final Crafting crafting;

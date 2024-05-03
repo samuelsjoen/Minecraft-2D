@@ -56,11 +56,6 @@ public class GameScreenTest extends LibgdxUnitTest {
 
         mockPlayer = mock(Player.class);
 
-        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
-            gameScreen = new GameScreen(camera, mockModel, mockView, mockBatch);
-            gameScreen.setMapRenderer(mockRenderer);
-        }
-
         // Set up the mock objects
 
         World mockWorld = mock(World.class);
@@ -81,6 +76,11 @@ public class GameScreenTest extends LibgdxUnitTest {
         mockEnemyManager = mock(EnemyManager.class);
         mockDayNightCycle = mock(DayNightCycle.class);
         mockEntityRenderer = mock(EntityRenderer.class);
+        
+        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
+            gameScreen = new GameScreen(camera, mockModel, mockView, mockBatch);
+            gameScreen.setMapRenderer(mockRenderer);
+        }
 
         gameScreen.setSpriteManager(mockSpriteManager);
         gameScreen.setOverlayView(mockOverlayView);
@@ -88,6 +88,7 @@ public class GameScreenTest extends LibgdxUnitTest {
         gameScreen.setMapRenderer(mockRenderer);
         gameScreen.setDayNightCycle(mockDayNightCycle);
         gameScreen.setEntityRenderer(mockEntityRenderer);
+
     }
 
     @AfterEach

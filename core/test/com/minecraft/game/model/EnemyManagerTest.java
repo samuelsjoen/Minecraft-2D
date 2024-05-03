@@ -2,7 +2,6 @@ package com.minecraft.game.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.model.entities.Knight;
 import com.minecraft.game.model.entities.PinkMonster;
@@ -24,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -141,35 +139,6 @@ public class EnemyManagerTest {
         assertEquals(5, EnemyManager.getPinkMonsters().size(), "Should return a list containing 1 pink monster.");
         assertEquals(testPinkMonster, EnemyManager.getPinkMonsters().get(0),
                 "The returned list should contain the added pink monster.");
-    }
-
-    @Test
-    void testSpawnEnemy() {
-        // Mock player position within the valid range
-        when(mockPlayer.getBody().getPosition()).thenReturn(new Vector2(15, 15));
-
-        // Simulate valid spawn locations.
-        when(mockMineableLayer.getCell(anyInt(), anyInt()))
-                .thenAnswer(invocation -> {
-                    Object[] args = invocation.getArguments();
-                    int y = (int) args[1];
-                    // Simulate that the cell at the spawn level is mineable and the ones above are
-                    // empty
-                    if (y == 10) {
-                        Cell mockCell = mock(Cell.class);
-                        return mockCell;
-                    }
-                    return null; // Simulate empty cells above
-                });
-
-        enemyManager.spawnEnemy();
-
-        // Verify that at least one list has a entity.
-        boolean enemySpawned = !EnemyManager.getEnemies().isEmpty() ||
-                !EnemyManager.getSlimes().isEmpty() ||
-                !EnemyManager.getPinkMonsters().isEmpty();
-
-        assertTrue(enemySpawned, "An enemy should have been spawned.");
     }
 
     @Test

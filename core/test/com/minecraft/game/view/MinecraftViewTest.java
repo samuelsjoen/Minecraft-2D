@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.Minecraft;
 import com.minecraft.game.model.GameState;
+import com.minecraft.game.model.Player;
 import com.minecraft.game.view.screens.GameOverScreen;
 import com.minecraft.game.view.screens.GameScreen;
 import com.minecraft.game.view.screens.GameWonScreen;
@@ -39,6 +40,9 @@ class MinecraftViewTest extends LibgdxUnitTest {
 
     private BitmapFont font;
 
+    @Mock
+    private Player mockPlayer;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -60,6 +64,7 @@ class MinecraftViewTest extends LibgdxUnitTest {
 
         // When getMapRenderer() is called on the mock model, return the mock renderer
         when(mockModel.getMapRenderer()).thenReturn(mockRenderer);
+        when(mockModel.getPlayer()).thenReturn(mockPlayer);
 
         try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class);
             MockedConstruction<Stage> mockedStage = Mockito.mockConstruction(Stage.class)) {

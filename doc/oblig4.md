@@ -30,6 +30,8 @@ Dette har blant annet ført til at vi ikke har hatt like god oversikt som vi bur
 
 Referatene fra alle møtene våre er å finne i referat-mappen vår. [Klikk her for å på siste referat.](referat/Referat-03.05.2024.txt)
 
+![Oversikt KanBan](Kanban.jpg)
+
 ##### Gruppedynamikk
 
 Gruppedynamikken er god, og vi har en god kommunikasjon på Discord. Vi har ikke hatt noen store uenigheter som har trengt å løses.
@@ -75,6 +77,7 @@ Se mer i tidligere oblig for å få en oversikt over brukerhistorier, akseptanse
 - Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen.
 - Spillet krasjer noen ganger når man prøver å lukke det.
 - Noen få ganger så fjernes ikke blokken når man klikker på den. Hvis man tar musen og klikker på nytt på blokken - så fungerer det som det skal. 
+- Score resettes ikke alltid når man restarter spillet.
 
 #### Produkt og kode
 

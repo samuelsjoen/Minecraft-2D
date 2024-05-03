@@ -72,8 +72,6 @@ public class GameScreen extends ScreenAdapter {
 
         this.orthogonalTiledMapRenderer = viewableMinecraftModel.getMapRenderer();
 
-        // TODO: Should not initialize EnemyManager here, should be initialized in
-        // model, and use getter for getViewableEnemies() or something?
         enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(),
                 viewableMinecraftModel.getTiledMap(), viewableMinecraftModel.getDayNightCycle());
 
@@ -113,7 +111,7 @@ public class GameScreen extends ScreenAdapter {
         spriteManager.update();
 
         overlayView.update(getLowerLeftCorner());
-        // # TODO: should go through viewableMinecraftModel
+
         enemyManager.update(0.01f);
 
     }
