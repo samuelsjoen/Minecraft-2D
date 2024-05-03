@@ -19,6 +19,10 @@ public class Constants {
     public static final int TOGGLE_FULLSCREEN_KEY = Keys.F;
     public static final int ANY_KEY = Keys.ANY_KEY;
 
+    // Key to toggle debug mode if needed dynamically
+    public static final int TOGGLE_DEBUG_KEY = Keys.F1;
+
+
     // Movement & player keys
     public static final int MOVE_LEFT_KEY = Keys.A;
     public static final int MOVE_RIGHT_KEY = Keys.D;
@@ -62,7 +66,7 @@ public class Constants {
                                                                              // player and enemy
 
     // Inventory
-    public static final Item[] EMPTY_INVENTORY = new Item[] {
+    public static final Item[] DEFAULT_ITEMS = new Item[] {
     };
 
     public static final Item[] DEMO_ITEMS = new Item[] {
