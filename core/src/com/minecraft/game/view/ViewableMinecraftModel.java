@@ -90,4 +90,5 @@ public interface ViewableMinecraftModel {
      * @return the entity model
      */
     EntityModel getEntityModel();
+
 }
