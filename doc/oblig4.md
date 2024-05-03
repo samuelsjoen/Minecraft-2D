@@ -47,6 +47,8 @@ Vi synes at prosjektet har gått bra, kommunikasjon og hvordan vi har jobbet har
 Kunne delt opp klassene mer. Brukt flere interfaces og abstrakte klasser.
 Burde ha implementert 'OverlayView' på en bedre måte, slik at objektene slipper å måtte oppdatere posisjon hele tiden fordi at kameraet flytter på seg. For å kunne ha fått til det, måtte vi hatt større kunnskap om Libgdx.
 
+Vi kom på forrige uke at vi burde ha en score. Vi har nå lagt det til, men det resettes ikke alltid når man restarter spillet. Vi ser nå i ettertid, på innleveringsdagen, at vi ikke burde prioritert å legge til en ny funksjon i spillet.
+
 1. Vi burde ha ordentlig implementert en DEBUG-mode. Det hadde gjort det lettere for oss å sjekke om ting så riktig ut i GUI.
 2. Vi burde ha planlagt prosjektstrukturen bedre før vi begynte å kode, det hadde ført til at vi hadde sluppet å brukt mye tid på å endre på koden slik at den ble mer MVC-aktig.
 3. Kunne tatt i bruk maven fremfor gradle ettersom foreleser anbefalte det. I tillegg fikk vi innføring i maven under forelesning, mens det ikke ble lagt noe som helst fokus på gradle. Derfor måtte vi sette oss inn i gradle på egenhånd, noe vi har syntes vært vanskelig. Vi har brukt alt for lang tid på gradle. Det har vært mye problemer i forhold til å få 'gradle run' til å fungere. 
@@ -125,8 +127,4 @@ Disse manuelle testene vil bidra til å sikre at spillet fungerer som forventet.
 
 Se nedenfor for klassediagram av koden vår:
 
-![Klassediagram for kontroller](klassediagram/oblig4/classdiagram_controller.png)
-![Klassediagram for modell](klassediagram/oblig4/classdiagram_model.png)
 ![Klassediagramsoversikt](klassediagram/oblig4/classdiagram_overview.png)
-![Klassediagram for verktøy](klassediagram/oblig4/classdiagram_utils.png)
-![Klassediagram for visning](klassediagram/oblig4/classdiagram_view.png)
