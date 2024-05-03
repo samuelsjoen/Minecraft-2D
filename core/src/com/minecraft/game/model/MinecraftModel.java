@@ -43,6 +43,8 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private OrthogonalTiledMapRenderer mapRenderer;
     private EntityModel EntityModel;
 
+    private Score score;
+
     /**
      * Constructs a new instance of the MinecraftModel class.
      * Initializes the game state, map, inventory, player health, armor inventory,
@@ -69,6 +71,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.EntityModel = new EntityModel();
 
+        this.score = new Score();
+
+    }
+
+    @Override
+    public Score getScore() {
+        return score;
     }
 
     @Override
@@ -269,9 +278,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
         playerHealth.setArmorInventory(armorInventory);
-        player.resetScore();
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
+        score.resetScore();
 
         dayNightCycle = new DayNightCycle();
         

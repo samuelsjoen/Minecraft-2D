@@ -38,7 +38,7 @@ public class EnemyManager {
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
     private EntityFactory entityFactory;
-    private static boolean dontScore;
+    private Score score;
 
     /**
      * Constructs an EnemyManager with necessary game elements like the game world,
@@ -50,13 +50,15 @@ public class EnemyManager {
      *                      boundaries.
      * @param dayNightCycle The game's day-night cycle affecting enemy behavior.
      */
-    public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle) {
+    public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle, Score score) {
         this.world = world;
         this.player = player;
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
-        killAllEntities();
-        player.resetScore();
+        this.score = score;
+        killAllEntities(); // Killing all the entities will add points to the score
+        removeDeadEnemies(-10.0f); // We now need to remove the enemies that was marked for removal.
+        score.resetScore(); // reset score and set it to 0
         entityFactory = new EntityFactory();
     }
 
@@ -112,16 +114,13 @@ public class EnemyManager {
             if (entity.getBody().getPosition().y < deathThreshold || entity.isMarkedForRemoval()) {
                 entity.dispose();
                 deadEntities.add(entity);
-                if(dontScore != true){
-                    if (entity instanceof Knight) {
-                        player.addScore(30); // 30 points for Knight
-                    } else if (entity instanceof Slime) {
-                        player.addScore(10); // 10 point for Slime
-                    } else if (entity instanceof PinkMonster) {
-                        player.addScore(50); // 50 points for PinkMonster
-                    }
+                if (entity instanceof Knight) {
+                    score.addPoints(30); // 30 points for Knight
+                } else if (entity instanceof Slime) {
+                    score.addPoints(10); // 10 points for Slime
+                } else if (entity instanceof PinkMonster) {
+                    score.addPoints(50); // 50 points for PinkMonster
                 }
-                dontScore = false;
             }
         }
         entities.removeAll(deadEntities);
@@ -230,7 +229,6 @@ public class EnemyManager {
      * during game resets or cleanup phases.
      */
     public static void killAllEntities() {
-        dontScore = true;
         // Mark all knights for removal
         for (Knight knight : knights) {
             knight.setMarkedForRemoval();

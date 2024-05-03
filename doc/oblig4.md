@@ -47,7 +47,9 @@ Vi synes at prosjektet har gått bra, kommunikasjon og hvordan vi har jobbet har
 Kunne delt opp klassene mer. Brukt flere interfaces og abstrakte klasser.
 Burde ha implementert 'OverlayView' på en bedre måte, slik at objektene slipper å måtte oppdatere posisjon hele tiden fordi at kameraet flytter på seg. For å kunne ha fått til det, måtte vi hatt større kunnskap om Libgdx.
 
-Vi kom på forrige uke at vi burde ha en score. Vi har nå lagt det til, men det resettes ikke alltid når man restarter spillet. Vi ser nå i ettertid, på innleveringsdagen, at vi ikke burde prioritert å legge til en ny funksjon i spillet.
+Vi kom på forrige uke at vi burde ha en score. Vi har nå lagt det til, men den ble ikke alltid satt til 0 når man restarter spillet. Til slutt fikk vi fikset denne buggen, men vi ser nå i ettertid, på innleveringsdagen, at vi ikke burde prioritert å legge til en ny funksjon i spillet. 
+
+I tillegg fant vi ut på innleveringsdagen at vi burde gjort kodebasen vår mer oversiktlig ved å dele inn i flere mapper spesielt i model-mappen - når vi prøvde på dette ble det mye feil med imports og diverse - slik at vi måtte bare gå tilbake. En ting å ha i bakhodet til en annen gang er å ikke gjøre alt for store endringer i innspurten, men heller anerkjenne at dersom man hadde hatt bedre tid kunne man gjort disse endringene.
 
 1. Vi burde ha ordentlig implementert en DEBUG-mode. Det hadde gjort det lettere for oss å sjekke om ting så riktig ut i GUI.
 2. Vi burde ha planlagt prosjektstrukturen bedre før vi begynte å kode, det hadde ført til at vi hadde sluppet å brukt mye tid på å endre på koden slik at den ble mer MVC-aktig.
@@ -79,7 +81,6 @@ Se mer i tidligere oblig for å få en oversikt over brukerhistorier, akseptanse
 - Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen.
 - Spillet krasjer noen ganger når man prøver å lukke det.
 - Noen få ganger så fjernes ikke blokken når man klikker på den. Hvis man tar musen og klikker på nytt på blokken - så fungerer det som det skal. 
-- Score resettes ikke alltid når man restarter spillet.
 
 #### Produkt og kode
 

@@ -73,13 +73,14 @@ public class GameScreen extends ScreenAdapter {
         this.orthogonalTiledMapRenderer = viewableMinecraftModel.getMapRenderer();
 
         enemyManager = new EnemyManager(viewableMinecraftModel.getWorld(), viewableMinecraftModel.getPlayer(),
-                viewableMinecraftModel.getTiledMap(), viewableMinecraftModel.getDayNightCycle());
+                viewableMinecraftModel.getTiledMap(), viewableMinecraftModel.getDayNightCycle(), viewableMinecraftModel.getScore());
 
+        viewableMinecraftModel.getScore().resetScore();
         // Disse er greie å ha i view - de handler om view
         this.spriteManager = new SpriteManager(viewableMinecraftModel.getPlayer(),
                 viewableMinecraftModel.getInventory(), viewableMinecraftModel.getArmorInventory());
         this.overlayView = new OverlayView(viewableMinecraftModel.getInventory(), Player.getHealth(),
-                viewableMinecraftModel.getCrafting(), viewableMinecraftModel.getPlayer(), batch, minecraftView.getFont());
+                viewableMinecraftModel.getCrafting(), viewableMinecraftModel.getScore(), batch, minecraftView.getFont());
 
         this.dayNightCycle = viewableMinecraftModel.getDayNightCycle();
 

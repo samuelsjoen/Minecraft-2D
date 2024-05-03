@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.minecraft.game.model.Health;
-import com.minecraft.game.model.Player;
+import com.minecraft.game.model.Score;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Inventory;
 
@@ -16,12 +16,12 @@ public class OverlayView implements IOverlay {
     private final IOverlay scoreView;
     private final TextureMap textureMap;
 
-    public OverlayView(Inventory inventory, Health health, Crafting crafting, Player player, SpriteBatch batch, BitmapFont font) {
+    public OverlayView(Inventory inventory, Health health, Crafting crafting, Score score, SpriteBatch batch, BitmapFont font) {
         this.textureMap = new TextureMap();
         this.inventoryView = new InventoryView(inventory, batch, font, textureMap);
         this.healthView = new HealthView(health, batch);
         this.craftingView = new CraftingView(crafting, batch, font, textureMap);
-        this.scoreView = new ScoreView(batch, player);
+        this.scoreView = new ScoreView(batch, score);
     }
 
     @Override

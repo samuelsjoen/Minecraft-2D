@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.MinecraftModel;
-import com.minecraft.game.model.Player;
+import com.minecraft.game.model.Score;
 
 public class GameWonScreenTest extends LibgdxUnitTest {
 
@@ -25,7 +25,7 @@ public class GameWonScreenTest extends LibgdxUnitTest {
     private BitmapFont font;
     private GameWonScreen gameWonScreen;
     private MinecraftModel model;
-    private Player mockPlayer;
+    private Score mockScore;
 
     @BeforeEach
     public void setUp() {
@@ -41,11 +41,11 @@ public class GameWonScreenTest extends LibgdxUnitTest {
         // Mock the behavior of setScale() on the BitmapFontData mock
         doNothing().when(fontData).setScale(2);
 
-        mockPlayer = mock(Player.class);
+        mockScore= mock(Score.class);
 
         model = mock(MinecraftModel.class);
-        when(model.getPlayer()).thenReturn(mockPlayer);
-        when(model.getPlayer().getScore()).thenReturn(10);
+        when(model.getScore()).thenReturn(mockScore);
+        when(model.getScore().getScore()).thenReturn(10);
 
         // Create GameWonScreen instance
         gameWonScreen = new GameWonScreen(spriteBatch, font, model);

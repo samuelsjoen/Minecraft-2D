@@ -16,6 +16,14 @@ import com.minecraft.game.view.screens.HelpScreen;
 import com.minecraft.game.view.screens.MenuScreen;
 import com.minecraft.game.view.screens.PausedScreen;
 
+import com.minecraft.game.model.EnemyManager;
+import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.Projectile;
+import com.minecraft.game.model.entities.Slime;
+
+import com.minecraft.game.model.Score;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -66,8 +74,16 @@ class MinecraftViewTest extends LibgdxUnitTest {
         when(mockModel.getMapRenderer()).thenReturn(mockRenderer);
         when(mockModel.getPlayer()).thenReturn(mockPlayer);
 
+        Score mockScore = mock(Score.class);
+        when(mockModel.getScore()).thenReturn(mockScore);
+
         try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class);
-            MockedConstruction<Stage> mockedStage = Mockito.mockConstruction(Stage.class)) {
+            MockedConstruction<Stage> mockedStage = Mockito.mockConstruction(Stage.class);
+            MockedConstruction<EnemyManager> enemyManager = Mockito.mockConstruction(EnemyManager.class);
+            MockedConstruction<Knight> knight = Mockito.mockConstruction(Knight.class);
+            MockedConstruction<Slime> slime = Mockito.mockConstruction(Slime.class);
+            MockedConstruction<PinkMonster> pinkMonster = Mockito.mockConstruction(PinkMonster.class);
+            MockedConstruction<Projectile> projectile = Mockito.mockConstruction(Projectile.class)) {
             // When GameScreen tries to create a Box2DDebugRenderer, it will get the mock instead
             // Similarily for HelpScreen which uses Stage. 
             minecraftView = new MinecraftView(mockGame, mockModel, spriteBatch, font);
@@ -86,12 +102,18 @@ class MinecraftViewTest extends LibgdxUnitTest {
 
     @Test
     void newGameScreen_shouldDisposePreviousGameScreenAndCreateNewOne() {
-        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
-            GameScreen oldGameScreen = minecraftView.getGameScreen();
-            minecraftView.newGameScreen();
-            GameScreen newGameScreen = minecraftView.getGameScreen();
+        try (MockedConstruction<Box2DDebugRenderer> mockedBox2D = Mockito.mockConstruction(Box2DDebugRenderer.class);
+            MockedConstruction<EnemyManager> enemyManager = Mockito.mockConstruction(EnemyManager.class);
+            MockedConstruction<Knight> knight = Mockito.mockConstruction(Knight.class);
+            MockedConstruction<Slime> slime = Mockito.mockConstruction(Slime.class);
+            MockedConstruction<PinkMonster> pinkMonster = Mockito.mockConstruction(PinkMonster.class);
+            MockedConstruction<Projectile> projectile = Mockito.mockConstruction(Projectile.class)) {
+
+                GameScreen oldGameScreen = minecraftView.getGameScreen();
+                minecraftView.newGameScreen();
+                GameScreen newGameScreen = minecraftView.getGameScreen();
     
-            assertNotSame(oldGameScreen, newGameScreen);
+                assertNotSame(oldGameScreen, newGameScreen);
         }    
     }
 

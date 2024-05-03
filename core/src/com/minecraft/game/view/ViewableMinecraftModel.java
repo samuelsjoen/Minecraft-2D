@@ -11,6 +11,7 @@ import com.minecraft.game.model.entities.EntityModel;
 import com.minecraft.game.model.items.ArmorInventory;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Inventory;
+import com.minecraft.game.model.Score;
 
 /**
  * The ViewableMinecraftModel interface represents a viewable Minecraft model.
@@ -90,4 +91,10 @@ public interface ViewableMinecraftModel {
      * @return the entity model
      */
     EntityModel getEntityModel();
+
+    /**
+     * Get the player's score-class
+     * @return the player's score-class
+     */
+    Score getScore();
 }

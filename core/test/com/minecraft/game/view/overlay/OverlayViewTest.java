@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.minecraft.game.LibgdxUnitTest;
 import com.minecraft.game.model.Health;
-import com.minecraft.game.model.Player;
+import com.minecraft.game.model.Score;
 import com.minecraft.game.model.items.Crafting;
 import com.minecraft.game.model.items.Inventory;
 import com.minecraft.game.model.items.Item;
@@ -25,7 +25,7 @@ public class OverlayViewTest extends LibgdxUnitTest {
     private Health health;
     private OverlayView overlayView;
     private BitmapFont font;
-    private Player player;
+    private Score score;
 
     @BeforeEach
     public void setUp() {
@@ -42,15 +42,15 @@ public class OverlayViewTest extends LibgdxUnitTest {
         when(health.getHealth()).thenReturn(5);
         when(health.getArmorHealth()).thenReturn(10);
 
-        player = mock(Player.class);
-        when(player.getScore()).thenReturn(0);
+        score = mock(Score.class);
+        when(score.getScore()).thenReturn(0);
 
         font = mock(BitmapFont.class);
         BitmapFont.BitmapFontData fontData = mock(BitmapFont.BitmapFontData.class);
         when(font.getData()).thenReturn(fontData);
         doNothing().when(fontData).setScale(2);
 
-        overlayView = new OverlayView(inventory, health, crafting, player, batch, font);
+        overlayView = new OverlayView(inventory, health, crafting, score, batch, font);
     }
 
     @AfterEach

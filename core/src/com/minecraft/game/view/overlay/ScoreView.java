@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.minecraft.game.model.Player;
+import com.minecraft.game.model.Score;
 
 /**
  * The ScoreView class is responsible for rendering and updating the score display on the screen.
@@ -19,18 +19,18 @@ public class ScoreView implements IOverlay {
     private float xScore;       // where the score should be placed on the x-axis
     private float yScore;       // where the score should be placed on the y-axis
 
-    private Player player;      // the player object
-    private int score;          // the player's score
+    private Score score;        // the score object
 
     /**
      * Represents a view for displaying the player's score.
      * 
      * @param batch the SpriteBatch used for rendering
-     * @param player the Player object whose score will be displayed
+     * @param score the Score object which will be displayed
      */
-    public ScoreView(SpriteBatch batch, Player player){
+    public ScoreView(SpriteBatch batch, Score score){
         this.batch = batch;
-        this.player = player;
+        this.score = score;
+        score.resetScore();
 
         this.font = new BitmapFont();
         this.font.setColor(Color.GOLD);     // Sets the font color to gold
@@ -39,9 +39,9 @@ public class ScoreView implements IOverlay {
 
     @Override
     public void render() {
-        score = player.getScore(); // Updating the score
+        int currentScore = score.getScore(); // Updating the score
         // Drawing the score on the screen based on the new updated coordinated
-        font.draw(batch, "Score: " + score, xScore, yScore); 
+        font.draw(batch, "Score: " + currentScore, xScore, yScore); 
     }
 
     @Override
