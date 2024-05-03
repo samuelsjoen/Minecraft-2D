@@ -15,16 +15,13 @@ import com.minecraft.game.utils.SpriteManager;
  */
 public class Player extends GameEntity {
 
-    private boolean isFacingRight = true;
+    private boolean isFacingRight;
     private static Health health;
     private static Inventory inventory;
 
     private boolean isInvincible;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
-    private int score = 0;
-
-    private float velX = 0;
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -35,6 +32,9 @@ public class Player extends GameEntity {
     private Boolean moveLeft;
     private Boolean moveRight;
     private Boolean isAttacking;
+
+    private float velX;
+    private int score;
 
     /**
      * Constructs a Player with specified parameters, initializing state and health.
@@ -55,6 +55,10 @@ public class Player extends GameEntity {
         this.moveLeft = false;
         this.moveRight = false;
         this.isAttacking = false;
+
+        this.score = 0;
+        this.velX = 0;
+        this.isFacingRight = true;
     }
 
     /**

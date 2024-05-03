@@ -46,7 +46,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private EntityModel EntityModel;
 
     public MinecraftModel() {
-        //this.factory = new EntityFactory();
         this.map = new MinecraftMap();
 
         this.gameState = GameState.WELCOME_SCREEN;
@@ -261,7 +260,7 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
     @Override
     public void restartGame() {
-        this.inventory = new Inventory(Constants.DEFAULT_ITEMS);
+        this.inventory = new Inventory(Constants.DEMO_ITEMS);
         map = new MinecraftMap();
         this.mapRenderer = map.setupMap("map/minecraftMap-64.tmx");
         this.playerHealth = new Health(5, 5);
@@ -270,7 +269,6 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
 
-        //factory = new EntityFactory();
         dayNightCycle = new DayNightCycle();
         player.resetScore();
         gameState = GameState.WELCOME_SCREEN;
