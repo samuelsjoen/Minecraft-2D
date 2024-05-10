@@ -16,7 +16,6 @@ public class DayNightCycleTest extends LibgdxUnitTest {
         dayNightCycle = new DayNightCycle();
     }
 
-
     @Test
     public void testRun() {
         // In the beginning, it should be day, aka. isNight = false

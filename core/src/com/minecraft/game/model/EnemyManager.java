@@ -35,12 +35,10 @@ public class EnemyManager {
     private int chooseEnemy;
     private final float spawnIntervalMin = 1.0f; // Minimum time between spawns
     private final float spawnIntervalMax = 5.0f; // Maximum time between spawns
-    // private final float spawnIntervalMin = 0.0f; // Minimum time between spawns
-    // private final float spawnIntervalMax = 0.0f; // Maximum time between spawns
     private TiledMap tiledMap;
     private DayNightCycle dayNightCycle;
     private EntityFactory entityFactory;
-    private static boolean dontScore;
+    private Score score;
 
     /**
      * Constructs an EnemyManager with necessary game elements like the game world,
@@ -52,14 +50,15 @@ public class EnemyManager {
      *                      boundaries.
      * @param dayNightCycle The game's day-night cycle affecting enemy behavior.
      */
-    public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle) {
+    public EnemyManager(World world, Player player, TiledMap tiledMap, DayNightCycle dayNightCycle, Score score) {
         this.world = world;
         this.player = player;
-        // this.spawnTimer = MathUtils.random(spawnIntervalMin, spawnIntervalMax);
         this.tiledMap = tiledMap;
         this.dayNightCycle = dayNightCycle;
-        killAllEntities();
-        player.resetScore();
+        this.score = score;
+        killAllEntities(); // Killing all the entities will add points to the score
+        removeDeadEnemies(-10.0f); // We now need to remove the enemies that was marked for removal.
+        score.resetScore(); // reset score and set it to 0
         entityFactory = new EntityFactory();
     }
 
@@ -115,16 +114,13 @@ public class EnemyManager {
             if (entity.getBody().getPosition().y < deathThreshold || entity.isMarkedForRemoval()) {
                 entity.dispose();
                 deadEntities.add(entity);
-                if(dontScore != true){
-                    if (entity instanceof Knight) {
-                        player.addScore(30); // 30 points for Knight
-                    } else if (entity instanceof Slime) {
-                        player.addScore(10); // 10 point for Slime
-                    } else if (entity instanceof PinkMonster) {
-                        player.addScore(50); // 50 points for PinkMonster
-                    }
+                if (entity instanceof Knight) {
+                    score.addPoints(30); // 30 points for Knight
+                } else if (entity instanceof Slime) {
+                    score.addPoints(10); // 10 points for Slime
+                } else if (entity instanceof PinkMonster) {
+                    score.addPoints(50); // 50 points for PinkMonster
                 }
-                dontScore = false;
             }
         }
         entities.removeAll(deadEntities);
@@ -152,7 +148,6 @@ public class EnemyManager {
                 && (aboveCell2 == null || aboveCell2.getTile() == null);
         if (cell != null && isAboveEmpty) {
 
-            // if (cell != null && isAboveEmpty) {
             float playerPosX = player.getBody().getPosition().x;
             float playerPosY = player.getBody().getPosition().y;
 
@@ -181,7 +176,6 @@ public class EnemyManager {
         }
 
         chooseEnemy = MathUtils.random(0, 2); // Choosing a random enemy
-        // chooseEnemy = 2; // Always picking Pinkmonster
         boolean validLocationFound = false;
         float spawnPosX = 0, spawnPosY = 0;
 
@@ -235,7 +229,6 @@ public class EnemyManager {
      * during game resets or cleanup phases.
      */
     public static void killAllEntities() {
-        dontScore = true;
         // Mark all knights for removal
         for (Knight knight : knights) {
             knight.setMarkedForRemoval();

@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.minecraft.game.controller.ControllableMinecraftModel;
 import com.minecraft.game.model.Player.State;
-import com.minecraft.game.model.entities.EntityFactory;
 import com.minecraft.game.model.map.MinecraftMap;
 import com.minecraft.game.model.map.TileType;
 import com.minecraft.game.utils.BodyHelperService;
@@ -29,7 +28,6 @@ import com.minecraft.game.model.items.ItemType;
 public class MinecraftModel implements ViewableMinecraftModel, ControllableMinecraftModel {
 
     private MinecraftMap map;
-    private EntityFactory factory;
 
     private GameState gameState;
     private Health playerHealth;
@@ -45,6 +43,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
     private OrthogonalTiledMapRenderer mapRenderer;
     private EntityModel EntityModel;
 
+    private Score score;
+
+    /**
+     * Constructs a new instance of the MinecraftModel class.
+     * Initializes the game state, map, inventory, player health, armor inventory,
+     * player, crafting system, day-night cycle, and entity model.
+     */
     public MinecraftModel() {
         this.map = new MinecraftMap();
 
@@ -66,6 +71,13 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
 
         this.EntityModel = new EntityModel();
 
+        this.score = new Score();
+
+    }
+
+    @Override
+    public Score getScore() {
+        return score;
     }
 
     @Override
@@ -266,9 +278,9 @@ public class MinecraftModel implements ViewableMinecraftModel, ControllableMinec
         this.playerHealth = new Health(5, 5);
         this.armorInventory = new ArmorInventory(playerHealth);
         playerHealth.setArmorInventory(armorInventory);
-        player.resetScore();
         this.player = initializePlayer();
         this.crafting = new Crafting(inventory, armorInventory);
+        score.resetScore();
 
         dayNightCycle = new DayNightCycle();
         

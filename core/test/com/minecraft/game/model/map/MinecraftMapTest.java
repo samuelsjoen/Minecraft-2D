@@ -1,7 +1,6 @@
 package com.minecraft.game.model.map;
 
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.minecraft.game.LibgdxUnitTest;
@@ -64,9 +63,6 @@ public class MinecraftMapTest extends LibgdxUnitTest {
 		// The bedrock tile and object should be present
 		assertNotNull(tiledMapLayer.getCell(0, 0));
 		assertNotNull(objectLayer.getObjects().get("0, 0"));
-
-		MapObject polygon = objectLayer.getObjects().get("0, 0");
-		int objectId = (int) polygon.getProperties().get("id");
 
 		// Remove the bedrock block
 		minecraftMapHelper.removeBlock(0, 0);

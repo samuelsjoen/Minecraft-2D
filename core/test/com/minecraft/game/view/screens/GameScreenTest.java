@@ -19,6 +19,11 @@ import com.minecraft.game.view.ViewableMinecraftModel;
 import com.minecraft.game.view.entities.EntityRenderer;
 import com.minecraft.game.view.overlay.OverlayView;
 import com.minecraft.game.view.MinecraftView;
+import com.minecraft.game.model.entities.Knight;
+import com.minecraft.game.model.entities.PinkMonster;
+import com.minecraft.game.model.entities.Projectile;
+import com.minecraft.game.model.entities.Slime;
+import com.minecraft.game.model.Score;
 
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
@@ -56,11 +61,6 @@ public class GameScreenTest extends LibgdxUnitTest {
 
         mockPlayer = mock(Player.class);
 
-        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class)) {
-            gameScreen = new GameScreen(camera, mockModel, mockView, mockBatch);
-            gameScreen.setMapRenderer(mockRenderer);
-        }
-
         // Set up the mock objects
 
         World mockWorld = mock(World.class);
@@ -76,11 +76,24 @@ public class GameScreenTest extends LibgdxUnitTest {
         when(mockBody.getPosition()).thenReturn(new Vector2(5, 5));
         when(mockBody.getLinearVelocity()).thenReturn(new Vector2(0, 0));
 
+        Score mockScore = mock(Score.class);
+        when(mockModel.getScore()).thenReturn(mockScore);
+
         mockSpriteManager = mock(SpriteManager.class);
         mockOverlayView = mock(OverlayView.class);
         mockEnemyManager = mock(EnemyManager.class);
         mockDayNightCycle = mock(DayNightCycle.class);
         mockEntityRenderer = mock(EntityRenderer.class);
+        
+        try (MockedConstruction<Box2DDebugRenderer> mocked = Mockito.mockConstruction(Box2DDebugRenderer.class); 
+            MockedConstruction<EnemyManager> mocked2 = Mockito.mockConstruction(EnemyManager.class);
+            MockedConstruction<Knight> knight = Mockito.mockConstruction(Knight.class);
+            MockedConstruction<Slime> slime = Mockito.mockConstruction(Slime.class);
+            MockedConstruction<PinkMonster> pinkMonster = Mockito.mockConstruction(PinkMonster.class);
+            MockedConstruction<Projectile> projectile = Mockito.mockConstruction(Projectile.class)) {
+            gameScreen = new GameScreen(camera, mockModel, mockView, mockBatch);
+            gameScreen.setMapRenderer(mockRenderer);
+        }
 
         gameScreen.setSpriteManager(mockSpriteManager);
         gameScreen.setOverlayView(mockOverlayView);
@@ -88,6 +101,7 @@ public class GameScreenTest extends LibgdxUnitTest {
         gameScreen.setMapRenderer(mockRenderer);
         gameScreen.setDayNightCycle(mockDayNightCycle);
         gameScreen.setEntityRenderer(mockEntityRenderer);
+
     }
 
     @AfterEach

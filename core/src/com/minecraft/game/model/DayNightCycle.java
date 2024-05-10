@@ -19,7 +19,7 @@ public class DayNightCycle extends Timer.Task {
      * The cycle starts in the day.
      */
     public DayNightCycle() {
-        isNight = true;
+        isNight = false;
         numberOfNights = 0;
     }
 

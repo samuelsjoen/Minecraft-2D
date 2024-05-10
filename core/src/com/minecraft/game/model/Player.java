@@ -22,6 +22,7 @@ public class Player extends GameEntity {
     private boolean isInvincible;
     private float invincibilityTimer;
     private static final float INVINCIBILITY_DURATION = 1.0f; // 1 seconds
+    private float velX;
 
     public enum State {
         IDLE, RUNNING, ATTACKING, DEAD
@@ -32,9 +33,6 @@ public class Player extends GameEntity {
     private Boolean moveLeft;
     private Boolean moveRight;
     private Boolean isAttacking;
-
-    private float velX;
-    private int score;
 
     /**
      * Constructs a Player with specified parameters, initializing state and health.
@@ -52,13 +50,12 @@ public class Player extends GameEntity {
         Player.health = health;
         currentState = State.IDLE;
 
+        this.velX = 0;
+        this.isFacingRight = true;
+
         this.moveLeft = false;
         this.moveRight = false;
         this.isAttacking = false;
-
-        this.score = 0;
-        this.velX = 0;
-        this.isFacingRight = true;
     }
 
     /**
@@ -355,31 +352,6 @@ public class Player extends GameEntity {
      */
     public float getY() {
         return y;
-    }
-
-    /**
-     * Adds points to the player's score.
-     *
-     * @param points the points to add
-     */
-    public void addScore(int points) {
-        this.score += points;
-    }
-
-    /**
-     * Gets the player's current score.
-     *
-     * @return the score
-     */
-    public int getScore() {
-        return this.score;
-    }
-
-    /**
-     * Reset the player's score to zero.
-     */
-    public void resetScore() {
-        this.score = 0;
     }
 
 }

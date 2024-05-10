@@ -61,6 +61,49 @@ public class MinecraftModelTest extends LibgdxUnitTest {
     }
 
     @Test
+    public void testCraftItem() {
+        // Testing that it should be possible to craft a stick
+        // We start with empty inventory - so need to add some items to craft
+        inventory.addItem(Item.WOOD, 2);
+        Item selectedItem = inventory.getSelectedItem();
+
+        // crafting the item
+        minecraftModel.getCrafting().toggleOpen();
+        minecraftModel.craftItem();
+
+        Item newSelectedItem = inventory.getSelectedItem(); // Should be Item.STICK 
+        int newSelectedItemAmount = inventory.getAmount(newSelectedItem);
+
+        // Assert that the selected item has changed after crafting
+        assertTrue(selectedItem == Item.WOOD);
+        assertTrue(newSelectedItem == Item.STICK);
+
+        assertEquals(1, newSelectedItemAmount);
+
+        // Checking that there is no wood in the inventory now
+        assertEquals(0, inventory.getAmount(Item.WOOD));
+    }
+
+    @Test
+    public void testMoveCraftableTableSelection() {
+        // We start with empty inventory - so need to add some items to craft
+        inventory.addItem(Item.WOOD, 2);
+
+        // crafting the item
+        minecraftModel.getCrafting().toggleOpen();
+        minecraftModel.moveCraftableTableSelection(1, 0);
+        minecraftModel.craftItem(); // Now nothing should be crafted
+
+        // So we should not have stick in inventory
+        assertEquals(0, inventory.getAmount(Item.STICK));
+
+        // Now when we move the selector back - we should be able to craft a stick
+        minecraftModel.moveCraftableTableSelection(-1, 0);
+        minecraftModel.craftItem();
+        assertEquals(1, inventory.getAmount(Item.STICK));  
+    }
+
+    @Test
     public void testConstructor() {
         assertNotNull(minecraftModel);
         GameState.WELCOME_SCREEN.equals(minecraftModel.getGameState());
@@ -171,6 +214,12 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         assertNull(objectLayer.getObjects().get(playerX + ", " + (playerY - 1)));
     }
 
+    @Test
+    public void testAddBlockWithEmptyInventory() {
+        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
+        minecraftModel.addBlock(playerX+1, playerY);
+        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
+    }
 
     @Test
     public void testSetGameState() {
@@ -206,30 +255,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
     }
 
     @Test
-    public void testCraftItem() {
-        // Testing that it should be possible to craft a stick
-        // We start with empty inventory - so need to add some items to craft
-        inventory.addItem(Item.WOOD, 2);
-        Item selectedItem = inventory.getSelectedItem();
-
-        // crafting the item
-        minecraftModel.getCrafting().toggleOpen();
-        minecraftModel.craftItem();
-
-        Item newSelectedItem = inventory.getSelectedItem(); // Should be Item.STICK 
-        int newSelectedItemAmount = inventory.getAmount(newSelectedItem);
-
-        // Assert that the selected item has changed after crafting
-        assertTrue(selectedItem == Item.WOOD);
-        assertTrue(newSelectedItem == Item.STICK);
-
-        assertEquals(1, newSelectedItemAmount);
-
-        // Checking that there is no wood in the inventory now
-        assertEquals(0, inventory.getAmount(Item.WOOD));
-    }
-
-    @Test
     public void testToggleCrafting() {
         Boolean craftingUnopened = minecraftModel.getCrafting().isOpen();
         minecraftModel.toggleCrafting();
@@ -256,25 +281,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
     }
 
     @Test
-    public void testMoveCraftableTableSelection() {
-        // We start with empty inventory - so need to add some items to craft
-        inventory.addItem(Item.WOOD, 2);
-
-        // crafting the item
-        minecraftModel.getCrafting().toggleOpen();
-        minecraftModel.moveCraftableTableSelection(1, 0);
-        minecraftModel.craftItem(); // Now nothing should be crafted
-
-        // So we should not have stick in inventory
-        assertEquals(0, inventory.getAmount(Item.STICK));
-
-        // Now when we move the selector back - we should be able to craft a stick
-        minecraftModel.moveCraftableTableSelection(-1, 0);
-        minecraftModel.craftItem();
-        assertEquals(1, inventory.getAmount(Item.STICK));  
-    }
-
-    @Test
     public void testIsBlockMineable() {
 
         // Testing a tile that should be mineable
@@ -287,6 +293,7 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         assertEquals(false, isNotMineable);
 
         assertNotEquals(isMineable, isNotMineable);
+
     }
 
     @Test
@@ -367,13 +374,6 @@ public class MinecraftModelTest extends LibgdxUnitTest {
         assertNull(tiledMapLayer.getCell(playerX+1, playerY));
         minecraftModel.addBlock(playerX+1, playerY);
         assertNotNull(tiledMapLayer.getCell(playerX+1, playerY));
-    }
-
-    @Test
-    public void testAddBlockWithEmptyInventory() {
-        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
-        minecraftModel.addBlock(playerX+1, playerY);
-        assertNull(tiledMapLayer.getCell(playerX+1, playerY));
     }
 
 }

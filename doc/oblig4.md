@@ -30,6 +30,8 @@ Dette har blant annet ført til at vi ikke har hatt like god oversikt som vi bur
 
 Referatene fra alle møtene våre er å finne i referat-mappen vår. [Klikk her for å på siste referat.](referat/Referat-03.05.2024.txt)
 
+![Oversikt KanBan](Kanban.jpg)
+
 ##### Gruppedynamikk
 
 Gruppedynamikken er god, og vi har en god kommunikasjon på Discord. Vi har ikke hatt noen store uenigheter som har trengt å løses.
@@ -44,6 +46,10 @@ Vi synes at prosjektet har gått bra, kommunikasjon og hvordan vi har jobbet har
 
 Kunne delt opp klassene mer. Brukt flere interfaces og abstrakte klasser.
 Burde ha implementert 'OverlayView' på en bedre måte, slik at objektene slipper å måtte oppdatere posisjon hele tiden fordi at kameraet flytter på seg. For å kunne ha fått til det, måtte vi hatt større kunnskap om Libgdx.
+
+Vi kom på forrige uke at vi burde ha en score. Vi har nå lagt det til, men den ble ikke alltid satt til 0 når man restarter spillet. Til slutt fikk vi fikset denne buggen, men vi ser nå i ettertid, på innleveringsdagen, at vi ikke burde prioritert å legge til en ny funksjon i spillet. 
+
+I tillegg fant vi ut på innleveringsdagen at vi burde gjort kodebasen vår mer oversiktlig ved å dele inn i flere mapper spesielt i model-mappen - når vi prøvde på dette ble det mye feil med imports og diverse - slik at vi måtte bare gå tilbake. En ting å ha i bakhodet til en annen gang er å ikke gjøre alt for store endringer i innspurten, men heller anerkjenne at dersom man hadde hatt bedre tid kunne man gjort disse endringene.
 
 1. Vi burde ha ordentlig implementert en DEBUG-mode. Det hadde gjort det lettere for oss å sjekke om ting så riktig ut i GUI.
 2. Vi burde ha planlagt prosjektstrukturen bedre før vi begynte å kode, det hadde ført til at vi hadde sluppet å brukt mye tid på å endre på koden slik at den ble mer MVC-aktig.
@@ -122,8 +128,4 @@ Disse manuelle testene vil bidra til å sikre at spillet fungerer som forventet.
 
 Se nedenfor for klassediagram av koden vår:
 
-![Klassediagram for kontroller](klassediagram/oblig4/classdiagram_controller.png)
-![Klassediagram for modell](klassediagram/oblig4/classdiagram_model.png)
 ![Klassediagramsoversikt](klassediagram/oblig4/classdiagram_overview.png)
-![Klassediagram for verktøy](klassediagram/oblig4/classdiagram_utils.png)
-![Klassediagram for visning](klassediagram/oblig4/classdiagram_view.png)

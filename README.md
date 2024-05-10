@@ -128,7 +128,7 @@ For å teste koden vår bruker vi JUnit 5 for enhetstesting og Mockito for mock-
 
 - Spilleren blir "stuck" når den beveger seg langt til høyre på kartet, men når man "hopper" eller går en annen vei, beveger den seg igjen.
 - Spillet krasjer noen ganger når man prøver å lukke det.
-- Noen få ganger så fjernes ikke blokken når man klikker på den. Hvis man tar musen og klikker på nytt på blokken - så fungerer det som det skal. 
+- Noen få ganger så fjernes ikke blokken når man klikker på den. Hvis man tar musen og klikker på nytt på blokken - så fungerer det som det skal.
 
 ## Hvor ressurser er hentet fra
 

@@ -275,26 +275,4 @@ public class PlayerTest {
         assertEquals(1, damage, "Damage should be 1 when the player has no sword selected");
     }
 
-    @Test
-    void testAddScore() {
-        // Initial score should be 0
-        assertEquals(0, player.getScore(), "Initial score should be 0.");
-
-        // Add 10 points to the score
-        player.addScore(10);
-        assertEquals(10, player.getScore(), "Score should be 10 after adding 10 points.");
-
-        // Add another 5 points
-        player.addScore(5);
-        assertEquals(15, player.getScore(), "Score should be 15 after adding an additional 5 points.");
-    }
-
-    @Test
-    void testGetScore() {
-        // Set the score to 20
-        player.addScore(20);
-        // Check that getScore returns the correct value
-        assertEquals(20, player.getScore(), "getScore should return the current score of 20.");
-    }
-
 }

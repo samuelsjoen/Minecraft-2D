@@ -15,7 +15,6 @@ import com.minecraft.game.utils.Constants;
  */
 public class Projectile extends GameEntity implements IViewableEntityModel {
 
-    @SuppressWarnings("unused")
     private Vector2 target;
     private float lifeTime = 3.0f; // Time after which the projectile will be destroyed if it doesn't hit the
                                    // target
@@ -54,7 +53,6 @@ public class Projectile extends GameEntity implements IViewableEntityModel {
 
         // Calculate horizontal (dx) and vertical (dy) distances to the target
         float dx = target.x - startPosition.x;
-        // float dy = target.y - startPosition.y;
 
         // Decide on an initial angle for the projectile's trajectory
         float angleRadians = 45.0f * (float) Math.PI / 180.0f; // 45 degrees in radians

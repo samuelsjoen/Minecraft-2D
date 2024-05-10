@@ -9,7 +9,6 @@ import com.minecraft.game.model.MinecraftModel;
 import com.minecraft.game.view.MinecraftView;
 import com.minecraft.game.controller.MinecraftController;
 
-
 /**
  * The `Minecraft` class is responsible for creating and managing the game instance.
  * It serves as the entry point where essential elements are initialized.
@@ -38,11 +37,7 @@ public class Minecraft extends Game {
 		
 		MinecraftModel model = new MinecraftModel();
 		MinecraftView view = new MinecraftView(this, model, spriteBatch, font);
-		new MinecraftController(model, view);
-		//MinecraftController controller = new MinecraftController(model, view);
-
-		//Gdx.input.setInputProcessor(controller);
-		
+		new MinecraftController(model, view);		
 	}
 
 	/**

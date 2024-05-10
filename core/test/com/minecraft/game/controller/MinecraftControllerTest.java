@@ -28,7 +28,6 @@ public class MinecraftControllerTest extends LibgdxUnitTest {
     private PlayerController mockPlayerController;
     private BlockController mockBlockController;
     private InventoryController mockInventoryController;
-    private HelpScreenController mockHelpScreenController;
     private Stage mockStage;
     private Button mockButton;
     private Stage mockMenuStage;

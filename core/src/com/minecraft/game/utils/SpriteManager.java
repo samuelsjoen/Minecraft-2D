@@ -261,22 +261,6 @@ public class SpriteManager implements Disposable {
                     currentSprites.add("Character_FX_Attack");
                 }
 
-                // Draw item-specific and always-on sprites if player is not dead
-                // if (player.getCurrentState() != State.DEAD) {
-                // for (String spriteKey : currentSprites) {
-                // Animation<TextureRegion> itemAnimation =
-                // animations.get(getItemStateKey(spriteKey));
-                // if (itemAnimation != null) {
-                // TextureRegion itemFrame = itemAnimation.getKeyFrame(stateTime, true);
-                // if ((player.isFacingRight() && itemFrame.isFlipX())
-                // || (!player.isFacingRight() && !itemFrame.isFlipX())) {
-                // itemFrame.flip(true, false);
-                // }
-                // // batch.draw(itemFrame, x - 175, y - 265, player.getWidth() + 225,
-                // // player.getHeight() + 475);
-                // }
-                // }
-
                 // Always draw beard and hair with the character
                 String[] alwaysOnSprites = { "Character_Beard", "Character_Hair" };
                 for (String spriteKey : alwaysOnSprites) {
